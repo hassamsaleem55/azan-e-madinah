@@ -60,6 +60,42 @@ const navItems: NavItem[] = [
     requiredPermission: "bookings.view",
   },
   {
+    icon: <ListIcon />,
+    name: "Packages",
+    path: "/packages",
+    requiredPermission: "packages.view",
+  },
+  {
+    icon: <ListIcon />,
+    name: "Hotels",
+    path: "/hotels",
+    requiredPermission: "hotels.view",
+  },
+  {
+    icon: <ListIcon />,
+    name: "Visas",
+    path: "/visas",
+    requiredPermission: "visas.view",
+  },
+  {
+    icon: <ListIcon />,
+    name: "Tours",
+    path: "/tours",
+    requiredPermission: "tours.view",
+  },
+  {
+    icon: <ListIcon />,
+    name: "Testimonials",
+    path: "/testimonials",
+    requiredPermission: "testimonials.view",
+  },
+  {
+    icon: <ListIcon />,
+    name: "Content Management",
+    path: "/content-management",
+    requiredPermission: "content.view",
+  },
+  {
     icon: <TableIcon />,
     name: "Group Ticketing",
     requiredPermission: "groups.view",

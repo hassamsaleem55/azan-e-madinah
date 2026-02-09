@@ -12,6 +12,12 @@ import paymentRoutes from "./routes/payment.routes.js";
 import bookingRoutes from "./routes/booking.routes.js";
 import exportRoutes from "./routes/export.routes.js";
 import roleRoutes from "./routes/role.routes.js";
+import packageRoutes from "./routes/package.routes.js";
+import hotelRoutes from "./routes/hotel.routes.js";
+import visaRoutes from "./routes/visa.routes.js";
+import tourRoutes from "./routes/tour.routes.js";
+import testimonialRoutes from "./routes/testimonial.routes.js";
+import contentRoutes from "./routes/content.routes.js";
 import { startBookingExpiryJob } from './utils/bookingExpiryJob.js'
 import helmet from "helmet";
 
@@ -54,6 +60,12 @@ app.use("/api/payment", paymentRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/export", exportRoutes);
 app.use("/api", roleRoutes);
+app.use("/api/packages", packageRoutes);
+app.use("/api/hotels", hotelRoutes);
+app.use("/api/visas", visaRoutes);
+app.use("/api/tours", tourRoutes);
+app.use("/api/testimonials", testimonialRoutes);
+app.use("/api/content", contentRoutes);
 
 startBookingExpiryJob();
 

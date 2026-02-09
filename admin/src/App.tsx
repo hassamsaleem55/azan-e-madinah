@@ -40,6 +40,12 @@ import BookingDetail from "./pages/BookingDetail";
 import RoleManagement from "./pages/RoleManagement";
 import UserManagement from "./pages/UserManagement";
 import { PermissionGuard } from "./context/PermissionGuard";
+import Packages from "./pages/Packages";
+import Hotels from "./pages/Hotels";
+import Visas from "./pages/Visas";
+import Tours from "./pages/Tours";
+import Testimonials from "./pages/Testimonials";
+import ContentManagement from "./pages/ContentManagement";
 
 export default function App() {
   return (
@@ -94,6 +100,14 @@ export default function App() {
                     </PermissionGuard>
                   } 
                 />
+
+                {/* Travel Management */}
+                <Route path="/packages" element={<PermissionGuard permission="packages.view"><Packages /></PermissionGuard>} />
+                <Route path="/hotels" element={<PermissionGuard permission="hotels.view"><Hotels /></PermissionGuard>} />
+                <Route path="/visas" element={<PermissionGuard permission="visas.view"><Visas /></PermissionGuard>} />
+                <Route path="/tours" element={<PermissionGuard permission="tours.view"><Tours /></PermissionGuard>} />
+                <Route path="/testimonials" element={<PermissionGuard permission="testimonials.view"><Testimonials /></PermissionGuard>} />
+                <Route path="/content-management" element={<PermissionGuard permission="content.view"><ContentManagement /></PermissionGuard>} />
 
                 {/* Forms */}
                 <Route path="/form-elements" element={<FormElements />} />

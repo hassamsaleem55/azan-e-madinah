@@ -1,0 +1,14 @@
+.visa-services-page {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+
+    .hero-section p {
+        font-size: 1rem;
+    }
+}
