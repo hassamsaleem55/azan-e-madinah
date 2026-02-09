@@ -81,9 +81,9 @@ export default function ServicesSection() {
         <section id="services" className="py-24 bg-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center max-w-3xl mx-auto mb-20">
-                    <span className="text-[#003366] font-bold tracking-[0.3em] uppercase text-sm block mb-4">What We Offer</span>
-                    <h2 className="text-4xl md:text-5xl font-extrabold text-[#003366] mb-6">World Class Travel Services</h2>
-                    <div className="w-24 h-1 bg-linear-to-r from-[#003366] to-[#00AEEF] mx-auto rounded-full"></div>
+                    <span className="text-[#C9A536] font-bold tracking-[0.3em] uppercase text-sm block mb-4">What We Offer</span>
+                    <h2 className="text-4xl md:text-5xl font-extrabold text-[#0B0E1A] mb-6">World Class Travel Services</h2>
+                    <div className="w-24 h-1.5 bg-gradient-to-r from-[#C9A536] via-[#E6C35C] to-[#C9A536] mx-auto rounded-full shadow-lg shadow-[#C9A536]/30"></div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -96,23 +96,23 @@ export default function ServicesSection() {
                                     alt={service.title}
                                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 />
-                                <div className="absolute inset-0 bg-[#003366]/20 group-hover:bg-[#003366]/0 transition-colors duration-500"></div>
+                                <div className="absolute inset-0 bg-[#0B0E1A]/30 group-hover:bg-[#0B0E1A]/0 transition-colors duration-500"></div>
 
                                 {/* Icon Badge */}
-                                <div className="absolute -bottom-6 left-8 w-16 h-16 bg-white rounded-2xl shadow-lg flex items-center justify-center text-[#003366] group-hover:bg-[#003366] group-hover:text-white transition-all duration-300">
+                                <div className="absolute -bottom-6 left-8 w-16 h-16 bg-white rounded-2xl shadow-xl flex items-center justify-center text-[#C9A536] group-hover:bg-gradient-to-br group-hover:from-[#C9A536] group-hover:via-[#E6C35C] group-hover:to-[#C9A536] group-hover:text-[#0B0E1A] group-hover:shadow-2xl group-hover:shadow-[#C9A536]/40 transition-all duration-300">
                                     {service.icon}
                                 </div>
                             </div>
 
                             {/* Content */}
                             <div className="p-8 pt-12 grow">
-                                <h3 className="text-2xl font-bold text-[#003366] mb-4">{service.title}</h3>
+                                <h3 className="text-2xl font-bold text-[#0B0E1A] mb-4">{service.title}</h3>
                                 <p className="text-[#545454] leading-relaxed mb-6">
                                     {service.description}
                                 </p>
-                                <a href="#" className="inline-flex items-center text-[#003366] font-bold gap-2 group/link">
+                                <a href="#" className="inline-flex items-center text-[#C9A536] font-bold gap-2 group/link hover:text-[#E6C35C] transition-colors">
                                     Learn More
-                                    <span className="w-6 h-px bg-[#003366] transition-all group-hover/link:w-10"></span>
+                                    <span className="w-6 h-px bg-[#C9A536] transition-all group-hover/link:w-10 group-hover/link:bg-[#E6C35C]"></span>
                                 </a>
                             </div>
                         </div>

@@ -7,8 +7,8 @@ export default function Home() {
   return (
     <>
       <PageMeta
-        title="Dashboard | Rihla Access"
-        description="Dashboard overview for Rihla Access"
+        title="Dashboard | Azan e Madinah Admin Portal"
+        description="Dashboard overview for Azan e Madinah Admin Portal"
       />
       
       <div className="mb-6">

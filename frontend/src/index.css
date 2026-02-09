@@ -1,5 +1,18 @@
 @import "tailwindcss";
 
+/* AZAN-E-MADINA Color Variables - Vibrant Gold & Deep Navy */
+:root {
+    --color-gold-primary: #C9A536;
+    --color-gold-bright: #E6C35C;
+    --color-gold-light: #F4E4B8;
+    --color-gold-dark: #A68A2E;
+    --color-navy-dark: #0B0E1A;
+    --color-navy-medium: #151B2E;
+    --color-navy-light: #1F2937;
+    --color-green-dome: #10B981;
+    --color-green-dark: #059669;
+}
+
 h1,
 h2,
 h3,
@@ -249,15 +262,15 @@ body {
 }
 
 .react-datepicker__header {
-    /* background: linear-gradient(to right, #1e3a5f, #2d5a8f);*/
-    border-bottom: none;
+    background: linear-gradient(to right, #0B0E1A, #151B2E);
+    border-bottom: 2px solid #C9A536;
     padding-top: 0.875rem;
     border-radius: 0;
 }
 
 .react-datepicker__current-month,
 .react-datepicker__day-name {
-    color: white;
+    color: #E6C35C;
     font-weight: 600;
 }
 
@@ -269,21 +282,21 @@ body {
 }
 
 .react-datepicker__day:hover {
-    background-color: #dbeafe;
-    color: #1d4ed8;
+    background-color: #E6C35C;
+    color: #0B0E1A;
 }
 
 .react-datepicker__day--selected,
 .react-datepicker__day--keyboard-selected {
-    background-color: #2563eb;
-    color: white;
-    font-weight: 600;
+    background-color: #C9A536;
+    color: #0B0E1A;
+    font-weight: 700;
 }
 
 .react-datepicker__day--today {
-    font-weight: 600;
-    color: #1d4ed8;
-    background-color: #eff6ff;
+    font-weight: 700;
+    color: #C9A536;
+    background-color: #F4E4B8;
 }
 
 .react-datepicker__navigation {
@@ -291,11 +304,11 @@ body {
 }
 
 .react-datepicker__navigation-icon::before {
-    border-color: white;
+    border-color: #E6C35C;
 }
 
 .react-datepicker__navigation:hover *::before {
-    border-color: rgba(255, 255, 255, 0.8);
+    border-color: #C9A536;
 }
 
 .react-datepicker__month {

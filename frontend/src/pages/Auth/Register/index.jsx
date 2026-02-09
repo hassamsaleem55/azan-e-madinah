@@ -17,12 +17,12 @@ import { validateEmail, validateName, validatePhone, validateCompanyName, valida
 // Move InputField outside to prevent re-creation on every render
 const InputField = ({ icon: Icon, error, ...props }) => (
     <div className="relative group w-full">
-        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 group-focus-within:text-[#003366] transition-colors">
+        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 group-focus-within:text-[#C9A536] transition-colors">
             <Icon size={18} />
         </div>
         <input
             {...props}
-            className={`w-full pl-10 pr-4 py-3 rounded-xl border ${error ? 'border-red-300 focus:ring-red-500/20 focus:border-red-500' : 'border-gray-200 focus:ring-[#003366]/20 focus:border-[#003366]'} bg-white focus:bg-white focus:outline-none focus:ring-2 text-gray-900 text-sm placeholder:text-gray-400 transition-all duration-200`}
+            className={`w-full pl-10 pr-4 py-3 rounded-xl border-2 ${error ? 'border-red-300 focus:ring-red-500/20 focus:border-red-500' : 'border-gray-200 focus:ring-[#C9A536]/20 focus:border-[#C9A536]'} bg-white focus:bg-white focus:outline-none focus:ring-2 text-gray-900 text-sm placeholder:text-gray-400 transition-all duration-200 shadow-sm`}
         />
         {error && <p className="text-red-500 text-xs mt-1 ml-1">{error}</p>}
     </div>
@@ -200,9 +200,9 @@ const Register = () => {
         control: (base, state) => ({
             ...base,
             minHeight: 46, height: 46, backgroundColor: "#fff",
-            borderColor: state.isFocused ? "#003366" : "#e5e7eb",
+            borderColor: state.isFocused ? "#C9A536" : "#e5e7eb",
             borderRadius: "0.75rem", boxShadow: "none", paddingLeft: "2px",
-            '&:hover': { borderColor: state.isFocused ? "#003366" : "#d1d5db" },
+            '&:hover': { borderColor: state.isFocused ? "#C9A536" : "#d1d5db" },
         }),
         placeholder: (base) => ({ ...base, color: "#9ca3af", fontSize: "0.875rem" }),
         singleValue: (base) => ({ ...base, color: "#111827", fontSize: "0.875rem" }),
@@ -227,7 +227,7 @@ const Register = () => {
                 <div className="relative z-10 w-full max-w-6xl px-6 grid lg:grid-cols-2 gap-8">
                     <div className="hidden lg:flex flex-col justify-center text-white space-y-6">
                         <h1 className="text-5xl font-bold leading-tight">
-                            Welcome to<br />Rihla Access
+                            Welcome to<br />AZAN-E-MADINA Travel
                         </h1>
                         <p className="text-xl text-blue-100">
                             Complete your registration with OTP verification
@@ -270,7 +270,7 @@ const Register = () => {
                             <h1 className="text-3xl font-bold text-gray-900 mb-2">Partner With Us</h1>
                             <p className="text-gray-500 text-sm">
                                 Already have an agency account?{" "}
-                                <Link to="/" className="text-[#003366] font-bold hover:underline decoration-2 underline-offset-2">
+                                <Link to="/" className="text-[#C9A536] font-bold hover:underline decoration-2 underline-offset-2">
                                     Log in here
                                 </Link>
                             </p>
@@ -337,7 +337,7 @@ const Register = () => {
                                     <button
                                         type="submit"
                                         disabled={loading}
-                                        className="w-full bg-linear-to-r from-[#003366] to-blue-600 hover:from-[#002855] hover:to-blue-700 text-white py-3.5 rounded-xl font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className="w-full bg-linear-to-r from-[#C9A536] to-[#A68A2E] hover:from-[#A68A2E] hover:to-[#C9A536] text-white py-3.5 rounded-xl font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-[#C9A536]/30 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
                                         {loading ? (
                                             <> <Loader2 size={18} className="animate-spin" /> Creating Account... </>

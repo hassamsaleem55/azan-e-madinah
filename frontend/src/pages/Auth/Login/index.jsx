@@ -188,12 +188,12 @@ const useAuthLogic = () => {
 // --- Sub-Components ---
 const InputField = ({ icon: Icon, ...props }) => (
     <div className="relative group">
-        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 group-focus-within:text-[#003366] transition-colors">
+        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 group-focus-within:text-[#C9A536] transition-colors">
             <Icon size={18} />
         </div>
         <input
             {...props}
-            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#003366]/20 focus:border-[#003366] text-gray-900 text-sm placeholder:text-gray-400 transition-all duration-200"
+            className="w-full pl-10 pr-4 py-3 rounded-xl border-2 border-gray-200 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#C9A536]/40 focus:border-[#C9A536] text-gray-900 text-sm placeholder:text-gray-400 transition-all duration-200"
         />
     </div>
 );
@@ -203,8 +203,8 @@ const ActionButton = ({ loading, text, loadingText, onClick, type = "submit" }) 
         type={type}
         onClick={onClick}
         disabled={loading}
-        className={`w-full py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 shadow-lg shadow-blue-900/20 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200
-        ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-[#003366] hover:bg-[#002855] text-white"}`}
+        className={`w-full py-3.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 shadow-xl hover:shadow-2xl hover:-translate-y-1 active:translate-y-0 transition-all duration-200
+        ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-[#C9A536] via-[#E6C35C] to-[#C9A536] hover:from-[#E6C35C] hover:via-[#C9A536] hover:to-[#E6C35C] text-[#0B0E1A] shadow-[#C9A536]/40"}`}
     >
         {loading ? (
             <>
@@ -244,11 +244,11 @@ const Login = () => {
                 />
                 <div className="relative z-10 w-full max-w-6xl px-6 grid lg:grid-cols-2 gap-8">
                     <div className="hidden lg:flex flex-col justify-center text-white space-y-6">
-                        <h1 className="text-5xl font-bold leading-tight">
-                            Welcome to<br />Rihla Access
+                        <h1 className="text-5xl font-bold leading-tight text-white">
+                            Welcome to<br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C9A536] via-[#E6C35C] to-[#C9A536]">AZAN-E-MADINA</span>
                         </h1>
-                        <p className="text-xl text-blue-100">
-                            Your trusted partner for pilgrimage services
+                        <p className="text-xl text-gray-300">
+                            Your Journey, Guided with Faith
                         </p>
                     </div>
                     <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl">
@@ -266,7 +266,6 @@ const Login = () => {
 
     return (
         // REMOVED <Header /> here because it's provided by Frontend.jsx
-        // <div className="min-h-screen relative flex items-center justify-center bg-[#003366]">
         <div className="min-h-screen relative flex items-center justify-center">
             <video 
                 className="absolute inset-0 w-full h-full object-cover brightness-75" 
@@ -284,12 +283,12 @@ const Login = () => {
 
                     {/* Header */}
                     <div className="mb-8 text-center">
-                        <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-50 text-[#003366] mb-4 shadow-sm">
-                            <Globe size={24} />
+                        <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-[#C9A536] via-[#E6C35C] to-[#C9A536] text-[#0B0E1A] mb-4 shadow-xl shadow-[#C9A536]/40">
+                            <Globe size={28} className="font-bold" />
                         </div>
                         <h1 className="text-2xl font-bold text-gray-900">Welcome Back</h1>
                         <p className="text-gray-500 text-sm mt-1">
-                            Access your Rihla travel dashboard
+                            Access your AZAN-E-MADINA travel dashboard
                         </p>
                     </div>
 
@@ -330,7 +329,7 @@ const Login = () => {
                                     <button
                                         type="button"
                                         onClick={() => setShowForgot(true)}
-                                        className="text-xs font-semibold text-gray-500 hover:text-[#003366] transition-colors"
+                                        className="text-xs font-semibold text-gray-500 hover:text-[#C9A536] transition-colors"
                                     >
                                         Forgot Password?
                                     </button>
@@ -370,7 +369,7 @@ const Login = () => {
 
                     <div className="mt-6 text-center text-sm text-gray-500">
                         Don't have an account?{" "}
-                        <Link to="/auth/register" className="text-[#003366] font-bold hover:underline">
+                        <Link to="/auth/register" className="text-[#C9A536] font-bold hover:text-[#E6C35C] hover:underline transition-colors">
                             Sign up now
                         </Link>
                     </div>
@@ -394,8 +393,8 @@ const Login = () => {
                         </button>
 
                         <div className="mb-6 text-center">
-                            <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center text-[#003366] mb-3 mx-auto">
-                                <Mail size={24} />
+                            <div className="w-14 h-14 bg-gradient-to-br from-[#C9A536]/30 via-[#E6C35C]/20 to-[#C9A536]/30 rounded-full flex items-center justify-center text-[#C9A536] mb-3 mx-auto border-2 border-[#C9A536]/40">
+                                <Mail size={26} />
                             </div>
                             <h2 className="text-xl font-bold text-gray-900">Reset Password</h2>
                             <p className="text-gray-500 text-sm mt-1 px-4">

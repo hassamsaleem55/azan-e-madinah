@@ -425,7 +425,7 @@ export default function BookingDetail() {
         return (
             <div className="flex h-[80vh] items-center justify-center">
                 <div className="flex flex-col items-center gap-3">
-                    <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#003366]"></div>
+                    <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#C9A536] shadow-lg shadow-[#C9A536]/40"></div>
                     <p className="text-gray-500 text-sm font-medium">Loading details...</p>
                 </div>
             </div>
@@ -439,7 +439,7 @@ export default function BookingDetail() {
                 <h3 className="text-xl font-bold text-gray-900 mb-2">{error || 'Booking Not Found'}</h3>
                 <button
                     onClick={() => navigate(-1)}
-                    className="px-6 py-2 bg-[#003366] text-white rounded-lg hover:bg-[#002855] transition-colors"
+                    className="px-6 py-2 bg-[#C9A536] text-white rounded-lg hover:bg-[#A68A2E] transition-colors shadow-lg shadow-[#C9A536]/30"
                 >
                     Go Back
                 </button>
@@ -462,7 +462,7 @@ export default function BookingDetail() {
                 </div>
                 <button
                     onClick={() => navigate(-1)}
-                    className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors shadow-sm text-sm font-medium w-fit"
+                    className="flex items-center gap-2 px-4 py-2 bg-white border-2 border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors shadow-sm text-sm font-medium w-fit"
                 >
                     <ArrowLeft size={16} /> Back
                 </button>
@@ -474,10 +474,10 @@ export default function BookingDetail() {
                 <div className="lg:col-span-2 space-y-6">
                     
                     {/* Flight Info Card */}
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                        <div className="bg-gray-50 px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                            <h3 className="text-base font-bold text-gray-900 flex items-center gap-2">
-                                <Plane className="text-[#003366]" size={18} /> Flight Information
+                    <div className="bg-white rounded-xl shadow-sm border-2 border-gray-200 overflow-hidden">
+                        <div className="bg-gradient-to-r from-[#0B0E1A] via-[#151B2E] to-[#0B0E1A] px-6 py-4 border-b-2 border-[#C9A536]/30 flex justify-between items-center">
+                            <h3 className="text-base font-bold text-white flex items-center gap-2">
+                                <Plane className="text-[#C9A536]" size={18} /> Flight Information
                             </h3>
                             <span className="text-xs font-mono text-gray-500 bg-white border border-gray-200 px-2 py-1 rounded">
                                 PNR: {booking.pnr || 'N/A'}
@@ -492,7 +492,7 @@ export default function BookingDetail() {
                                 <div>
                                     <label className="text-xs text-gray-500 uppercase tracking-wide font-bold">Sector</label>
                                     <div className="flex items-center gap-2 font-medium text-gray-700 mt-0.5">
-                                        <MapPin size={14} className="text-blue-500" /> {booking.sector}
+                                        <MapPin size={14} className="text-[#C9A536]" /> {booking.sector}
                                     </div>
                                 </div>
                             </div>
@@ -512,7 +512,7 @@ export default function BookingDetail() {
                                     <div className="mt-2 space-y-2">
                                         {booking.flights?.map((flight, idx) => (
                                             <div key={idx} className="text-sm bg-gray-50 px-3 py-2 rounded border border-gray-100 flex justify-between items-center">
-                                                <span className="font-bold text-[#003366]">{flight.flightNo}</span>
+                                                <span className="font-bold text-[#C9A536]">{flight.flightNo}</span>
                                                 <span className="text-gray-500 text-xs">{flight.origin} → {flight.destination}</span>
                                             </div>
                                         ))}
@@ -526,7 +526,7 @@ export default function BookingDetail() {
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex flex-col items-center justify-center">
                             <span className="text-xs text-gray-500 font-bold uppercase mb-1">Adults</span>
-                            <span className="text-3xl font-black text-[#003366]">{booking.adultsCount || 0}</span>
+                            <span className="text-3xl font-black text-[#C9A536]">{booking.adultsCount || 0}</span>
                         </div>
                         <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex flex-col items-center justify-center">
                             <span className="text-xs text-gray-500 font-bold uppercase mb-1">Children</span>
@@ -539,10 +539,10 @@ export default function BookingDetail() {
                     </div>
 
                     {/* Passenger List Table */}
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                        <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
-                            <h3 className="text-base font-bold text-gray-900 flex items-center gap-2">
-                                <Users className="text-[#003366]" size={18} /> Passenger Manifest
+                    <div className="bg-white rounded-xl shadow-sm border-2 border-gray-200 overflow-hidden">
+                        <div className="bg-gradient-to-r from-[#0B0E1A] via-[#151B2E] to-[#0B0E1A] px-6 py-4 border-b-2 border-[#C9A536]/30">
+                            <h3 className="text-base font-bold text-white flex items-center gap-2">
+                                <Users className="text-[#C9A536]" size={18} /> Passenger Manifest
                             </h3>
                         </div>
                         <div className="overflow-x-auto">
@@ -585,9 +585,9 @@ export default function BookingDetail() {
                 <div className="space-y-6">
                     
                     {/* Financial Summary */}
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-6">
+                    <div className="bg-white rounded-xl shadow-sm border-2 border-gray-200 p-6 sticky top-6">
                         <h3 className="text-base font-bold text-gray-900 mb-4 flex items-center gap-2">
-                            <CreditCard className="text-[#003366]" size={18} /> Financial Summary
+                            <CreditCard className="text-[#C9A536]" size={18} /> Financial Summary
                         </h3>
                         
                         <div className="space-y-3 text-sm border-b border-gray-100 pb-4 mb-4">
@@ -614,7 +614,7 @@ export default function BookingDetail() {
                                 <span className="block text-xs font-bold text-gray-500 uppercase">Total Amount</span>
                                 <span className="text-xs text-gray-400">PKR</span>
                             </div>
-                            <div className="text-2xl font-black text-[#003366]">
+                            <div className="text-2xl font-black text-[#C9A536] drop-shadow-sm">
                                 {booking.pricing?.grandTotal?.toLocaleString()}
                             </div>
                         </div>
@@ -634,13 +634,13 @@ export default function BookingDetail() {
                                 <>
                                     <button
                                         onClick={() => navigate(`/dashboard/edit-booking/${id}`)}
-                                        className="w-full py-2.5 bg-[#003366] text-white font-semibold rounded-lg hover:bg-[#002855] transition-colors flex items-center justify-center gap-2 shadow-sm"
+                                        className="w-full py-2.5 bg-gradient-to-r from-[#C9A536] to-[#A68A2E] text-white font-semibold rounded-lg hover:from-[#A68A2E] hover:to-[#C9A536] transition-colors flex items-center justify-center gap-2 shadow-lg shadow-[#C9A536]/30"
                                     >
                                         <Edit size={16} /> Edit Booking
                                     </button>
                                     <button
                                         onClick={handleCancelBooking}
-                                        className="w-full py-2.5 bg-white border border-red-200 text-red-600 font-semibold rounded-lg hover:bg-red-50 transition-colors flex items-center justify-center gap-2"
+                                        className="w-full py-2.5 bg-white border-2 border-red-200 text-red-600 font-semibold rounded-lg hover:bg-red-50 transition-colors flex items-center justify-center gap-2"
                                     >
                                         <XCircle size={16} /> Cancel Booking
                                     </button>

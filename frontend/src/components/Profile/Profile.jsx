@@ -8,15 +8,15 @@ import { useAuth } from "../../context/AuthContext";
 
 const InputField = ({ icon: Icon, readOnly = false, className = '', error = '', ...props }) => (
     <div className={`relative group w-full ${className}`}>
-        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-[#003366] transition-colors duration-200">
+        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-[#C9A536] transition-colors duration-200">
             <Icon size={18} strokeWidth={2} />
         </div>
         <input
             {...props}
             readOnly={readOnly}
-            className={`w-full pl-12 pr-4 py-3.5 rounded-xl border text-gray-900 text-sm placeholder:text-gray-400 transition-all duration-300 focus:outline-none
+            className={`w-full pl-12 pr-4 py-3.5 rounded-xl border-2 text-gray-900 text-sm placeholder:text-gray-400 transition-all duration-300 focus:outline-none
             ${error ? 'border-red-300 bg-red-50/50 focus:ring-2 focus:ring-red-500/20 focus:border-red-500' : ''}
-            ${!error && !readOnly ? 'border-gray-200 bg-white hover:border-gray-300 focus:ring-2 focus:ring-[#003366]/10 focus:border-[#003366] focus:bg-white' : ''}
+            ${!error && !readOnly ? 'border-gray-200 bg-white hover:border-gray-300 focus:ring-2 focus:ring-[#C9A536]/30 focus:border-[#C9A536] focus:bg-white focus:shadow-lg focus:shadow-[#C9A536]/10' : ''}
             ${readOnly ? 'bg-linear-to-br from-gray-50 to-gray-100/50 text-gray-600 cursor-not-allowed border-gray-200 backdrop-blur-sm' : ''}
             ${props.disabled ? 'bg-gray-50 text-gray-500 cursor-not-allowed border-gray-200' : ''}`}
         />
@@ -262,8 +262,8 @@ export default function Profile() {
             <div className="flex h-[80vh] items-center justify-center bg-linear-to-br from-blue-50/30 to-indigo-50/30 rounded-3xl">
                 <div className="flex flex-col items-center gap-4 bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg">
                     <div className="relative">
-                        <Loader2 className="w-12 h-12 text-[#003366] animate-spin" strokeWidth={2.5} />
-                        <div className="absolute inset-0 w-12 h-12 border-4 border-blue-100 rounded-full animate-ping"></div>
+                        <Loader2 className="w-12 h-12 text-[#C9A536] animate-spin" strokeWidth={2.5} />
+                        <div className="absolute inset-0 w-12 h-12 border-4 border-[#C9A536]/20 rounded-full animate-ping"></div>
                     </div>
                     <p className="text-gray-600 font-semibold">Loading profile...</p>
                 </div>
@@ -275,14 +275,14 @@ export default function Profile() {
         <div className="w-full pb-20 animate-in fade-in slide-in-from-bottom-4 duration-500">
             {/* Page Header with Gradient */}
             <div className="mb-8 relative">
-                <div className="absolute inset-0 bg-linear-to-r from-[#003366]/5 to-blue-500/5 rounded-2xl blur-3xl -z-10"></div>
+                <div className="absolute inset-0 bg-linear-to-r from-[#C9A536]/5 to-[#A68A2E]/5 rounded-2xl blur-3xl -z-10"></div>
                 <div className="flex items-start justify-between gap-4">
                     <div className="space-y-2">
-                        <h1 className="text-3xl font-bold bg-linear-to-r from-[#003366] to-blue-600 bg-clip-text text-transparent">
+                        <h1 className="text-3xl font-bold bg-linear-to-r from-[#C9A536] to-[#A68A2E] bg-clip-text text-transparent">
                             Account Settings
                         </h1>
                         <p className="text-sm text-gray-500 flex items-center gap-2">
-                            <Shield size={14} className="text-[#003366]" />
+                            <Shield size={14} className="text-[#C9A536]" />
                             Manage your agency profile and contact information
                         </p>
                     </div>
@@ -300,10 +300,10 @@ export default function Profile() {
             <div className="max-w-7xl mx-auto">
 
                 {/* Profile Header Card - Enhanced */}
-                <div className="bg-linear-to-br from-white via-blue-50/30 to-indigo-50/30 rounded-3xl shadow-xl border border-white/60 p-8 mb-8 backdrop-blur-sm relative overflow-hidden">
+                <div className="bg-linear-to-br from-white via-[#C9A536]/5 to-[#0B0E1A]/5 rounded-3xl shadow-xl border-2 border-white/60 p-8 mb-8 backdrop-blur-sm relative overflow-hidden">
                     {/* Decorative Elements */}
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-linear-to-br from-[#003366]/5 to-blue-500/5 rounded-full blur-3xl z-0"></div>
-                    <div className="absolute bottom-0 left-0 w-48 h-48 bg-linear-to-tr from-indigo-500/5 to-blue-500/5 rounded-full blur-3xl z-0"></div>
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-linear-to-br from-[#C9A536]/5 to-[#A68A2E]/5 rounded-full blur-3xl z-0"></div>
+                    <div className="absolute bottom-0 left-0 w-48 h-48 bg-linear-to-tr from-[#0B0E1A]/5 to-[#C9A536]/5 rounded-full blur-3xl z-0"></div>
                     
                     <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-8">
 
@@ -328,7 +328,7 @@ export default function Profile() {
                             <button
                                 type="button"
                                 onClick={handleLogoClick}
-                                className="absolute -bottom-3 -right-3 z-20 bg-linear-to-br from-[#003366] to-blue-600 text-white p-3 rounded-full shadow-xl border-4 border-white hover:from-[#002855] hover:to-blue-700 transition-all duration-300 hover:scale-110 hover:rotate-12 active:scale-95"
+                                className="absolute -bottom-3 -right-3 z-20 bg-linear-to-br from-[#D4AF37] to-[#B8941F] text-white p-3 rounded-full shadow-xl border-4 border-white hover:from-[#B8941F] hover:to-[#D4AF37] transition-all duration-300 hover:scale-110 hover:rotate-12 active:scale-95"
                                 title="Upload Logo"
                             >
                                 <Camera size={16} strokeWidth={2.5} />
@@ -343,12 +343,12 @@ export default function Profile() {
                             </h2>
                             <div className="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-gray-600">
                                 <span className="flex items-center gap-2 bg-white/80 backdrop-blur-sm px-3 py-1.5 rounded-lg shadow-sm">
-                                    <Mail size={14} className="text-[#003366]" strokeWidth={2} /> 
+                                    <Mail size={14} className="text-[#D4AF37]" strokeWidth={2} /> 
                                     <span className="font-medium">{formData.email}</span>
                                 </span>
                                 {formData.city && (
                                     <span className="flex items-center gap-2 bg-white/80 backdrop-blur-sm px-3 py-1.5 rounded-lg shadow-sm">
-                                        <MapPin size={14} className="text-[#003366]" strokeWidth={2} /> 
+                                        <MapPin size={14} className="text-[#D4AF37]" strokeWidth={2} /> 
                                         <span className="font-medium">{formData.city}, {formData.country}</span>
                                     </span>
                                 )}
@@ -363,7 +363,7 @@ export default function Profile() {
                                 className={`group px-8 py-4 rounded-xl text-sm font-bold flex flex-col items-center gap-1 shadow-2xl transition-all duration-300 relative overflow-hidden
                         ${updating || !hasUnsavedChanges
                             ? 'bg-gray-300 cursor-not-allowed text-gray-500' 
-                            : 'bg-linear-to-br from-[#003366] to-blue-600 hover:from-[#002855] hover:to-blue-700 text-white hover:shadow-[#003366]/40 hover:-translate-y-1 active:translate-y-0'}`}
+                            : 'bg-linear-to-br from-[#C9A536] to-[#A68A2E] hover:from-[#A68A2E] hover:to-[#C9A536] text-white hover:shadow-[#C9A536]/40 hover:-translate-y-1 active:translate-y-0 shadow-lg shadow-[#C9A536]/30'}`}
                             >
                                 <div className="absolute inset-0 bg-linear-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
                                 <div className="relative z-10 flex items-center gap-3">
@@ -441,11 +441,11 @@ export default function Profile() {
                     <div className="lg:col-span-1 space-y-6">
                         <div className="bg-linear-to-br from-white to-gray-50/50 rounded-2xl shadow-lg border border-gray-200/80 p-7 backdrop-blur-sm hover:shadow-xl transition-shadow duration-300 relative overflow-hidden">
                             {/* Decorative gradient */}
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-linear-to-br from-[#003366]/5 to-transparent rounded-full blur-2xl"></div>
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-linear-to-br from-[#D4AF37]/5 to-transparent rounded-full blur-2xl"></div>
                             
                             <div className="relative z-10">
                                 <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-3 pb-4 border-b border-gray-200">
-                                    <div className="p-2 bg-linear-to-br from-[#003366] to-blue-600 rounded-lg">
+                                    <div className="p-2 bg-linear-to-br from-[#C9A536] to-[#A68A2E] rounded-lg shadow-md shadow-[#C9A536]/30">
                                         <Shield size={18} className="text-white" strokeWidth={2.5} />
                                     </div>
                                     <span>Identity Verification</span>
@@ -453,21 +453,21 @@ export default function Profile() {
                                 <div className="space-y-5">
                                     <div className="group">
                                         <label className="text-xs font-bold text-gray-600 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                                            <Lock size={12} className="text-[#003366]" strokeWidth={2.5} />
+                                            <Lock size={12} className="text-[#D4AF37]" strokeWidth={2.5} />
                                             Registered Name
                                         </label>
                                         <InputField icon={User} type="text" value={formData.name} readOnly />
                                     </div>
                                     <div className="group">
                                         <label className="text-xs font-bold text-gray-600 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                                            <Lock size={12} className="text-[#003366]" strokeWidth={2.5} />
+                                            <Lock size={12} className="text-[#D4AF37]" strokeWidth={2.5} />
                                             Login Email
                                         </label>
                                         <InputField icon={Mail} type="text" value={formData.email} readOnly />
                                     </div>
                                     <div className="group">
                                         <label className="text-xs font-bold text-gray-600 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                                            <Lock size={12} className="text-[#003366]" strokeWidth={2.5} />
+                                            <Lock size={12} className="text-[#D4AF37]" strokeWidth={2.5} />
                                             Company Name
                                         </label>
                                         <InputField icon={Building} type="text" value={formData.companyName} readOnly />
@@ -475,9 +475,9 @@ export default function Profile() {
                                 </div>
                                 
                                 {/* Info Badge */}
-                                <div className="mt-6 p-4 bg-blue-50/50 border border-blue-100 rounded-xl">
-                                    <p className="text-xs text-blue-900 font-medium flex items-start gap-2">
-                                        <Shield size={14} className="mt-0.5 shrink-0 text-[#003366]" strokeWidth={2.5} />
+                                <div className="mt-6 p-4 bg-[#C9A536]/10 border-2 border-[#C9A536]/20 rounded-xl shadow-sm">
+                                    <p className="text-xs text-[#0B0E1A] font-medium flex items-start gap-2">
+                                        <Shield size={14} className="mt-0.5 shrink-0 text-[#C9A536]" strokeWidth={2.5} />
                                         <span>These fields are verified and cannot be modified. Contact support if changes are needed.</span>
                                     </p>
                                 </div>
@@ -487,13 +487,13 @@ export default function Profile() {
 
                     {/* Right Col: Operations (Editable) - Enhanced */}
                     <div className="lg:col-span-2 space-y-6">
-                        <div className="bg-linear-to-br from-white to-blue-50/30 rounded-2xl shadow-lg border border-gray-200/80 p-7 backdrop-blur-sm hover:shadow-xl transition-shadow duration-300 relative overflow-hidden">
+                        <div className="bg-linear-to-br from-white to-[#C9A536]/5 rounded-2xl shadow-lg border-2 border-gray-200/80 p-7 backdrop-blur-sm hover:shadow-xl transition-shadow duration-300 relative overflow-hidden">
                             {/* Decorative gradient */}
-                            <div className="absolute top-0 left-0 w-40 h-40 bg-linear-to-br from-blue-500/5 to-transparent rounded-full blur-2xl"></div>
+                            <div className="absolute top-0 left-0 w-40 h-40 bg-linear-to-br from-[#C9A536]/5 to-transparent rounded-full blur-2xl"></div>
                             
                             <div className="relative z-10">
                                 <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-3 pb-4 border-b border-gray-200">
-                                    <div className="p-2 bg-linear-to-br from-[#003366] to-blue-600 rounded-lg">
+                                    <div className="p-2 bg-linear-to-br from-[#C9A536] to-[#A68A2E] rounded-lg shadow-md shadow-[#C9A536]/30">
                                         <Edit3 size={18} className="text-white" strokeWidth={2.5} />
                                     </div>
                                     <span>Contact Information</span>
@@ -502,7 +502,7 @@ export default function Profile() {
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="col-span-2 md:col-span-1 group">
                                         <label className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-                                            <User size={14} className="text-[#003366]" strokeWidth={2.5} />
+                                            <User size={14} className="text-[#D4AF37]" strokeWidth={2.5} />
                                             Contact Person
                                             {changedFields.has('consultant') && (
                                                 <span className="ml-auto text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">Modified</span>
@@ -521,7 +521,7 @@ export default function Profile() {
 
                                     <div className="col-span-2 md:col-span-1 group">
                                         <label className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-                                            <Phone size={14} className="text-[#003366]" strokeWidth={2.5} />
+                                            <Phone size={14} className="text-[#D4AF37]" strokeWidth={2.5} />
                                             Phone Number
                                             {changedFields.has('phone') && (
                                                 <span className="ml-2 text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">Modified</span>
@@ -542,7 +542,7 @@ export default function Profile() {
 
                                     <div className="col-span-2 group">
                                         <label className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-                                            <MapPin size={14} className="text-[#003366]" strokeWidth={2.5} />
+                                            <MapPin size={14} className="text-[#D4AF37]" strokeWidth={2.5} />
                                             Office Address
                                             {changedFields.has('address') && (
                                                 <span className="ml-auto text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">Modified</span>
@@ -560,7 +560,7 @@ export default function Profile() {
 
                                     <div className="col-span-2 md:col-span-1 group">
                                         <label className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-                                            <Building size={14} className="text-[#003366]" strokeWidth={2.5} />
+                                            <Building size={14} className="text-[#D4AF37]" strokeWidth={2.5} />
                                             City
                                             {changedFields.has('city') && (
                                                 <span className="ml-auto text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">Modified</span>
@@ -578,7 +578,7 @@ export default function Profile() {
 
                                     <div className="col-span-2 md:col-span-1 group">
                                         <label className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-                                            <Globe size={14} className="text-[#003366]" strokeWidth={2.5} />
+                                            <Globe size={14} className="text-[#D4AF37]" strokeWidth={2.5} />
                                             Country
                                             {changedFields.has('country') && (
                                                 <span className="ml-auto text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">Modified</span>
@@ -596,9 +596,9 @@ export default function Profile() {
                                 </div>
 
                                 {/* Help Text */}
-                                <div className="mt-6 p-4 bg-blue-50/50 border border-blue-100 rounded-xl">
-                                    <p className="text-xs text-blue-900 font-medium flex items-start gap-2">
-                                        <CheckCircle size={14} className="mt-0.5 shrink-0 text-[#003366]" strokeWidth={2.5} />
+                                <div className="mt-6 p-4 bg-[#C9A536]/10 border-2 border-[#C9A536]/20 rounded-xl shadow-sm">
+                                    <p className="text-xs text-[#0B0E1A] font-medium flex items-start gap-2">
+                                        <CheckCircle size={14} className="mt-0.5 shrink-0 text-[#C9A536]" strokeWidth={2.5} />
                                         <span>Keep your contact information up to date to ensure smooth communication and service delivery.</span>
                                     </p>
                                 </div>
@@ -613,7 +613,7 @@ export default function Profile() {
                                 className={`group w-full py-4 rounded-xl text-sm font-bold flex items-center justify-center gap-3 shadow-xl transition-all duration-300 relative overflow-hidden
                         ${updating || !hasUnsavedChanges
                             ? 'bg-gray-300 cursor-not-allowed text-gray-500' 
-                            : 'bg-linear-to-br from-[#003366] to-blue-600 hover:from-[#002855] hover:to-blue-700 text-white hover:shadow-[#003366]/40 active:scale-95'}`}
+                            : 'bg-linear-to-br from-[#C9A536] to-[#A68A2E] hover:from-[#A68A2E] hover:to-[#C9A536] text-white hover:shadow-[#C9A536]/40 active:scale-95 shadow-lg shadow-[#C9A536]/30'}`}
                             >
                                 <div className="absolute inset-0 bg-linear-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
                                 <div className="relative z-10 flex items-center gap-3">

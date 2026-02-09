@@ -139,7 +139,7 @@ export default function AllGroups({ header, searchParams }) {
                                     onChange={(date) => handleFilterChange('departDate', date)}
                                     placeholderText='Departure Date'
                                     minDate={new Date()}
-                                    className="w-full py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#003366] focus:border-transparent outline-none transition-all"
+                                    className="w-full py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#C9A536] focus:border-transparent outline-none transition-all shadow-sm"
                                 />
                             </div>
                         </div>
@@ -151,14 +151,14 @@ export default function AllGroups({ header, searchParams }) {
                                 placeholder="Search Airline, Sector..."
                                 value={filters.searchKeyword}
                                 onChange={(e) => handleFilterChange('searchKeyword', e.target.value)}
-                                className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#003366] focus:border-transparent outline-none transition-all"
+                                className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#C9A536] focus:border-transparent outline-none transition-all shadow-sm"
                             />
                         </div>
 
                         <button
                             onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
-                            className={`px-4 py-2.5 rounded-lg border flex items-center gap-2 text-sm font-medium transition-colors whitespace-nowrap
-                            ${showAdvancedSearch ? 'bg-[#003366] text-white border-[#003366]' : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'}`}
+                            className={`px-4 py-2.5 rounded-lg border-2 flex items-center gap-2 text-sm font-medium transition-colors whitespace-nowrap shadow-sm
+                            ${showAdvancedSearch ? 'bg-[#C9A536] text-white border-[#C9A536] shadow-[#C9A536]/30' : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'}`}
                         >
                             <Filter size={16} /> Filters
                         </button>
@@ -177,7 +177,7 @@ export default function AllGroups({ header, searchParams }) {
                                             type="checkbox"
                                             checked={filters.airlines.includes(airline)}
                                             onChange={() => handleFilterChange('airline', airline)}
-                                            className="rounded text-[#003366] focus:ring-[#003366] border-gray-300"
+                                            className="rounded text-[#C9A536] focus:ring-[#C9A536] border-gray-300"
                                         />
                                         <span className="text-sm text-gray-700 truncate">{airline}</span>
                                     </label>
@@ -193,7 +193,7 @@ export default function AllGroups({ header, searchParams }) {
                                             type="checkbox"
                                             checked={filters.sectors.includes(sector)}
                                             onChange={() => handleFilterChange('sector', sector)}
-                                            className="rounded text-[#003366] focus:ring-[#003366] border-gray-300"
+                                            className="rounded text-[#C9A536] focus:ring-[#C9A536] border-gray-300"
                                         />
                                         <span className="text-sm text-gray-700 truncate">{sector}</span>
                                     </label>
@@ -208,7 +208,7 @@ export default function AllGroups({ header, searchParams }) {
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="min-w-full">
-                        <thead className="bg-[#003366] text-white">
+                        <thead className="bg-gradient-to-r from-[#0B0E1A] via-[#151B2E] to-[#0B0E1A] text-white border-b-2 border-[#C9A536]/30">
                             <tr>
                                 <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">Flight Details</th>
                                 <th className="px-6 py-4 text-center text-xs font-semibold uppercase tracking-wider">Route</th>
@@ -224,7 +224,7 @@ export default function AllGroups({ header, searchParams }) {
                                 <tr>
                                     <td colSpan="7" className="px-6 py-12 text-center text-gray-500">
                                         <div className="flex flex-col items-center gap-2">
-                                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#003366]"></div>
+                                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#C9A536] shadow-lg shadow-[#C9A536]/40"></div>
                                             <span className="text-sm">Loading flights...</span>
                                         </div>
                                     </td>
@@ -261,7 +261,7 @@ export default function AllGroups({ header, searchParams }) {
                                                                 onError={() => handleLogoError(data.airline.id)}
                                                             />
                                                         ) : (
-                                                            <div className="flex items-center gap-2 text-[#003366] font-bold">
+                                                            <div className="flex items-center gap-2 text-[#C9A536] font-bold">
                                                                 <Plane size={18} />
                                                                 {data.airline?.airline_name.toUpperCase()}
                                                             </div>
@@ -309,7 +309,7 @@ export default function AllGroups({ header, searchParams }) {
                                                         <td className="px-6 py-4 align-middle">
                                                             {group.details?.map((f, i) => (
                                                                 <div key={i} className="flex flex-col justify-center items-center">
-                                                                    <span className="text-xs font-bold text-[#003366] bg-blue-50 px-2 py-0.5 rounded mb-1">
+                                                                    <span className="text-xs font-bold text-[#C9A536] bg-gradient-to-br from-[#E6C35C]/20 to-[#C9A536]/20 px-2 py-0.5 rounded mb-1 border-2 border-[#C9A536]/30 shadow-sm">
                                                                         {formatDate(f.flight_date)}
                                                                     </span>
                                                                     <div className="flex items-center gap-1 text-xs text-gray-500">
@@ -338,7 +338,7 @@ export default function AllGroups({ header, searchParams }) {
 
                                                         {/* --- PRICE COLUMN WITH WARNING --- */}
                                                         <td className="px-6 py-4 align-middle text-right">
-                                                            <div className="font-bold text-lg text-[#003366]">
+                                                            <div className="font-bold text-lg text-[#C9A536]">
                                                                 {Number(group.price)?.toLocaleString()}
                                                             </div>
                                                             {hasInsufficientCredit && (

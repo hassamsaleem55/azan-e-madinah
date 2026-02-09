@@ -1,11 +1,11 @@
-# Rihla Access - Travel Booking Management System
+# Azan e Madinah - Travel Booking Management System
 
 A comprehensive travel agency management system with separate portals for agents and internal staff, featuring flight bookings, group ticketing, payment management, and role-based access control.
 
 ## 🏗️ System Architecture
 
 ```
-rihlaaccess/
+azan-e-madinah/
 ├── backend/          # Node.js/Express API Server
 ├── frontend/         # Agent Portal (React + Vite)
 └── admin/           # Admin Panel (React + TypeScript + Vite)
@@ -25,7 +25,7 @@ rihlaaccess/
 
 ```bash
 git clone <repository-url>
-cd rihlaaccess
+cd azan-e-madinah
 ```
 
 ### 2. Backend Setup
@@ -43,7 +43,7 @@ PORT=8000
 NODE_ENV=production
 
 # Database
-MONGO_URI=mongodb://127.0.0.1:27017/rihla_access
+MONGO_URI=mongodb://127.0.0.1:27017/azan_e_madinah
 
 # JWT Secret
 JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
@@ -133,7 +133,7 @@ Admin Panel runs on: `http://localhost:5174`
 
 ```env
 NODE_ENV=production
-MONGO_URI=mongodb+srv://user:password@cluster.mongodb.net/rihla_access
+MONGO_URI=mongodb+srv://user:password@cluster.mongodb.net/azan_e_madinah
 AGENT_PORTAL_URL=https://agents.yourdomain.com
 ADMIN_PANEL_URL=https://admin.yourdomain.com
 ```
@@ -149,7 +149,7 @@ npm start
 
 ```bash
 npm install -g pm2
-pm2 start server.js --name rihla-backend
+pm2 start server.js --name azan-e-madinah-backend
 pm2 save
 pm2 startup
 ```
@@ -298,7 +298,7 @@ When a user adds **more roles** within same identity:
 curl http://localhost:8000/
 ```
 
-Should return: "Rihla Access Backend is running..."
+Should return: "AZAN-E-MADINA Travel API is running"
 
 ### 2. Test Database Connection
 
@@ -338,7 +338,7 @@ Login to admin panel and trigger password reset to test email delivery.
 
 The system sends branded emails for:
 
-- **Agent Portal Emails** (blue theme):
+- **Agent Portal Emails** (gold & navy theme):
   - Registration credentials
   - OTP for login
   - Password reset
@@ -362,7 +362,7 @@ node
 ```javascript
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-mongoose.connect('mongodb://127.0.0.1:27017/rihla_access');
+mongoose.connect('mongodb://127.0.0.1:27017/azan_e_madinah');
 const Register = mongoose.model('Register', require('./models/Register').schema);
 const salt = await bcrypt.genSalt(10);
 const hashedPassword = await bcrypt.hash('NewPassword@123', salt);
@@ -376,13 +376,13 @@ process.exit();
 ### Backup Database
 
 ```bash
-mongodump --db rihla_access --out ./backup
+mongodump --db azan_e_madinah --out ./backup
 ```
 
 ### Restore Database
 
 ```bash
-mongorestore --db rihla_access ./backup/rihla_access
+mongorestore --db azan_e_madinah ./backup/azan_e_madinah
 ```
 
 ## 🐛 Troubleshooting

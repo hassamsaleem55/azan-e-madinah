@@ -108,13 +108,13 @@ export default function OTPVerification({ email, onVerify, onResend, onBack }) {
             <div className="w-full max-w-md space-y-8 animate-fadeIn">
                 {/* Logo */}
                 <div className="text-center">
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-linear-to-br from-[#003366] to-[#0055aa] shadow-lg mb-4">
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-[#C9A536] to-[#E6C35C] shadow-lg mb-4">
                         <Globe size={32} className="text-white" />
                     </div>
                     <h1 className="text-3xl font-bold text-gray-900 mb-2">Verify Your Email</h1>
                     <p className="text-gray-600">
                         We've sent a 6-digit code to<br />
-                        <span className="font-semibold text-[#003366]">{email}</span>
+                        <span className="font-semibold text-[#C9A536]">{email}</span>
                     </p>
                 </div>
 
@@ -131,7 +131,7 @@ export default function OTPVerification({ email, onVerify, onResend, onBack }) {
                                 value={digit}
                                 onChange={(e) => handleChange(index, e.target.value)}
                                 onKeyDown={(e) => handleKeyDown(index, e)}
-                                className="w-12 h-14 text-center text-2xl font-bold rounded-xl border-2 border-gray-200 focus:border-[#003366] focus:outline-none focus:ring-2 focus:ring-[#003366]/20 transition-all"
+                                className="w-12 h-14 text-center text-2xl font-bold rounded-xl border-2 border-gray-200 focus:border-[#C9A536] focus:outline-none focus:ring-2 focus:ring-[#C9A536]/20 transition-all"
                                 autoFocus={index === 0}
                             />
                         ))}
@@ -141,7 +141,7 @@ export default function OTPVerification({ email, onVerify, onResend, onBack }) {
                     <div className="text-center">
                         {timeLeft > 0 ? (
                             <p className="text-sm text-gray-600">
-                                Code expires in <span className="font-semibold text-[#003366]">{formatTime(timeLeft)}</span>
+                                Code expires in <span className="font-semibold text-[#C9A536]">{formatTime(timeLeft)}</span>
                             </p>
                         ) : (
                             <p className="text-sm text-red-500 font-semibold">Code has expired</p>
@@ -161,7 +161,7 @@ export default function OTPVerification({ email, onVerify, onResend, onBack }) {
                         className={`w-full py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 shadow-lg transition-all duration-200
                         ${isVerifying || timeLeft === 0 
                             ? "bg-gray-400 cursor-not-allowed" 
-                            : "bg-[#003366] hover:bg-[#002855] text-white hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0"
+                            : "bg-gradient-to-r from-[#C9A536] to-[#E6C35C] hover:shadow-[0_0_20px_rgba(201,165,54,0.4)] text-white hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0"
                         }`}
                     >
                         {isVerifying ? (
@@ -179,7 +179,7 @@ export default function OTPVerification({ email, onVerify, onResend, onBack }) {
                         <button
                             type="button"
                             onClick={onBack}
-                            className="flex items-center gap-1 text-gray-600 hover:text-[#003366] transition-colors"
+                            className="flex items-center gap-1 text-gray-600 hover:text-[#C9A536] transition-colors"
                         >
                             <ArrowLeft size={16} />
                             Back to login
@@ -188,7 +188,7 @@ export default function OTPVerification({ email, onVerify, onResend, onBack }) {
                             type="button"
                             onClick={handleResend}
                             disabled={isResending || timeLeft === 0}
-                            className="text-[#003366] hover:text-[#002855] font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="text-[#C9A536] hover:text-[#A68A2E] font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {isResending ? "Sending..." : "Resend code"}
                         </button>

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const url = "http://localhost:8000/api";
-// const url = "https://rihlaaccess.com/api";
+// const url = "https://azanemadinah.com/api";
 
 const axiosInstance = axios.create({
   baseURL: url,

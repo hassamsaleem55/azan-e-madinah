@@ -12,7 +12,7 @@ import {
     Wallet // Added Wallet icon
 } from 'lucide-react';
 import { groupTypes } from '../../data/groupTypes';
-import logo from '../../assets/images/rihla_logo.png';
+import logo from '../../assets/images/azan-e-madinah-logo.png'; // Update this path when you add the AZAN-E-MADINA logo
 
 // --- Utility for cleaner conditional classes ---
 const cn = (...classes) => classes.filter(Boolean).join(' ');
@@ -42,10 +42,10 @@ const NavLinks = ({ isScrolled, user }) => {
                         <Link
                             to={`/dashboard/${group.path}`}
                             className={cn(
-                                "relative px-3 py-2 rounded-full text-sm font-semibold transition-all duration-300 flex items-center gap-1",
+                                "relative px-3 py-2 rounded-full text-sm font-bold transition-all duration-300 flex items-center gap-1",
                                 isActive
-                                    ? (isScrolled ? "bg-[#003366] text-white shadow-md" : "bg-white/20 text-white backdrop-blur-md shadow-inner border border-white/20")
-                                    : (isScrolled ? "text-gray-600 hover:bg-gray-100" : "text-white/90 hover:bg-white/10 hover:text-white")
+                                    ? (isScrolled ? "bg-gradient-to-r from-[#C9A536] via-[#E6C35C] to-[#C9A536] text-[#0B0E1A] shadow-lg shadow-[#C9A536]/50" : "bg-[#C9A536]/90 text-[#0B0E1A] backdrop-blur-md shadow-lg shadow-[#C9A536]/30 border-2 border-[#E6C35C]")
+                                    : (isScrolled ? "text-gray-700 hover:bg-[#E6C35C] hover:text-[#0B0E1A]" : "text-white hover:bg-[#C9A536] hover:text-[#0B0E1A]")
                             )}
                         >
                             {group.label}
@@ -93,13 +93,13 @@ const UserMenu = ({ user, handleLogout, isScrolled }) => {
             <button
                 onClick={() => setIsOpen(!isOpen)}
                 className={cn(
-                    "flex items-center gap-3 pl-2 pr-4 py-1.5 rounded-full border transition-all duration-300",
+                    "flex items-center gap-3 pl-2 pr-4 py-1.5 rounded-full border-2 transition-all duration-300",
                     isScrolled
-                        ? "bg-white border-gray-200 text-gray-700 shadow-sm hover:border-[#003366] hover:ring-1 hover:ring-[#003366]/20"
-                        : "bg-black/20 border-white/20 text-white backdrop-blur-md hover:bg-black/30"
+                        ? "bg-white border-[#C9A536]/30 text-gray-800 shadow-md hover:border-[#C9A536] hover:ring-2 hover:ring-[#C9A536]/30 hover:shadow-lg hover:shadow-[#C9A536]/20"
+                        : "bg-black/30 border-[#C9A536]/50 text-white backdrop-blur-md hover:bg-[#C9A536]/20 hover:border-[#E6C35C]"
                 )}
             >
-                <div className="w-8 h-8 rounded-full bg-linear-to-br from-[#003366] to-blue-600 text-white flex items-center justify-center font-bold text-sm shadow-inner">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#C9A536] via-[#E6C35C] to-[#C9A536] text-[#0B0E1A] flex items-center justify-center font-bold text-sm shadow-md shadow-[#C9A536]/50">
                     {user.name.charAt(0).toUpperCase()}
                 </div>
                 <div className="hidden md:flex flex-col items-start text-xs">
@@ -123,7 +123,7 @@ const UserMenu = ({ user, handleLogout, isScrolled }) => {
                 <div className="p-5 bg-linear-to-br from-gray-50 to-white border-b border-gray-100">
                     <div className="mb-4">
                         <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Signed in as</p>
-                        <p className="text-sm font-bold text-[#003366] truncate">{user.email}</p>
+                        <p className="text-sm font-bold text-[#0A1628] truncate">{user.email}</p>
                         <p className="text-xs text-gray-400 mt-1">{user.companyName || 'Travel Agency'}</p>
                     </div>
 
@@ -144,16 +144,16 @@ const UserMenu = ({ user, handleLogout, isScrolled }) => {
                 {/* Menu Items */}
                 <div className="p-2 space-y-1">
                     {user.role === 'Admin' && (
-                        <button onClick={() => handleAction('/admin-portal')} className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-[#003366] rounded-xl transition-colors">
+                        <button onClick={() => handleAction('/admin-portal')} className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-[#F5E6C8] hover:text-[#0A1628] rounded-xl transition-colors">
                             <ShieldCheck size={18} /> Admin Portal
                         </button>
                     )}
 
-                    <button onClick={() => handleAction('/dashboard')} className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-[#003366] rounded-xl transition-colors">
+                    <button onClick={() => handleAction('/dashboard')} className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-[#F5E6C8] hover:text-[#0A1628] rounded-xl transition-colors">
                         <LayoutDashboard size={18} /> Agent Dashboard
                     </button>
 
-                    <button onClick={() => handleAction('/profile')} className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-[#003366] rounded-xl transition-colors">
+                    <button onClick={() => handleAction('/profile')} className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-[#F5E6C8] hover:text-[#0A1628] rounded-xl transition-colors">
                         <UserIcon size={18} /> My Profile
                     </button>
 
@@ -200,10 +200,10 @@ export default function Header({ user, handleLogout }) {
             {/* HEADER */}
             <nav
                 className={cn(
-                    "fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-in-out px-4 md:px-6 lg:px-8",
+                    "fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-in-out px-4 md:px-6 lg:px-8 border-b",
                     isScrolled
-                        ? "bg-white/95 backdrop-blur-md shadow-md py-3"
-                        : "bg-transparent py-5"
+                        ? "bg-gradient-to-r from-[#0B0E1A] via-[#151B2E] to-[#0B0E1A] backdrop-blur-md shadow-xl shadow-[#C9A536]/10 py-3 border-[#C9A536]/20"
+                        : "bg-transparent py-5 border-transparent"
                 )}
             >
                 <div className="max-w-7xl mx-auto flex justify-between items-center">
@@ -213,13 +213,13 @@ export default function Header({ user, handleLogout }) {
                         to="/"
                         className="flex items-center gap-2 rounded-full shrink-0 transition-opacity hover:opacity-90"
                     >
-                        <div className="bg-white rounded-lg p-1.5 shadow-sm">
+                        {/* <div className="bg-white rounded-lg p-1.5 shadow-sm"> */}
                             <img
                                 src={logo}
-                                alt="Rihla Logo"
-                                className="w-16 sm:w-20 object-contain"
+                                alt="AZAN-E-MADINA Logo"
+                                className="w-16 sm:w-20 object-contain rounded-lg"
                             />
-                        </div>
+                        {/* </div> */}
                     </Link>
 
                     {/* Desktop Navigation */}
@@ -241,10 +241,10 @@ export default function Header({ user, handleLogout }) {
                                     to="/auth/register"
                                     onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                                     className={cn(
-                                        "hidden sm:flex px-6 py-2 rounded-full font-bold text-sm transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5",
+                                        "hidden sm:flex px-6 py-2.5 rounded-full font-bold text-sm transition-all shadow-lg hover:shadow-2xl hover:-translate-y-1 border-2",
                                         isScrolled
-                                            ? "bg-[#003366] text-white hover:bg-[#002855]"
-                                            : "bg-white text-[#003366] hover:bg-gray-50"
+                                            ? "bg-gradient-to-r from-[#C9A536] via-[#E6C35C] to-[#C9A536] text-[#0B0E1A] hover:shadow-[#C9A536]/50 border-[#E6C35C]"
+                                            : "bg-[#C9A536] text-[#0B0E1A] hover:bg-[#E6C35C] shadow-[#C9A536]/40 border-[#E6C35C]"
                                     )}
                                 >
                                     Partner With Us
@@ -305,24 +305,24 @@ export default function Header({ user, handleLogout }) {
 
                     {/* User Info & Balance (Mobile) */}
                     {user && (
-                        <div className="p-5 bg-[#003366] text-white space-y-4">
+                        <div className="p-5 bg-gradient-to-br from-[#0B0E1A] via-[#151B2E] to-[#0B0E1A] text-white space-y-4 border-b-2 border-[#C9A536]/30">
                             <div className="flex items-center gap-3">
-                                <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center font-bold text-xl">
+                                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#C9A536] via-[#E6C35C] to-[#C9A536] flex items-center justify-center font-bold text-xl text-[#0B0E1A] shadow-lg shadow-[#C9A536]/50">
                                     {user.name.charAt(0).toUpperCase()}
                                 </div>
                                 <div>
-                                    <p className="font-bold text-lg">{user.name}</p>
-                                    <p className="text-xs text-blue-200">{user.email}</p>
+                                    <p className="font-bold text-lg text-[#E6C35C]">{user.name}</p>
+                                    <p className="text-xs text-gray-300">{user.email}</p>
                                 </div>
                             </div>
 
                             {/* Mobile Credit Display */}
-                            <div className="bg-white/10 rounded-lg p-3 flex items-center justify-between border border-white/10">
+                            <div className="bg-gradient-to-r from-[#C9A536]/20 to-[#A68A2E]/20 rounded-xl p-3 flex items-center justify-between border-2 border-[#C9A536]/40 shadow-lg">
                                 <div className="flex items-center gap-2">
-                                    <Wallet size={16} className="text-emerald-400" />
-                                    <span className="text-sm font-medium text-blue-100">Wallet Balance</span>
+                                    <Wallet size={16} className="text-[#10B981]" />
+                                    <span className="text-sm font-bold text-white">Balance</span>
                                 </div>
-                                <span className="font-bold text-white">PKR {formatCurrency(user.creditAmount)}</span>
+                                <span className="font-bold text-[#E6C35C] text-lg">PKR {formatCurrency(user.creditAmount)}</span>
                             </div>
                         </div>
                     )}
@@ -335,14 +335,14 @@ export default function Header({ user, handleLogout }) {
                                 <Link
                                     to="/"
                                     onClick={() => setIsMobileMenuOpen(false)}
-                                    className="flex w-full items-center justify-center py-3.5 rounded-xl border border-gray-200 text-[#003366] font-bold"
+                                    className="flex w-full items-center justify-center py-3.5 rounded-xl border-2 border-[#C9A536] text-gray-800 font-bold bg-white hover:bg-[#E6C35C]/20"
                                 >
                                     Log In
                                 </Link>
                                 <Link
                                     to="/auth/register"
                                     onClick={() => setIsMobileMenuOpen(false)}
-                                    className="flex w-full items-center justify-center py-3.5 rounded-xl bg-[#003366] text-white font-bold shadow-lg shadow-blue-900/20"
+                                    className="flex w-full items-center justify-center py-3.5 rounded-xl bg-gradient-to-r from-[#C9A536] via-[#E6C35C] to-[#C9A536] text-[#0B0E1A] font-bold shadow-xl shadow-[#C9A536]/40"
                                 >
                                     Partner Sign Up
                                 </Link>
@@ -358,7 +358,7 @@ export default function Header({ user, handleLogout }) {
                                             key={group.value}
                                             to={`/${group.path}`}
                                             onClick={() => setIsMobileMenuOpen(false)}
-                                            className="flex items-center justify-between px-4 py-3 rounded-xl text-gray-700 bg-gray-50 font-medium hover:bg-blue-50 hover:text-[#003366] transition-colors"
+                                            className="flex items-center justify-between px-4 py-3 rounded-xl text-gray-700 bg-gray-50 font-medium hover:bg-gradient-to-r hover:from-[#C9A536]/20 hover:to-[#E6C35C]/20 hover:text-[#0B0E1A] hover:border-l-4 hover:border-[#C9A536] transition-all"
                                         >
                                             {group.label}
                                             <MapPin size={16} className="text-gray-400" />
@@ -368,10 +368,10 @@ export default function Header({ user, handleLogout }) {
 
                                 <div className="space-y-2 pt-4 border-t border-gray-100">
                                     <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Account</h3>
-                                    <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 text-gray-700 font-medium hover:text-[#003366]">
+                                    <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 text-gray-700 font-medium hover:text-[#C9A536] hover:bg-[#E6C35C]/10 rounded-lg">
                                         <LayoutDashboard size={20} /> Dashboard
                                     </Link>
-                                    <Link to="/profile" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 text-gray-700 font-medium hover:text-[#003366]">
+                                    <Link to="/profile" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 text-gray-700 font-medium hover:text-[#C9A536] hover:bg-[#E6C35C]/10 rounded-lg">
                                         <UserIcon size={20} /> Profile
                                     </Link>
                                 </div>

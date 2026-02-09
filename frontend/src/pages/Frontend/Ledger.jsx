@@ -54,7 +54,7 @@ const Ledger = () => {
 
   const totals = calculateTotals();
 
-  if (initialLoading) return <div className="flex h-[80vh] items-center justify-center"><Loader2 className="animate-spin text-[#003366] w-10 h-10"/></div>;
+  if (initialLoading) return <div className="flex h-[80vh] items-center justify-center"><Loader2 className="animate-spin text-[#D4AF37] w-10 h-10"/></div>;
 
   return (
     <div className="w-full pb-20">
@@ -70,7 +70,7 @@ const Ledger = () => {
             <button onClick={() => handleExport('excel')} className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
                 <FileSpreadsheet size={16} /> Excel
             </button>
-            <button onClick={handlePrint} className="flex items-center gap-2 px-4 py-2 bg-[#003366] text-white rounded-lg text-sm font-medium hover:bg-[#002855] transition-colors">
+            <button onClick={handlePrint} className="flex items-center gap-2 px-4 py-2 bg-linear-to-r from-[#D4AF37] to-[#B8941F] text-white rounded-lg text-sm font-medium hover:from-[#B8941F] hover:to-[#D4AF37] transition-colors">
                 <Printer size={16} /> Print
             </button>
         </div>
@@ -108,7 +108,7 @@ const Ledger = () => {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     placeholder="Search transaction..."
-                    className="w-full pl-9 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#003366] outline-none"
+                    className="w-full pl-9 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#D4AF37] outline-none"
                 />
             </div>
 
@@ -120,11 +120,11 @@ const Ledger = () => {
 
       {/* Ledger Table */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col h-[calc(100vh-300px)]">
-        {fetching && <div className="absolute inset-0 bg-white/80 z-20 flex items-center justify-center"><Loader2 className="animate-spin text-[#003366]"/></div>}
+        {fetching && <div className="absolute inset-0 bg-white/80 z-20 flex items-center justify-center"><Loader2 className="animate-spin text-[#D4AF37]"/></div>}
         
         <div className="overflow-auto flex-1">
             <table className="w-full text-sm text-left">
-                <thead className="bg-[#003366] text-white font-semibold sticky top-0 z-10">
+                <thead className="bg-linear-to-r from-[#0A1628] to-[#152238] text-white font-semibold sticky top-0 z-10">
                     <tr>
                         <th className="px-6 py-3.5 whitespace-nowrap w-24">Voucher</th>
                         <th className="px-6 py-3.5 whitespace-nowrap w-32">Date</th>
@@ -163,8 +163,8 @@ const Ledger = () => {
                 <span className="text-xs text-gray-500 uppercase font-bold">Total Credit</span>
                 <span className="text-lg font-bold text-green-600 flex items-center gap-1"><ArrowDownLeft size={16}/> {formatCurrency(totals.credit)}</span>
             </div>
-            <div className="flex justify-between items-center bg-[#003366] text-white p-3 rounded-lg shadow-sm">
-                <span className="text-xs text-blue-200 uppercase font-bold">Closing Balance</span>
+            <div className="flex justify-between items-center bg-linear-to-r from-[#D4AF37] to-[#B8941F] text-white p-3 rounded-lg shadow-sm">
+                <span className="text-xs text-white/80 uppercase font-bold">Closing Balance</span>
                 <span className="text-lg font-bold">{formatCurrency(totals.closingBalance)}</span>
             </div>
         </div>

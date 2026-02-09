@@ -6,7 +6,7 @@ import {
     CreditCard, BookOpen, User, Key, LogOut,
     Wallet 
 } from "lucide-react";
-import logo from '../../assets/images/rihla_logo.png';
+import logo from '../../assets/images/azan-e-madinah-logo.png';
 
 const DashboardLayout = ({ user, handleLogout }) => {
   // Initialize: Closed on mobile (<1024px), Open on desktop
@@ -80,31 +80,31 @@ const DashboardLayout = ({ user, handleLogout }) => {
       {/* Sidebar */}
       <aside 
         className={`
-            fixed lg:static top-0 left-0 h-full bg-[#003366] text-white shadow-2xl z-30
+            fixed lg:static top-0 left-0 h-full bg-gradient-to-b from-[#0B0E1A] via-[#151B2E] to-[#0B0E1A] text-white shadow-2xl z-30 border-r-2 border-[#C9A536]/20
             transition-all duration-300 ease-in-out flex flex-col
             ${sidebarOpen ? 'w-72 translate-x-0' : 'w-72 -translate-x-full lg:w-20 lg:translate-x-0'}
         `}
       >
         {/* Sidebar Header */}
-        <div className="h-20 flex items-center justify-between px-4 border-b border-blue-800/40 bg-[#002244]">
+        <div className="h-20 flex items-center justify-between px-4 border-b-2 border-[#C9A536]/30 bg-gradient-to-r from-[#0B0E1A] to-[#151B2E]">
           <Link 
             to="/" 
             className={`flex items-center gap-3 transition-all duration-300 ${sidebarOpen ? 'justify-start' : 'justify-center w-full'}`}
           >
-             <div className="bg-white h-10 w-10 flex items-center justify-center rounded-xl shadow-lg shadow-blue-900/50 shrink-0 overflow-hidden p-1">
-                <img src={logo} alt="Rihla" className="w-full h-full object-contain" />
+             <div className="h-11 w-11 flex items-center justify-center rounded-md shadow-xl shadow-[#C9A536]/40 shrink-0 overflow-hidden">
+                <img src={logo} alt="AZAN-E-MADINA" className="w-full h-full object-contain" />
              </div>
 
              <div className={`flex flex-col transition-all duration-300 origin-left ${sidebarOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-90 w-0 hidden'}`}>
-                <span className="font-extrabold text-lg tracking-wide leading-none text-white">RIHLA</span>
-                <span className="text-[10px] font-bold tracking-[0.2em] text-blue-300 leading-none mt-0.5">ACCESS</span>
+                <span className="font-extrabold text-lg tracking-wide leading-none text-[#E6C35C]">AZAN-E-MADINA</span>
+                <span className="text-[10px] font-bold tracking-[0.25em] text-[#C9A536] leading-none mt-0.5">TRAVEL</span>
              </div>
           </Link>
 
           {/* Close Button (Mobile Only) */}
           <button 
             onClick={() => setSidebarOpen(false)}
-            className={`lg:hidden p-1.5 rounded-lg text-blue-300 hover:text-white hover:bg-white/10 transition-colors ${!sidebarOpen && 'hidden'}`}
+            className={`lg:hidden p-1.5 rounded-lg text-[#E6C35C] hover:text-white hover:bg-[#C9A536]/30 transition-colors ${!sidebarOpen && 'hidden'}`}
           >
             <X size={20} />
           </button>
@@ -124,8 +124,8 @@ const DashboardLayout = ({ user, handleLogout }) => {
                       className={`
                         w-full flex items-center justify-between px-3 py-3 rounded-xl transition-all duration-200 group
                         ${isActive(item.path, item.exact) 
-                            ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/20' 
-                            : 'text-blue-100 hover:bg-white/10 hover:text-white'}
+                            ? 'bg-gradient-to-r from-[#C9A536] via-[#E6C35C] to-[#C9A536] text-[#0B0E1A] shadow-xl shadow-[#C9A536]/40 font-bold' 
+                            : 'text-gray-300 hover:bg-[#C9A536]/20 hover:text-[#E6C35C]'}
                       `}
                     >
                       <div className="flex items-center gap-3">
@@ -135,14 +135,14 @@ const DashboardLayout = ({ user, handleLogout }) => {
                         </span>
                       </div>
                       {sidebarOpen && (
-                          <span className="text-blue-300 group-hover:text-white transition-colors">
+                          <span className="text-[#F5E6C8]/60 group-hover:text-[#F5E6C8] transition-colors">
                             {bookingsExpanded ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
                           </span>
                       )}
                     </button>
                     
                     <div className={`overflow-hidden transition-all duration-300 ${bookingsExpanded && sidebarOpen ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0'}`}>
-                      <ul className="pl-3 mt-1 space-y-1 ml-3 border-l-2 border-blue-800/50">
+                      <ul className="pl-3 mt-1 space-y-1 ml-3 border-l-2 border-[#C9A536]/50">
                         {item.subItems.map((subItem) => {
                           const currentPath = location.pathname;
                           const currentStatus = new URLSearchParams(location.search).get('status') || '';
@@ -156,7 +156,7 @@ const DashboardLayout = ({ user, handleLogout }) => {
                                 onClick={() => window.innerWidth < 1024 && setSidebarOpen(false)}
                                 className={`
                                     block px-4 py-2 text-xs rounded-r-lg transition-colors relative
-                                    ${isSubActive ? 'text-white font-bold bg-blue-800/50 before:absolute before:left-0 before:top-2 before:bottom-2 before:w-1 before:bg-blue-400 before:rounded-r' : 'text-blue-300 hover:text-white hover:bg-white/5'}
+                                    ${isSubActive ? 'text-[#E6C35C] font-bold bg-[#C9A536]/30 before:absolute before:left-0 before:top-2 before:bottom-2 before:w-1 before:bg-[#E6C35C] before:rounded-r shadow-lg' : 'text-gray-400 hover:text-[#E6C35C] hover:bg-[#C9A536]/10'}
                                 `}
                               >
                                 {subItem.label}
@@ -177,8 +177,8 @@ const DashboardLayout = ({ user, handleLogout }) => {
                     className={`
                         flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 group relative
                         ${isActive(item.path, item.exact) 
-                            ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/20' 
-                            : 'text-blue-100 hover:bg-white/10 hover:text-white'}
+                            ? 'bg-gradient-to-r from-[#C9A536] via-[#E6C35C] to-[#C9A536] text-[#0B0E1A] shadow-xl shadow-[#C9A536]/40 font-bold' 
+                            : 'text-gray-300 hover:bg-[#C9A536]/20 hover:text-[#E6C35C]'}
                     `}
                   >
                     <span className={`${!sidebarOpen && "mx-auto"}`}>{item.icon}</span>
@@ -198,7 +198,7 @@ const DashboardLayout = ({ user, handleLogout }) => {
         </nav>
 
         {/* Sidebar Footer */}
-        <div className="p-4 border-t border-blue-800/40 bg-[#002855]">
+        <div className="p-4 border-t-2 border-[#C9A536]/30 bg-gradient-to-r from-[#0B0E1A] to-[#151B2E]">
           <button 
             onClick={handleLogoutClick} 
             className={`
@@ -239,15 +239,15 @@ const DashboardLayout = ({ user, handleLogout }) => {
 
             <div className="hidden md:flex flex-col items-end">
                 <span className="text-sm font-bold text-gray-800 leading-none">{user?.name || 'Agent'}</span>
-                <span className="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-full mt-1.5 border border-blue-100">
+                <span className="text-[10px] font-bold text-[#0B0E1A] bg-gradient-to-r from-[#C9A536] to-[#E6C35C] px-2.5 py-1 rounded-full mt-1.5 border border-[#E6C35C] shadow-md">
                     {user?.companyName || 'Agency Partner'}
                 </span>
             </div>
             
             <div className="relative group cursor-pointer">
-                <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-full bg-linear-to-br from-[#003366] to-blue-600 p-0.5 shadow-md">
+                <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-full bg-gradient-to-br from-[#C9A536] via-[#E6C35C] to-[#C9A536] p-0.5 shadow-lg shadow-[#C9A536]/40">
                     <div className="h-full w-full rounded-full bg-white flex items-center justify-center">
-                        <span className="font-bold text-[#003366] text-xs sm:text-sm">
+                        <span className="font-bold text-[#0A1628] text-xs sm:text-sm">
                             {user?.name?.charAt(0).toUpperCase() || 'U'}
                         </span>
                     </div>

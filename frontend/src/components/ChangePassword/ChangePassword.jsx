@@ -5,7 +5,7 @@ import { Lock, Eye, EyeOff, Save, Loader2, KeyRound, ShieldCheck, CheckCircle, A
 const PasswordInput = ({ id, label, value, show, onToggle, error, onChange }) => (
   <div>
     <label htmlFor={id} className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-      <Lock size={14} className="text-[#003366]" />
+      <Lock size={14} className="text-[#C9A536]" />
       {label}
     </label>
     <div className="relative group">
@@ -15,14 +15,14 @@ const PasswordInput = ({ id, label, value, show, onToggle, error, onChange }) =>
         id={id}
         value={value}
         onChange={onChange}
-        className={`w-full pl-4 pr-12 py-3.5 rounded-xl border text-gray-900 text-sm placeholder:text-gray-400 transition-all duration-300 focus:outline-none
-          ${error ? 'border-red-300 bg-red-50/50 focus:ring-2 focus:ring-red-500/20 focus:border-red-500' : 'border-gray-200 bg-white hover:border-gray-300 focus:ring-2 focus:ring-[#003366]/10 focus:border-[#003366] focus:bg-white'}`}
+        className={`w-full pl-4 pr-12 py-3.5 rounded-xl border-2 text-gray-900 text-sm placeholder:text-gray-400 transition-all duration-300 focus:outline-none
+          ${error ? 'border-red-300 bg-red-50/50 focus:ring-2 focus:ring-red-500/20 focus:border-red-500' : 'border-gray-200 bg-white hover:border-gray-300 focus:ring-2 focus:ring-[#C9A536]/10 focus:border-[#C9A536] focus:bg-white shadow-sm'}`}
         placeholder="••••••••"
       />
       <button
         type="button"
         onClick={onToggle}
-        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#003366] focus:outline-none transition-colors"
+        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#C9A536] focus:outline-none transition-colors"
       >
         {show ? <EyeOff size={18} /> : <Eye size={18} />}
       </button>
@@ -187,17 +187,17 @@ const ChangePassword = () => {
     <div className="w-full pb-20 animate-in fade-in slide-in-from-bottom-4 duration-500">
       {/* Header */}
       <div className="mb-8 relative">
-        <div className="absolute inset-0 bg-linear-to-r from-[#003366]/5 to-blue-500/5 rounded-2xl blur-3xl -z-10"></div>
+        <div className="absolute inset-0 bg-linear-to-r from-[#C9A536]/5 to-[#A68A2E]/5 rounded-2xl blur-3xl -z-10"></div>
         <div className="flex items-center gap-4">
-          <div className="w-16 h-16 bg-linear-to-br from-[#003366] to-blue-600 rounded-2xl flex items-center justify-center shadow-lg">
+          <div className="w-16 h-16 bg-linear-to-br from-[#C9A536] to-[#A68A2E] rounded-2xl flex items-center justify-center shadow-lg shadow-[#C9A536]/30">
             <KeyRound size={32} className="text-white" strokeWidth={2.5} />
           </div>
           <div>
-            <h1 className="text-3xl font-bold bg-linear-to-r from-[#003366] to-blue-600 bg-clip-text text-transparent">
+            <h1 className="text-3xl font-bold bg-linear-to-r from-[#C9A536] to-[#A68A2E] bg-clip-text text-transparent">
               Change Password
             </h1>
             <p className="text-sm text-gray-500 flex items-center gap-2 mt-1">
-              <ShieldCheck size={14} className="text-[#003366]" />
+              <ShieldCheck size={14} className="text-[#C9A536]" />
               Secure your account with a strong password
             </p>
           </div>
@@ -231,9 +231,9 @@ const ChangePassword = () => {
         )}
 
         {/* Card */}
-        <div className="bg-linear-to-br from-white via-blue-50/30 to-indigo-50/30 rounded-3xl shadow-xl border border-white/60 backdrop-blur-sm relative overflow-hidden">
+        <div className="bg-linear-to-br from-white via-[#C9A536]/5 to-[#E6C35C]/5 rounded-3xl shadow-xl border-2 border-white/60 backdrop-blur-sm relative overflow-hidden">
           {/* Decorative Elements */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-linear-to-br from-[#003366]/5 to-blue-500/5 rounded-full blur-3xl z-0"></div>
+          <div className="absolute top-0 right-0 w-64 h-64 bg-linear-to-br from-[#C9A536]/5 to-[#A68A2E]/5 rounded-full blur-3xl z-0"></div>
           
           <div className="relative z-10 p-8">
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -288,8 +288,8 @@ const ChangePassword = () => {
               />
 
               {/* Requirements */}
-              <div className="bg-blue-50/50 rounded-xl p-5 border border-blue-100">
-                <h4 className="text-xs font-bold text-[#003366] uppercase tracking-wide mb-3 flex items-center gap-2">
+              <div className="bg-[#C9A536]/10 rounded-xl p-5 border-2 border-[#C9A536]/20 shadow-sm">
+                <h4 className="text-xs font-bold text-[#C9A536] uppercase tracking-wide mb-3 flex items-center gap-2">
                   <ShieldCheck size={16} /> Password Requirements
                 </h4>
                 <ul className="space-y-2">
@@ -314,7 +314,7 @@ const ChangePassword = () => {
                 className={`group w-full py-4 rounded-xl text-sm font-bold flex items-center justify-center gap-3 shadow-2xl transition-all duration-300 relative overflow-hidden
                   ${loading || Object.keys(fieldErrors).length > 0
                     ? 'bg-gray-300 cursor-not-allowed text-gray-500' 
-                    : 'bg-linear-to-br from-[#003366] to-blue-600 hover:from-[#002855] hover:to-blue-700 text-white hover:shadow-[#003366]/40 hover:-translate-y-1 active:translate-y-0'}`}
+                    : 'bg-linear-to-br from-[#C9A536] to-[#A68A2E] hover:from-[#A68A2E] hover:to-[#C9A536] text-white hover:shadow-[#C9A536]/40 hover:-translate-y-1 active:translate-y-0'}`}
               >
                 <div className="absolute inset-0 bg-linear-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
                 <div className="relative z-10 flex items-center gap-3">

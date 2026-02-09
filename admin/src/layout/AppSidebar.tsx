@@ -327,7 +327,7 @@ const AppSidebar: React.FC = () => {
             <>
               <img
                 // className="dark:hidden"
-                src="/admin-portal/images/logo/rihla_logo.png"
+                src="/admin-portal/images/logo/azan-e-madinah-logo.png"
                 alt="Logo"
                 width={150}
                 height={40}
@@ -342,7 +342,7 @@ const AppSidebar: React.FC = () => {
             </>
           ) : (
             <img
-              src="/admin-portal/images/logo/rihla_logo.png"
+              src="/admin-portal/images/logo/azan-e-madinah-logo.png"
               alt="Logo"
               width={32}
               height={32}

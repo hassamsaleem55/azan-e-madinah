@@ -143,7 +143,7 @@ export const generateBookingPDF = async (booking) => {
         padding-bottom:16px; border-bottom:2px solid #ddd; margin-bottom:28px;">
         
         <div style="font-size:26px; font-weight:800; color:#1e40af; letter-spacing:2px;">
-            <img src="/src/assets/images/rihla_logo.png" style="width:120px;" />
+            <img src="/src/assets/images/azan_e_madinah_logo.png" style="width:120px;" />
         </div>
         
         <div>

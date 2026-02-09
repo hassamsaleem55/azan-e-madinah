@@ -152,7 +152,7 @@ export default function ForgotPassword() {
                   name="email"
                   type="email"
                   required
-                  className="w-full px-4 py-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#003366] focus:border-transparent text-gray-900 placeholder:text-gray-500"
+                  className="w-full px-4 py-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#C9A536] focus:border-transparent text-gray-900 placeholder:text-gray-500"
                   placeholder="Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -164,7 +164,7 @@ export default function ForgotPassword() {
                   className={`w-full py-3 rounded text-base font-semibold mt-1
                     ${isLoading
                       ? "bg-gray-400 cursor-not-allowed text-white"
-                      : "bg-[#003366] text-white hover:bg-[#3a1c9a] shadow-md"}
+                      : "bg-gradient-to-r from-[#C9A536] to-[#E6C35C] text-white hover:shadow-[0_0_20px_rgba(201,165,54,0.4)] shadow-md"}
                     transition-all duration-200`}
                 >
                   {isLoading ? "Sending..." : "Send Me Password"}
@@ -186,7 +186,7 @@ export default function ForgotPassword() {
                     name="newPassword"
                     type={showPassword ? "text" : "password"}
                     required
-                    className="w-full px-4 py-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#003366] focus:border-transparent text-gray-900 placeholder:text-gray-500"
+                    className="w-full px-4 py-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#C9A536] focus:border-transparent text-gray-900 placeholder:text-gray-500"
                     placeholder="New password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
@@ -210,7 +210,7 @@ export default function ForgotPassword() {
                     name="confirmPassword"
                     type={showConfirmPassword ? "text" : "password"}
                     required
-                    className="w-full px-4 py-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#003366] focus:border-transparent text-gray-900 placeholder:text-gray-500"
+                    className="w-full px-4 py-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#C9A536] focus:border-transparent text-gray-900 placeholder:text-gray-500"
                     placeholder="Confirm password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
@@ -248,7 +248,7 @@ export default function ForgotPassword() {
                   className={`w-full py-3 rounded text-base font-semibold
                     ${isLoading
                       ? "bg-gray-400 cursor-not-allowed text-white"
-                      : "bg-[#003366] text-white hover:bg-[#3a1c9a] shadow-md"}
+                      : "bg-gradient-to-r from-[#C9A536] to-[#E6C35C] text-white hover:shadow-[0_0_20px_rgba(201,165,54,0.4)] shadow-md"}
                     transition-all duration-200`}
                 >
                   {isLoading ? "Resetting..." : "Reset Password"}

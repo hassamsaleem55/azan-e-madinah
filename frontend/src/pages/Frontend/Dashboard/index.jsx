@@ -100,7 +100,7 @@ const Dashboard = () => {
               </div>
               
               <div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-[#003366] transition-colors">
+                <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-[#C9A536] transition-colors">
                   {card.title}
                 </h3>
                 <p className="text-sm text-gray-500 leading-relaxed">

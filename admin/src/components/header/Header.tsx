@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { ThemeToggleButton } from "../common/ThemeToggleButton";
-// import NotificationDropdown from "./NotificationDropdown";
 import UserDropdown from "./UserDropdown";
 import { Link } from "react-router";
 
@@ -81,7 +80,7 @@ const Header: React.FC<HeaderProps> = ({ onClick, onToggle }) => {
           <Link to="/" className="lg:hidden">
             <img
               // className="dark:hidden"
-              src="./admin-portal/images/logo/rihla_logo.png"
+              src="./admin-portal/images/logo/azan-e-madinah-logo.png"
               alt="Logo"
             />
             {/* <img

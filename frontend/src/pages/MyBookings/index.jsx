@@ -149,7 +149,7 @@ export default function MyBookings() {
 
     if (initialLoading) return (
         <div className="flex flex-col items-center justify-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#003366] mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-[#C9A536] mx-auto mb-4"></div>
             <p className="text-gray-600">Loading bookings...</p>
         </div>
     )
@@ -172,7 +172,7 @@ export default function MyBookings() {
                                 placeholder="Search Ref, PNR, Name..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#003366] focus:border-transparent outline-none transition-all"
+                                className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#C9A536] focus:border-transparent outline-none transition-all shadow-sm"
                             />
                         </div>
 
@@ -180,7 +180,7 @@ export default function MyBookings() {
                             <select
                                 value={filters.sector}
                                 onChange={(e) => handleFilterChange('sector', e.target.value)}
-                                className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#003366] focus:border-transparent outline-none cursor-pointer"
+                                className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#C9A536] focus:border-transparent outline-none cursor-pointer shadow-sm"
                             >
                                 <option value="">All Sectors</option>
                                 {uniqueSectors.map(s => <option key={s} value={s}>{s}</option>)}
@@ -191,7 +191,7 @@ export default function MyBookings() {
                             <select
                                 value={filters.airline}
                                 onChange={(e) => handleFilterChange('airline', e.target.value)}
-                                className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#003366] focus:border-transparent outline-none cursor-pointer"
+                                className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#C9A536] focus:border-transparent outline-none cursor-pointer shadow-sm"
                             >
                                 <option value="">All Airlines</option>
                                 {uniqueAirlines.map(a => <option key={a} value={a}>{a}</option>)}
@@ -203,7 +203,7 @@ export default function MyBookings() {
                                 value={filters.fromDate}
                                 onChange={(date) => handleFilterChange('fromDate', date)}
                                 placeholderText='Date'
-                                className="w-full py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#003366] outline-none"
+                                className="w-full py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#C9A536] outline-none shadow-sm"
                             />
                         </div>
 
@@ -221,13 +221,13 @@ export default function MyBookings() {
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden relative">
                 {fetching && (
                     <div className="absolute inset-0 bg-white/80 z-10 flex items-center justify-center">
-                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#003366]"></div>
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#C9A536] shadow-lg shadow-[#C9A536]/40"></div>
                     </div>
                 )}
 
                 <div className="overflow-x-auto">
                     <table className="min-w-full">
-                        <thead className="bg-[#003366] text-white">
+                        <thead className="bg-gradient-to-r from-[#0B0E1A] via-[#151B2E] to-[#0B0E1A] text-white border-b-2 border-[#C9A536]/30">
                             <tr>
                                 <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">Reference</th>
                                 <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">Flight Info</th>
@@ -252,9 +252,9 @@ export default function MyBookings() {
                                     const timer = timers[booking._id]
 
                                     return (
-                                        <tr key={booking._id} className="hover:bg-blue-50/30 transition-colors group">
+                                        <tr key={booking._id} className="hover:bg-[#C9A536]/10 transition-colors group border-b border-gray-100">
                                             <td className="px-6 py-4 align-top">
-                                                <div className="font-mono font-bold text-[#003366]">{booking.bookingReference}</div>
+                                                <div className="font-mono font-bold text-[#C9A536] text-sm">{booking.bookingReference}</div>
                                                 <div className="text-xs text-gray-500 mt-1 flex items-center gap-1">
                                                     <span className="font-semibold">PNR:</span> {booking.pnr || '-'}
                                                 </div>
@@ -268,7 +268,7 @@ export default function MyBookings() {
                                                 <div className="text-xs text-gray-600 mt-0.5 font-medium bg-gray-100 px-2 py-0.5 rounded w-fit">
                                                     {booking.sector}
                                                 </div>
-                                                <div className="text-xs text-blue-600 mt-1 font-medium flex items-center gap-1">
+                                                <div className="text-xs text-[#C9A536] mt-1 font-medium flex items-center gap-1">
                                                     <Calendar size={12} /> {formatDate(booking.departureDate)}
                                                 </div>
                                             </td>
@@ -285,13 +285,13 @@ export default function MyBookings() {
                                             </td>
 
                                             <td className="px-6 py-4 align-top text-center">
-                                                <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-50 text-[#003366] text-xs font-bold border border-blue-100">
+                                                <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-gradient-to-br from-[#C9A536]/20 to-[#E6C35C]/20 text-[#C9A536] text-xs font-bold border-2 border-[#C9A536]/30 shadow-md">
                                                     {booking.totalPassengers}
                                                 </span>
                                             </td>
 
                                             <td className="px-6 py-4 align-top text-right">
-                                                <div className="font-bold text-[#003366]">
+                                                <div className="font-bold text-[#C9A536] text-base">
                                                     {booking.pricing?.grandTotal?.toLocaleString() || '0'}
                                                 </div>
                                             </td>

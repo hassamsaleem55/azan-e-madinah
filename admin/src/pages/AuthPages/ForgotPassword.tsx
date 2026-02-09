@@ -116,7 +116,7 @@ export default function ForgotPassword() {
             {/* Logo */}
             <div className="flex justify-center mb-6">
               <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center">
-                <img src="/admin-portal/images/logo/rihla_logo.png" alt="Logo" className="rounded-full" />
+                <img src="/admin-portal/images/logo/azan-e-madinah-logo.png" alt="Logo" className="rounded-full" />
               </div>
             </div>
 

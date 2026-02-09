@@ -373,7 +373,7 @@ export default function BookingForm() {
                 <p className="text-gray-500 mt-2 mb-6">Please select a flight group to proceed with booking.</p>
                 <button
                     onClick={() => navigate('/dashboard/all-groups')}
-                    className="px-6 py-2.5 bg-[#003366] text-white rounded-lg hover:bg-[#002855] transition-colors"
+                    className="px-6 py-2.5 bg-gradient-to-r from-[#C9A536] to-[#A68A2E] text-white rounded-lg hover:from-[#A68A2E] hover:to-[#C9A536] transition-colors shadow-lg shadow-[#C9A536]/30"
                 >
                     Browse Flights
                 </button>
@@ -384,7 +384,7 @@ export default function BookingForm() {
     if (loadingBooking) {
         return (
             <div className="flex h-[80vh] items-center justify-center">
-                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#003366]"></div>
+                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#C9A536] shadow-lg shadow-[#C9A536]/40"></div>
             </div>
         )
     }
@@ -430,7 +430,7 @@ export default function BookingForm() {
                                         value={formData.contactPersonName}
                                         onChange={handleChange}
                                         placeholder="Enter full name"
-                                        className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#003366] focus:border-transparent outline-none transition-all"
+                                        className="w-full pl-10 pr-4 py-2.5 bg-white border-2 border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#C9A536] focus:border-transparent outline-none transition-all shadow-sm"
                                         required
                                     />
                                 </div>
@@ -463,7 +463,7 @@ export default function BookingForm() {
                                         onChange={handleChange}
                                         onBlur={handlePassengerBlur}
                                         min="1"
-                                        className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-center font-bold text-lg focus:ring-2 focus:ring-[#003366] outline-none"
+                                        className="w-full px-3 py-2 bg-white border-2 border-gray-300 rounded-lg text-center font-bold text-lg focus:ring-2 focus:ring-[#C9A536] outline-none shadow-sm"
                                     />
                                 </div>
                             </div>
@@ -484,7 +484,7 @@ export default function BookingForm() {
                                     onBlur={handlePassengerBlur}
                                     disabled={!isEditMode && !isChildPriceAvailable()}
                                     min="0"
-                                    className="w-full mt-3 px-3 py-2 bg-white border border-gray-300 rounded-lg text-center font-bold text-lg focus:ring-2 focus:ring-[#003366] outline-none disabled:bg-gray-100"
+                                    className="w-full mt-3 px-3 py-2 bg-white border-2 border-gray-300 rounded-lg text-center font-bold text-lg focus:ring-2 focus:ring-[#C9A536] outline-none disabled:bg-gray-100 shadow-sm"
                                 />
                             </div>
 
@@ -503,7 +503,7 @@ export default function BookingForm() {
                                     onChange={handleChange}
                                     onBlur={handlePassengerBlur}
                                     min="0"
-                                    className="w-full mt-3 px-3 py-2 bg-white border border-gray-300 rounded-lg text-center font-bold text-lg focus:ring-2 focus:ring-[#003366] outline-none"
+                                    className="w-full mt-3 px-3 py-2 bg-white border border-gray-300 rounded-lg text-center font-bold text-lg focus:ring-2 focus:ring-[#C9A536] outline-none"
                                 />
                             </div>
                         </div>
@@ -513,8 +513,8 @@ export default function BookingForm() {
                             {formData.passengers.map((passenger, index) => (
                                 <div key={index} className="p-5 border border-gray-200 rounded-xl hover:border-blue-300 transition-colors bg-white shadow-sm">
                                     <div className="flex items-center gap-3 mb-4 border-b border-gray-100 pb-3">
-                                        <span className={`text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider text-white
-                                            ${passenger.type === 'Adult' ? 'bg-[#003366]' : passenger.type === 'Child' ? 'bg-green-600' : 'bg-purple-600'}
+                                        <span className={`text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider text-white shadow-sm
+                                            ${passenger.type === 'Adult' ? 'bg-[#C9A536] shadow-[#C9A536]/30' : passenger.type === 'Child' ? 'bg-green-600' : 'bg-purple-600'}
                                         `}>
                                             {passenger.type}
                                         </span>
@@ -527,7 +527,7 @@ export default function BookingForm() {
                                             <select
                                                 value={passenger.title}
                                                 onChange={(e) => handlePassengerChange(index, 'title', e.target.value)}
-                                                className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#003366] outline-none"
+                                                className="w-full px-3 py-2 bg-gray-50 border-2 border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#C9A536] outline-none shadow-sm"
                                             >
                                                 {passenger.type === 'Infant' ? <option value="INF">INF</option> : (
                                                     <><option value="Mr">Mr</option><option value="Mrs">Mrs</option><option value="Ms">Ms</option></>
@@ -541,7 +541,7 @@ export default function BookingForm() {
                                                 type="text"
                                                 value={passenger.givenName}
                                                 onChange={(e) => handlePassengerChange(index, 'givenName', e.target.value)}
-                                                className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#003366] outline-none"
+                                                className="w-full px-3 py-2 bg-gray-50 border-2 border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#C9A536] outline-none shadow-sm"
                                                 placeholder="As per passport"
                                             />
                                         </div>
@@ -551,7 +551,7 @@ export default function BookingForm() {
                                                 type="text"
                                                 value={passenger.surName}
                                                 onChange={(e) => handlePassengerChange(index, 'surName', e.target.value)}
-                                                className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#003366] outline-none"
+                                                className="w-full px-3 py-2 bg-gray-50 border-2 border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#C9A536] outline-none shadow-sm"
                                                 placeholder="Surname"
                                             />
                                         </div>
@@ -562,7 +562,7 @@ export default function BookingForm() {
                                                 type="text"
                                                 value={passenger.passport}
                                                 onChange={(e) => handlePassengerChange(index, 'passport', e.target.value)}
-                                                className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm uppercase focus:ring-2 focus:ring-[#003366] outline-none"
+                                                className="w-full px-3 py-2 bg-gray-50 border-2 border-gray-300 rounded-lg text-sm uppercase focus:ring-2 focus:ring-[#C9A536] outline-none shadow-sm"
                                                 placeholder="Passport Number"
                                             />
                                         </div>
@@ -599,14 +599,14 @@ export default function BookingForm() {
                 <div className="lg:col-span-1">
                     <div className="sticky top-6 space-y-6">
                         {/* Flight Info Card */}
-                        <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
-                            <div className="bg-[#003366] p-5 text-white">
+                        <div className="bg-white rounded-xl shadow-lg border-2 border-gray-100 overflow-hidden">
+                            <div className="bg-gradient-to-r from-[#C9A536] to-[#A68A2E] p-5 text-white">
                                 <div className="flex items-center gap-3 mb-4">
-                                    <div className="h-10 w-10 bg-white rounded-lg flex items-center justify-center p-1 overflow-hidden">
+                                    <div className="h-10 w-10 bg-white rounded-lg flex items-center justify-center p-1 overflow-hidden shadow-md">
                                         {groupData.airline?.logo_url ? (
                                             <img src={groupData.airline.logo_url} alt="Logo" className="max-h-full max-w-full object-contain" />
                                         ) : (
-                                            <Plane className="text-[#003366]" />
+                                            <Plane className="text-[#C9A536]" />
                                         )}
                                     </div>
                                     <div>
@@ -680,7 +680,7 @@ export default function BookingForm() {
                                         <span className="block text-xs text-gray-500 uppercase tracking-wide">Total Amount</span>
                                         <span className="text-sm text-gray-400">PKR</span>
                                     </div>
-                                    <div className="text-2xl font-bold text-[#003366]">
+                                    <div className="text-2xl font-bold text-[#C9A536] drop-shadow-sm">
                                         {Math.round(calculateTotalPrice()).toLocaleString()}
                                     </div>
                                 </div>
@@ -689,7 +689,7 @@ export default function BookingForm() {
                                     onClick={handleSubmit}
                                     disabled={isSubmitting}
                                     className={`w-full py-3.5 rounded-lg font-bold shadow-lg flex items-center justify-center gap-2 transition-all transform active:scale-95
-                                    ${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#ff6b35] hover:bg-[#e65520] text-white hover:shadow-xl'}`}
+                                    ${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-gradient-to-r from-[#ff6b35] to-[#e65520] hover:from-[#e65520] hover:to-[#ff6b35] text-white hover:shadow-xl shadow-[#ff6b35]/30'}`}
                                 >
                                     {isSubmitting ? 'Processing...' : (isEditMode ? 'Update Booking' : 'Confirm & Book')}
                                     {!isSubmitting && <CheckCircle size={18} />}

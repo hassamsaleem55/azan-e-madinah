@@ -30,7 +30,7 @@ app.use(
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3001", "http://localhost:5173", "http://localhost:5174", "http://rihlaaccess.com", "https://rihlaaccess.com", "https://www.rihlaaccess.com", "http://www.rihlaaccess.com"],
+    origin: ["http://localhost:3000", "http://localhost:3001", "http://localhost:5173", "http://localhost:5174", "http://azan-e-madinah.com", "https://azan-e-madinah.com", "https://www.azan-e-madinah.com", "http://www.azan-e-madinah.com"],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'X-Active-Role'],
@@ -58,7 +58,7 @@ app.use("/api", roleRoutes);
 startBookingExpiryJob();
 
 app.get('/', (req, res) => {
-  res.send('Rihla Access API is running');
+  res.send('AZAN-E-MADINA Travel API is running');
 });
 
 const PORT = process.env.PORT || 8007;

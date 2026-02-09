@@ -61,7 +61,7 @@ const Payment = () => {
   if (initialLoading) {
     return (
       <div className="flex h-[80vh] items-center justify-center">
-        <Loader2 className="w-10 h-10 text-[#003366] animate-spin" />
+        <Loader2 className="w-10 h-10 text-[#D4AF37] animate-spin" />
       </div>
     );
   }
@@ -79,9 +79,9 @@ const Payment = () => {
         {/* Left Col: Add Payment Form */}
         <div className="xl:col-span-1">
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden sticky top-6">
-                <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
+                <div className="bg-linear-to-r from-[#D4AF37]/10 to-[#B8941F]/10 px-6 py-4 border-b border-gray-200">
                     <h2 className="text-base font-bold text-gray-900 flex items-center gap-2">
-                        <CreditCard size={18} className="text-[#003366]" /> New Payment Entry
+                        <CreditCard size={18} className="text-[#D4AF37]" /> New Payment Entry
                     </h2>
                 </div>
                 
@@ -104,7 +104,7 @@ const Payment = () => {
                                 name="bankAccount"
                                 value={formData.bankAccount}
                                 onChange={handleInputChange}
-                                className="w-full pl-9 pr-3 py-2.5 bg-white border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#003366] outline-none appearance-none"
+                                className="w-full pl-9 pr-3 py-2.5 bg-white border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#C9A536] outline-none appearance-none"
                                 required
                             >
                                 <option value="">Select Bank</option>
@@ -123,7 +123,7 @@ const Payment = () => {
                             value={formData.amount}
                             onChange={handleInputChange}
                             placeholder="0.00"
-                            className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-sm font-mono focus:ring-2 focus:ring-[#003366] outline-none"
+                            className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-sm font-mono focus:ring-2 focus:ring-[#C9A536] outline-none"
                             required
                         />
                     </div>
@@ -136,7 +136,7 @@ const Payment = () => {
                             onChange={handleInputChange}
                             rows="2"
                             placeholder="Payment details..."
-                            className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#003366] outline-none resize-none"
+                            className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#C9A536] outline-none resize-none"
                             required
                         />
                     </div>
@@ -147,7 +147,7 @@ const Payment = () => {
                             name="booking"
                             value={formData.booking}
                             onChange={handleInputChange}
-                            className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#003366] outline-none"
+                            className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#C9A536] outline-none"
                         >
                             <option value="">Select Booking</option>
                             {bookings.map((b) => (
@@ -168,7 +168,7 @@ const Payment = () => {
                             />
                             <label 
                                 htmlFor="receipt-upload" 
-                                className="flex items-center justify-center gap-2 w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-[#003366] hover:bg-blue-50 transition-colors"
+                                className="flex items-center justify-center gap-2 w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-[#D4AF37] hover:bg-[#D4AF37]/10 transition-colors"
                             >
                                 <UploadCloud size={18} className="text-gray-400" />
                                 <span className="text-sm text-gray-600 truncate">
@@ -181,7 +181,7 @@ const Payment = () => {
                     <button
                         type="submit"
                         disabled={submitting}
-                        className="w-full py-3 bg-[#003366] text-white font-bold rounded-lg hover:bg-[#002855] transition-all shadow-md active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-2"
+                        className="w-full py-3 bg-linear-to-r from-[#D4AF37] to-[#B8941F] text-white font-bold rounded-lg hover:from-[#B8941F] hover:to-[#D4AF37] transition-all shadow-md active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-2"
                     >
                         {submitting ? <Loader2 className="animate-spin" size={18} /> : <CheckCircle size={18} />}
                         {submitting ? "Processing..." : "Submit Payment"}
@@ -222,7 +222,7 @@ const Payment = () => {
                             name="status"
                             value={filters.status}
                             onChange={(e) => setFilters({...filters, status: e.target.value})}
-                            className="flex-1 px-3 py-2.5 bg-white border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#003366]"
+                            className="flex-1 px-3 py-2.5 bg-white border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#D4AF37]"
                         >
                             <option value="All">All Status</option>
                             <option value="Posted">Posted</option>
@@ -242,7 +242,7 @@ const Payment = () => {
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col h-150">
                 {fetching && (
                     <div className="absolute inset-0 bg-white/80 z-10 flex items-center justify-center">
-                        <Loader2 className="w-8 h-8 text-[#003366] animate-spin" />
+                        <Loader2 className="w-8 h-8 text-[#D4AF37] animate-spin" />
                     </div>
                 )}
                 
@@ -267,13 +267,13 @@ const Payment = () => {
                                 </tr>
                             ) : (
                                 payments.map((payment) => (
-                                    <tr key={payment._id} className="hover:bg-blue-50/30 transition-colors">
+                                    <tr key={payment._id} className="hover:bg-[#D4AF37]/10 transition-colors">
                                         <td className="px-6 py-3 font-mono text-gray-500 text-xs">{payment.voucherId}</td>
                                         <td className="px-6 py-3 text-gray-900">{formatDate(payment.date)}</td>
                                         <td className="px-6 py-3 text-gray-600 max-w-xs truncate" title={payment.description}>
                                             {payment.description}
                                         </td>
-                                        <td className="px-6 py-3 text-right font-bold text-[#003366]">
+                                        <td className="px-6 py-3 text-right font-bold text-[#D4AF37]">
                                             {formatCurrency(payment.amount)}
                                         </td>
                                         <td className="px-6 py-3 text-center">
@@ -300,7 +300,7 @@ const Payment = () => {
                 {/* Footer Total */}
                 <div className="bg-gray-50 border-t border-gray-200 px-6 py-4 flex justify-end items-center gap-4">
                     <span className="text-sm font-semibold text-gray-500 uppercase">Total Amount</span>
-                    <span className="text-xl font-bold text-[#003366]">{formatCurrency(total)}</span>
+                    <span className="text-xl font-bold text-[#D4AF37]">{formatCurrency(total)}</span>
                 </div>
             </div>
         </div>

@@ -119,7 +119,7 @@ export default function ChangePassword() {
                   name="currentPassword"
                   type={showCurrentPassword ? "text" : "password"}
                   required
-                  className="w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#003366]"
+                  className="w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#C9A536]"
                   placeholder="Enter your current password"
                   value={currentPassword}
                   onChange={(e) => setCurrentPassword(e.target.value)}
@@ -147,7 +147,7 @@ export default function ChangePassword() {
                   name="newPassword"
                   type={showNewPassword ? "text" : "password"}
                   required
-                  className="w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#003366]"
+                  className="w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#C9A536]"
                   placeholder="Enter your new password"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
@@ -175,7 +175,7 @@ export default function ChangePassword() {
                   name="confirmPassword"
                   type={showConfirmPassword ? "text" : "password"}
                   required
-                  className="w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#003366]"
+                  className="w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#C9A536]"
                   placeholder="Confirm your new password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
@@ -219,7 +219,7 @@ export default function ChangePassword() {
                 className={`w-full py-3 rounded-full text-lg font-semibold transition-all duration-300 
                   ${isLoading
                     ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-[#003366] text-white hover:bg-[#3a1c9a]"
+                    : "bg-gradient-to-r from-[#C9A536] to-[#E6C35C] text-white hover:shadow-[0_0_20px_rgba(201,165,54,0.4)]"
                   }`}
               >
                 {isLoading ? "Updating..." : "Update Password"}

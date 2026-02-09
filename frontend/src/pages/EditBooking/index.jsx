@@ -84,7 +84,7 @@ export default function EditBooking() {
         return (
             <div className="flex items-center justify-center min-h-screen">
                 <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#C9A536] mx-auto shadow-lg shadow-[#C9A536]/40"></div>
                     <p className="mt-4 text-gray-600">Loading booking...</p>
                 </div>
             </div>
@@ -109,7 +109,7 @@ export default function EditBooking() {
                     <p className="text-gray-600 text-lg">Can only edit pending bookings</p>
                     <button
                         onClick={() => navigate('/dashboard/my-bookings')}
-                        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                        className="mt-4 px-4 py-2 bg-[#C9A536] text-white rounded hover:bg-[#A68A2E] shadow-lg shadow-[#C9A536]/30"
                     >
                         Back to Bookings
                     </button>
@@ -138,7 +138,7 @@ export default function EditBooking() {
                             name="contactPersonName"
                             value={formData.contactPersonName}
                             onChange={handleInputChange}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C9A536] focus:border-transparent shadow-sm"
                             required
                         />
                     </div>
@@ -155,7 +155,7 @@ export default function EditBooking() {
                                 value={formData.adultsCount}
                                 onChange={handleInputChange}
                                 min="1"
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C9A536] focus:border-transparent shadow-sm"
                             />
                         </div>
 
@@ -169,7 +169,7 @@ export default function EditBooking() {
                                 value={formData.childrenCount}
                                 onChange={handleInputChange}
                                 min="0"
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C9A536] focus:border-transparent shadow-sm"
                             />
                         </div>
 
@@ -183,7 +183,7 @@ export default function EditBooking() {
                                 value={formData.infantsCount}
                                 onChange={handleInputChange}
                                 min="0"
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C9A536] focus:border-transparent shadow-sm"
                             />
                         </div>
                     </div>
@@ -210,14 +210,14 @@ export default function EditBooking() {
                         <button
                             type="submit"
                             disabled={submitting}
-                            className="flex-1 px-6 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                            className="flex-1 px-6 py-2 bg-gradient-to-r from-[#C9A536] to-[#A68A2E] text-white font-medium rounded-lg hover:from-[#A68A2E] hover:to-[#C9A536] disabled:opacity-50 shadow-lg shadow-[#C9A536]/30"
                         >
                             {submitting ? 'Saving...' : 'Save Changes'}
                         </button>
                         <button
                             type="button"
                             onClick={() => navigate('/dashboard/my-bookings')}
-                            className="flex-1 px-6 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50"
+                            className="flex-1 px-6 py-2 border-2 border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50"
                         >
                             Cancel
                         </button>
