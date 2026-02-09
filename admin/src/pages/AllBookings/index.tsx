@@ -45,7 +45,7 @@ interface BookingsTableProps {
 const BookingsTable = memo(({ bookings, getStatusBadge, formatDate, navigate, timers }: BookingsTableProps) => {
     return (
         <table className="min-w-full border-collapse">
-            <thead className="bg-gradient-to-r from-[#1e3a5f] to-[#2d5a8f]">
+            <thead className="bg-linear-to-r from-[#1e3a5f] to-[#2d5a8f]">
                 <tr>
                     <th className="px-4 py-3 text-left text-xs font-semibold text-white border-r border-[#3d6fa8]">
                         Booking Details
@@ -91,7 +91,7 @@ const BookingsTable = memo(({ bookings, getStatusBadge, formatDate, navigate, ti
                                 <td className="px-4 py-4 align-top border-r border-gray-300">
                                     <div className="space-y-1.5">
                                         <div className="flex items-center gap-2">
-                                            <span className="inline-block bg-gradient-to-r from-amber-600 to-amber-700 text-white px-3 py-1.5 rounded-md text-xs font-semibold shadow-md">
+                                            <span className="inline-block bg-linear-to-r from-amber-600 to-amber-700 text-white px-3 py-1.5 rounded-md text-xs font-semibold shadow-md">
                                                 Airline PNR #: {booking.pnr || 'N/A'}
                                             </span>
                                         </div>

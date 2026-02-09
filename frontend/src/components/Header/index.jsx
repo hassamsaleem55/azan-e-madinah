@@ -44,7 +44,7 @@ const NavLinks = ({ isScrolled, user }) => {
                             className={cn(
                                 "relative px-3 py-2 rounded-full text-sm font-bold transition-all duration-300 flex items-center gap-1",
                                 isActive
-                                    ? (isScrolled ? "bg-gradient-to-r from-[#C9A536] via-[#E6C35C] to-[#C9A536] text-[#0B0E1A] shadow-lg shadow-[#C9A536]/50" : "bg-[#C9A536]/90 text-[#0B0E1A] backdrop-blur-md shadow-lg shadow-[#C9A536]/30 border-2 border-[#E6C35C]")
+                                    ? (isScrolled ? "bg-linear-to-r from-[#C9A536] via-[#E6C35C] to-[#C9A536] text-[#0B0E1A] shadow-lg shadow-[#C9A536]/50" : "bg-[#C9A536]/90 text-[#0B0E1A] backdrop-blur-md shadow-lg shadow-[#C9A536]/30 border-2 border-[#E6C35C]")
                                     : (isScrolled ? "text-gray-700 hover:bg-[#E6C35C] hover:text-[#0B0E1A]" : "text-white hover:bg-[#C9A536] hover:text-[#0B0E1A]")
                             )}
                         >
@@ -99,7 +99,7 @@ const UserMenu = ({ user, handleLogout, isScrolled }) => {
                         : "bg-black/30 border-[#C9A536]/50 text-white backdrop-blur-md hover:bg-[#C9A536]/20 hover:border-[#E6C35C]"
                 )}
             >
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#C9A536] via-[#E6C35C] to-[#C9A536] text-[#0B0E1A] flex items-center justify-center font-bold text-sm shadow-md shadow-[#C9A536]/50">
+                <div className="w-8 h-8 rounded-full bg-linear-to-br from-[#C9A536] via-[#E6C35C] to-[#C9A536] text-[#0B0E1A] flex items-center justify-center font-bold text-sm shadow-md shadow-[#C9A536]/50">
                     {user.name.charAt(0).toUpperCase()}
                 </div>
                 <div className="hidden md:flex flex-col items-start text-xs">
@@ -202,7 +202,7 @@ export default function Header({ user, handleLogout }) {
                 className={cn(
                     "fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-in-out px-4 md:px-6 lg:px-8 border-b",
                     isScrolled
-                        ? "bg-gradient-to-r from-[#0B0E1A] via-[#151B2E] to-[#0B0E1A] backdrop-blur-md shadow-xl shadow-[#C9A536]/10 py-3 border-[#C9A536]/20"
+                        ? "bg-linear-to-r from-[#0B0E1A] via-[#151B2E] to-[#0B0E1A] backdrop-blur-md shadow-xl shadow-[#C9A536]/10 py-3 border-[#C9A536]/20"
                         : "bg-transparent py-5 border-transparent"
                 )}
             >
@@ -243,7 +243,7 @@ export default function Header({ user, handleLogout }) {
                                     className={cn(
                                         "hidden sm:flex px-6 py-2.5 rounded-full font-bold text-sm transition-all shadow-lg hover:shadow-2xl hover:-translate-y-1 border-2",
                                         isScrolled
-                                            ? "bg-gradient-to-r from-[#C9A536] via-[#E6C35C] to-[#C9A536] text-[#0B0E1A] hover:shadow-[#C9A536]/50 border-[#E6C35C]"
+                                            ? "bg-linear-to-r from-[#C9A536] via-[#E6C35C] to-[#C9A536] text-[#0B0E1A] hover:shadow-[#C9A536]/50 border-[#E6C35C]"
                                             : "bg-[#C9A536] text-[#0B0E1A] hover:bg-[#E6C35C] shadow-[#C9A536]/40 border-[#E6C35C]"
                                     )}
                                 >
@@ -305,9 +305,9 @@ export default function Header({ user, handleLogout }) {
 
                     {/* User Info & Balance (Mobile) */}
                     {user && (
-                        <div className="p-5 bg-gradient-to-br from-[#0B0E1A] via-[#151B2E] to-[#0B0E1A] text-white space-y-4 border-b-2 border-[#C9A536]/30">
+                        <div className="p-5 bg-linear-to-br from-[#0B0E1A] via-[#151B2E] to-[#0B0E1A] text-white space-y-4 border-b-2 border-[#C9A536]/30">
                             <div className="flex items-center gap-3">
-                                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#C9A536] via-[#E6C35C] to-[#C9A536] flex items-center justify-center font-bold text-xl text-[#0B0E1A] shadow-lg shadow-[#C9A536]/50">
+                                <div className="w-12 h-12 rounded-full bg-linear-to-br from-[#C9A536] via-[#E6C35C] to-[#C9A536] flex items-center justify-center font-bold text-xl text-[#0B0E1A] shadow-lg shadow-[#C9A536]/50">
                                     {user.name.charAt(0).toUpperCase()}
                                 </div>
                                 <div>
@@ -317,7 +317,7 @@ export default function Header({ user, handleLogout }) {
                             </div>
 
                             {/* Mobile Credit Display */}
-                            <div className="bg-gradient-to-r from-[#C9A536]/20 to-[#A68A2E]/20 rounded-xl p-3 flex items-center justify-between border-2 border-[#C9A536]/40 shadow-lg">
+                            <div className="bg-linear-to-r from-[#C9A536]/20 to-[#A68A2E]/20 rounded-xl p-3 flex items-center justify-between border-2 border-[#C9A536]/40 shadow-lg">
                                 <div className="flex items-center gap-2">
                                     <Wallet size={16} className="text-[#10B981]" />
                                     <span className="text-sm font-bold text-white">Balance</span>
@@ -342,7 +342,7 @@ export default function Header({ user, handleLogout }) {
                                 <Link
                                     to="/auth/register"
                                     onClick={() => setIsMobileMenuOpen(false)}
-                                    className="flex w-full items-center justify-center py-3.5 rounded-xl bg-gradient-to-r from-[#C9A536] via-[#E6C35C] to-[#C9A536] text-[#0B0E1A] font-bold shadow-xl shadow-[#C9A536]/40"
+                                    className="flex w-full items-center justify-center py-3.5 rounded-xl bg-linear-to-r from-[#C9A536] via-[#E6C35C] to-[#C9A536] text-[#0B0E1A] font-bold shadow-xl shadow-[#C9A536]/40"
                                 >
                                     Partner Sign Up
                                 </Link>
@@ -358,7 +358,7 @@ export default function Header({ user, handleLogout }) {
                                             key={group.value}
                                             to={`/${group.path}`}
                                             onClick={() => setIsMobileMenuOpen(false)}
-                                            className="flex items-center justify-between px-4 py-3 rounded-xl text-gray-700 bg-gray-50 font-medium hover:bg-gradient-to-r hover:from-[#C9A536]/20 hover:to-[#E6C35C]/20 hover:text-[#0B0E1A] hover:border-l-4 hover:border-[#C9A536] transition-all"
+                                            className="flex items-center justify-between px-4 py-3 rounded-xl text-gray-700 bg-gray-50 font-medium hover:bg-linear-to-r hover:from-[#C9A536]/20 hover:to-[#E6C35C]/20 hover:text-[#0B0E1A] hover:border-l-4 hover:border-[#C9A536] transition-all"
                                         >
                                             {group.label}
                                             <MapPin size={16} className="text-gray-400" />

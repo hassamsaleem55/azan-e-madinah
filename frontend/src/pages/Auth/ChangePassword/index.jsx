@@ -219,7 +219,7 @@ export default function ChangePassword() {
                 className={`w-full py-3 rounded-full text-lg font-semibold transition-all duration-300 
                   ${isLoading
                     ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-gradient-to-r from-[#C9A536] to-[#E6C35C] text-white hover:shadow-[0_0_20px_rgba(201,165,54,0.4)]"
+                    : "bg-linear-to-r from-[#C9A536] to-[#E6C35C] text-white hover:shadow-[0_0_20px_rgba(201,165,54,0.4)]"
                   }`}
               >
                 {isLoading ? "Updating..." : "Update Password"}

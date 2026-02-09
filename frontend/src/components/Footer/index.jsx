@@ -31,7 +31,7 @@ export default function Footer() {
     };
 
     return (
-        <footer className="bg-gradient-to-b from-[#0B0E1A] via-[#151B2E] to-[#0B0E1A] border-t-2 border-[#C9A536]/30 pt-16 pb-8">
+        <footer className="bg-linear-to-b from-[#0B0E1A] via-[#151B2E] to-[#0B0E1A] border-t-2 border-[#C9A536]/30 pt-16 pb-8">
             <div className="max-w-7xl mx-auto px-6 lg:px-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 mb-16">
 
@@ -53,7 +53,7 @@ export default function Footer() {
 
                         <div className="space-y-4 pt-2">
                             <div className="flex items-start gap-3 group">
-                                <div className="p-2.5 bg-gradient-to-br from-[#C9A536]/20 to-[#A68A2E]/20 text-[#E6C35C] rounded-full mt-0.5 group-hover:bg-gradient-to-br group-hover:from-[#C9A536] group-hover:to-[#E6C35C] group-hover:text-[#0B0E1A] group-hover:shadow-lg group-hover:shadow-[#C9A536]/50 transition-all border border-[#C9A536]/30">
+                                <div className="p-2.5 bg-linear-to-br from-[#C9A536]/20 to-[#A68A2E]/20 text-[#E6C35C] rounded-full mt-0.5 group-hover:bg-linear-to-br group-hover:from-[#C9A536] group-hover:to-[#E6C35C] group-hover:text-[#0B0E1A] group-hover:shadow-lg group-hover:shadow-[#C9A536]/50 transition-all border border-[#C9A536]/30">
                                     <MapPin size={16} />
                                 </div>
                                 <span className="text-sm text-gray-300 leading-relaxed group-hover:text-[#E6C35C] transition-colors">
@@ -63,7 +63,7 @@ export default function Footer() {
                             </div>
 
                             <div className="flex items-center gap-3 group">
-                                <div className="p-2.5 bg-gradient-to-br from-[#C9A536]/20 to-[#A68A2E]/20 text-[#E6C35C] rounded-full group-hover:bg-gradient-to-br group-hover:from-[#C9A536] group-hover:to-[#E6C35C] group-hover:text-[#0B0E1A] group-hover:shadow-lg group-hover:shadow-[#C9A536]/50 transition-all border border-[#C9A536]/30">
+                                <div className="p-2.5 bg-linear-to-br from-[#C9A536]/20 to-[#A68A2E]/20 text-[#E6C35C] rounded-full group-hover:bg-linear-to-br group-hover:from-[#C9A536] group-hover:to-[#E6C35C] group-hover:text-[#0B0E1A] group-hover:shadow-lg group-hover:shadow-[#C9A536]/50 transition-all border border-[#C9A536]/30">
                                     <Phone size={16} />
                                 </div>
                                 <span className="text-sm text-gray-300 group-hover:text-[#E6C35C] transition-colors font-semibold">
@@ -72,7 +72,7 @@ export default function Footer() {
                             </div>
 
                             <div className="flex items-center gap-3 group">
-                                <div className="p-2.5 bg-gradient-to-br from-[#C9A536]/20 to-[#A68A2E]/20 text-[#E6C35C] rounded-full group-hover:bg-gradient-to-br group-hover:from-[#C9A536] group-hover:to-[#E6C35C] group-hover:text-[#0B0E1A] group-hover:shadow-lg group-hover:shadow-[#C9A536]/50 transition-all border border-[#C9A536]/30">
+                                <div className="p-2.5 bg-linear-to-br from-[#C9A536]/20 to-[#A68A2E]/20 text-[#E6C35C] rounded-full group-hover:bg-linear-to-br group-hover:from-[#C9A536] group-hover:to-[#E6C35C] group-hover:text-[#0B0E1A] group-hover:shadow-lg group-hover:shadow-[#C9A536]/50 transition-all border border-[#C9A536]/30">
                                     <Mail size={16} />
                                 </div>
                                 <span className="text-sm text-gray-300 group-hover:text-[#E6C35C] transition-colors">
@@ -126,7 +126,7 @@ export default function Footer() {
                                 <a
                                     key={idx}
                                     href={social.href}
-                                    className="w-11 h-11 rounded-full border-2 border-[#C9A536]/40 flex items-center justify-center text-[#C9A536] hover:bg-gradient-to-br hover:from-[#C9A536] hover:to-[#E6C35C] hover:text-[#0B0E1A] hover:border-[#E6C35C] transition-all transform hover:-translate-y-1 hover:shadow-lg hover:shadow-[#C9A536]/50"
+                                    className="w-11 h-11 rounded-full border-2 border-[#C9A536]/40 flex items-center justify-center text-[#C9A536] hover:bg-linear-to-br hover:from-[#C9A536] hover:to-[#E6C35C] hover:text-[#0B0E1A] hover:border-[#E6C35C] transition-all transform hover:-translate-y-1 hover:shadow-lg hover:shadow-[#C9A536]/50"
                                     aria-label={social.label}
                                 >
                                     {social.icon}

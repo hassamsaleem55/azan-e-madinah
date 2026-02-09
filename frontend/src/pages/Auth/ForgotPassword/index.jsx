@@ -164,7 +164,7 @@ export default function ForgotPassword() {
                   className={`w-full py-3 rounded text-base font-semibold mt-1
                     ${isLoading
                       ? "bg-gray-400 cursor-not-allowed text-white"
-                      : "bg-gradient-to-r from-[#C9A536] to-[#E6C35C] text-white hover:shadow-[0_0_20px_rgba(201,165,54,0.4)] shadow-md"}
+                      : "bg-linear-to-r from-[#C9A536] to-[#E6C35C] text-white hover:shadow-[0_0_20px_rgba(201,165,54,0.4)] shadow-md"}
                     transition-all duration-200`}
                 >
                   {isLoading ? "Sending..." : "Send Me Password"}
@@ -248,7 +248,7 @@ export default function ForgotPassword() {
                   className={`w-full py-3 rounded text-base font-semibold
                     ${isLoading
                       ? "bg-gray-400 cursor-not-allowed text-white"
-                      : "bg-gradient-to-r from-[#C9A536] to-[#E6C35C] text-white hover:shadow-[0_0_20px_rgba(201,165,54,0.4)] shadow-md"}
+                      : "bg-linear-to-r from-[#C9A536] to-[#E6C35C] text-white hover:shadow-[0_0_20px_rgba(201,165,54,0.4)] shadow-md"}
                     transition-all duration-200`}
                 >
                   {isLoading ? "Resetting..." : "Reset Password"}

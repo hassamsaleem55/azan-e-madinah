@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 import { User, Mail, Lock, X, ArrowRight, Loader2, Globe } from "lucide-react";
 import { useAuth } from "../../../context/AuthContext";
 import axiosInstance from "../../../api/axios";
-import masjidNabviVideo from "../../../assets/videos/masjid-nabvi.mp4";
 import OTPVerification from "./OTPVerification";
 
 // --- Custom Hook: Logic Extraction (Kept same) ---
@@ -204,7 +203,7 @@ const ActionButton = ({ loading, text, loadingText, onClick, type = "submit" }) 
         onClick={onClick}
         disabled={loading}
         className={`w-full py-3.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 shadow-xl hover:shadow-2xl hover:-translate-y-1 active:translate-y-0 transition-all duration-200
-        ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-[#C9A536] via-[#E6C35C] to-[#C9A536] hover:from-[#E6C35C] hover:via-[#C9A536] hover:to-[#E6C35C] text-[#0B0E1A] shadow-[#C9A536]/40"}`}
+        ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-linear-to-r from-[#C9A536] via-[#E6C35C] to-[#C9A536] hover:from-[#E6C35C] hover:via-[#C9A536] hover:to-[#E6C35C] text-[#0B0E1A] shadow-[#C9A536]/40"}`}
     >
         {loading ? (
             <>
@@ -239,13 +238,12 @@ const Login = () => {
                     muted 
                     loop 
                     playsInline
-                    src={masjidNabviVideo}
-                    onLoadedMetadata={(e) => e.target.playbackRate = 0.75}
+                    src="https://coverr.co/videos/abstract-background--pexels/download"
                 />
                 <div className="relative z-10 w-full max-w-6xl px-6 grid lg:grid-cols-2 gap-8">
                     <div className="hidden lg:flex flex-col justify-center text-white space-y-6">
                         <h1 className="text-5xl font-bold leading-tight text-white">
-                            Welcome to<br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C9A536] via-[#E6C35C] to-[#C9A536]">AZAN-E-MADINA</span>
+                            Welcome to<br /><span className="text-transparent bg-clip-text bg-linear-to-r from-[#C9A536] via-[#E6C35C] to-[#C9A536]">AZAN-E-MADINA</span>
                         </h1>
                         <p className="text-xl text-gray-300">
                             Your Journey, Guided with Faith
@@ -273,8 +271,7 @@ const Login = () => {
                 muted 
                 loop 
                 playsInline
-                src={masjidNabviVideo}
-                onLoadedMetadata={(e) => e.target.playbackRate = 0.75}
+                src="https://coverr.co/videos/abstract-background--pexels/download"
             />
 
             {/* Login Card */}
@@ -283,7 +280,7 @@ const Login = () => {
 
                     {/* Header */}
                     <div className="mb-8 text-center">
-                        <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-[#C9A536] via-[#E6C35C] to-[#C9A536] text-[#0B0E1A] mb-4 shadow-xl shadow-[#C9A536]/40">
+                        <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-linear-to-br from-[#C9A536] via-[#E6C35C] to-[#C9A536] text-[#0B0E1A] mb-4 shadow-xl shadow-[#C9A536]/40">
                             <Globe size={28} className="font-bold" />
                         </div>
                         <h1 className="text-2xl font-bold text-gray-900">Welcome Back</h1>
@@ -393,7 +390,7 @@ const Login = () => {
                         </button>
 
                         <div className="mb-6 text-center">
-                            <div className="w-14 h-14 bg-gradient-to-br from-[#C9A536]/30 via-[#E6C35C]/20 to-[#C9A536]/30 rounded-full flex items-center justify-center text-[#C9A536] mb-3 mx-auto border-2 border-[#C9A536]/40">
+                            <div className="w-14 h-14 bg-linear-to-br from-[#C9A536]/30 via-[#E6C35C]/20 to-[#C9A536]/30 rounded-full flex items-center justify-center text-[#C9A536] mb-3 mx-auto border-2 border-[#C9A536]/40">
                                 <Mail size={26} />
                             </div>
                             <h2 className="text-xl font-bold text-gray-900">Reset Password</h2>

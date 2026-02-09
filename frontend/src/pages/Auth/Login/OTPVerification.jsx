@@ -108,7 +108,7 @@ export default function OTPVerification({ email, onVerify, onResend, onBack }) {
             <div className="w-full max-w-md space-y-8 animate-fadeIn">
                 {/* Logo */}
                 <div className="text-center">
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-[#C9A536] to-[#E6C35C] shadow-lg mb-4">
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-linear-to-br from-[#C9A536] to-[#E6C35C] shadow-lg mb-4">
                         <Globe size={32} className="text-white" />
                     </div>
                     <h1 className="text-3xl font-bold text-gray-900 mb-2">Verify Your Email</h1>
@@ -161,7 +161,7 @@ export default function OTPVerification({ email, onVerify, onResend, onBack }) {
                         className={`w-full py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 shadow-lg transition-all duration-200
                         ${isVerifying || timeLeft === 0 
                             ? "bg-gray-400 cursor-not-allowed" 
-                            : "bg-gradient-to-r from-[#C9A536] to-[#E6C35C] hover:shadow-[0_0_20px_rgba(201,165,54,0.4)] text-white hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0"
+                            : "bg-linear-to-r from-[#C9A536] to-[#E6C35C] hover:shadow-[0_0_20px_rgba(201,165,54,0.4)] text-white hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0"
                         }`}
                     >
                         {isVerifying ? (

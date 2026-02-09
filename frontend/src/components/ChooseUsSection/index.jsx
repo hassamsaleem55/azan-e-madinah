@@ -28,7 +28,7 @@ const features = [
 
 export default function ChooseUsSection() {
     return (
-        <section className="py-24 bg-gradient-to-br from-[#0B0E1A] via-[#151B2E] to-[#0B0E1A] text-white overflow-hidden relative">
+        <section className="py-24 bg-linear-to-br from-[#0B0E1A] via-[#151B2E] to-[#0B0E1A] text-white overflow-hidden relative">
             {/* Decorative patterns */}
             <div className="absolute top-0 right-0 w-96 h-96 bg-[#C9A536]/5 rounded-full blur-3xl -mr-48 -mt-48"></div>
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#E6C35C]/10 rounded-full blur-3xl -ml-32 -mb-32"></div>
@@ -57,7 +57,7 @@ export default function ChooseUsSection() {
                             key={idx}
                             className="group p-8 bg-white/5 border-2 border-white/10 rounded-3xl hover:bg-white hover:text-[#0B0E1A] transition-all duration-500 cursor-default shadow-xl hover:shadow-2xl"
                         >
-                            <div className="w-16 h-16 bg-gradient-to-br from-[#C9A536] to-[#A68A2E] group-hover:bg-gradient-to-br group-hover:from-[#A68A2E] group-hover:to-[#C9A536] text-white rounded-2xl flex items-center justify-center mb-6 transition-colors duration-500 shadow-lg shadow-[#C9A536]/30">
+                            <div className="w-16 h-16 bg-linear-to-br from-[#C9A536] to-[#A68A2E] group-hover:bg-linear-to-br group-hover:from-[#A68A2E] group-hover:to-[#C9A536] text-white rounded-2xl flex items-center justify-center mb-6 transition-colors duration-500 shadow-lg shadow-[#C9A536]/30">
                                 {feature.icon}
                             </div>
                             <h3 className="text-2xl font-bold mb-4">{feature.title}</h3>

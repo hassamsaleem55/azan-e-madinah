@@ -327,7 +327,7 @@ const Ledger = () => {
       <div className="rounded-2xl border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-white/[0.03]">
         <div className="px-4 py-6 md:px-6 xl:px-7.5">
           {/* Date Range Filter Section */}
-          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 rounded-xl p-6 mb-6 no-print">
+          <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 rounded-xl p-6 mb-6 no-print">
             <div className="flex items-center gap-3 mb-4">
               <div className="p-2 bg-blue-600 rounded-lg">
                 <Calendar className="w-5 h-5 text-white" />
@@ -364,7 +364,7 @@ const Ledger = () => {
               </div>
               <button
                 type="submit"
-                className="inline-flex items-center gap-2 px-8 py-2.5 h-11 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-lg transition-all shadow-lg shadow-blue-500/30"
+                className="inline-flex items-center gap-2 px-8 py-2.5 h-11 bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-lg transition-all shadow-lg shadow-blue-500/30"
               >
                 <Calendar className="w-4 h-4" />
                 Submit
@@ -373,7 +373,7 @@ const Ledger = () => {
           </div>
 
           {/* Ledger Title Section */}
-          <div className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 rounded-xl p-5 mb-6">
+          <div className="bg-linear-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 rounded-xl p-5 mb-6">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
               Ledger of {userName.toUpperCase()}
             </h2>
@@ -415,7 +415,7 @@ const Ledger = () => {
               </button>
               <button
                 onClick={handlePrint}
-                className="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold rounded-lg transition-all shadow-lg shadow-green-500/30"
+                className="inline-flex items-center gap-2 px-6 py-2.5 bg-linear-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold rounded-lg transition-all shadow-lg shadow-green-500/30"
               >
                 <Printer className="w-4 h-4" />
                 Print
@@ -435,7 +435,7 @@ const Ledger = () => {
             <>
               <div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700">
                 <table className="w-full table-auto">
-                  <thead className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700">
+                  <thead className="bg-linear-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700">
                     <tr>
                       <th className="px-4 py-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Voucher Id</th>
                       <th className="px-4 py-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Date</th>
@@ -479,7 +479,7 @@ const Ledger = () => {
                       ))
                     )}
                   </tbody>
-                  <tfoot className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 font-semibold">
+                  <tfoot className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 font-semibold">
                     <tr className="border-t-2 border-gray-300 dark:border-gray-600">
                       <td colSpan={3} className="px-4 py-4 text-sm text-right text-gray-900 dark:text-white font-bold">
                         Total:
@@ -497,7 +497,7 @@ const Ledger = () => {
 
               {/* Summary Box */}
               <div className="mt-6 max-w-md ml-auto">
-                <div className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 p-5 shadow-lg space-y-3">
+                <div className="bg-linear-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 p-5 shadow-lg space-y-3">
                   <div className="flex justify-between items-center text-sm">
                     <span className="text-gray-700 dark:text-gray-300 font-medium">Total Debit</span>
                     <span className="text-red-600 dark:text-red-400 font-bold text-base">{totalDebit.toFixed(2)}</span>

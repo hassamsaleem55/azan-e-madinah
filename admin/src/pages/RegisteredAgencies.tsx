@@ -315,7 +315,7 @@ const RegisteredAgencies = () => {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         {/* Active Agents */}
-        <div className="bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl shadow-lg p-6 text-white">
+        <div className="bg-linear-to-br from-emerald-400 to-teal-500 rounded-xl shadow-lg p-6 text-white">
           <div className="flex items-center gap-4">
             <div className="bg-white/90 rounded-full p-3 shadow-md">
               <UserCheck className="w-8 h-8 text-emerald-500" />
@@ -328,7 +328,7 @@ const RegisteredAgencies = () => {
         </div>
 
         {/* Pending Agents */}
-        <div className="bg-gradient-to-br from-yellow-400 to-orange-500 rounded-xl shadow-lg p-6 text-white">
+        <div className="bg-linear-to-br from-yellow-400 to-orange-500 rounded-xl shadow-lg p-6 text-white">
           <div className="flex items-center gap-4">
             <div className="bg-white/90 rounded-full p-3 shadow-md">
               <Clock className="w-8 h-8 text-yellow-600" />
@@ -341,7 +341,7 @@ const RegisteredAgencies = () => {
         </div>
 
         {/* Inactive Agents */}
-        <div className="bg-gradient-to-br from-gray-400 to-slate-500 rounded-xl shadow-lg p-6 text-white">
+        <div className="bg-linear-to-br from-gray-400 to-slate-500 rounded-xl shadow-lg p-6 text-white">
           <div className="flex items-center gap-4">
             <div className="bg-white/90 rounded-full p-3 shadow-md">
               <UserX className="w-8 h-8 text-gray-600" />
@@ -357,7 +357,7 @@ const RegisteredAgencies = () => {
       {/* Main Content Card */}
       <div className="bg-white rounded-xl shadow-lg overflow-hidden">
         {/* Filters Section */}
-        <div className="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 border-b">
+        <div className="p-6 bg-linear-to-r from-blue-50 to-indigo-50 border-b">
           <div className="flex items-center gap-2 mb-4">
             <Filter className="w-5 h-5 text-blue-600" />
             <h2 className="text-lg font-bold text-gray-800">Filters & Search</h2>

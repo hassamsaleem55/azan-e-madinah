@@ -80,13 +80,13 @@ const DashboardLayout = ({ user, handleLogout }) => {
       {/* Sidebar */}
       <aside 
         className={`
-            fixed lg:static top-0 left-0 h-full bg-gradient-to-b from-[#0B0E1A] via-[#151B2E] to-[#0B0E1A] text-white shadow-2xl z-30 border-r-2 border-[#C9A536]/20
+            fixed lg:static top-0 left-0 h-full bg-linear-to-b from-[#0B0E1A] via-[#151B2E] to-[#0B0E1A] text-white shadow-2xl z-30 border-r-2 border-[#C9A536]/20
             transition-all duration-300 ease-in-out flex flex-col
             ${sidebarOpen ? 'w-72 translate-x-0' : 'w-72 -translate-x-full lg:w-20 lg:translate-x-0'}
         `}
       >
         {/* Sidebar Header */}
-        <div className="h-20 flex items-center justify-between px-4 border-b-2 border-[#C9A536]/30 bg-gradient-to-r from-[#0B0E1A] to-[#151B2E]">
+        <div className="h-20 flex items-center justify-between px-4 border-b-2 border-[#C9A536]/30 bg-linear-to-r from-[#0B0E1A] to-[#151B2E]">
           <Link 
             to="/" 
             className={`flex items-center gap-3 transition-all duration-300 ${sidebarOpen ? 'justify-start' : 'justify-center w-full'}`}
@@ -124,7 +124,7 @@ const DashboardLayout = ({ user, handleLogout }) => {
                       className={`
                         w-full flex items-center justify-between px-3 py-3 rounded-xl transition-all duration-200 group
                         ${isActive(item.path, item.exact) 
-                            ? 'bg-gradient-to-r from-[#C9A536] via-[#E6C35C] to-[#C9A536] text-[#0B0E1A] shadow-xl shadow-[#C9A536]/40 font-bold' 
+                            ? 'bg-linear-to-r from-[#C9A536] via-[#E6C35C] to-[#C9A536] text-[#0B0E1A] shadow-xl shadow-[#C9A536]/40 font-bold' 
                             : 'text-gray-300 hover:bg-[#C9A536]/20 hover:text-[#E6C35C]'}
                       `}
                     >
@@ -177,7 +177,7 @@ const DashboardLayout = ({ user, handleLogout }) => {
                     className={`
                         flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 group relative
                         ${isActive(item.path, item.exact) 
-                            ? 'bg-gradient-to-r from-[#C9A536] via-[#E6C35C] to-[#C9A536] text-[#0B0E1A] shadow-xl shadow-[#C9A536]/40 font-bold' 
+                            ? 'bg-linear-to-r from-[#C9A536] via-[#E6C35C] to-[#C9A536] text-[#0B0E1A] shadow-xl shadow-[#C9A536]/40 font-bold' 
                             : 'text-gray-300 hover:bg-[#C9A536]/20 hover:text-[#E6C35C]'}
                     `}
                   >
@@ -198,7 +198,7 @@ const DashboardLayout = ({ user, handleLogout }) => {
         </nav>
 
         {/* Sidebar Footer */}
-        <div className="p-4 border-t-2 border-[#C9A536]/30 bg-gradient-to-r from-[#0B0E1A] to-[#151B2E]">
+        <div className="p-4 border-t-2 border-[#C9A536]/30 bg-linear-to-r from-[#0B0E1A] to-[#151B2E]">
           <button 
             onClick={handleLogoutClick} 
             className={`
@@ -239,13 +239,13 @@ const DashboardLayout = ({ user, handleLogout }) => {
 
             <div className="hidden md:flex flex-col items-end">
                 <span className="text-sm font-bold text-gray-800 leading-none">{user?.name || 'Agent'}</span>
-                <span className="text-[10px] font-bold text-[#0B0E1A] bg-gradient-to-r from-[#C9A536] to-[#E6C35C] px-2.5 py-1 rounded-full mt-1.5 border border-[#E6C35C] shadow-md">
+                <span className="text-[10px] font-bold text-[#0B0E1A] bg-linear-to-r from-[#C9A536] to-[#E6C35C] px-2.5 py-1 rounded-full mt-1.5 border border-[#E6C35C] shadow-md">
                     {user?.companyName || 'Agency Partner'}
                 </span>
             </div>
             
             <div className="relative group cursor-pointer">
-                <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-full bg-gradient-to-br from-[#C9A536] via-[#E6C35C] to-[#C9A536] p-0.5 shadow-lg shadow-[#C9A536]/40">
+                <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-full bg-linear-to-br from-[#C9A536] via-[#E6C35C] to-[#C9A536] p-0.5 shadow-lg shadow-[#C9A536]/40">
                     <div className="h-full w-full rounded-full bg-white flex items-center justify-center">
                         <span className="font-bold text-[#0A1628] text-xs sm:text-sm">
                             {user?.name?.charAt(0).toUpperCase() || 'U'}

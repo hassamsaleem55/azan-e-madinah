@@ -225,7 +225,7 @@ const RoleManagement = () => {
       {showModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
           <div className="bg-white rounded-2xl shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-hidden transform transition-all animate-slideUp">
-            <div className="px-6 py-5 border-b sticky top-0 bg-gradient-to-r from-blue-50 to-indigo-50 z-10">
+            <div className="px-6 py-5 border-b sticky top-0 bg-linear-to-r from-blue-50 to-indigo-50 z-10">
               <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
                   <Shield className="text-blue-600" size={28} />
@@ -281,7 +281,7 @@ const RoleManagement = () => {
                   </h3>
                   <div className="space-y-4">
                     {Object.entries(groupedPermissions).map(([module, perms]) => (
-                      <div key={module} className="border-2 border-gray-200 rounded-xl p-5 hover:border-blue-200 transition-all bg-gradient-to-br from-white to-gray-50">
+                      <div key={module} className="border-2 border-gray-200 rounded-xl p-5 hover:border-blue-200 transition-all bg-linear-to-br from-white to-gray-50">
                         <h4 className="font-bold text-gray-900 mb-4 text-base uppercase tracking-wide">{module}</h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                           {perms.map((perm) => (

@@ -230,7 +230,7 @@ const Bank = () => {
         <p className="text-red-600 font-medium mb-4">{error}</p>
         <button
           onClick={fetchBanks}
-          className="px-6 py-2 bg-gradient-to-r from-[#C9A536] to-[#E6C35C] text-white rounded-lg hover:shadow-[0_0_20px_rgba(201,165,54,0.4)] transition-all shadow-md"
+          className="px-6 py-2 bg-linear-to-r from-[#C9A536] to-[#E6C35C] text-white rounded-lg hover:shadow-[0_0_20px_rgba(201,165,54,0.4)] transition-all shadow-md"
         >
           Try Again
         </button>

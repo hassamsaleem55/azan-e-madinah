@@ -182,7 +182,7 @@ const GroupTicketing = () => {
 
       {/* Filters Section */}
       <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-6">
-        <div className="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 border-b">
+        <div className="p-6 bg-linear-to-r from-blue-50 to-indigo-50 border-b">
           <div className="flex items-center gap-2 mb-4">
             <Filter className="w-5 h-5 text-blue-600" />
             <h2 className="text-lg font-bold text-gray-800">Filters & Search</h2>

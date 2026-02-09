@@ -373,7 +373,7 @@ export default function BookingForm() {
                 <p className="text-gray-500 mt-2 mb-6">Please select a flight group to proceed with booking.</p>
                 <button
                     onClick={() => navigate('/dashboard/all-groups')}
-                    className="px-6 py-2.5 bg-gradient-to-r from-[#C9A536] to-[#A68A2E] text-white rounded-lg hover:from-[#A68A2E] hover:to-[#C9A536] transition-colors shadow-lg shadow-[#C9A536]/30"
+                    className="px-6 py-2.5 bg-linear-to-r from-[#C9A536] to-[#A68A2E] text-white rounded-lg hover:from-[#A68A2E] hover:to-[#C9A536] transition-colors shadow-lg shadow-[#C9A536]/30"
                 >
                     Browse Flights
                 </button>
@@ -600,7 +600,7 @@ export default function BookingForm() {
                     <div className="sticky top-6 space-y-6">
                         {/* Flight Info Card */}
                         <div className="bg-white rounded-xl shadow-lg border-2 border-gray-100 overflow-hidden">
-                            <div className="bg-gradient-to-r from-[#C9A536] to-[#A68A2E] p-5 text-white">
+                            <div className="bg-linear-to-r from-[#C9A536] to-[#A68A2E] p-5 text-white">
                                 <div className="flex items-center gap-3 mb-4">
                                     <div className="h-10 w-10 bg-white rounded-lg flex items-center justify-center p-1 overflow-hidden shadow-md">
                                         {groupData.airline?.logo_url ? (
@@ -689,7 +689,7 @@ export default function BookingForm() {
                                     onClick={handleSubmit}
                                     disabled={isSubmitting}
                                     className={`w-full py-3.5 rounded-lg font-bold shadow-lg flex items-center justify-center gap-2 transition-all transform active:scale-95
-                                    ${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-gradient-to-r from-[#ff6b35] to-[#e65520] hover:from-[#e65520] hover:to-[#ff6b35] text-white hover:shadow-xl shadow-[#ff6b35]/30'}`}
+                                    ${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-linear-to-r from-[#ff6b35] to-[#e65520] hover:from-[#e65520] hover:to-[#ff6b35] text-white hover:shadow-xl shadow-[#ff6b35]/30'}`}
                                 >
                                     {isSubmitting ? 'Processing...' : (isEditMode ? 'Update Booking' : 'Confirm & Book')}
                                     {!isSubmitting && <CheckCircle size={18} />}

@@ -475,7 +475,7 @@ export default function BookingDetail() {
                     
                     {/* Flight Info Card */}
                     <div className="bg-white rounded-xl shadow-sm border-2 border-gray-200 overflow-hidden">
-                        <div className="bg-gradient-to-r from-[#0B0E1A] via-[#151B2E] to-[#0B0E1A] px-6 py-4 border-b-2 border-[#C9A536]/30 flex justify-between items-center">
+                        <div className="bg-linear-to-r from-[#0B0E1A] via-[#151B2E] to-[#0B0E1A] px-6 py-4 border-b-2 border-[#C9A536]/30 flex justify-between items-center">
                             <h3 className="text-base font-bold text-white flex items-center gap-2">
                                 <Plane className="text-[#C9A536]" size={18} /> Flight Information
                             </h3>
@@ -540,7 +540,7 @@ export default function BookingDetail() {
 
                     {/* Passenger List Table */}
                     <div className="bg-white rounded-xl shadow-sm border-2 border-gray-200 overflow-hidden">
-                        <div className="bg-gradient-to-r from-[#0B0E1A] via-[#151B2E] to-[#0B0E1A] px-6 py-4 border-b-2 border-[#C9A536]/30">
+                        <div className="bg-linear-to-r from-[#0B0E1A] via-[#151B2E] to-[#0B0E1A] px-6 py-4 border-b-2 border-[#C9A536]/30">
                             <h3 className="text-base font-bold text-white flex items-center gap-2">
                                 <Users className="text-[#C9A536]" size={18} /> Passenger Manifest
                             </h3>
@@ -634,7 +634,7 @@ export default function BookingDetail() {
                                 <>
                                     <button
                                         onClick={() => navigate(`/dashboard/edit-booking/${id}`)}
-                                        className="w-full py-2.5 bg-gradient-to-r from-[#C9A536] to-[#A68A2E] text-white font-semibold rounded-lg hover:from-[#A68A2E] hover:to-[#C9A536] transition-colors flex items-center justify-center gap-2 shadow-lg shadow-[#C9A536]/30"
+                                        className="w-full py-2.5 bg-linear-to-r from-[#C9A536] to-[#A68A2E] text-white font-semibold rounded-lg hover:from-[#A68A2E] hover:to-[#C9A536] transition-colors flex items-center justify-center gap-2 shadow-lg shadow-[#C9A536]/30"
                                     >
                                         <Edit size={16} /> Edit Booking
                                     </button>

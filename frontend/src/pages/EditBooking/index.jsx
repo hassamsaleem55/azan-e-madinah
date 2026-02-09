@@ -210,7 +210,7 @@ export default function EditBooking() {
                         <button
                             type="submit"
                             disabled={submitting}
-                            className="flex-1 px-6 py-2 bg-gradient-to-r from-[#C9A536] to-[#A68A2E] text-white font-medium rounded-lg hover:from-[#A68A2E] hover:to-[#C9A536] disabled:opacity-50 shadow-lg shadow-[#C9A536]/30"
+                            className="flex-1 px-6 py-2 bg-linear-to-r from-[#C9A536] to-[#A68A2E] text-white font-medium rounded-lg hover:from-[#A68A2E] hover:to-[#C9A536] disabled:opacity-50 shadow-lg shadow-[#C9A536]/30"
                         >
                             {submitting ? 'Saving...' : 'Save Changes'}
                         </button>

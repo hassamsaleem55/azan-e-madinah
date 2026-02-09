@@ -58,7 +58,7 @@ export default function HeroSection() {
     };
 
     return (
-        <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#0B0E1A] via-[#151B2E] to-[#0B0E1A]">
+        <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-linear-to-b from-[#0B0E1A] via-[#151B2E] to-[#0B0E1A]">
             {/* --- Main Background Image & Overlay --- */}
             <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0 scale-105 opacity-15"
@@ -68,11 +68,11 @@ export default function HeroSection() {
             />
 
             {/* Sophisticated Gradient Overlay with Islamic Pattern Effect */}
-            <div className="absolute inset-0 bg-gradient-to-b from-[#0B0E1A]/95 via-[#151B2E]/85 to-[#0B0E1A]/95 z-0" />
+            <div className="absolute inset-0 bg-linear-to-b from-[#0B0E1A]/95 via-[#151B2E]/85 to-[#0B0E1A]/95 z-0" />
             
             {/* Vibrant Gold Glow Effect */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(201,165,54,0.15),transparent_60%)] z-0" />
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#C9A536] to-transparent opacity-50" />
+            <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-transparent via-[#C9A536] to-transparent opacity-50" />
 
             <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-28 lg:py-32">
                 {/* --- Cards Grid --- */}
@@ -93,10 +93,10 @@ export default function HeroSection() {
                             />
 
                             {/* Dark Gradient Overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E1A]/98 via-[#151B2E]/60 to-transparent opacity-85 transition-opacity duration-300" />
+                            <div className="absolute inset-0 bg-linear-to-t from-[#0B0E1A]/98 via-[#151B2E]/60 to-transparent opacity-85 transition-opacity duration-300" />
 
                             {/* Vibrant Gold Hover Tint */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-[#C9A536]/40 via-[#E6C35C]/30 to-[#C9A536]/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                            <div className="absolute inset-0 bg-linear-to-br from-[#C9A536]/40 via-[#E6C35C]/30 to-[#C9A536]/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                             {/* Card Content */}
                             <div className="absolute inset-x-0 bottom-0 p-5 translate-y-2 group-hover:translate-y-0 transition-transform duration-300 ease-out">
@@ -113,7 +113,7 @@ export default function HeroSection() {
                                             {group.label.replace(' Groups', '')}
                                         </h3>
 
-                                        <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#C9A536]/30 to-[#E6C35C]/30 backdrop-blur-md flex items-center justify-center text-[#E6C35C] border-2 border-[#C9A536]/50 transform translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 group-hover:bg-gradient-to-br group-hover:from-[#C9A536] group-hover:to-[#E6C35C] group-hover:text-[#0B0E1A] group-hover:shadow-lg group-hover:shadow-[#C9A536]/50 transition-all duration-300">
+                                        <div className="w-9 h-9 rounded-full bg-linear-to-br from-[#C9A536]/30 to-[#E6C35C]/30 backdrop-blur-md flex items-center justify-center text-[#E6C35C] border-2 border-[#C9A536]/50 transform translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 group-hover:bg-linear-to-br group-hover:from-[#C9A536] group-hover:to-[#E6C35C] group-hover:text-[#0B0E1A] group-hover:shadow-lg group-hover:shadow-[#C9A536]/50 transition-all duration-300">
                                             <ArrowRight size={16} className="font-bold" />
                                         </div>
                                     </div>

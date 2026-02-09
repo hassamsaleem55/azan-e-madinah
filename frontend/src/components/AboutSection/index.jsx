@@ -61,7 +61,7 @@ export default function AboutSection() {
                         </div>
                     </div>
 
-                    <button className="group mt-10 flex items-center gap-3 bg-gradient-to-r from-[#C9A536] to-[#A68A2E] text-white px-8 py-4 rounded-full font-bold hover:from-[#A68A2E] hover:to-[#C9A536] transition-all shadow-xl hover:shadow-2xl shadow-[#C9A536]/30">
+                    <button className="group mt-10 flex items-center gap-3 bg-linear-to-r from-[#C9A536] to-[#A68A2E] text-white px-8 py-4 rounded-full font-bold hover:from-[#A68A2E] hover:to-[#C9A536] transition-all shadow-xl hover:shadow-2xl shadow-[#C9A536]/30">
                         Discover More
                         <BsArrowRight className="transition-transform group-hover:translate-x-1" />
                     </button>

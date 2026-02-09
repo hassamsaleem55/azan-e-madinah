@@ -208,7 +208,7 @@ export default function AllGroups({ header, searchParams }) {
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="min-w-full">
-                        <thead className="bg-gradient-to-r from-[#0B0E1A] via-[#151B2E] to-[#0B0E1A] text-white border-b-2 border-[#C9A536]/30">
+                        <thead className="bg-linear-to-r from-[#0B0E1A] via-[#151B2E] to-[#0B0E1A] text-white border-b-2 border-[#C9A536]/30">
                             <tr>
                                 <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">Flight Details</th>
                                 <th className="px-6 py-4 text-center text-xs font-semibold uppercase tracking-wider">Route</th>
@@ -309,7 +309,7 @@ export default function AllGroups({ header, searchParams }) {
                                                         <td className="px-6 py-4 align-middle">
                                                             {group.details?.map((f, i) => (
                                                                 <div key={i} className="flex flex-col justify-center items-center">
-                                                                    <span className="text-xs font-bold text-[#C9A536] bg-gradient-to-br from-[#E6C35C]/20 to-[#C9A536]/20 px-2 py-0.5 rounded mb-1 border-2 border-[#C9A536]/30 shadow-sm">
+                                                                    <span className="text-xs font-bold text-[#C9A536] bg-linear-to-br from-[#E6C35C]/20 to-[#C9A536]/20 px-2 py-0.5 rounded mb-1 border-2 border-[#C9A536]/30 shadow-sm">
                                                                         {formatDate(f.flight_date)}
                                                                     </span>
                                                                     <div className="flex items-center gap-1 text-xs text-gray-500">

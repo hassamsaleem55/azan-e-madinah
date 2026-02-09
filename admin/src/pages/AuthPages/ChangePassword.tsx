@@ -187,10 +187,10 @@ export default function ChangePassword() {
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
       {/* Header */}
-      <div className="border-b border-stroke dark:border-strokedark bg-gradient-to-r from-purple-500/10 to-blue-500/10 px-7 py-6">
+      <div className="border-b border-stroke dark:border-strokedark bg-linear-to-r from-purple-500/10 to-blue-500/10 px-7 py-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-blue-500 shadow-lg">
+            <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-linear-to-br from-purple-500 to-blue-500 shadow-lg">
               <KeyRound className="h-7 w-7 text-white" strokeWidth={2.5} />
             </div>
             <div>
@@ -314,9 +314,9 @@ export default function ChangePassword() {
             className={`group relative flex w-full items-center justify-center gap-3 overflow-hidden rounded-lg py-4 text-sm font-bold shadow-lg transition-all duration-300
               ${isLoading || Object.keys(fieldErrors).length > 0
                 ? 'cursor-not-allowed bg-gray-600 text-gray-400' 
-                : 'bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:from-purple-600 hover:to-blue-600 hover:-translate-y-0.5 active:translate-y-0'}`}
+                : 'bg-linear-to-r from-purple-500 to-blue-500 text-white hover:from-purple-600 hover:to-blue-600 hover:-translate-y-0.5 active:translate-y-0'}`}
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+            <div className="absolute inset-0 bg-linear-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
             <div className="relative z-10 flex items-center gap-3">
               {isLoading ? <Loader2 size={20} className="animate-spin" strokeWidth={2.5} /> : <Save size={20} strokeWidth={2.5} />}
               {isLoading ? 'Updating Password...' : 'Update Password'}

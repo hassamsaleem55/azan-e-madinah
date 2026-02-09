@@ -227,7 +227,7 @@ export default function MyBookings() {
 
                 <div className="overflow-x-auto">
                     <table className="min-w-full">
-                        <thead className="bg-gradient-to-r from-[#0B0E1A] via-[#151B2E] to-[#0B0E1A] text-white border-b-2 border-[#C9A536]/30">
+                        <thead className="bg-linear-to-r from-[#0B0E1A] via-[#151B2E] to-[#0B0E1A] text-white border-b-2 border-[#C9A536]/30">
                             <tr>
                                 <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">Reference</th>
                                 <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">Flight Info</th>
@@ -285,7 +285,7 @@ export default function MyBookings() {
                                             </td>
 
                                             <td className="px-6 py-4 align-top text-center">
-                                                <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-gradient-to-br from-[#C9A536]/20 to-[#E6C35C]/20 text-[#C9A536] text-xs font-bold border-2 border-[#C9A536]/30 shadow-md">
+                                                <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-linear-to-br from-[#C9A536]/20 to-[#E6C35C]/20 text-[#C9A536] text-xs font-bold border-2 border-[#C9A536]/30 shadow-md">
                                                     {booking.totalPassengers}
                                                 </span>
                                             </td>
