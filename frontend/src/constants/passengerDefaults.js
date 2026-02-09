@@ -1,0 +1,29 @@
+export const PASSENGER_TEMPLATE = {
+  Adult: {
+    type: "Adult",
+    title: "Mr",
+    givenName: "",
+    surName: "",
+    passport: "",
+    dateOfBirth: null,
+    passportExpiry: null,
+  },
+  Child: {
+    type: "Child",
+    title: "CHLD",
+    givenName: "",
+    surName: "",
+    passport: "",
+    dateOfBirth: null,
+    passportExpiry: null,
+  },
+  Infant: {
+    type: "Infant",
+    title: "INF",
+    givenName: "",
+    surName: "",
+    passport: "",
+    dateOfBirth: null,
+    passportExpiry: null,
+  },
+};
