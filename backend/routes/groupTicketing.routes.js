@@ -1,5 +1,7 @@
 import express from "express";
-import { protect, flyingZoneAuthMiddleware } from "../middleware/auth.middleware.js";
+import { protect
+  // , flyingZoneAuthMiddleware
+ } from "../middleware/auth.middleware.js";
 import { checkPermission } from "../middleware/permission.middleware.js";
 import {
   createGroupTicketing,
@@ -28,7 +30,7 @@ router.post("/", checkPermission('groups.create'), validateCreateGroupTicketing,
 // router.get("/", getAllGroupTicketings);
 router.get(
   "/",                 // your system auth
-  flyingZoneAuthMiddleware,  // external API auth
+  // flyingZoneAuthMiddleware,  // external API auth
   checkPermission('groups.view'),
   validatePaginationQuery,
   getAllGroupTicketings

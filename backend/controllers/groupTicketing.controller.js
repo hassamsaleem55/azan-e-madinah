@@ -53,46 +53,46 @@ export const getAllGroupTicketings = async (req, res) => {
     const { group_type } = req.query;
     const groupTypeFilters = group_type ? (Array.isArray(group_type) ? group_type : [group_type]) : [];
 
-    // Check if UMRAH-related types are in the filters
-    const shouldFetchUmrahGroups = groupTypeFilters.length === 0 || 
-      groupTypeFilters.some(filterType => 
-        filterType.toLowerCase().includes('umrah')
-      );
+    // // Check if UMRAH-related types are in the filters
+    // const shouldFetchUmrahGroups = groupTypeFilters.length === 0 || 
+    //   groupTypeFilters.some(filterType => 
+    //     filterType.toLowerCase().includes('umrah')
+    //   );
 
-    /* ================= FLYING ZONE GROUPS ================= */
-    if (req.flyingZoneToken && shouldFetchUmrahGroups) {
-      try {
-        // Always call Flying Zone API with hardcoded "UMRAH GROUPS" when UMRAH filter is present
-        const flyingZoneUrl = `${process.env.FLYING_ZONE_API_URL}/groups?type=UMRAH GROUPS&token=${req.flyingZoneToken}`;
-        const flyingZoneResponse = await axios.get(flyingZoneUrl);
-        const groups = flyingZoneResponse.data?.groups || [];
-        allGroupsData.push(
-          ...groups.map(group => ({
-            id: `FLZ-${group.id}`,
-            available_no_of_pax: group.available_no_of_pax || 0,
-            showSeat: true,
-            sector: group.sector || "",
-            type: group.type || "",
-            price: group.price || 0,
-            childPrice: group.child_price || 0,
-            infantPrice: group.infant_price || 0,
-            pnr: group.pnr || "",
-            dept_date: group.dept_date || null,
-            arv_date: group.arv_date || null,
-            details: group.details || [],
-            airline: {
-              id: group.airline[0].id || null,
-              airline_name: group.airline[0].airline_name || "",
-              short_name: group.airline[0].short_name || "",
-              logo_url: group.airline[0].logo_url || ""
-            },
-            source: "flyingzone"
-          }))
-        );
-      } catch (err) {
-        console.error("FLYING ZONE GROUP FETCH FAILED:", err.message);
-      }
-    }
+    // /* ================= FLYING ZONE GROUPS ================= */
+    // if (req.flyingZoneToken && shouldFetchUmrahGroups) {
+    //   try {
+    //     // Always call Flying Zone API with hardcoded "UMRAH GROUPS" when UMRAH filter is present
+    //     const flyingZoneUrl = `${process.env.FLYING_ZONE_API_URL}/groups?type=UMRAH GROUPS&token=${req.flyingZoneToken}`;
+    //     const flyingZoneResponse = await axios.get(flyingZoneUrl);
+    //     const groups = flyingZoneResponse.data?.groups || [];
+    //     allGroupsData.push(
+    //       ...groups.map(group => ({
+    //         id: `FLZ-${group.id}`,
+    //         available_no_of_pax: group.available_no_of_pax || 0,
+    //         showSeat: true,
+    //         sector: group.sector || "",
+    //         type: group.type || "",
+    //         price: group.price || 0,
+    //         childPrice: group.child_price || 0,
+    //         infantPrice: group.infant_price || 0,
+    //         pnr: group.pnr || "",
+    //         dept_date: group.dept_date || null,
+    //         arv_date: group.arv_date || null,
+    //         details: group.details || [],
+    //         airline: {
+    //           id: group.airline[0].id || null,
+    //           airline_name: group.airline[0].airline_name || "",
+    //           short_name: group.airline[0].short_name || "",
+    //           logo_url: group.airline[0].logo_url || ""
+    //         },
+    //         source: "flyingzone"
+    //       }))
+    //     );
+    //   } catch (err) {
+    //     console.error("FLYING ZONE GROUP FETCH FAILED:", err.message);
+    //   }
+    // }
 
     /* ================= ADMIN GROUPS ================= */
     const [groups, airlines] = await Promise.all([
@@ -145,9 +145,9 @@ export const getAllGroupTicketings = async (req, res) => {
     if (groupTypeFilters.length > 0) {
       allGroupsData = allGroupsData.filter(group => {
         // Skip filtering for Flying Zone groups since API already filtered them
-        if (group.source === 'flyingzone') {
-          return true;
-        }
+        // if (group.source === 'flyingzone') {
+        //   return true;
+        // }
         
         // Apply filtering only to admin groups
         const matches = groupTypeFilters.some(filterType => 
