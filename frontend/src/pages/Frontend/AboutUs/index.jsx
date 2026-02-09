@@ -161,7 +161,7 @@ const AboutUs = () => {
             )}
 
             {/* CTA Section */}
-            <div className="bg-gradient-to-r from-primary-600 to-accent-600 text-white py-16">
+            <div className="bg-linear-to-r from-primary-600 to-accent-600 text-white py-16">
                 <div className="container mx-auto px-4 text-center">
                     <h2 className="text-4xl font-bold mb-4">Ready to Start Your Journey?</h2>
                     <p className="text-xl mb-8">Let us help you plan your next spiritual or leisure trip</p>

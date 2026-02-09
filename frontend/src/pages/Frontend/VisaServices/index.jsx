@@ -213,7 +213,7 @@ const VisaServices = () => {
                                 <div className="space-y-2">
                                     {selectedCountry.documentRequirements?.map((doc, idx) => (
                                         <div key={idx} className="flex items-start gap-2">
-                                            <CheckCircle size={20} className="text-green-600 mt-1 flex-shrink-0" />
+                                            <CheckCircle size={20} className="text-green-600 mt-1 shrink-0" />
                                             <div>
                                                 <div className="font-medium text-gray-900">{doc.documentName}</div>
                                                 {doc.description && (
