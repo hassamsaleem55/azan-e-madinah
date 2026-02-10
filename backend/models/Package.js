@@ -106,12 +106,12 @@ const packageSchema = new mongoose.Schema({
     }],
 
     // Accommodation Details (Makkah & Madinah)
-    accommodations: {
+    accommodation: {
         type: [accommodationSchema],
         validate: {
             validator: function(v) {
                 // Must have at least Makkah accommodation
-                return v && v.some(acc => acc.city === 'Makkah');
+                return v && v.length > 0 && v.some(acc => acc.city === 'Makkah');
             },
             message: 'Package must include Makkah accommodation'
         }
@@ -200,7 +200,7 @@ const packageSchema = new mongoose.Schema({
     },
 
     // Featured & Promotional
-    isFeatured: {
+    featured: {
         type: Boolean,
         default: false,
         index: true
@@ -260,7 +260,7 @@ const packageSchema = new mongoose.Schema({
 // Indexes for performance
 packageSchema.index({ name: 'text', description: 'text', tags: 'text' });
 packageSchema.index({ 'availability.startDate': 1, 'availability.endDate': 1 });
-packageSchema.index({ type: 1, status: 1, isFeatured: -1 });
+packageSchema.index({ type: 1, status: 1, featured: -1 });
 packageSchema.index({ departureCities: 1, status: 1 });
 
 // Virtual for total capacity

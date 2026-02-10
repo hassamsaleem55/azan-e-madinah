@@ -3,7 +3,6 @@ import { X, Plus, Trash2, Save, Upload, MapPin, Star, Building2, Phone, Mail, Gl
 import { toast } from 'react-hot-toast';
 import axiosInstance from '../Api/axios';
 import Button from '../components/ui/button/Button';
-import Input from '../components/form/input/InputField';
 
 interface HotelFormProps {
     onClose: () => void;
@@ -15,6 +14,7 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
     const [loading, setLoading] = useState(false);
     const [imageFiles, setImageFiles] = useState<File[]>([]);
     const [imagePreview, setImagePreview] = useState<string[]>([]);
+    const [existingImages, setExistingImages] = useState<any[]>([]);
     
     const [formData, setFormData] = useState({
         name: '',
@@ -33,7 +33,6 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
         },
         starRating: 3,
         category: 'Standard',
-        roomTypes: [] as any[],
         amenities: [] as any[],
         services: {
             shuttleService: false,
@@ -59,7 +58,6 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
             petPolicy: ''
         },
         images: [] as any[],
-        status: 'Active',
         isFeatured: false
     });
 
@@ -73,7 +71,20 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
         try {
             setLoading(true);
             const response = await axiosInstance.get(`/hotels/${editId}`);
+            
+            if (!response.data.success) {
+                toast.error('Failed to load hotel details');
+                onClose();
+                return;
+            }
+            
             const hotel = response.data.hotel;
+            
+            if (!hotel) {
+                toast.error('Hotel not found');
+                onClose();
+                return;
+            }
             
             setFormData({
                 name: hotel.name || '',
@@ -89,7 +100,6 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                 },
                 starRating: hotel.starRating || 3,
                 category: hotel.category || 'Standard',
-                roomTypes: hotel.roomTypes || [],
                 amenities: hotel.amenities || [],
                 services: hotel.services || {
                     shuttleService: false,
@@ -111,16 +121,25 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                     petPolicy: ''
                 },
                 images: hotel.images || [],
-                status: hotel.status || 'Active',
                 isFeatured: hotel.isFeatured || false
             });
             
-            // Set image previews if editing
+            // Set existing images and previews if editing
             if (hotel.images && hotel.images.length > 0) {
+                setExistingImages(hotel.images);
                 setImagePreview(hotel.images.map((img: any) => img.url));
             }
-        } catch (error) {
-            toast.error('Failed to fetch hotel details');
+        } catch (error: any) {
+            console.error('Error fetching hotel:', error);
+            
+            if (error.response?.status === 404) {
+                toast.error('Hotel not found');
+            } else if (error.response?.status === 403) {
+                toast.error('You do not have permission to view this hotel');
+            } else {
+                toast.error(error.response?.data?.message || 'Failed to fetch hotel details');
+            }
+            onClose();
         } finally {
             setLoading(false);
         }
@@ -128,25 +147,81 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(e.target.files || []);
+        
+        // Validate file types
+        const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+        const invalidFiles = files.filter(file => !validTypes.includes(file.type));
+        
+        if (invalidFiles.length > 0) {
+            toast.error('Please upload only image files (JPG, PNG, GIF, WEBP)');
+            return;
+        }
+        
+        // Validate file sizes (max 5MB each)
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        const oversizedFiles = files.filter(file => file.size > maxSize);
+        
+        if (oversizedFiles.length > 0) {
+            toast.error('Each image must be less than 5MB');
+            return;
+        }
+        
+        // Check total number of images
+        if (imageFiles.length + files.length > 10) {
+            toast.error('Maximum 10 images allowed');
+            return;
+        }
+        
         setImageFiles([...imageFiles, ...files]);
         
         // Create preview URLs
         const newPreviews = files.map(file => URL.createObjectURL(file));
         setImagePreview([...imagePreview, ...newPreviews]);
+        
+        toast.success(`${files.length} image(s) added`);
     };
 
     const removeImage = (index: number) => {
-        const newFiles = imageFiles.filter((_, i) => i !== index);
+        // Check if this is an existing image or a new upload
+        if (index < existingImages.length) {
+            // Removing an existing image
+            const newExisting = existingImages.filter((_, i) => i !== index);
+            setExistingImages(newExisting);
+        } else {
+            // Removing a new image
+            const newFileIndex = index - existingImages.length;
+            const newFiles = imageFiles.filter((_, i) => i !== newFileIndex);
+            setImageFiles(newFiles);
+        }
+        
+        // Update preview
         const newPreviews = imagePreview.filter((_, i) => i !== index);
-        setImageFiles(newFiles);
         setImagePreview(newPreviews);
+        
+        toast.success('Image removed');
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         
-        if (!formData.name || !formData.location.city || formData.roomTypes.length === 0) {
-            toast.error('Please fill all required fields and add at least one room type');
+        // Validation
+        if (!formData.name || !formData.name.trim()) {
+            toast.error('Hotel name is required');
+            return;
+        }
+
+        if (!formData.location.city) {
+            toast.error('City is required');
+            return;
+        }
+
+        if (!formData.location.address || !formData.location.address.trim()) {
+            toast.error('Hotel address is required');
+            return;
+        }
+
+        if (formData.location.distanceFromHaram === 0) {
+            toast.error('Distance from Haram is required');
             return;
         }
 
@@ -155,57 +230,62 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
             
             // Prepare form data with images
             const submitData = new FormData();
-            submitData.append('data', JSON.stringify(formData));
             
-            // Append image files if any
+            // For updates, include existing images that weren't removed
+            const dataToSubmit = {
+                ...formData,
+                images: editId ? existingImages : [] // Include existing images only for updates
+            };
+            
+            submitData.append('data', JSON.stringify(dataToSubmit));
+            
+            // Append new image files if any
             imageFiles.forEach(file => {
                 submitData.append('images', file);
             });
 
             if (editId) {
-                await axiosInstance.put(`/hotels/${editId}`, submitData, {
+                const response = await axiosInstance.put(`/hotels/${editId}`, submitData, {
                     headers: { 'Content-Type': 'multipart/form-data' }
                 });
-                toast.success('Hotel updated successfully');
+                
+                if (response.data.success) {
+                    toast.success('✓ Hotel updated successfully!');
+                    onSuccess();
+                    onClose();
+                } else {
+                    toast.error(response.data.message || 'Failed to update hotel');
+                }
             } else {
-                await axiosInstance.post('/hotels', submitData, {
+                const response = await axiosInstance.post('/hotels', submitData, {
                     headers: { 'Content-Type': 'multipart/form-data' }
                 });
-                toast.success('Hotel created successfully');
+                
+                if (response.data.success) {
+                    toast.success('✓ Hotel created successfully!');
+                    onSuccess();
+                    onClose();
+                } else {
+                    toast.error(response.data.message || 'Failed to create hotel');
+                }
             }
-            onSuccess();
         } catch (error: any) {
-            toast.error(error.response?.data?.message || 'Failed to save hotel');
+            console.error('Hotel submission error:', error);
+            
+            if (error.response) {
+                // Server responded with error
+                const message = error.response.data?.message || 'Server error occurred';
+                toast.error(`Error: ${message}`);
+            } else if (error.request) {
+                // Request made but no response
+                toast.error('Network error: Unable to reach server');
+            } else {
+                // Other errors
+                toast.error('An unexpected error occurred');
+            }
         } finally {
             setLoading(false);
         }
-    };
-
-    const addRoomType = () => {
-        setFormData({
-            ...formData,
-            roomTypes: [...formData.roomTypes, {
-                type: 'Sharing',
-                pricePerNight: 0,
-                currency: 'SAR',
-                capacity: 4,
-                availableRooms: 0,
-                description: ''
-            }]
-        });
-    };
-
-    const removeRoomType = (index: number) => {
-        setFormData({
-            ...formData,
-            roomTypes: formData.roomTypes.filter((_, i) => i !== index)
-        });
-    };
-
-    const updateRoomType = (index: number, field: string, value: any) => {
-        const newRoomTypes = [...formData.roomTypes];
-        newRoomTypes[index] = { ...newRoomTypes[index], [field]: value };
-        setFormData({ ...formData, roomTypes: newRoomTypes });
     };
 
     const addAmenity = (name: string, category: string = 'General') => {
@@ -335,23 +415,6 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                                 </select>
                             </div>
 
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    Status *
-                                </label>
-                                <select
-                                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
-                                    value={formData.status}
-                                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                                    required
-                                >
-                                    <option value="Active">Active</option>
-                                    <option value="Inactive">Inactive</option>
-                                    <option value="Fully Booked">Fully Booked</option>
-                                    <option value="Under Maintenance">Under Maintenance</option>
-                                </select>
-                            </div>
-
                             <div className="flex items-center pt-6">
                                 <label className="flex items-center cursor-pointer">
                                     <input
@@ -411,8 +474,9 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                     District
                                 </label>
-                                <Input
+                                <input
                                     type="text"
+                                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                     value={formData.location.district}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
                                         setFormData({ 
@@ -430,6 +494,7 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                                 </label>
                                 <input
                                     type="text"
+                                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                     value={formData.location.address}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
                                         setFormData({ 
@@ -448,6 +513,7 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                                 </label>
                                 <input
                                     type="number"
+                                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                     value={formData.location.distanceFromHaram?.toString() || '0'}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
                                         setFormData({ 
@@ -467,8 +533,9 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                     Walking Time (minutes)
                                 </label>
-                                <Input
+                                <input
                                     type="number"
+                                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                     value={formData.location.walkingTime?.toString() || '0'}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
                                         setFormData({ 
@@ -490,6 +557,7 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                                 <input
                                     type="number"
                                     step="any"
+                                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                     value={formData.location.coordinates.latitude?.toString() || '0'}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
                                         setFormData({ 
@@ -514,6 +582,7 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                                 <input
                                     type="number"
                                     step="any"
+                                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                     value={formData.location.coordinates.longitude?.toString() || '0'}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
                                         setFormData({ 
@@ -530,123 +599,6 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                                     placeholder="39.8262"
                                 />
                             </div>
-                        </div>
-                    </div>
-
-                    {/* Room Types & Pricing */}
-                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
-                        <div className="flex justify-between items-center mb-4">
-                            <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                                <Star className="w-5 h-5" />
-                                Room Types & Pricing *
-                            </h3>
-                            <Button type="button" onClick={addRoomType} className="flex items-center gap-2" size="sm">
-                                <Plus size={16} />
-                                Add Room Type
-                            </Button>
-                        </div>
-
-                        <div className="space-y-4">
-                            {formData.roomTypes.map((room, index) => (
-                                <div key={index} className="bg-white dark:bg-gray-700 p-4 rounded-lg border border-gray-200 dark:border-gray-600">
-                                    <div className="flex justify-between items-center mb-3">
-                                        <h4 className="font-semibold text-gray-900 dark:text-white">Room Type #{index + 1}</h4>
-                                        <button
-                                            type="button"
-                                            onClick={() => removeRoomType(index)}
-                                            className="text-red-500 hover:text-red-700 p-1"
-                                        >
-                                            <Trash2 size={18} />
-                                        </button>
-                                    </div>
-                                    
-                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                        <div>
-                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                                Type *
-                                            </label>
-                                            <select
-                                                className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-600 dark:text-white"
-                                                value={room.type}
-                                                onChange={(e) => updateRoomType(index, 'type', e.target.value)}
-                                                required
-                                            >
-                                                <option value="Sharing">Sharing</option>
-                                                <option value="Quad">Quad</option>
-                                                <option value="Triple">Triple</option>
-                                                <option value="Double">Double</option>
-                                                <option value="Single">Single</option>
-                                                <option value="Suite">Suite</option>
-                                            </select>
-                                        </div>
-
-                                        <div>
-                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                                Price Per Night (SAR) *
-                                            </label>
-                                            <input
-                                                type="number"
-                                                value={room.pricePerNight?.toString() || '0'}
-                                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
-                                                    updateRoomType(index, 'pricePerNight', parseFloat(e.target.value) || 0)
-                                                }
-                                                min="0"
-                                                step="0.01"
-                                                required
-                                            />
-                                        </div>
-
-                                        <div>
-                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                                Capacity (Persons) *
-                                            </label>
-                                            <input
-                                                type="number"
-                                                value={room.capacity?.toString() || '1'}
-                                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
-                                                    updateRoomType(index, 'capacity', parseInt(e.target.value) || 1)
-                                                }
-                                                min="1"
-                                                required
-                                            />
-                                        </div>
-
-                                        <div>
-                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                                Available Rooms
-                                            </label>
-                                            <Input
-                                                type="number"
-                                                value={room.availableRooms?.toString() || '0'}
-                                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
-                                                    updateRoomType(index, 'availableRooms', parseInt(e.target.value) || 0)
-                                                }
-                                                min="0"
-                                            />
-                                        </div>
-
-                                        <div className="md:col-span-2">
-                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                                Description
-                                            </label>
-                                            <Input
-                                                type="text"
-                                                value={room.description || ''}
-                                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
-                                                    updateRoomType(index, 'description', e.target.value)
-                                                }
-                                                placeholder="Optional room description"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                            
-                            {formData.roomTypes.length === 0 && (
-                                <div className="text-center py-8 text-gray-500 dark:text-gray-400">
-                                    No room types added. Click "Add Room Type" to get started.
-                                </div>
-                            )}
                         </div>
                     </div>
 
@@ -744,8 +696,9 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                                     <Phone className="w-4 h-4 inline mr-1" />
                                     Phone
                                 </label>
-                                <Input
+                                <input
                                     type="tel"
+                                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                     value={formData.contact.phone}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
                                         setFormData({ 
@@ -762,8 +715,9 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                                     <Mail className="w-4 h-4 inline mr-1" />
                                     Email
                                 </label>
-                                <Input
+                                <input
                                     type="email"
+                                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                     value={formData.contact.email}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
                                         setFormData({ 
@@ -780,8 +734,9 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                                     <Globe className="w-4 h-4 inline mr-1" />
                                     Website
                                 </label>
-                                <Input
+                                <input
                                     type="url"
+                                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                     value={formData.contact.website}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
                                         setFormData({ 
@@ -804,8 +759,9 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                     Check-in Time
                                 </label>
-                                <Input
+                                <input
                                     type="time"
+                                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                     value={formData.policies.checkInTime}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
                                         setFormData({ 
@@ -820,8 +776,9 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                     Check-out Time
                                 </label>
-                                <Input
+                                <input
                                     type="time"
+                                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                     value={formData.policies.checkOutTime}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
                                         setFormData({ 
@@ -852,8 +809,9 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                     Child Policy
                                 </label>
-                                <Input
+                                <input
                                     type="text"
+                                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                     value={formData.policies.childPolicy}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
                                         setFormData({ 
@@ -869,8 +827,9 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                     Pet Policy
                                 </label>
-                                <Input
+                                <input
                                     type="text"
+                                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                     value={formData.policies.petPolicy}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
                                         setFormData({ 

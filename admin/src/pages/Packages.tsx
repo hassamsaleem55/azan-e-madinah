@@ -232,21 +232,21 @@ const Packages = () => {
                                                 <div className="flex items-center gap-2">
                                                     <button
                                                         onClick={() => handleView(pkg)}
-                                                        className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+                                                        className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
                                                         title="View"
                                                     >
                                                         <Eye size={18} />
                                                     </button>
                                                     <button
                                                         onClick={() => handleEdit(pkg._id)}
-                                                        className="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300"
+                                                        className="text-yellow-600 hover:text-yellow-800 dark:text-yellow-400 dark:hover:text-yellow-300"
                                                         title="Edit"
                                                     >
                                                         <Edit size={18} />
                                                     </button>
                                                     <button
                                                         onClick={() => handleDelete(pkg._id)}
-                                                        className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
+                                                        className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
                                                         title="Delete"
                                                     >
                                                         <Trash2 size={18} />
@@ -274,7 +274,7 @@ const Packages = () => {
                 {showViewModal && selectedPackage && (
                     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
                         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-                            <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                            <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800">
                                 <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
                                     Package Details
                                 </h2>
@@ -310,7 +310,7 @@ const Packages = () => {
                                 </div>
 
                                 {/* Basic Info */}
-                                <div className="grid grid-cols-2 gap-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                                <div className="grid grid-cols-2 gap-4 p-4 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 rounded-lg">
                                     <div>
                                         <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Duration</p>
                                         <p className="text-lg font-semibold text-gray-900 dark:text-white">

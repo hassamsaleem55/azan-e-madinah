@@ -3,6 +3,9 @@ import axiosInstance from "../Api/axios";
 import { Plane, Plus, Edit, X, Upload } from "lucide-react";
 import { toast } from "react-toastify";
 import { validateAirlineCode, validateTextLength, validateFile } from "../utils/validation";
+import PageMeta from "../components/common/PageMeta";
+import PageBreadCrumb from "../components/common/PageBreadCrumb";
+import Button from "../components/ui/button/Button";
 
 interface Airline {
   _id: string;
@@ -187,34 +190,42 @@ const Airline = () => {
   };
 
   return (
-    <div className="p-6">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <h1 className="text-2xl font-bold flex items-center gap-2">
-            <Plane className="w-6 h-6 text-blue-600" />
-            Airline Management
-          </h1>
-          <p className="text-gray-600 mt-1">Manage airlines and their logos</p>
-        </div>
-        <button
-          onClick={handleCreate}
-          className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all shadow-lg"
-        >
-          <Plus className="w-4 h-4" />
-          Add Airline
-        </button>
-      </div>
+    <>
+      <PageMeta title="Airline Management | Admin" description="" />
+      
+      <div className="space-y-6">
+        <PageBreadCrumb pageTitle="Airline Management" />
 
-      {/* Airlines Table */}
-      {fetchLoading ? (
-        <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+              <Plane size={24} />
+              Airlines
+            </h1>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+              Manage airlines and their logos
+            </p>
+          </div>
+          <Button
+            onClick={handleCreate}
+            className="flex items-center gap-2"
+          >
+            <Plus size={18} />
+            Add Airline
+          </Button>
         </div>
-      ) : (
-        <div className="bg-white rounded-lg shadow overflow-hidden">
-          <table className="w-full">
-            <thead className="bg-gray-50 border-b">
+
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+          {fetchLoading ? (
+            <div className="p-8 text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
+            </div>
+          ) : airlines.length === 0 ? (
+            <div className="p-8 text-center text-gray-500">No airlines found</div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-gray-50 dark:bg-gray-700">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   #
@@ -235,18 +246,11 @@ const Airline = () => {
                   Actions
                 </th>
               </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {airlines.length === 0 ? (
-                <tr>
-                  <td colSpan={6} className="px-6 py-8 text-center text-gray-500">
-                    No airlines found. Click "Add Airline" to create one.
-                  </td>
-                </tr>
-              ) : (
-                airlines.map((airline, index) => (
-                  <tr key={airline._id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                </thead>
+                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                  {airlines.map((airline, index) => (
+                    <tr key={airline._id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
                       {index + 1}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -257,36 +261,36 @@ const Airline = () => {
                           className="h-10 w-auto object-contain"
                         />
                       ) : (
-                        <div className="h-10 w-10 bg-gray-200 rounded flex items-center justify-center">
+                        <div className="h-10 w-10 bg-gray-200 dark:bg-gray-700 rounded flex items-center justify-center">
                           <Plane className="w-5 h-5 text-gray-400" />
                         </div>
                       )}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
                       {airline.airlineCode}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
                       {airline.airlineName}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
                       {airline.shortCode}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
                       <button
                         onClick={() => handleEdit(airline)}
-                        className="text-blue-600 hover:text-blue-900"
+                        className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
                         title="Edit airline"
                       >
                         <Edit className="w-4 h-4" />
                       </button>
                     </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
-      )}
 
       {/* Create/Edit Modal */}
       {showModal && (
@@ -424,7 +428,8 @@ const Airline = () => {
           </div>
         </div>
       )}
-    </div>
+      </div>
+    </>
   );
 };
 

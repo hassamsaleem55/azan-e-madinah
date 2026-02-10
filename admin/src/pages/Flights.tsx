@@ -324,7 +324,7 @@ const Flights = () => {
                                                     </button>
                                                     <button
                                                         onClick={() => handleDelete(flight._id)}
-                                                        className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
+                                                        className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
                                                         title="Delete"
                                                     >
                                                         <Trash2 size={18} />

@@ -82,6 +82,15 @@ class HotelService {
     // Update hotel
     async updateHotel(hotelId, updateData, userId) {
         try {
+            // Update slug if name is being changed
+            if (updateData.name) {
+                updateData.slug = updateData.name.toLowerCase()
+                    .replace(/[^\w\s-]/g, '')
+                    .replace(/\s+/g, '-')
+                    .replace(/-+/g, '-')
+                    .trim();
+            }
+            
             const hotel = await Hotel.findByIdAndUpdate(
                 hotelId,
                 {

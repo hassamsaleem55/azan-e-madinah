@@ -47,15 +47,6 @@ export interface Hotel {
     };
     starRating: number;
     category?: string;
-    roomTypes?: Array<{
-        type: string;
-        pricePerNight?: number;
-        price?: number; // for backward compatibility
-        currency?: string;
-        capacity?: number;
-        availableRooms?: number;
-        description?: string;
-    }>;
     amenities?: Array<{
         name: string;
         icon?: string;

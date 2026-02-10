@@ -26,7 +26,7 @@ class PackageService {
             const skip = (page - 1) * limit;
 
             const packages = await Package.find(query)
-                .populate('accommodations.hotel', 'name location starRating images')
+                .populate('accommodation.hotel', 'name location starRating images')
                 .sort(sort)
                 .skip(skip)
                 .limit(limit)
@@ -124,9 +124,9 @@ class PackageService {
         try {
             return await Package.find({ 
                 status: 'Active', 
-                isFeatured: true 
+                featured: true 
             })
-                .populate('accommodations.hotel', 'name location starRating')
+                .populate('accommodation.hotel', 'name location starRating')
                 .sort('-createdAt')
                 .limit(limit)
                 .lean();
@@ -145,7 +145,7 @@ class PackageService {
             };
 
             return await Package.find(query)
-                .populate('accommodations.hotel', 'name location starRating')
+                .populate('accommodation.hotel', 'name location starRating')
                 .sort({ score: { $meta: 'textScore' } })
                 .lean();
         } catch (error) {
@@ -160,7 +160,7 @@ class PackageService {
                 departureCities: city,
                 status: 'Active'
             })
-                .populate('accommodations.hotel', 'name location starRating')
+                .populate('accommodation.hotel', 'name location starRating')
                 .sort('-createdAt')
                 .lean();
         } catch (error) {

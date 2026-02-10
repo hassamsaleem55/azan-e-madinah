@@ -2,6 +2,7 @@ import express from 'express';
 import * as hotelController from '../controllers/hotel.controller.js';
 import { protect } from '../middleware/auth.middleware.js';
 import { checkPermission } from '../middleware/permission.middleware.js';
+import { uploadHotelImages } from '../config/cloudinary.js';
 
 const router = express.Router();
 
@@ -18,6 +19,7 @@ router.post(
     '/',
     protect,
     checkPermission('hotels', 'create'),
+    uploadHotelImages.array('images', 10),
     hotelController.createHotel
 );
 
@@ -25,6 +27,7 @@ router.put(
     '/:id',
     protect,
     checkPermission('hotels', 'update'),
+    uploadHotelImages.array('images', 10),
     hotelController.updateHotel
 );
 

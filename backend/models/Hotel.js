@@ -19,34 +19,6 @@ const amenitySchema = new mongoose.Schema({
     }
 }, { _id: false });
 
-const roomTypeSchema = new mongoose.Schema({
-    type: {
-        type: String,
-        required: true,
-        enum: ['Sharing', 'Quad', 'Triple', 'Double', 'Single', 'Suite']
-    },
-    pricePerNight: {
-        type: Number,
-        required: true,
-        min: 0
-    },
-    currency: {
-        type: String,
-        default: 'SAR'
-    },
-    capacity: {
-        type: Number,
-        required: true,
-        min: 1
-    },
-    availableRooms: {
-        type: Number,
-        min: 0,
-        default: 0
-    },
-    description: String
-}, { _id: false });
-
 const locationSchema = new mongoose.Schema({
     address: {
         type: String,
@@ -115,18 +87,6 @@ const hotelSchema = new mongoose.Schema({
         totalReviews: {
             type: Number,
             default: 0
-        }
-    },
-
-    // Room Types & Pricing
-    roomTypes: {
-        type: [roomTypeSchema],
-        required: true,
-        validate: {
-            validator: function(v) {
-                return v && v.length > 0;
-            },
-            message: 'Hotel must have at least one room type'
         }
     },
 
@@ -237,14 +197,6 @@ const hotelSchema = new mongoose.Schema({
         default: 10
     },
 
-    // Status
-    status: {
-        type: String,
-        enum: ['Active', 'Inactive', 'Fully Booked', 'Under Maintenance'],
-        default: 'Active',
-        index: true
-    },
-
     // SEO
     slug: {
         type: String,
@@ -272,24 +224,18 @@ const hotelSchema = new mongoose.Schema({
 // Indexes for performance
 hotelSchema.index({ name: 'text', description: 'text' });
 hotelSchema.index({ 'location.city': 1, starRating: -1, 'location.distanceFromHaram': 1 });
-hotelSchema.index({ status: 1, isFeatured: -1 });
+hotelSchema.index({ isFeatured: -1 });
 hotelSchema.index({ category: 1, 'location.city': 1 });
 
-// Virtual for availability status
-hotelSchema.virtual('hasAvailability').get(function() {
-    return this.roomTypes.some(room => room.availableRooms > 0);
-});
-
 // Pre-save middleware to generate slug
-hotelSchema.pre('save', function(next) {
-    if (this.isModified('name') && !this.slug) {
+hotelSchema.pre('save', function() {
+    if (this.isModified('name') || !this.slug) {
         this.slug = this.name.toLowerCase()
             .replace(/[^\w\s-]/g, '')
             .replace(/\s+/g, '-')
             .replace(/-+/g, '-')
             .trim();
     }
-    next();
 });
 
 const Hotel = mongoose.model('Hotel', hotelSchema);

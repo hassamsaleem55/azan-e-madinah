@@ -42,6 +42,16 @@ const profileStorage = new CloudinaryStorage({
   }
 });
 
+// Configure storage for hotel images
+const hotelStorage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'hotel-images',
+    allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'webp'],
+    transformation: [{ width: 1200, height: 800, crop: 'limit' }]
+  }
+});
+
 // Default storage (can be used for both)
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
@@ -56,5 +66,6 @@ const upload = multer({ storage: storage });
 const uploadBankLogo = multer({ storage: bankStorage });
 const uploadAirlineLogo = multer({ storage: airlineStorage });
 const uploadProfileLogo = multer({ storage: profileStorage });
+const uploadHotelImages = multer({ storage: hotelStorage });
 
-export { cloudinary, upload, uploadBankLogo, uploadAirlineLogo, uploadProfileLogo };
+export { cloudinary, upload, uploadBankLogo, uploadAirlineLogo, uploadProfileLogo, uploadHotelImages };
