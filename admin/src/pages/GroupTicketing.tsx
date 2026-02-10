@@ -57,7 +57,6 @@ interface GroupTicketing {
   evoucherAccount?: string;
   groupCategory?: string;
   groupName?: string;
-  groupType?: "Hajj" | "Umrah";
   flights?: Flight[];
   passengers?: Passenger;
   price?: Price;
@@ -93,7 +92,7 @@ const GroupTicketing = () => {
   
   // Filters
   const [searchTerm, setSearchTerm] = useState("");
-  const [groupTypeFilter, setGroupTypeFilter] = useState<string>("All");
+  const [groupCategoryFilter, setGroupCategoryFilter] = useState<string>("All");
   const [entriesPerPage, setEntriesPerPage] = useState(50);
   const [activeTab, setActiveTab] = useState<"flyingzone" | "local">("local");
 
@@ -129,12 +128,11 @@ const GroupTicketing = () => {
         booking.groupName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         booking.sector?.toLowerCase().includes(searchTerm.toLowerCase());
 
-      const matchesGroupType = 
-        groupTypeFilter === "All" || 
-        booking.groupType === groupTypeFilter ||
-        booking.type?.toLowerCase() === groupTypeFilter.toLowerCase();
+      const matchesGroupCategory = 
+        groupCategoryFilter === "All" || 
+        booking.groupCategory === groupCategoryFilter;
 
-      return matchesSearch && matchesGroupType;
+      return matchesSearch && matchesGroupCategory;
     });
   };
 
@@ -225,19 +223,24 @@ const GroupTicketing = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* Group Type Filter */}
+            {/* Group Category Filter */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Group Type
+                Group Category
               </label>
               <select
-                value={groupTypeFilter}
-                onChange={(e) => setGroupTypeFilter(e.target.value)}
+                value={groupCategoryFilter}
+                onChange={(e) => setGroupCategoryFilter(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
               >
-                <option value="All">All Types</option>
-                <option value="Hajj">Hajj</option>
-                <option value="Umrah">Umrah</option>
+                <option value="All">All Categories</option>
+                <option value="UAE Groups">UAE Groups</option>
+                <option value="KSA Groups">KSA Groups</option>
+                <option value="Bahrain Groups">Bahrain Groups</option>
+                <option value="Mascat Groups">Mascat Groups</option>
+                <option value="Qatar Groups">Qatar Groups</option>
+                <option value="UK Groups">UK Groups</option>
+                <option value="Umrah Groups">Umrah Groups</option>
               </select>
             </div>
 
@@ -341,13 +344,8 @@ const GroupTicketing = () => {
                                 {booking.groupName || "N/A"}
                               </div>
                               <div className="text-xs text-gray-500">
-                                Type: {booking.groupType || "N/A"}
+                                Category: {booking.groupCategory || "N/A"}
                               </div>
-                              {booking.groupCategory && (
-                                <div className="text-xs text-gray-500">
-                                  Category: {booking.groupCategory}
-                                </div>
-                              )}
                             </td>
 
                             <td className="px-6 py-4">

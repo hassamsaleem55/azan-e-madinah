@@ -30,7 +30,6 @@ interface Payment {
 
 interface Sector {
   _id: string;
-  groupType: string;
   sectorTitle: string;
   fullSector: string;
 }
@@ -62,7 +61,6 @@ const GroupTicketingForm = () => {
     groupName: "",
     totalSeats: 0,
     showSeat: false,
-    groupType: "" as string,
     flights: [{
       airline: "",
       flightNo: "",
@@ -163,7 +161,6 @@ const GroupTicketingForm = () => {
           groupName: booking.groupName || "",
           totalSeats: booking.totalSeats || 0,
           showSeat: booking.showSeat || false,
-          groupType: booking.groupType,
           flights: booking.flights.map((f: Flight) => ({
             ...f,
             airline: f.airline || booking.airline,
@@ -422,12 +419,9 @@ const GroupTicketingForm = () => {
                 <select
                   value={formData.sector}
                   onChange={(e) => {
-                    const selectedSector = sectors.find(s => s.sectorTitle === e.target.value);
                     setFormData({
                       ...formData,
-                      sector: e.target.value,
-                      groupCategory: selectedSector?.groupType || "",
-                      groupType: selectedSector?.groupType || ""
+                      sector: e.target.value
                     });
                   }}
                   className="w-full h-11 rounded-lg border border-gray-300 bg-white px-4 text-sm text-gray-800 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all dark:border-gray-600 dark:bg-gray-700 dark:text-white"
@@ -481,14 +475,23 @@ const GroupTicketingForm = () => {
               </div>
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Group Category
+                  Group Category <span className="text-red-500">*</span>
                 </label>
-                <input
-                  type="text"
+                <select
+                  required
                   value={formData.groupCategory}
-                  readOnly
-                  className="w-full h-11 rounded-lg border border-gray-300 bg-gray-50 px-4 text-sm text-gray-600 outline-none dark:border-gray-600 dark:bg-gray-700/50 dark:text-gray-400 cursor-not-allowed"
-                />
+                  onChange={(e) => setFormData({ ...formData, groupCategory: e.target.value })}
+                  className="w-full h-11 rounded-lg border border-gray-300 bg-white px-4 text-sm text-gray-800 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                >
+                  <option value="">Select Group Category</option>
+                  <option value="UAE Groups">UAE Groups</option>
+                  <option value="KSA Groups">KSA Groups</option>
+                  <option value="Bahrain Groups">Bahrain Groups</option>
+                  <option value="Mascat Groups">Mascat Groups</option>
+                  <option value="Qatar Groups">Qatar Groups</option>
+                  <option value="UK Groups">UK Groups</option>
+                  <option value="Umrah Groups">Umrah Groups</option>
+                </select>
               </div>
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">

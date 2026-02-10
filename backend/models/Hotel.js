@@ -221,14 +221,6 @@ const hotelSchema = new mongoose.Schema({
         petPolicy: String
     },
 
-    // Availability & Status
-    status: {
-        type: String,
-        enum: ['Active', 'Inactive', 'Fully Booked', 'Under Renovation'],
-        default: 'Active',
-        index: true
-    },
-
     // Featured
     isFeatured: {
         type: Boolean,
@@ -243,6 +235,14 @@ const hotelSchema = new mongoose.Schema({
         min: 0,
         max: 100,
         default: 10
+    },
+
+    // Status
+    status: {
+        type: String,
+        enum: ['Active', 'Inactive', 'Fully Booked', 'Under Maintenance'],
+        default: 'Active',
+        index: true
     },
 
     // SEO

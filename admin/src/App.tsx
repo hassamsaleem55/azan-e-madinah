@@ -42,6 +42,7 @@ import UserManagement from "./pages/UserManagement";
 import { PermissionGuard } from "./context/PermissionGuard";
 import Packages from "./pages/Packages";
 import Hotels from "./pages/Hotels";
+import Flights from "./pages/Flights";
 import Visas from "./pages/Visas";
 import Tours from "./pages/Tours";
 import Testimonials from "./pages/Testimonials";
@@ -104,6 +105,7 @@ export default function App() {
                 {/* Travel Management */}
                 <Route path="/packages" element={<PermissionGuard permission="packages.view"><Packages /></PermissionGuard>} />
                 <Route path="/hotels" element={<PermissionGuard permission="hotels.view"><Hotels /></PermissionGuard>} />
+                <Route path="/flights" element={<PermissionGuard permission="airlines.view"><Flights /></PermissionGuard>} />
                 <Route path="/visas" element={<PermissionGuard permission="visas.view"><Visas /></PermissionGuard>} />
                 <Route path="/tours" element={<PermissionGuard permission="tours.view"><Tours /></PermissionGuard>} />
                 <Route path="/testimonials" element={<PermissionGuard permission="testimonials.view"><Testimonials /></PermissionGuard>} />

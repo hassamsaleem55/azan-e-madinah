@@ -3,10 +3,10 @@ import Sector from "../models/Sector.js";
 // Add new sector
 export const addSector = async (req, res) => {
   try {
-    const { groupType, sectorTitle, fullSector } = req.body;
+    const { sectorTitle, fullSector } = req.body;
 
     // Validate required fields
-    if (!groupType || !sectorTitle || !fullSector) {
+    if (!sectorTitle || !fullSector) {
       return res.status(400).json({
         success: false,
         message: "All fields are required"
@@ -15,20 +15,18 @@ export const addSector = async (req, res) => {
 
     // Check if sector already exists
     const existingSector = await Sector.findOne({ 
-      groupType, 
       sectorTitle: sectorTitle.toUpperCase() 
     });
 
     if (existingSector) {
       return res.status(400).json({
         success: false,
-        message: "Sector with this title already exists in this group"
+        message: "Sector with this title already exists"
       });
     }
 
     // Create new sector
     const newSector = await Sector.create({
-      groupType,
       sectorTitle: sectorTitle.toUpperCase(),
       fullSector
     });
@@ -52,7 +50,7 @@ export const addSector = async (req, res) => {
 // Get all sectors
 export const getSectors = async (req, res) => {
   try {
-    const sectors = await Sector.find().sort({ groupType: 1, createdAt: -1 });
+    const sectors = await Sector.find().sort({ sectorTitle: 1, createdAt: -1 });
 
     res.status(200).json({
       success: true,
@@ -65,28 +63,6 @@ export const getSectors = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Error fetching sectors",
-      error: error.message
-    });
-  }
-};
-
-// Get sectors by group type
-export const getSectorsByGroup = async (req, res) => {
-  try {
-    const { groupType } = req.params;
-    const sectors = await Sector.find({ groupType }).sort({ createdAt: -1 });
-
-    res.status(200).json({
-      success: true,
-      count: sectors.length,
-      data: sectors
-    });
-
-  } catch (error) {
-    console.error("Error fetching sectors by group:", error);
-    res.status(500).json({
-      success: false,
-      message: "Error fetching sectors by group",
       error: error.message
     });
   }
@@ -124,10 +100,10 @@ export const getSectorById = async (req, res) => {
 export const updateSector = async (req, res) => {
   try {
     const { id } = req.params;
-    const { groupType, sectorTitle, fullSector } = req.body;
+    const { sectorTitle, fullSector } = req.body;
 
     // Validate required fields
-    if (!groupType || !sectorTitle || !fullSector) {
+    if (!sectorTitle || !fullSector) {
       return res.status(400).json({
         success: false,
         message: "All fields are required"
@@ -143,17 +119,16 @@ export const updateSector = async (req, res) => {
       });
     }
 
-    // Check if another sector with the same title exists in the same group
+    // Check if another sector with the same title exists
     const existingSector = await Sector.findOne({
       _id: { $ne: id },
-      groupType,
       sectorTitle: sectorTitle.toUpperCase()
     });
 
     if (existingSector) {
       return res.status(400).json({
         success: false,
-        message: "Another sector with this title already exists in this group"
+        message: "Another sector with this title already exists"
       });
     }
 
@@ -161,7 +136,6 @@ export const updateSector = async (req, res) => {
     const updatedSector = await Sector.findByIdAndUpdate(
       id,
       {
-        groupType,
         sectorTitle: sectorTitle.toUpperCase(),
         fullSector
       },

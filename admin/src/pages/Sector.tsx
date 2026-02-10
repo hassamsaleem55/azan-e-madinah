@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 
 interface Sector {
   _id: string;
-  groupType: string;
   sectorTitle: string;
   fullSector: string;
   createdAt: string;
@@ -13,7 +12,6 @@ interface Sector {
 
 const Sector = () => {
   const [formData, setFormData] = useState({
-    groupType: "",
     sectorTitle: "",
     fullSector: "",
   });
@@ -22,8 +20,6 @@ const Sector = () => {
   const [fetchLoading, setFetchLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
-
-  const groupTypes = ["UAE Groups", "KSA Groups", "Bahrain Groups", "Mascat Groups", "Qatar Groups", "UK Groups", "Umrah Groups"];
 
   const fetchSectors = async () => {
     try {
@@ -46,7 +42,6 @@ const Sector = () => {
   const handleCreate = () => {
     setEditingId(null);
     setFormData({
-      groupType: "",
       sectorTitle: "",
       fullSector: "",
     });
@@ -56,7 +51,6 @@ const Sector = () => {
   const handleEdit = (sector: Sector) => {
     setEditingId(sector._id);
     setFormData({
-      groupType: sector.groupType,
       sectorTitle: sector.sectorTitle,
       fullSector: sector.fullSector,
     });
@@ -66,7 +60,7 @@ const Sector = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.groupType || !formData.sectorTitle || !formData.fullSector) {
+    if (!formData.sectorTitle || !formData.fullSector) {
       toast.error("All fields are required");
       return;
     }
@@ -85,7 +79,6 @@ const Sector = () => {
         toast.success(editingId ? "Sector updated successfully" : "Sector added successfully");
         setShowModal(false);
         setFormData({
-          groupType: "",
           sectorTitle: "",
           fullSector: "",
         });
@@ -115,12 +108,6 @@ const Sector = () => {
     }
   };
 
-  // Group sectors by group type
-  const groupedSectors = groupTypes.reduce((acc, groupType) => {
-    acc[groupType] = sectors.filter((s) => s.groupType === groupType);
-    return acc;
-  }, {} as Record<string, Sector[]>);
-
   return (
     <div className="p-6">
       {/* Header */}
@@ -141,88 +128,70 @@ const Sector = () => {
         </button>
       </div>
 
-      {/* Sectors by Group */}
+      {/* Sectors Table */}
       {fetchLoading ? (
         <div className="flex justify-center items-center h-64">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
         </div>
       ) : (
-        <div className="space-y-6">
-          {groupTypes.map((groupType) => {
-            const groupSectors = groupedSectors[groupType] || [];
-            if (groupSectors.length === 0) return null;
-
-            return (
-              <div key={groupType} className="bg-white rounded-lg shadow overflow-hidden">
-                <div className="px-6 py-4 bg-linear-to-r from-blue-50 to-indigo-50 border-b">
-                  <h2 className="text-lg font-bold text-gray-800 flex items-center gap-2">
-                    <MapPin className="w-5 h-5 text-blue-600" />
-                    {groupType}
-                    <span className="ml-2 px-2 py-1 bg-blue-100 text-blue-800 text-xs font-semibold rounded-full">
-                      {groupSectors.length}
-                    </span>
-                  </h2>
-                </div>
-                <table className="w-full">
-                  <thead className="bg-gray-50 border-b">
-                    <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        #
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Sector Title
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Full Sector
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Actions
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {groupSectors.map((sector, index) => (
-                      <tr key={sector._id} className="hover:bg-gray-50">
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          {index + 1}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                          {sector.sectorTitle}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          {sector.fullSector}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm">
-                          <div className="flex gap-2">
-                            <button
-                              onClick={() => handleEdit(sector)}
-                              className="text-blue-600 hover:text-blue-900"
-                              title="Edit sector"
-                            >
-                              <Edit className="w-4 h-4" />
-                            </button>
-                            <button
-                              onClick={() => handleDelete(sector._id)}
-                              className="text-red-600 hover:text-red-900"
-                              title="Delete sector"
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            );
-          })}
-
-          {sectors.length === 0 && (
-            <div className="bg-white rounded-lg shadow p-12 text-center">
+        <div className="bg-white rounded-lg shadow overflow-hidden">
+          {sectors.length === 0 ? (
+            <div className="p-12 text-center">
               <MapPin className="w-16 h-16 text-gray-400 mx-auto mb-4" />
               <p className="text-gray-500">No sectors found. Click "Add Sector" to create one.</p>
             </div>
+          ) : (
+            <table className="w-full">
+              <thead className="bg-gray-50 border-b">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    #
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Sector Title
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Full Sector
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {sectors.map((sector, index) => (
+                  <tr key={sector._id} className="hover:bg-gray-50">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      {index + 1}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      {sector.sectorTitle}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      {sector.fullSector}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm">
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => handleEdit(sector)}
+                          className="text-blue-600 hover:text-blue-900"
+                          title="Edit sector"
+                        >
+                          <Edit className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(sector._id)}
+                          className="text-red-600 hover:text-red-900"
+                          title="Delete sector"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           )}
         </div>
       )}
@@ -246,25 +215,6 @@ const Sector = () => {
 
             <form onSubmit={handleSubmit} className="p-6">
               <div className="space-y-6">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Group Type <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    required
-                    value={formData.groupType}
-                    onChange={(e) => setFormData({ ...formData, groupType: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white"
-                  >
-                    <option value="">Select Group Type</option>
-                    {groupTypes.map((type) => (
-                      <option key={type} value={type}>
-                        {type}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Sector Title <span className="text-red-500">*</span>

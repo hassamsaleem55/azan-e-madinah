@@ -4,7 +4,6 @@ import { checkPermission } from '../middleware/permission.middleware.js';
 import {
   addSector,
   getSectors,
-  getSectorsByGroup,
   getSectorById,
   updateSector,
   deleteSector
@@ -25,9 +24,6 @@ router.post("/add", checkPermission('sectors.create'), validateCreateSector, add
 
 // Get all sectors
 router.get("/", checkPermission('sectors.view'), validatePaginationQuery, getSectors);
-
-// Get sectors by group type
-router.get("/group/:groupType", checkPermission('sectors.view'), getSectorsByGroup);
 
 // Get single sector by ID
 router.get("/:id", checkPermission('sectors.view'), validateId, getSectorById);

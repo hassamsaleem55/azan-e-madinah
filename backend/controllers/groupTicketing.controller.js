@@ -50,8 +50,8 @@ export const getAllGroupTicketings = async (req, res) => {
     let allGroupsData = [];
 
     // Extract query parameters
-    const { group_type } = req.query;
-    const groupTypeFilters = group_type ? (Array.isArray(group_type) ? group_type : [group_type]) : [];
+    const { group_category } = req.query;
+    const groupCategoryFilters = group_category ? (Array.isArray(group_category) ? group_category : [group_category]) : [];
 
     // // Check if UMRAH-related types are in the filters
     // const shouldFetchUmrahGroups = groupTypeFilters.length === 0 || 
@@ -109,7 +109,7 @@ export const getAllGroupTicketings = async (req, res) => {
           available_no_of_pax: group.totalSeats || 0,
           showSeat: group.showSeat || false,
           sector: group.sector,
-          type: group.groupType,
+          groupCategory: group.groupCategory,
           price: group.price?.sellingAdultPriceB2B || 0,
           childPrice: group.price?.sellingChildPriceB2B || 0,
           infantPrice: group.price?.sellingInfantPriceB2B || 0,
@@ -140,18 +140,11 @@ export const getAllGroupTicketings = async (req, res) => {
       })
     );
     
-    // Apply group_type filtering only to admin groups, not Flying Zone groups
-    // Flying Zone API already filters by type
-    if (groupTypeFilters.length > 0) {
+    // Apply group_category filtering
+    if (groupCategoryFilters.length > 0) {
       allGroupsData = allGroupsData.filter(group => {
-        // Skip filtering for Flying Zone groups since API already filtered them
-        // if (group.source === 'flyingzone') {
-        //   return true;
-        // }
-        
-        // Apply filtering only to admin groups
-        const matches = groupTypeFilters.some(filterType => 
-          group.type?.toLowerCase().includes(filterType.toLowerCase())
+        const matches = groupCategoryFilters.some(filterCategory => 
+          group.groupCategory?.toLowerCase().includes(filterCategory.toLowerCase())
         );
         return matches;
       });

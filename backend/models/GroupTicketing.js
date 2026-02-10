@@ -99,7 +99,7 @@ const GroupTicketingSchema = new mongoose.Schema(
   totalSeats: { type: Number, default: 0 },
   showSeat: { type: Boolean, default: false },
 
-  groupType: {
+  groupCategory: {
     type: String,
     enum: ["UAE Groups", "KSA Groups", "Bahrain Groups", "Mascat Groups", "Qatar Groups", "UK Groups", "Umrah Groups"],
     required: true

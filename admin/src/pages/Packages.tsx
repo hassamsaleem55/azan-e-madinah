@@ -7,15 +7,16 @@ import PageBreadCrumb from '../components/common/PageBreadCrumb';
 import Button from '../components/ui/button/Button';
 import Input from '../components/form/input/InputField';
 import { Package } from '../types';
+import PackageForm from './PackageForm';
 
 const Packages = () => {
     const [packages, setPackages] = useState<Package[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
-    const [showModal, setShowModal] = useState(false);
     const [showViewModal, setShowViewModal] = useState(false);
-    const [editingPackage, setEditingPackage] = useState<Package | null>(null);
     const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
+    const [showModal, setShowModal] = useState(false);
+    const [editingId, setEditingId] = useState<string | null>(null);
     const [filters, setFilters] = useState({
         type: '',
         status: '',
@@ -54,19 +55,30 @@ const Packages = () => {
         }
     };
 
-    const handleCreate = () => {
-        setEditingPackage(null);
-        setShowModal(true);
-    };
-
-    const handleEdit = (pkg: Package) => {
-        setEditingPackage(pkg);
-        setShowModal(true);
-    };
-
     const handleView = (pkg: Package) => {
         setSelectedPackage(pkg);
         setShowViewModal(true);
+    };
+
+    const handleCreate = () => {
+        setEditingId(null);
+        setShowModal(true);
+    };
+
+    const handleEdit = (id: string) => {
+        setEditingId(id);
+        setShowModal(true);
+    };
+
+    const handleModalClose = () => {
+        setShowModal(false);
+        setEditingId(null);
+    };
+
+    const handleModalSuccess = () => {
+        setShowModal(false);
+        setEditingId(null);
+        fetchPackages();
     };
 
     const filteredPackages = packages.filter(pkg =>
@@ -190,13 +202,8 @@ const Packages = () => {
                                     {filteredPackages.map((pkg) => (
                                         <tr key={pkg._id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                                             <td className="px-6 py-4 whitespace-nowrap">
-                                                <div>
-                                                    <div className="text-sm font-medium text-gray-900 dark:text-white">
-                                                        {pkg.name}
-                                                    </div>
-                                                    <div className="text-sm text-gray-500 dark:text-gray-400">
-                                                        {pkg.departureCities?.join(', ')}
-                                                    </div>
+                                                <div className="text-sm font-medium text-gray-900 dark:text-white">
+                                                    {pkg.name}
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
@@ -231,7 +238,7 @@ const Packages = () => {
                                                         <Eye size={18} />
                                                     </button>
                                                     <button
-                                                        onClick={() => handleEdit(pkg)}
+                                                        onClick={() => handleEdit(pkg._id)}
                                                         className="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300"
                                                         title="Edit"
                                                     >
@@ -251,31 +258,16 @@ const Packages = () => {
                                 </tbody>
                             </table>
                         </div>
-                    )}
+                    )}  
                 </div>
 
                 {/* Create/Edit Modal */}
                 {showModal && (
-                    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-                            <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                                <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
-                                    {editingPackage ? 'Edit Package' : 'Add New Package'}
-                                </h2>
-                                <button
-                                    onClick={() => setShowModal(false)}
-                                    className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-2 rounded-full transition-all"
-                                >
-                                    <X size={20} />
-                                </button>
-                            </div>
-                            <div className="p-6">
-                                <p className="text-gray-600 dark:text-gray-400 text-center py-8">
-                                    Package form implementation pending - API integration required
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                    <PackageForm
+                        onClose={handleModalClose}
+                        onSuccess={handleModalSuccess}
+                        editId={editingId}
+                    />
                 )}
 
                 {/* View Modal */}
@@ -293,31 +285,117 @@ const Packages = () => {
                                     <X size={20} />
                                 </button>
                             </div>
-                            <div className="p-6 space-y-4">
+                            <div className="p-6 space-y-6">
+                                {/* Header */}
                                 <div>
-                                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{selectedPackage.name}</h3>
-                                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                                        {selectedPackage.type} Package
-                                    </p>
+                                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{selectedPackage.name}</h3>
+                                    <div className="flex items-center gap-4 mt-2">
+                                        <span className="px-3 py-1 text-sm font-semibold rounded-full bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">
+                                            {selectedPackage.type}
+                                        </span>
+                                        <span className={`px-3 py-1 text-sm font-semibold rounded-full ${
+                                            selectedPackage.status === 'Active' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
+                                            selectedPackage.status === 'Inactive' ? 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300' :
+                                            selectedPackage.status === 'Sold Out' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' :
+                                            'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
+                                        }`}>
+                                            {selectedPackage.status}
+                                        </span>
+                                        {selectedPackage.featured && (
+                                            <span className="px-3 py-1 text-sm font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
+                                                Featured
+                                            </span>
+                                        )}
+                                    </div>
                                 </div>
-                                <div className="grid grid-cols-2 gap-4">
+
+                                {/* Basic Info */}
+                                <div className="grid grid-cols-2 gap-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
                                     <div>
                                         <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Duration</p>
-                                        <p className="text-gray-900 dark:text-white">
+                                        <p className="text-lg font-semibold text-gray-900 dark:text-white">
                                             {selectedPackage.duration?.days} Days / {selectedPackage.duration?.nights} Nights
                                         </p>
                                     </div>
                                     <div>
-                                        <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Status</p>
-                                        <p className="text-gray-900 dark:text-white">{selectedPackage.status}</p>
-                                    </div>
-                                    <div className="col-span-2">
-                                        <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Departure Cities</p>
+                                        <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Type</p>
                                         <p className="text-gray-900 dark:text-white">
-                                            {selectedPackage.departureCities?.join(', ') || 'N/A'}
+                                            {selectedPackage.type}
                                         </p>
                                     </div>
                                 </div>
+
+                                {/* Description */}
+                                {selectedPackage.description && (
+                                    <div>
+                                        <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Description</h4>
+                                        <p className="text-gray-600 dark:text-gray-400">{selectedPackage.description}</p>
+                                    </div>
+                                )}
+
+                                {/* Accommodation */}
+                                {selectedPackage.accommodation && selectedPackage.accommodation.length > 0 && (
+                                    <div>
+                                        <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Accommodation</h4>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            {selectedPackage.accommodation.map((acc: any, index: number) => (
+                                                <div key={index} className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+                                                    <p className="font-semibold text-gray-900 dark:text-white">{acc.city}</p>
+                                                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                                                        {acc.hotel?.name || 'Hotel TBD'} - {acc.nights} nights
+                                                    </p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Pricing */}
+                                {selectedPackage.pricing && selectedPackage.pricing.length > 0 && (
+                                    <div>
+                                        <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Pricing Tiers</h4>
+                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                            {selectedPackage.pricing.map((price: any, index: number) => (
+                                                <div key={index} className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 text-center">
+                                                    <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{price.tierType}</p>
+                                                    <p className="text-xl font-bold text-gray-900 dark:text-white mt-1">
+                                                        PKR {price.price?.toLocaleString()}
+                                                    </p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Inclusions */}
+                                {selectedPackage.inclusions && selectedPackage.inclusions.length > 0 && (
+                                    <div>
+                                        <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Package Includes</h4>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                            {selectedPackage.inclusions.map((inclusion: string, index: number) => (
+                                                <div key={index} className="flex items-center gap-2 text-green-700 dark:text-green-400">
+                                                    <span className="text-green-600 dark:text-green-500">✓</span>
+                                                    <span>{inclusion}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Exclusions */}
+                                {selectedPackage.exclusions && selectedPackage.exclusions.length > 0 && (
+                                    <div>
+                                        <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Not Included</h4>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                            {selectedPackage.exclusions.map((exclusion: string, index: number) => (
+                                                <div key={index} className="flex items-center gap-2 text-red-700 dark:text-red-400">
+                                                    <span className="text-red-600 dark:text-red-500">✗</span>
+                                                    <span>{exclusion}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>

@@ -34,6 +34,18 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
+    // Handle 401 errors (unauthorized)
+    if (error.response?.status === 401) {
+      // Clear auth data
+      localStorage.removeItem("admin_token");
+      localStorage.removeItem("admin_user");
+      localStorage.removeItem("active_role_id");
+      localStorage.removeItem("active_role");
+      
+      // Redirect to login page
+      window.location.href = "/admin-portal/auth/sign-in";
+    }
+    
     // Handle errors globally
     console.error("API error:", error);
     return Promise.reject(error);

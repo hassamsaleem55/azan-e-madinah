@@ -5,16 +5,25 @@ export interface Package {
     name: string;
     slug: string;
     type: string;
-    departureCities?: string[];
+    description?: string;
     duration?: {
         days: number;
         nights: number;
     };
+    accommodation?: Array<{
+        city: string;
+        hotel?: any;
+        nights: number;
+    }>;
     pricing?: Array<{
-        tier: string;
+        tier?: string;
+        tierType?: string;
         price: number;
     }>;
+    inclusions?: string[];
+    exclusions?: string[];
     status: string;
+    featured?: boolean;
     createdAt: string;
     updatedAt: string;
 }
@@ -22,13 +31,72 @@ export interface Package {
 export interface Hotel {
     _id: string;
     name: string;
+    nameArabic?: string;
     slug: string;
+    description?: string;
     location?: {
+        address?: string;
         city: string;
+        district?: string;
         distanceFromHaram?: number;
+        walkingTime?: number;
+        coordinates?: {
+            latitude?: number;
+            longitude?: number;
+        };
     };
     starRating: number;
+    category?: string;
+    roomTypes?: Array<{
+        type: string;
+        pricePerNight?: number;
+        price?: number; // for backward compatibility
+        currency?: string;
+        capacity?: number;
+        availableRooms?: number;
+        description?: string;
+    }>;
+    amenities?: Array<{
+        name: string;
+        icon?: string;
+        category?: string;
+    }> | string[];
+    services?: {
+        shuttleService?: boolean;
+        breakfast?: boolean;
+        wifi?: boolean;
+        parking?: boolean;
+        ac?: boolean;
+        elevator?: boolean;
+        restaurant?: boolean;
+        roomService?: boolean;
+        laundry?: boolean;
+    };
+    images?: Array<{
+        url: string;
+        caption?: string;
+        category?: string;
+        isPrimary?: boolean;
+    }>;
+    contact?: {
+        phone?: string;
+        email?: string;
+        website?: string;
+    };
+    policies?: {
+        checkInTime?: string;
+        checkOutTime?: string;
+        cancellationPolicy?: string;
+        childPolicy?: string;
+        petPolicy?: string;
+    };
+    isFeatured?: boolean;
+    featured?: boolean; // for backward compatibility
     status: string;
+    partnerId?: string;
+    commission?: number;
+    createdBy?: string;
+    updatedBy?: string;
     createdAt: string;
     updatedAt: string;
 }

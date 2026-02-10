@@ -36,40 +36,32 @@ const navItems: NavItem[] = [
     requiredPermission: "agencies.view",
   },
   {
-    icon: <ListIcon />,
-    name: "Add Bank",
-    path: "/add-bank",
+    icon: <TableIcon />,
+    name: "LOVs",
     requiredPermission: "banks.view",
-  },
-  {
-    icon: <ListIcon />,
-    name: "Sector",
-    path: "/sector",
-    requiredPermission: "sectors.view",
-  },
-  {
-    icon: <ListIcon />,
-    name: "Airline",
-    path: "/airline",
-    requiredPermission: "airlines.view",
+    subItems: [
+      { name: "Banks", path: "/add-bank", pro: false, requiredPermission: "banks.view" },
+      { name: "Sectors", path: "/sector", pro: false, requiredPermission: "sectors.view" },
+      { name: "Airlines", path: "/airline", pro: false, requiredPermission: "airlines.view" },
+      { name: "Flights", path: "/flights", pro: false, requiredPermission: "airlines.view" },
+      { name: "Hotels", path: "/hotels", pro: false, requiredPermission: "hotels.view" },
+    ],
   },
   {
     icon: <TableIcon />,
-    name: "Bookings",
-    path: "/all-bookings",
+    name: "Group Ticketing",
     requiredPermission: "bookings.view",
+    subItems: [
+      { name: "All Bookings", path: "/all-bookings", pro: false, requiredPermission: "bookings.view" },
+      { name: "View Groups", path: "/group-ticketing", pro: false, requiredPermission: "groups.view" },
+      { name: "Create Group", path: "/group-ticketing/create", pro: false, requiredPermission: "groups.create" },
+    ],
   },
   {
     icon: <ListIcon />,
     name: "Packages",
     path: "/packages",
     requiredPermission: "packages.view",
-  },
-  {
-    icon: <ListIcon />,
-    name: "Hotels",
-    path: "/hotels",
-    requiredPermission: "hotels.view",
   },
   {
     icon: <ListIcon />,
@@ -94,15 +86,6 @@ const navItems: NavItem[] = [
     name: "Content Management",
     path: "/content-management",
     requiredPermission: "content.view",
-  },
-  {
-    icon: <TableIcon />,
-    name: "Group Ticketing",
-    requiredPermission: "groups.view",
-    subItems: [
-      { name: "View Groups", path: "/group-ticketing", pro: false, requiredPermission: "groups.view" },
-      { name: "Create Group", path: "/group-ticketing/create", pro: false, requiredPermission: "groups.create" },
-    ],
   },
   {
     icon: <TableIcon />,

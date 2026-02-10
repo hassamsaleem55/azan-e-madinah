@@ -182,27 +182,27 @@ export const validateBookingId = [
 
 // Airline validations
 export const validateCreateAirline = [
-  body('name')
+  body('airlineName')
     .trim()
     .notEmpty().withMessage('Airline name is required')
     .isLength({ min: 2, max: 100 }).withMessage('Airline name must be between 2 and 100 characters'),
-  body('code')
+  body('shortCode')
     .trim()
-    .notEmpty().withMessage('Airline code is required')
-    .isLength({ min: 2, max: 3 }).withMessage('Airline code must be 2-3 characters')
-    .matches(/^[A-Z0-9]+$/).withMessage('Airline code must contain only uppercase letters and numbers'),
-  body('country')
+    .notEmpty().withMessage('Short code is required')
+    .isLength({ min: 2, max: 3 }).withMessage('Short code must be 2-3 characters')
+    .matches(/^[A-Z0-9]+$/).withMessage('Short code must contain only uppercase letters and numbers'),
+  body('airlineCode')
     .trim()
-    .notEmpty().withMessage('Country is required')
-    .isLength({ min: 2, max: 100 }).withMessage('Country must be between 2 and 100 characters'),
+    .notEmpty().withMessage('Airline code (country) is required')
+    .isLength({ min: 2, max: 100 }).withMessage('Airline code must be between 2 and 100 characters'),
   handleValidationErrors
 ];
 
 export const validateUpdateAirline = [
   mongoIdValidation('id'),
-  body('name').optional().trim().isLength({ min: 2, max: 100 }).withMessage('Airline name must be between 2 and 100 characters'),
-  body('code').optional().trim().matches(/^[A-Z0-9]{2,3}$/).withMessage('Airline code must be 2-3 uppercase letters/numbers'),
-  body('country').optional().trim().isLength({ min: 2, max: 100 }).withMessage('Country must be between 2 and 100 characters'),
+  body('airlineName').optional().trim().isLength({ min: 2, max: 100 }).withMessage('Airline name must be between 2 and 100 characters'),
+  body('shortCode').optional().trim().matches(/^[A-Z0-9]{2,3}$/).withMessage('Short code must be 2-3 uppercase letters/numbers'),
+  body('airlineCode').optional().trim().isLength({ min: 2, max: 100 }).withMessage('Airline code must be between 2 and 100 characters'),
   handleValidationErrors
 ];
 
@@ -249,33 +249,21 @@ export const validateUpdateBank = [
 
 // Sector validations
 export const validateCreateSector = [
-  body('departure')
+  body('sectorTitle')
     .trim()
-    .notEmpty().withMessage('Departure location is required')
-    .isLength({ min: 2, max: 100 }).withMessage('Departure must be between 2 and 100 characters'),
-  body('arrival')
+    .notEmpty().withMessage('Sector title is required')
+    .isLength({ min: 5, max: 10 }).withMessage('Sector title must be between 5 and 10 characters (e.g., DXB-JED)'),
+  body('fullSector')
     .trim()
-    .notEmpty().withMessage('Arrival location is required')
-    .isLength({ min: 2, max: 100 }).withMessage('Arrival must be between 2 and 100 characters'),
-  body('departureCode')
-    .trim()
-    .notEmpty().withMessage('Departure code is required')
-    .isLength({ min: 3, max: 3 }).withMessage('Departure code must be exactly 3 characters')
-    .matches(/^[A-Z]{3}$/).withMessage('Departure code must be 3 uppercase letters'),
-  body('arrivalCode')
-    .trim()
-    .notEmpty().withMessage('Arrival code is required')
-    .isLength({ min: 3, max: 3 }).withMessage('Arrival code must be exactly 3 characters')
-    .matches(/^[A-Z]{3}$/).withMessage('Arrival code must be 3 uppercase letters'),
+    .notEmpty().withMessage('Full sector name is required')
+    .isLength({ min: 2, max: 200 }).withMessage('Full sector must be between 2 and 200 characters'),
   handleValidationErrors
 ];
 
 export const validateUpdateSector = [
   mongoIdValidation('id'),
-  body('departure').optional().trim().isLength({ min: 2, max: 100 }).withMessage('Departure must be between 2 and 100 characters'),
-  body('arrival').optional().trim().isLength({ min: 2, max: 100 }).withMessage('Arrival must be between 2 and 100 characters'),
-  body('departureCode').optional().trim().matches(/^[A-Z]{3}$/).withMessage('Departure code must be 3 uppercase letters'),
-  body('arrivalCode').optional().trim().matches(/^[A-Z]{3}$/).withMessage('Arrival code must be 3 uppercase letters'),
+  body('sectorTitle').optional().trim().isLength({ min: 5, max: 10 }).withMessage('Sector title must be between 5 and 10 characters'),
+  body('fullSector').optional().trim().isLength({ min: 2, max: 200 }).withMessage('Full sector must be between 2 and 200 characters'),
   handleValidationErrors
 ];
 
