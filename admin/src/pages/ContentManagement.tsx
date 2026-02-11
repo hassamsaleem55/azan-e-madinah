@@ -3,7 +3,7 @@ import { Save, Plus, Trash2 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import axiosInstance from '../Api/axios';
 import PageMeta from '../components/common/PageMeta';
-import PageBreadCrumb from '../components/common/PageBreadCrumb';
+import PageHeader from '../components/layout/PageHeader';
 import Button from '../components/ui/button/Button';
 import Input from '../components/form/input/InputField';
 import { Content, ContentSection, ContentStatistic, ContentCoreValue } from '../types';
@@ -177,33 +177,37 @@ const ContentManagement = () => {
             <PageMeta title="Content Management | Admin" description="" />
             
             <div className="space-y-6">
-                <PageBreadCrumb pageTitle="Content Management" />
-
-                <div className="flex justify-between items-center">
-                    <div>
-                        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Content Management</h1>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                            Manage website content and pages
-                        </p>
-                    </div>
-                    <div className="flex gap-2">
-                        <Button onClick={handleSave} className="flex items-center gap-2">
-                            <Save size={18} />
-                            Save
-                        </Button>
-                        {content?.isPublished === false && (
-                            <Button onClick={handlePublish} className="flex items-center gap-2 bg-green-600 hover:bg-green-700">
-                                Publish
+                <PageHeader
+                    title="Content Management"
+                    description="Manage website content and pages"
+                    breadcrumbs={[
+                        { label: 'Home', path: '/' },
+                        { label: 'Content Management' },
+                    ]}
+                    actions={
+                        <div className="flex gap-2">
+                            <Button onClick={handleSave} className="flex items-center gap-2">
+                                <Save size={18} />
+                                Save
                             </Button>
-                        )}
-                    </div>
-                </div>
+                            {content?.isPublished === false && (
+                                <Button onClick={handlePublish} className="flex items-center gap-2 bg-green-600 hover:bg-green-700">
+                                    Publish
+                                </Button>
+                            )}
+                        </div>
+                    }
+                />
 
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Select Page
-                    </label>
-                    <select
+                <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden">
+                    <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                        <label className="text-lg font-semibold text-gray-900 dark:text-white">
+                            Select Page
+                        </label>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Choose which page to edit</p>
+                    </div>
+                    <div className="p-6">
+                        <select
                         className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                         value={selectedPage}
                         onChange={(e) => setSelectedPage(e.target.value)}
@@ -212,18 +216,22 @@ const ContentManagement = () => {
                             <option key={opt.value} value={opt.value}>{opt.label}</option>
                         ))}
                     </select>
+                    </div>
                 </div>
 
                 {loading ? (
-                    <div className="p-8 text-center bg-white dark:bg-gray-800 rounded-lg shadow">
+                    <div className="p-8 text-center bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
                         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
                     </div>
                 ) : (
                     <>
                         {/* Basic Info */}
-                        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Basic Information</h2>
-                            <div className="space-y-4">
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden">
+                            <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Basic Information</h2>
+                                <p className="text-sm text-gray-600 dark:text-gray-400">Page title and metadata</p>
+                            </div>
+                            <div className="p-6 space-y-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                         Page Title
@@ -239,15 +247,20 @@ const ContentManagement = () => {
                         </div>
 
                         {/* Sections */}
-                        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                            <div className="flex justify-between items-center mb-4">
-                                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Content Sections</h2>
-                                <Button onClick={addSection} size="sm" className="flex items-center gap-2">
-                                    <Plus size={16} />
-                                    Add Section
-                                </Button>
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden">
+                            <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                                <div className="flex justify-between items-center">
+                                    <div>
+                                        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Content Sections</h2>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400">Add and manage page sections</p>
+                                    </div>
+                                    <Button onClick={addSection} size="sm" className="flex items-center gap-2">
+                                        <Plus size={16} />
+                                        Add Section
+                                    </Button>
+                                </div>
                             </div>
-                            <div className="space-y-4">
+                            <div className="p-6 space-y-4">
                                 {formData.sections.map((section, index) => (
                                     <div key={index} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
                                         <div className="flex justify-between items-start mb-3">
@@ -282,15 +295,20 @@ const ContentManagement = () => {
                         </div>
 
                         {/* Statistics */}
-                        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                            <div className="flex justify-between items-center mb-4">
-                                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Statistics</h2>
-                                <Button onClick={addStatistic} size="sm" className="flex items-center gap-2">
-                                    <Plus size={16} />
-                                    Add Statistic
-                                </Button>
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden">
+                            <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                                <div className="flex justify-between items-center">
+                                    <div>
+                                        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Statistics</h2>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400">Add statistical data</p>
+                                    </div>
+                                    <Button onClick={addStatistic} size="sm" className="flex items-center gap-2">
+                                        <Plus size={16} />
+                                        Add Statistic
+                                    </Button>
+                                </div>
                             </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {formData.statistics.map((stat, index) => (
                                     <div key={index} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
                                         <div className="flex justify-end mb-2">
@@ -327,15 +345,20 @@ const ContentManagement = () => {
                         </div>
 
                         {/* Core Values */}
-                        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                            <div className="flex justify-between items-center mb-4">
-                                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Core Values</h2>
-                                <Button onClick={addCoreValue} size="sm" className="flex items-center gap-2">
-                                    <Plus size={16} />
-                                    Add Value
-                                </Button>
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden">
+                            <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                                <div className="flex justify-between items-center">
+                                    <div>
+                                        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Core Values</h2>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400">Define company values</p>
+                                    </div>
+                                    <Button onClick={addCoreValue} size="sm" className="flex items-center gap-2">
+                                        <Plus size={16} />
+                                        Add Value
+                                    </Button>
+                                </div>
                             </div>
-                            <div className="space-y-4">
+                            <div className="p-6 space-y-4">
                                 {formData.coreValues.map((value, index) => (
                                     <div key={index} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
                                         <div className="flex justify-between items-start mb-3">
@@ -370,9 +393,12 @@ const ContentManagement = () => {
                         </div>
 
                         {/* SEO */}
-                        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">SEO Settings</h2>
-                            <div className="space-y-4">
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden">
+                            <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">SEO Settings</h2>
+                                <p className="text-sm text-gray-600 dark:text-gray-400">Meta tags for search engines</p>
+                            </div>
+                            <div className="p-6 space-y-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                         Meta Title

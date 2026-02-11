@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import PageHeader from "../components/layout/PageHeader";
 import { Users, Eye, Filter, Search, MapPin } from "lucide-react";
 import { toast } from "react-hot-toast";
 import axiosInstance from "../Api/axios";
@@ -85,18 +86,14 @@ const ViewAccounts = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
-            <Users className="w-7 h-7 text-blue-600" />
-            Agency Accounts
-          </h1>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-            View and manage all registered agency accounts
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        title="Agency Accounts"
+        description="View and manage all registered agency accounts"
+        breadcrumbs={[
+          { label: 'Home', path: '/' },
+          { label: 'Agency Accounts' },
+        ]}
+      />
 
       {/* Filters Section */}
       <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden">
@@ -117,7 +114,7 @@ const ViewAccounts = () => {
         <div className="p-6">
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* City Filter */}
+
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                 <div className="flex items-center gap-2">
@@ -137,7 +134,6 @@ const ViewAccounts = () => {
               </select>
             </div>
 
-            {/* Entries Per Page */}
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                 Entries per page
@@ -154,7 +150,6 @@ const ViewAccounts = () => {
               </select>
             </div>
 
-            {/* Search */}
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                 Search
@@ -174,7 +169,7 @@ const ViewAccounts = () => {
         </div>
       </div>
 
-      {/* Accounts Table */}
+
       <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden">
         <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-5 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center gap-3">

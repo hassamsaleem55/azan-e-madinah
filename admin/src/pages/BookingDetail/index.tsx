@@ -183,11 +183,11 @@ export default function BookingDetail() {
                     {/* Left Column - Booking Info */}
                     <div className="lg:col-span-2 space-y-6">
                         {/* Status Card with Update */}
-                        <div className="bg-white rounded-lg shadow p-6">
-                            <div className="flex justify-between items-center mb-4">
-                                <h2 className="text-lg font-semibold text-gray-900">Booking Status</h2>
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden">
+                            <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Booking Status</h2>
                             </div>
-                            <div className="flex items-center gap-4">
+                            <div className="p-6">
                                 <select
                                     value={selectedStatus}
                                     onChange={(e) => setSelectedStatus(e.target.value)}
@@ -209,9 +209,11 @@ export default function BookingDetail() {
                         </div>
 
                         {/* Booking Information */}
-                        <div className="bg-white rounded-lg shadow p-6">
-                            <h3 className="text-lg font-semibold text-gray-900 mb-4">Booking Information</h3>
-                            <div className="grid grid-cols-2 gap-4">
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden">
+                            <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Booking Information</h3>
+                            </div>
+                            <div className="p-6 grid grid-cols-2 gap-4">
                                 <div>
                                     <label className="text-sm text-gray-600">Contact Person</label>
                                     <p className="text-gray-900 font-medium">{(safeBooking?.passengers?.[0]?.givenName + ' ' + safeBooking?.passengers?.[0]?.surName) || 'N/A'}</p>
@@ -244,8 +246,11 @@ export default function BookingDetail() {
                         </div>
 
                         {/* Passenger Information */}
-                        <div className="bg-white rounded-lg shadow p-6">
-                            <h3 className="text-lg font-semibold text-gray-900 mb-4">Passenger Breakdown</h3>
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden">
+                            <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Passenger Breakdown</h3>
+                            </div>
+                            <div className="p-6">
                             <div className="grid grid-cols-3 gap-4">
                                 <div className="bg-blue-50 p-4 rounded-lg text-center">
                                     <p className="text-2xl font-bold text-blue-600">{safeBooking.adultsCount || "0"}</p>
@@ -266,9 +271,11 @@ export default function BookingDetail() {
                         </div>
 
                         {/* Pricing Information */}
-                        <div className="bg-white rounded-lg shadow p-6">
-                            <h3 className="text-lg font-semibold text-gray-900 mb-4">Pricing Breakdown</h3>
-                            <div className="space-y-3">
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden">
+                            <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Pricing Breakdown</h3>
+                            </div>
+                            <div className="p-6 space-y-3">
                                 <div className="flex justify-between items-center">
                                     <span className="text-gray-700">Adult Price (x{safeBooking.adultsCount})</span>
                                     <span className="font-medium">PKR {(safeBooking.pricing?.adultPrice || 0).toLocaleString()}</span>
@@ -312,9 +319,12 @@ export default function BookingDetail() {
 
                         {/* Passenger List */}
                         {safeBooking.passengers && safeBooking.passengers.length > 0 && (
-                            <div className="bg-white rounded-lg shadow p-6">
-                                <h3 className="text-lg font-semibold text-gray-900 mb-4">Passenger List</h3>
-                                <div className="overflow-x-auto">
+                            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden">
+                                <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Passenger List</h3>
+                                </div>
+                                <div className="p-6">
+                                    <div className="overflow-x-auto">
                                     <table className="min-w-full divide-y divide-gray-200">
                                         <thead className="bg-gray-50">
                                             <tr>
@@ -348,13 +358,16 @@ export default function BookingDetail() {
                                     </table>
                                 </div>
                             </div>
+                        </div>
                         )}
 
                         {/* Flight Details */}
                         {safeBooking.flights && safeBooking.flights.length > 0 && (
-                            <div className="bg-white rounded-lg shadow p-6">
-                                <h3 className="text-lg font-semibold text-gray-900 mb-4">Flight Details</h3>
-                                <div className="space-y-4">
+                            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden">
+                                <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Flight Details</h3>
+                                </div>
+                                <div className="p-6 space-y-4">
                                     {safeBooking.flights.map((flight, index) => (
                                         <div key={index} className="border border-gray-200 rounded-lg p-4">
                                             <p className="font-semibold text-gray-900">Flight {index + 1}: {flight.flightNo}</p>
@@ -375,9 +388,11 @@ export default function BookingDetail() {
 
                     {/* Right Column - Summary */}
                     <div>
-                        <div className="bg-white rounded-lg shadow p-6 sticky top-20">
-                            <h3 className="text-lg font-semibold text-gray-900 mb-4">Booking Summary</h3>
-                            <div className="space-y-4 text-sm">
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden sticky top-20">
+                            <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Booking Summary</h3>
+                            </div>
+                            <div className="p-6 space-y-4 text-sm">
                                 <div>
                                     <label className="text-gray-600">Reference</label>
                                     <p className="text-gray-900 font-medium">{safeBooking.bookingReference}</p>
@@ -405,6 +420,7 @@ export default function BookingDetail() {
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     )
 }

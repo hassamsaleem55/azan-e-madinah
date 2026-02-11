@@ -1,4 +1,4 @@
-import PageBreadcrumb from "../../components/common/PageBreadCrumb";
+import PageHeader from "../../components/layout/PageHeader";
 import ResponsiveImage from "../../components/ui/images/ResponsiveImage";
 import TwoColumnImageGrid from "../../components/ui/images/TwoColumnImageGrid";
 import ThreeColumnImageGrid from "../../components/ui/images/ThreeColumnImageGrid";
@@ -12,7 +12,15 @@ export default function Images() {
         title="React.js Images Dashboard | TailAdmin - React.js Admin Dashboard Template"
         description="This is React.js Images page for TailAdmin - React.js Tailwind CSS Admin Dashboard Template"
       />
-      <PageBreadcrumb pageTitle="Images" />
+      <PageHeader
+        title="Images"
+        description="Image components and examples"
+        breadcrumbs={[
+          { label: 'Home', path: '/' },
+          { label: 'UI Elements', path: '/ui' },
+          { label: 'Images' },
+        ]}
+      />
       <div className="space-y-5 sm:space-y-6">
         <ComponentCard title="Responsive image">
           <ResponsiveImage />

@@ -32,7 +32,7 @@ export default function Home() {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {/* Agents Card */}
           <Link to="/registered-agencies" className="block group">
-            <div className="bg-gradient-to-br from-teal-500 to-emerald-600 dark:from-teal-600 dark:to-emerald-700 rounded-xl p-6 text-white relative shadow-lg hover:shadow-xl transition-all">
+            <div className="bg-linear-to-br from-teal-500 to-emerald-600 dark:from-teal-600 dark:to-emerald-700 rounded-xl p-6 text-white relative shadow-lg hover:shadow-xl transition-all">
               <div className="absolute top-6 right-6 opacity-20 group-hover:opacity-30 transition-opacity">
                 <UsersIcon className="w-16 h-16" />
               </div>
@@ -45,7 +45,7 @@ export default function Home() {
           </Link>
 
           {/* Index Cards */}
-          <div className="bg-gradient-to-br from-slate-500 to-blue-600 dark:from-slate-600 dark:to-blue-700 rounded-xl p-6 text-white relative shadow-lg hover:shadow-xl transition-all group cursor-pointer">
+          <div className="bg-linear-to-br from-slate-500 to-blue-600 dark:from-slate-600 dark:to-blue-700 rounded-xl p-6 text-white relative shadow-lg hover:shadow-xl transition-all group cursor-pointer">
             <div className="absolute top-6 right-6 opacity-20 group-hover:opacity-30 transition-opacity">
               <IdentificationIcon className="w-16 h-16" />
             </div>
@@ -69,7 +69,7 @@ export default function Home() {
           <PageContentSection>
             <Button
               className="w-full"
-              size="lg"
+              size="md"
               onClick={() => {/* Navigate to groups */}}
             >
               View All Groups

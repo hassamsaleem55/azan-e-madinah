@@ -32,7 +32,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
       <div className="flex flex-wrap items-center gap-3">
         {/* Search */}
         {onSearchChange && (
-          <div className="flex-1 min-w-[240px] max-w-md relative">
+          <div className="flex-1 min-w-60 max-w-md relative">
             <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
               <Search className="w-5 h-5" />
             </div>

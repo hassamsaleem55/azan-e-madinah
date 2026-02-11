@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import axiosInstance from "../../Api/axios";
 import PageMeta from "../../components/common/PageMeta";
-import PageBreadCrumb from "../../components/common/PageBreadCrumb";
+import PageHeader from "../../components/layout/PageHeader";
 import ComponentCard from "../../components/common/ComponentCard";
 import Label from "../../components/form/Label";
 import Input from "../../components/form/input/InputField";
@@ -129,7 +129,15 @@ export default function ManageUserPasswords() {
   return (
     <>
       <PageMeta title="Manage User Passwords" description="Manage user and agency passwords" />
-      <PageBreadCrumb pageTitle="Manage User Passwords" />
+      
+      <PageHeader
+        title="Manage User Passwords"
+        description="Update passwords for users and agencies"
+        breadcrumbs={[
+          { label: 'Home', path: '/' },
+          { label: 'Manage Passwords' },
+        ]}
+      />
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
         <ComponentCard title="Change User/Agency Password" className="md:col-span-8">

@@ -1,23 +1,11 @@
 import { useState, useEffect, memo } from 'react'
 import { useNavigate, useSearchParams } from 'react-router'
 import { format } from "date-fns"
-import { Eye, Download } from 'lucide-react'
+import { Calendar as CalendarIcon } from 'lucide-react'
+import DatePicker from 'react-datepicker'
 import axiosInstance from '../../Api/axios'
 import { generateBookingPDF } from '../../utils'
-import MaskedDatePicker from '../../components/maskedDatePicker'
-import {
-    PageMeta,
-    PageLayout,
-    PageHeader,
-    PageContent,
-    PageContentSection,
-    FilterBar,
-    Badge,
-    LoadingState,
-    EmptyState,
-    FormField,
-    Select,
-} from '../../components'
+import { PageMeta, PageLayout, PageHeader, FilterBar, FormField, Input, Button, LoadingState } from '../../components'
 
 interface Booking {
     _id: string
@@ -340,7 +328,6 @@ export default function AllBookings() {
 
     const [uniqueSectors, setUniqueSectors] = useState<string[]>([])
     const [uniqueAirlines, setUniqueAirlines] = useState<string[]>([])
-    // const [timers, setTimers] = useState<{ [key: string]: { hours: number; minutes: number; seconds: number; expired: boolean } }>({})
     const [timers, setTimers] = useState<Record<string, Timer>>({})
 
 
@@ -353,24 +340,6 @@ export default function AllBookings() {
         { value: 'confirmed', label: 'Confirmed', color: 'bg-green-50 text-green-700 border border-green-300' },
         { value: 'cancelled', label: 'Cancelled', color: 'bg-red-50 text-red-700 border border-red-300' }
     ]
-
-    // Calculate remaining time for a booking (2 hours from creation)
-    // const calculateRemainingTime = (createdAt: string) => {
-    //     const createdDate = new Date(createdAt)
-    //     const expiryDate = new Date(createdDate.getTime() + 2 * 60 * 60 * 1000) // Add 2 hours
-    //     const now = new Date()
-    //     const diff = expiryDate.getTime() - now.getTime()
-
-    //     if (diff <= 0) {
-    //         return { hours: 0, minutes: 0, seconds: 0, expired: true }
-    //     }
-
-    //     const hours = Math.floor(diff / (1000 * 60 * 60))
-    //     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
-    //     const seconds = Math.floor((diff % (1000 * 60)) / 1000)
-
-    //     return { hours, minutes, seconds, expired: false }
-    // }
 
     const calculateRemainingTime = (expiresAt: string | null) => {
 
@@ -482,107 +451,108 @@ export default function AllBookings() {
     }
 
     if (initialLoading) {
-        return (
-            <div className="w-full min-h-screen flex items-center justify-center">
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-                    <p className="mt-4 text-gray-600">Loading bookings...</p>
-                </div>
-            </div>
-        )
+        return <LoadingState message="Loading bookings..." />;
     }
 
     return (
-        <div className="w-full min-h-screen mx-auto">
-            {/* Header */}
-            <div className="mb-8">
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">All Bookings</h1>
-                <p className="text-gray-600">Manage all customer flight bookings</p>
-            </div>
+        <>
+            <PageMeta title="All Bookings" description="Manage all customer flight bookings" />
+            <PageLayout>
+                <PageHeader
+                    title="All Bookings"
+                    description="Manage all customer flight bookings"
+                    breadcrumbs={[
+                        { label: "Dashboard", path: "/" },
+                        { label: "All Bookings" }
+                    ]}
+                />
 
-            {/* Search and Filters in One Row */}
-            <div className="mb-4 bg-white rounded-lg shadow p-3 sm:p-4">
-                <div className="flex flex-wrap items-center gap-3">
-                    {/* Search Input */}
-                    <div className="flex-1 min-w-[200px]">
-                        <input
-                            type="text"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            placeholder="Search by reference, PNR, or customer name..."
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                <FilterBar
+                    filters={
+                        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+                            <FormField label="Search">
+                                <Input
+                                    type="text"
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    placeholder="Search by reference, PNR, or customer name..."
+                                />
+                            </FormField>
+                            <FormField label="Sector">
+                                <select
+                                    value={filters.sector}
+                                    onChange={(e) => handleFilterChange('sector', e.target.value)}
+                                    className="w-full h-11 px-3 border border-gray-300 dark:border-gray-700 rounded-md text-sm bg-white dark:bg-gray-900 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                >
+                                    <option value="">All Sectors</option>
+                                    {uniqueSectors.map(sector => (
+                                        <option key={sector} value={sector}>
+                                            {sector}
+                                        </option>
+                                    ))}
+                                </select>
+                            </FormField>
+                            <FormField label="Airline">
+                                <select
+                                    value={filters.airline}
+                                    onChange={(e) => handleFilterChange('airline', e.target.value)}
+                                    className="w-full h-11 px-3 border border-gray-300 dark:border-gray-700 rounded-md text-sm bg-white dark:bg-gray-900 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                >
+                                    <option value="">All Airlines</option>
+                                    {uniqueAirlines.map(airline => (
+                                        <option key={airline} value={airline}>
+                                            {airline}
+                                        </option>
+                                    ))}
+                                </select>
+                            </FormField>
+                            <FormField label="Departure Date">
+                                <div className="relative">
+                                    <DatePicker
+                                        selected={filters.fromDate}
+                                        onChange={(date: Date | null) => handleFilterChange('fromDate', date)}
+                                        dateFormat="MMMM d, yyyy"
+                                        placeholderText="Select date"
+                                        className="w-full h-11 px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm focus:outline-none focus:ring-3 focus:ring-brand-500/20 dark:bg-gray-900 dark:text-white/90"
+                                        wrapperClassName="w-full"
+                                        minDate={new Date()}
+                                        isClearable
+                                    />
+                                    <CalendarIcon className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                                </div>
+                            </FormField>
+                            <div className="flex items-end">
+                                <Button
+                                    variant="outline"
+                                    onClick={resetFilters}
+                                    className="w-full text-red-600 hover:text-red-800 border-red-300 hover:bg-red-50"
+                                >
+                                    Reset
+                                </Button>
+                            </div>
+                        </div>
+                    }
+                    showFilters={true}
+                />
+
+                {/* Bookings Table */}
+                <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden relative">
+                    {fetching && (
+                        <div className="absolute inset-0 bg-white dark:bg-gray-800 bg-opacity-75 dark:bg-opacity-75 flex items-center justify-center z-10">
+                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                        </div>
+                    )}
+                    <div className="overflow-x-auto">
+                        <BookingsTable
+                            bookings={bookings}
+                            getStatusBadge={getStatusBadge}
+                            formatDate={formatDate}
+                            navigate={navigate}
+                            timers={timers}
                         />
                     </div>
-
-                    {/* Sector Filter */}
-                    <div className="w-full sm:w-auto min-w-[150px]">
-                        <select
-                            value={filters.sector}
-                            onChange={(e) => handleFilterChange('sector', e.target.value)}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        >
-                            <option value="">All Sectors</option>
-                            {uniqueSectors.map(sector => (
-                                <option key={sector} value={sector}>
-                                    {sector}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-
-                    {/* Airline Filter */}
-                    <div className="w-full sm:w-auto min-w-[150px]">
-                        <select
-                            value={filters.airline}
-                            onChange={(e) => handleFilterChange('airline', e.target.value)}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        >
-                            <option value="">All Airlines</option>
-                            {uniqueAirlines.map(airline => (
-                                <option key={airline} value={airline}>
-                                    {airline}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-
-                    {/* From Date */}
-                    <div className="w-full sm:w-auto min-w-[150px]">
-                        <MaskedDatePicker
-                            value={filters.fromDate}
-                            onChange={(date) => handleFilterChange('fromDate', date)}
-                            placeholderText="Dept Date"
-                            minDate={new Date()}
-                        />
-                    </div>
-
-                    {/* Reset Button */}
-                    <button
-                        onClick={resetFilters}
-                        className="px-4 py-2 text-sm text-red-600 hover:text-red-800 font-medium border border-red-300 rounded-md hover:bg-red-50 transition-colors"
-                    >
-                        Reset
-                    </button>
                 </div>
-            </div>
-
-            {/* Bookings Table */}
-            <div className="bg-white rounded-lg shadow overflow-hidden relative">
-                {fetching && (
-                    <div className="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center z-10">
-                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-                    </div>
-                )}
-                <div className="overflow-x-auto">
-                    <BookingsTable
-                        bookings={bookings}
-                        getStatusBadge={getStatusBadge}
-                        formatDate={formatDate}
-                        navigate={navigate}
-                        timers={timers}
-                    />
-                </div>
-            </div>
-        </div>
+            </PageLayout>
+        </>
     )
 }

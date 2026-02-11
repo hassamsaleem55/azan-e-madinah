@@ -86,7 +86,7 @@ const navItems: NavItem[] = [
   },
   {
     icon: <ListIcon />,
-    name: "Content Management",
+    name: "CMS",
     path: "/content-management",
     requiredPermission: "content.view",
   },

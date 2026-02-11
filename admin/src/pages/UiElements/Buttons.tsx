@@ -1,5 +1,5 @@
 import ComponentCard from "../../components/common/ComponentCard";
-import PageBreadcrumb from "../../components/common/PageBreadCrumb";
+import PageHeader from "../../components/layout/PageHeader";
 import PageMeta from "../../components/common/PageMeta";
 import Button from "../../components/ui/button/Button";
 import { BoxIcon } from "../../icons";
@@ -11,7 +11,15 @@ export default function Buttons() {
         title="React.js Buttons Dashboard | TailAdmin - React.js Admin Dashboard Template"
         description="This is React.js Buttons Dashboard page for TailAdmin - React.js Tailwind CSS Admin Dashboard Template"
       />
-      <PageBreadcrumb pageTitle="Buttons" />
+      <PageHeader
+        title="Buttons"
+        description="Button components and variations"
+        breadcrumbs={[
+          { label: 'Home', path: '/' },
+          { label: 'UI Elements', path: '/ui' },
+          { label: 'Buttons' },
+        ]}
+      />
       <div className="space-y-5 sm:space-y-6">
         {/* Primary Button */}
         <ComponentCard title="Primary Button">

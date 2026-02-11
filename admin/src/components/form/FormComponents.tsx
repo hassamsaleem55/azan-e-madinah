@@ -29,9 +29,9 @@ export const FormSection: React.FC<FormSectionProps> = ({
   className = '',
 }) => {
   return (
-    <div className={`space-y-5 ${className}`}>
+    <div className={`bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700 ${className}`}>
       {(title || description) && (
-        <div className="space-y-1.5">
+        <div className="space-y-1.5 mb-4">
           {title && (
             <h3 className="text-lg font-bold text-gray-900 dark:text-white">
               {title}

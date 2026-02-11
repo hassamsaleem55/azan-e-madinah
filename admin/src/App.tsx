@@ -161,7 +161,6 @@ export default function App() {
 
             {/* Auth Layout */}
             <Route path="/signin" element={<SignIn />} />
-            {/* <Route path="/signup" element={<SignUp />} /> */} {/* Disabled: Admin users created by admins only */}
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
 

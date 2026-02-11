@@ -1,7 +1,7 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import axiosInstance from "../Api/axios";
 import PageMeta from "../components/common/PageMeta";
-import PageBreadCrumb from "../components/common/PageBreadCrumb";
+import PageHeader from "../components/layout/PageHeader";
 import ComponentCard from "../components/common/ComponentCard";
 import Label from "../components/form/Label";
 import Input from "../components/form/input/InputField";
@@ -49,7 +49,15 @@ export default function TestEmail() {
   return (
     <>
       <PageMeta title="Test Email" description="Test email configuration" />
-      <PageBreadCrumb pageTitle="Test Email Configuration" />
+      
+      <PageHeader
+        title="Test Email Configuration"
+        description="Test password reset email functionality"
+        breadcrumbs={[
+          { label: 'Home', path: '/' },
+          { label: 'Test Email' },
+        ]}
+      />
 
       <div className="grid grid-cols-1 gap-6">
         <ComponentCard title="Test Password Reset Email">

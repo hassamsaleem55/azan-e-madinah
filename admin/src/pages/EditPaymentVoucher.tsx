@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
+import PageHeader from "../components/layout/PageHeader";
 import { Receipt, Save, ArrowLeft, Upload, Calendar, DollarSign, FileText, Building2 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import axiosInstance from "../Api/axios";
@@ -193,26 +194,24 @@ const EditPaymentVoucher = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
+      <PageHeader
+        title="Payment Voucher Details"
+        description="View and edit payment voucher information"
+        breadcrumbs={[
+          { label: 'Home', path: '/' },
+          { label: 'Payment Vouchers', path: '/view-payment-voucher' },
+          { label: 'Edit' },
+        ]}
+        actions={
           <button
             onClick={() => navigate("/view-payment-voucher")}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
           >
-            <ArrowLeft className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+            <ArrowLeft className="w-4 h-4" />
+            Back
           </button>
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
-              <Receipt className="w-7 h-7 text-blue-600" />
-              Payment Voucher Details
-            </h1>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-              View and edit payment voucher information
-            </p>
-          </div>
-        </div>
-      </div>
+        }
+      />
 
       {/* Form Section */}
       <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden">

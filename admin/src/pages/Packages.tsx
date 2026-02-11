@@ -289,7 +289,6 @@ const Packages = () => {
                     </PageContentSection>
                 </PageContent>
 
-                {/* Create/Edit Modal */}
                 {showModal && (
                     <PackageForm
                         onClose={handleModalClose}
@@ -298,7 +297,6 @@ const Packages = () => {
                     />
                 )}
 
-                {/* View Modal */}
                 {showViewModal && selectedPackage && (
                     <Modal
                         isOpen={showViewModal}
@@ -307,7 +305,6 @@ const Packages = () => {
                         size="xl"
                     >
                         <div className="space-y-6">
-                            {/* Header */}
                             <div>
                                 <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{selectedPackage.name}</h3>
                                 <div className="flex items-center gap-3 mt-3">
@@ -321,7 +318,6 @@ const Packages = () => {
                                 </div>
                             </div>
 
-                            {/* Basic Info */}
                             <div className="grid grid-cols-2 gap-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
                                 <div>
                                     <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Duration</p>
@@ -337,7 +333,6 @@ const Packages = () => {
                                 </div>
                             </div>
 
-                            {/* Description */}
                             {selectedPackage.description && (
                                 <div>
                                     <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Description</h4>
@@ -345,7 +340,6 @@ const Packages = () => {
                                 </div>
                             )}
 
-                            {/* Accommodation */}
                             {selectedPackage.accommodation && selectedPackage.accommodation.length > 0 && (
                                 <div>
                                     <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Accommodation</h4>
@@ -362,7 +356,6 @@ const Packages = () => {
                                 </div>
                             )}
 
-                            {/* Pricing */}
                             {selectedPackage.pricing && selectedPackage.pricing.length > 0 && (
                                 <div>
                                     <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Pricing Tiers</h4>
@@ -379,7 +372,6 @@ const Packages = () => {
                                 </div>
                             )}
 
-                            {/* Inclusions */}
                             {selectedPackage.inclusions && selectedPackage.inclusions.length > 0 && (
                                 <div>
                                     <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Package Includes</h4>
@@ -394,7 +386,6 @@ const Packages = () => {
                                 </div>
                             )}
 
-                            {/* Exclusions */}
                             {selectedPackage.exclusions && selectedPackage.exclusions.length > 0 && (
                                 <div>
                                     <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Not Included</h4>

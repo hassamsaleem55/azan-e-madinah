@@ -232,7 +232,6 @@ const Visas = () => {
                     />
                 )}
 
-                {/* Create/Edit Modal */}
                 <Modal
                     isOpen={showModal}
                     onClose={() => setShowModal(false)}
@@ -246,7 +245,6 @@ const Visas = () => {
                     </div>
                 </Modal>
 
-                {/* View Modal */}
                 <Modal
                     isOpen={showViewModal}
                     onClose={() => setShowViewModal(false)}

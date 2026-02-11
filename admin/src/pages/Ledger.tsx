@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router";
 import axiosInstance from "../Api/axios";
+import PageHeader from "../components/layout/PageHeader";
 import { FileText, Calendar, Printer, Copy, FileSpreadsheet, FileDown } from "lucide-react";
 import { toast } from "react-hot-toast";
 
@@ -183,18 +184,15 @@ const Ledger = () => {
 
   return (
     <div className="space-y-6">
-      {/* Modern Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold flex items-center gap-3">
-            <FileText className="w-7 h-7 text-blue-600" />
-            Ledger - {userName}
-          </h1>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-            View account ledger with date range filtering
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        title={`Ledger - ${userName}`}
+        description="View account ledger with date range filtering"
+        breadcrumbs={[
+          { label: 'Home', path: '/' },
+          { label: 'View Accounts', path: '/view-accounts' },
+          { label: 'Ledger' },
+        ]}
+      />
       
       {/* Print Styles */}
       <style>{`
@@ -326,7 +324,6 @@ const Ledger = () => {
 
       <div className="rounded-2xl border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-white/[0.03]">
         <div className="px-4 py-6 md:px-6 xl:px-7.5">
-          {/* Date Range Filter Section */}
           <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 rounded-xl p-6 mb-6 no-print">
             <div className="flex items-center gap-3 mb-4">
               <div className="p-2 bg-blue-600 rounded-lg">
@@ -372,7 +369,6 @@ const Ledger = () => {
             </form>
           </div>
 
-          {/* Ledger Title Section */}
           <div className="bg-linear-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 rounded-xl p-5 mb-6">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
               Ledger of {userName.toUpperCase()}
@@ -382,7 +378,6 @@ const Ledger = () => {
             </p>
           </div>
 
-          {/* Export Actions */}
           <div className="mb-6 no-print">
             <div className="flex flex-wrap gap-3">
               <button

@@ -166,7 +166,6 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
                 </div>
 
                 <form onSubmit={handleSubmit} className="p-6 space-y-6">
-                    {/* Basic Information */}
                     <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                             <Package className="w-5 h-5" />
@@ -280,7 +279,6 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
                         </div>
                     </div>
 
-                    {/* Accommodation */}
                     <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
@@ -383,7 +381,6 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
                         </div>
                     </div>
 
-                    {/* Pricing Tiers */}
                     <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
@@ -456,7 +453,6 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
                         </div>
                     </div>
 
-                    {/* Package Inclusions */}
                     <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                             <CheckCircle className="w-5 h-5" />
@@ -545,7 +541,6 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
                         </div>
                     </div>
 
-                    {/* Action Buttons */}
                     <div className="flex gap-4 justify-end pt-6 border-t border-gray-200 dark:border-gray-700 sticky bottom-0 bg-white dark:bg-gray-800 pb-2">
                         <button
                             type="button"

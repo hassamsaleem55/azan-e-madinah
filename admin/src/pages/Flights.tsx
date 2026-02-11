@@ -502,21 +502,33 @@ const Flights = () => {
                                 </FormField>
                             </div>
                         </FormSection>
-                        <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setShowModal(false)}
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                disabled={loading}
-              >
-                {loading ? 'Saving...' : editingId ? 'Update Flight' : 'Add Flight'}
-              </Button>
-            </div>
+                        <div className="flex gap-4 justify-end pt-6 border-t border-gray-200 dark:border-gray-700 sticky bottom-0 bg-white dark:bg-gray-800 pb-2">
+                            <button
+                                type="button"
+                                onClick={() => setShowModal(false)}
+                                className="px-6 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-all"
+                                disabled={loading}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className="px-6 py-3 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all disabled:opacity-50 flex items-center gap-2"
+                            >
+                                {loading ? (
+                                    <>
+                                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                                        <span>Saving...</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Plane className="w-5 h-5" />
+                                        <span>{editingId ? 'Update Flight' : 'Add Flight'}</span>
+                                    </>
+                                )}
+                            </button>
+                        </div>
                     </form>
                 </Modal>
 

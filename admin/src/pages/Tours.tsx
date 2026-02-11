@@ -251,7 +251,6 @@ const Tours = () => {
                     />
                 )}
 
-                {/* Create/Edit Modal */}
                 <Modal
                     isOpen={showModal}
                     onClose={() => setShowModal(false)}
@@ -265,7 +264,6 @@ const Tours = () => {
                     </div>
                 </Modal>
 
-                {/* View Modal */}
                 <Modal
                     isOpen={showViewModal}
                     onClose={() => setShowViewModal(false)}

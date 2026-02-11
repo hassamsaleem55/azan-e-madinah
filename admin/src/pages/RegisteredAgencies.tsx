@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import axiosInstance from "../Api/axios";
+import PageHeader from "../components/layout/PageHeader";
 import { Users, UserCheck, UserX, Clock, Download, FileText, Search, Filter } from "lucide-react";
 import { toast } from "react-hot-toast";
 
@@ -302,19 +303,17 @@ const RegisteredAgencies = () => {
   const uniqueCities = Array.from(new Set(users.filter(u => u.city).map(u => u.city)));
 
   return (
-    <div className="p-6">
-      {/* Header */}
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold flex items-center gap-2">
-          <Users className="w-6 h-6 text-blue-600" />
-          Registered Agencies
-        </h1>
-        <p className="text-gray-600 mt-1">Manage all registered agency users</p>
-      </div>
+    <div className="space-y-6">
+      <PageHeader
+        title="Registered Agencies"
+        description="Manage all registered agency users"
+        breadcrumbs={[
+          { label: 'Home', path: '/' },
+          { label: 'Registered Agencies' },
+        ]}
+      />
 
-      {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        {/* Active Agents */}
         <div className="bg-linear-to-br from-emerald-400 to-teal-500 rounded-xl shadow-lg p-6 text-white">
           <div className="flex items-center gap-4">
             <div className="bg-white/90 rounded-full p-3 shadow-md">
@@ -327,7 +326,6 @@ const RegisteredAgencies = () => {
           </div>
         </div>
 
-        {/* Pending Agents */}
         <div className="bg-linear-to-br from-yellow-400 to-orange-500 rounded-xl shadow-lg p-6 text-white">
           <div className="flex items-center gap-4">
             <div className="bg-white/90 rounded-full p-3 shadow-md">
@@ -340,7 +338,6 @@ const RegisteredAgencies = () => {
           </div>
         </div>
 
-        {/* Inactive Agents */}
         <div className="bg-linear-to-br from-gray-400 to-slate-500 rounded-xl shadow-lg p-6 text-white">
           <div className="flex items-center gap-4">
             <div className="bg-white/90 rounded-full p-3 shadow-md">
@@ -354,17 +351,14 @@ const RegisteredAgencies = () => {
         </div>
       </div>
 
-      {/* Main Content Card */}
-      <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-        {/* Filters Section */}
-        <div className="p-6 bg-linear-to-r from-blue-50 to-indigo-50 border-b">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden">
+        <div className="p-6 bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center gap-2 mb-4">
             <Filter className="w-5 h-5 text-blue-600" />
             <h2 className="text-lg font-bold text-gray-800">Filters & Search</h2>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {/* City Filter */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
                 Filter by City
@@ -381,7 +375,6 @@ const RegisteredAgencies = () => {
               </select>
             </div>
 
-            {/* Status Filter */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
                 Filter by Status
@@ -398,7 +391,6 @@ const RegisteredAgencies = () => {
               </select>
             </div>
 
-            {/* Entries Per Page */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
                 Entries per page
@@ -415,7 +407,6 @@ const RegisteredAgencies = () => {
               </select>
             </div>
 
-            {/* Search */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
                 Search
@@ -433,7 +424,6 @@ const RegisteredAgencies = () => {
             </div>
           </div>
 
-          {/* Export Buttons */}
           <div className="flex gap-3 mt-4">
             <button
               onClick={handleDownloadPDF}
@@ -454,7 +444,6 @@ const RegisteredAgencies = () => {
           </div>
         </div>
 
-        {/* Table Section */}
         <div className="overflow-x-auto">
           {loading ? (
             <div className="flex justify-center items-center h-64">
@@ -590,7 +579,6 @@ const RegisteredAgencies = () => {
           )}
         </div>
 
-        {/* Results Summary */}
         {!loading && filteredUsers.length > 0 && (
           <div className="px-6 py-4 bg-gray-50 border-t text-sm text-gray-600">
             Showing {Math.min(entriesPerPage, filteredUsers.length)} of {filteredUsers.length} agencies

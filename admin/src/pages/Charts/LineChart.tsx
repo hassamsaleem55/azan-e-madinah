@@ -1,4 +1,4 @@
-import PageBreadcrumb from "../../components/common/PageBreadCrumb";
+import PageHeader from "../../components/layout/PageHeader";
 import ComponentCard from "../../components/common/ComponentCard";
 import LineChartOne from "../../components/charts/line/LineChartOne";
 import PageMeta from "../../components/common/PageMeta";
@@ -10,7 +10,15 @@ export default function LineChart() {
         title="React.js Chart Dashboard | TailAdmin - React.js Admin Dashboard Template"
         description="This is React.js Chart Dashboard page for TailAdmin - React.js Tailwind CSS Admin Dashboard Template"
       />
-      <PageBreadcrumb pageTitle="Line Chart" />
+      <PageHeader
+        title="Line Chart"
+        description="Line chart visualizations"
+        breadcrumbs={[
+          { label: 'Home', path: '/' },
+          { label: 'Charts', path: '/charts' },
+          { label: 'Line Chart' },
+        ]}
+      />
       <div className="space-y-6">
         <ComponentCard title="Line Chart 1">
           <LineChartOne />

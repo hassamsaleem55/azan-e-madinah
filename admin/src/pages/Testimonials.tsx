@@ -166,7 +166,7 @@ const Testimonials = () => {
                 ) : (
                     <div className="grid grid-cols-1 gap-6">
                         {filteredTestimonials.map((testimonial) => (
-                            <div key={testimonial._id} className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                            <div key={testimonial._id} className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-6">
                                 <div className="flex justify-between items-start mb-4">
                                     <div className="flex items-start gap-4">
                                         <div className="w-12 h-12 rounded-full bg-primary-100 dark:bg-primary-900 flex items-center justify-center text-primary-600 dark:text-primary-300 font-bold">
@@ -284,7 +284,6 @@ const Testimonials = () => {
                     </div>
                 )}
 
-                {/* Response Modal */}
                 <Modal
                     isOpen={showResponseModal}
                     onClose={() => {

@@ -264,7 +264,6 @@ const Hotels = () => {
                     </PageContentSection>
                 </PageContent>
 
-                {/* Create/Edit Modal */}
                 {showModal && (
                     <HotelForm
                         onClose={handleModalClose}
@@ -306,7 +305,7 @@ const Hotels = () => {
                                 </div>
                             </div>
 
-                            {/* Location Info */}
+
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
                                 <div>
                                     <p className="text-sm font-medium text-gray-500 dark:text-gray-400">City</p>
@@ -333,7 +332,6 @@ const Hotels = () => {
                                 </div>
                             </div>
 
-                            {/* Description */}
                             {selectedHotel.description && (
                                 <div>
                                     <h4 className="text-base font-semibold text-gray-900 dark:text-white mb-2">Description</h4>
@@ -361,7 +359,6 @@ const Hotels = () => {
                                 </div>
                             )}
 
-                            {/* Amenities */}
                             {selectedHotel.amenities && selectedHotel.amenities.length > 0 && (
                                 <div>
                                     <h4 className="text-base font-semibold text-gray-900 dark:text-white mb-3">Amenities</h4>

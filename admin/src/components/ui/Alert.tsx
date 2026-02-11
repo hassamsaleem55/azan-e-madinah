@@ -66,7 +66,7 @@ export const Alert: React.FC<AlertProps> = ({
       role="alert"
     >
       {Icon && (
-        <div className={`flex-shrink-0 ${styles.icon}`}>
+        <div className={`shrink-0 ${styles.icon}`}>
           {typeof Icon === 'function' ? <Icon className="w-5 h-5" /> : Icon}
         </div>
       )}
@@ -79,7 +79,7 @@ export const Alert: React.FC<AlertProps> = ({
       {onClose && (
         <button
           onClick={onClose}
-          className={`flex-shrink-0 ${styles.icon} hover:opacity-70 transition-opacity`}
+          className={`shrink-0 ${styles.icon} hover:opacity-70 transition-opacity`}
         >
           <XCircle className="w-5 h-5" />
         </button>

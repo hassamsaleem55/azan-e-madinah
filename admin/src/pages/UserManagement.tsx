@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import axiosInstance from "../Api/axios";
 import { useAuth } from "../context/AuthContext";
+import PageHeader from "../components/layout/PageHeader";
 import { Shield, Plus, Edit, Trash2, X, CheckCircle, XCircle } from "lucide-react";
 
 interface Role {
@@ -185,30 +186,32 @@ export default function UserManagement() {
   }
 
   return (
-    <div className="p-6">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <h1 className="text-2xl font-bold flex items-center gap-2">
-            <Shield className="w-6 h-6" />
-            User Management
-          </h1>
-          <p className="text-gray-600 mt-1">Manage system users and their roles</p>
-          <p className="text-sm text-blue-600 mt-1">
-            📝 Note: Agents are managed in the "Registered Agencies" module
-          </p>
-        </div>
-        <button
-          onClick={handleCreate}
-          className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-        >
-          <Plus className="w-4 h-4" />
-          Add User
-        </button>
+    <div className="space-y-6">
+      <PageHeader
+        title="User Management"
+        description="Manage system users and their roles"
+        breadcrumbs={[
+          { label: 'Home', path: '/' },
+          { label: 'User Management' },
+        ]}
+        actions={
+          <button
+            onClick={handleCreate}
+            className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+          >
+            <Plus className="w-4 h-4" />
+            Add User
+          </button>
+        }
+      />
+      
+      <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+        <p className="text-sm text-blue-800 dark:text-blue-200">
+          📝 Note: Agents are managed in the "Registered Agencies" module
+        </p>
       </div>
 
-      {/* Users Table */}
-      <div className="bg-white rounded-lg shadow overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden">
         <table className="w-full">
           <thead className="bg-gray-50 border-b">
             <tr>
@@ -300,97 +303,107 @@ export default function UserManagement() {
         </table>
       </div>
 
-      {/* Create/Edit Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl transform transition-all animate-slideUp">
-            <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 bg-linear-to-r from-blue-50 to-indigo-50">
-              <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto transform transition-all animate-slideUp">
+            <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 sticky top-0 z-10">
+              <h2 className="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
                 <Shield className="w-6 h-6 text-blue-600" />
                 {editingUser ? 'Edit User' : 'Create New User'}
               </h2>
               <button
                 onClick={() => setShowModal(false)}
-                className="text-gray-400 hover:text-gray-600 hover:bg-white/50 p-2 rounded-full transition-all"
+                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-white/50 p-2 rounded-full transition-all"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-6 max-h-[calc(90vh-8rem)] overflow-y-auto">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Name <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                    placeholder="Enter full name"
-                  />
+            <form onSubmit={handleSubmit} className="p-6 space-y-6">
+              <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                  <Shield className="w-5 h-5" />
+                  User Information
+                </h3>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Name <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+                      placeholder="Enter full name"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Email <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+                      placeholder="email@example.com"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Phone <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="tel"
+                      required
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+                      placeholder="+1234567890"
+                    />
+                  </div>
                 </div>
 
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Email <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                    placeholder="email@example.com"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Phone <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="tel"
-                    required
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                    placeholder="+1234567890"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 gap-6">
                 {!editingUser && (
-                  <div className="md:col-span-2">
-                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                      <p className="text-sm text-blue-700">
+                  <div className="mt-4">
+                    <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-3">
+                      <p className="text-sm text-blue-700 dark:text-blue-300">
                         <strong>Note:</strong> A secure password will be automatically generated and sent to the user's email.
                       </p>
                     </div>
                   </div>
                 )}
+              </div>
 
-                <div className="md:col-span-2">
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                  <Shield className="w-5 h-5" />
+                  Role Assignment
+                </h3>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Roles <span className="text-red-500">*</span>
                   </label>
-                  {/* Identity Separation Notice */}
-                  <div className="mb-2 bg-blue-50 border border-blue-200 rounded-lg p-2.5">
-                    <p className="text-xs text-blue-700">
+                  <div className="mb-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-2.5">
+                    <p className="text-xs text-blue-700 dark:text-blue-300">
                       <strong>ℹ️ Identity Separation:</strong> The Agent role cannot be assigned from the Admin Panel. 
                       Agents must self-register through the Agent Portal on the main website.
                     </p>
                   </div>
-                  <div className="border border-gray-300 rounded-lg p-3 max-h-48 overflow-y-auto bg-white">
+                  <div className="border border-gray-300 dark:border-gray-600 rounded-lg p-3 max-h-48 overflow-y-auto bg-white dark:bg-gray-700">
                     {roles.filter(role => role.name !== 'Agent').length === 0 ? (
-                      <p className="text-sm text-gray-500">No roles available</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">No roles available</p>
                     ) : (
                       <div className="space-y-2">
                         {roles.filter(role => role.name !== 'Agent').map((role) => (
-                          <label key={role._id} className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                          <label key={role._id} className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-600 p-2 rounded">
                             <input
                               type="checkbox"
                               checked={formData.role.includes(role._id)}
@@ -401,11 +414,11 @@ export default function UserManagement() {
                                   setFormData({ ...formData, role: formData.role.filter(r => r !== role._id) });
                                 }
                               }}
-                              className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                              className="w-4 h-4 text-blue-600 border-gray-300 dark:border-gray-600 rounded focus:ring-blue-500"
                             />
-                            <span className="text-sm font-medium text-gray-700">{role.name}</span>
+                            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{role.name}</span>
                             {role.description && (
-                              <span className="text-xs text-gray-500">- {role.description}</span>
+                              <span className="text-xs text-gray-500 dark:text-gray-400">- {role.description}</span>
                             )}
                           </label>
                         ))}
@@ -413,25 +426,25 @@ export default function UserManagement() {
                     )}
                   </div>
                   {formData.role.length === 0 && (
-                    <p className="text-xs text-red-500 mt-1">Please select at least one role</p>
+                    <p className="text-xs text-red-500 dark:text-red-400 mt-1">Please select at least one role</p>
                   )}
                 </div>
-
               </div>
 
-              <div className="flex justify-end gap-3 mt-8 pt-6 border-t border-gray-200">
+              <div className="flex gap-4 justify-end pt-6 border-t border-gray-200 dark:border-gray-700 sticky bottom-0 bg-white dark:bg-gray-800 pb-2">
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="px-6 py-3 border-2 border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 hover:border-gray-400 transition-all"
+                  className="px-6 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-all"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all"
+                  className="px-6 py-3 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all flex items-center gap-2"
                 >
-                  {editingUser ? 'Update User' : 'Create User'}
+                  <Shield className="w-5 h-5" />
+                  <span>{editingUser ? 'Update User' : 'Create User'}</span>
                 </button>
               </div>
             </form>

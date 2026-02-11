@@ -2,7 +2,7 @@ import { ReactNode, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import axiosInstance from "../Api/axios";
 import PageMeta from "../components/common/PageMeta";
-import PageBreadCrumb from "../components/common/PageBreadCrumb";
+import PageHeader from "../components/layout/PageHeader";
 
 interface Agent {
   _id: string;
@@ -174,24 +174,32 @@ const AgentDetail = () => {
   return (
     <>
       <PageMeta title="Agent Detail" description="View and edit agent" />
-      <PageBreadCrumb pageTitle="Agent Detail" />
-
-      <div className="flex items-center justify-between mb-4">
-        <button
-          onClick={() => navigate(-1)}
-          className="rounded bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200"
-        >
-          Back
-        </button>
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => setEditMode(!editMode)}
-            className="rounded bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
-          >
-            {editMode ? "Cancel Edit" : "Edit Agent"}
-          </button>
-        </div>
-      </div>
+      
+      <PageHeader
+        title="Agent Detail"
+        description="View and manage agent information"
+        breadcrumbs={[
+          { label: 'Home', path: '/' },
+          { label: 'Registered Agencies', path: '/registered-agencies' },
+          { label: 'Agent Detail' },
+        ]}
+        actions={
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => navigate(-1)}
+              className="rounded bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
+            >
+              Back
+            </button>
+            <button
+              onClick={() => setEditMode(!editMode)}
+              className="rounded bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+            >
+              {editMode ? "Cancel Edit" : "Edit Agent"}
+            </button>
+          </div>
+        }
+      />
 
       {(error || success) && (
         <div
@@ -202,10 +210,10 @@ const AgentDetail = () => {
         </div>
       )}
 
-      <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-white/[0.02]">
-        <div className="bg-blue-600 px-6 py-4 text-white">
-          <div className="text-lg font-semibold">Agent Details</div>
-          <div className="text-sm text-blue-100">Code: {agent.agencyCode || "N/A"}</div>
+      <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
+        <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+          <div className="text-lg font-semibold text-gray-900 dark:text-white">Agent Details</div>
+          <div className="text-sm text-gray-600 dark:text-gray-400">Code: {agent.agencyCode || "N/A"}</div>
         </div>
 
         {!editMode ? (

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
+import PageHeader from "../components/layout/PageHeader";
 import { Receipt, Calendar, Filter, Eye, FileText } from "lucide-react";
 import { toast } from "react-hot-toast";
 import axiosInstance from "../Api/axios";
@@ -114,20 +115,15 @@ const ViewPaymentVoucher = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
-            <Receipt className="w-7 h-7 text-blue-600" />
-            Payment Vouchers
-          </h1>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-            View and manage all payment transactions
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        title="Payment Vouchers"
+        description="View and manage all payment transactions"
+        breadcrumbs={[
+          { label: 'Home', path: '/' },
+          { label: 'Payment Vouchers' },
+        ]}
+      />
 
-      {/* Filters Section */}
       <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden">
         <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-5 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center gap-3">
@@ -145,7 +141,6 @@ const ViewPaymentVoucher = () => {
         
         <div className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            {/* Date From */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 <div className="flex items-center gap-2">
@@ -162,7 +157,6 @@ const ViewPaymentVoucher = () => {
               />
             </div>
 
-            {/* Date To */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 <div className="flex items-center gap-2">
@@ -179,7 +173,6 @@ const ViewPaymentVoucher = () => {
               />
             </div>
 
-            {/* Status */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Status
@@ -196,7 +189,6 @@ const ViewPaymentVoucher = () => {
               </select>
             </div>
 
-            {/* Filter Button */}
             <div className="flex items-end">
               <button
                 onClick={handleFilter}
@@ -210,7 +202,6 @@ const ViewPaymentVoucher = () => {
         </div>
       </div>
 
-      {/* Payments Table */}
       <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden">
         <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-5 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center gap-3">
@@ -375,7 +366,6 @@ const ViewPaymentVoucher = () => {
                 </table>
               </div>
 
-              {/* Total Section */}
               <div className="bg-linear-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-t border-gray-200 dark:border-gray-700">
                 <div className="flex justify-end items-center gap-4">
                   <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">

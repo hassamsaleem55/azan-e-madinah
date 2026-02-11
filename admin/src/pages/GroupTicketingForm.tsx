@@ -4,6 +4,7 @@ import AsyncSelect from "react-select/async";
 import { Plane, Calendar, Users, DollarSign, Mail, Phone, FileText, ArrowLeft, Plus, Trash2, Save } from "lucide-react";
 import { toast } from "react-hot-toast";
 import axiosInstance from "../Api/axios";
+import { PageMeta, PageLayout, PageHeader, FormField, Input, Select, LoadingState, Button } from "../components";
 
 interface Flight {
   airline: string;
@@ -342,40 +343,36 @@ const GroupTicketingForm = () => {
   };
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center py-20">
-        <div className="inline-flex items-center gap-3 px-6 py-3 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
-          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
-          <span className="text-gray-700 dark:text-gray-300 font-medium">Loading booking details...</span>
-        </div>
-      </div>
-    );
+    return <LoadingState message="Loading booking details..." />;
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <button
+    <>
+      <PageMeta 
+        title={editMode ? "Edit Group Booking" : "Create Group Booking"} 
+        description={editMode ? "Update group ticketing details" : "Add new airline group booking"}
+      />
+      <PageLayout>
+        <div className="flex items-center justify-between mb-6">
+          <PageHeader
+            title={editMode ? "Edit Group Booking" : "Create Group Booking"}
+            description={editMode ? "Update group ticketing details" : "Add new airline group booking"}
+            breadcrumbs={[
+              { label: "Dashboard", path: "/" },
+              { label: "Group Ticketing", path: "/group-ticketing" },
+              { label: editMode ? "Edit" : "Create" }
+            ]}
+          />
+          <Button
+            variant="outline"
             onClick={() => navigate("/group-ticketing")}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+            className="gap-2"
           >
-            <ArrowLeft className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-          </button>
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
-              <Plane className="w-7 h-7 text-blue-600" />
-              {editMode ? "Edit Group Booking" : "Create Group Booking"}
-            </h1>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-              {editMode ? "Update group ticketing details" : "Add new airline group booking"}
-            </p>
-          </div>
+            <ArrowLeft className="w-4 h-4" />
+            Back
+          </Button>
         </div>
-      </div>
 
-      {/* Form Container */}
       <div className="rounded-2xl border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800">
         <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-5 rounded-t-2xl border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center gap-3">
@@ -392,30 +389,22 @@ const GroupTicketingForm = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-8">
-          {/* Basic Information */}
           <div className="space-y-4">
             <div className="flex items-center gap-2 mb-4">
               <Users className="w-5 h-5 text-blue-600" />
               <h4 className="text-base font-semibold text-gray-900 dark:text-white">Basic Information</h4>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Supplier Account
-                </label>
-                <input
+              <FormField label="Supplier Account" required>
+                <Input
                   type="text"
                   required
                   value={formData.user}
                   onChange={(e) => setFormData({ ...formData, user: e.target.value })}
                   placeholder="Enter Supplier Account"
-                  className="w-full h-11 rounded-lg border border-gray-300 bg-white px-4 text-sm text-gray-800 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                 />
-              </div>
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Sector
-                </label>
+              </FormField>
+              <FormField label="Sector">
                 <select
                   value={formData.sector}
                   onChange={(e) => {
@@ -424,7 +413,7 @@ const GroupTicketingForm = () => {
                       sector: e.target.value
                     });
                   }}
-                  className="w-full h-11 rounded-lg border border-gray-300 bg-white px-4 text-sm text-gray-800 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                  className="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 text-sm text-gray-800 dark:text-white outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
                 >
                   <option value="">Select Sector</option>
                   {sectors.map((sector) => (
@@ -433,21 +422,17 @@ const GroupTicketingForm = () => {
                     </option>
                   ))}
                 </select>
-              </div>
+              </FormField>
             </div>
           </div>
 
-          {/* Group Details */}
           <div className="space-y-4">
             <div className="flex items-center gap-2 mb-4">
               <Plane className="w-5 h-5 text-blue-600" />
               <h4 className="text-base font-semibold text-gray-900 dark:text-white">Group Details</h4>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Airline
-                </label>
+              <FormField label="Airline">
                 <select
                   value={formData.airline}
                   onChange={(e) => {
@@ -463,7 +448,7 @@ const GroupTicketingForm = () => {
                       flights: updatedFlights
                     });
                   }}
-                  className="w-full h-11 rounded-lg border border-gray-300 bg-white px-4 text-sm text-gray-800 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                  className="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 text-sm text-gray-800 dark:text-white outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
                 >
                   <option value="">Select Airline</option>
                   {airlines.map((airline) => (
@@ -472,16 +457,13 @@ const GroupTicketingForm = () => {
                     </option>
                   ))}
                 </select>
-              </div>
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Group Category <span className="text-red-500">*</span>
-                </label>
+              </FormField>
+              <FormField label="Group Category" required>
                 <select
                   required
                   value={formData.groupCategory}
                   onChange={(e) => setFormData({ ...formData, groupCategory: e.target.value })}
-                  className="w-full h-11 rounded-lg border border-gray-300 bg-white px-4 text-sm text-gray-800 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                  className="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 text-sm text-gray-800 dark:text-white outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
                 >
                   <option value="">Select Group Category</option>
                   <option value="UAE Groups">UAE Groups</option>
@@ -492,34 +474,26 @@ const GroupTicketingForm = () => {
                   <option value="UK Groups">UK Groups</option>
                   <option value="Umrah Groups">Umrah Groups</option>
                 </select>
-              </div>
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Group Name
-                </label>
-                <input
+              </FormField>
+              <FormField label="Group Name">
+                <Input
                   type="text"
                   value={formData.groupName}
                   readOnly
                   placeholder="e.g., AIR SIAL-NULL"
-                  className="w-full h-11 rounded-lg border border-gray-300 bg-gray-50 px-4 text-sm text-gray-600 outline-none dark:border-gray-600 dark:bg-gray-700/50 dark:text-gray-400 cursor-not-allowed"
+                  className="bg-gray-50 dark:bg-gray-700/50 text-gray-600 dark:text-gray-400 cursor-not-allowed"
                 />
-              </div>
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Total Seats
-                </label>
-                <input
+              </FormField>
+              <FormField label="Total Seats">
+                <Input
                   type="text"
                   value={formData.totalSeats ? formData.totalSeats.toLocaleString() : ''}
                   onChange={(e) => setFormData({ ...formData, totalSeats: Number(e.target.value.replace(/,/g, '')) || 0 })}
                   placeholder="Enter total seats"
-                  className="w-full h-11 rounded-lg border border-gray-300 bg-white px-4 text-sm text-gray-800 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                 />
-              </div>
+              </FormField>
             </div>
 
-            {/* Show Seat Toggle */}
             <div className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-700/30 rounded-lg">
               <label className="flex items-center cursor-pointer">
                 <input
@@ -533,7 +507,6 @@ const GroupTicketingForm = () => {
             </div>
           </div>
 
-          {/* Flight Details */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -718,48 +691,36 @@ const GroupTicketingForm = () => {
             </div>
           </div>
 
-          {/* Buying Prices */}
           <div className="space-y-4">
             <div className="flex items-center gap-2 mb-4">
               <DollarSign className="w-5 h-5 text-blue-600" />
               <h4 className="text-base font-semibold text-gray-900 dark:text-white">Buying Prices</h4>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Currency
-                </label>
+              <FormField label="Currency">
                 <select
                   value={formData.price.buyingCurrency}
                   onChange={(e) => setFormData({
                     ...formData,
                     price: { ...formData.price, buyingCurrency: e.target.value }
                   })}
-                  className="w-full h-11 rounded-lg border border-gray-300 bg-white px-4 text-sm text-gray-800 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                  className="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 text-sm text-gray-800 dark:text-white outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
                 >
                   <option value="PKR">PKR</option>
                 </select>
-              </div>
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Adult Price
-                </label>
-                <input
+              </FormField>
+              <FormField label="Adult Price">
+                <Input
                   type="text"
                   value={formData.price.buyingAdultPrice ? formData.price.buyingAdultPrice.toLocaleString() : ''}
                   onChange={(e) => setFormData({
                     ...formData,
                     price: { ...formData.price, buyingAdultPrice: Number(e.target.value.replace(/,/g, '')) || 0 }
-                  })}
-                  placeholder="0"
-                  className="w-full h-11 rounded-lg border border-gray-300 bg-white px-4 text-sm text-gray-800 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                  })}  placeholder="0"
                 />
-              </div>
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Child Price
-                </label>
-                <input
+              </FormField>
+              <FormField label="Child Price">
+                <Input
                   type="text"
                   value={formData.price.buyingChildPrice ? formData.price.buyingChildPrice.toLocaleString() : ''}
                   onChange={(e) => setFormData({
@@ -767,14 +728,10 @@ const GroupTicketingForm = () => {
                     price: { ...formData.price, buyingChildPrice: Number(e.target.value.replace(/,/g, '')) || 0 }
                   })}
                   placeholder="0"
-                  className="w-full h-11 rounded-lg border border-gray-300 bg-white px-4 text-sm text-gray-800 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                 />
-              </div>
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Infant Price
-                </label>
-                <input
+              </FormField>
+              <FormField label="Infant Price">
+                <Input
                   type="text"
                   value={formData.price.buyingInfantPrice ? formData.price.buyingInfantPrice.toLocaleString() : ''}
                   onChange={(e) => setFormData({
@@ -782,39 +739,31 @@ const GroupTicketingForm = () => {
                     price: { ...formData.price, buyingInfantPrice: Number(e.target.value.replace(/,/g, '')) || 0 }
                   })}
                   placeholder="0"
-                  className="w-full h-11 rounded-lg border border-gray-300 bg-white px-4 text-sm text-gray-800 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                 />
-              </div>
+              </FormField>
             </div>
           </div>
 
-          {/* Selling Prices B2B */}
           <div className="space-y-4">
             <div className="flex items-center gap-2 mb-4">
               <DollarSign className="w-5 h-5 text-green-600" />
               <h4 className="text-base font-semibold text-gray-900 dark:text-white">Selling Prices (B2B)</h4>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Currency
-                </label>
+              <FormField label="Currency">
                 <select
                   value={formData.price.sellingCurrencyB2B}
                   onChange={(e) => setFormData({
                     ...formData,
                     price: { ...formData.price, sellingCurrencyB2B: e.target.value }
                   })}
-                  className="w-full h-11 rounded-lg border border-gray-300 bg-white px-4 text-sm text-gray-800 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                  className="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 text-sm text-gray-800 dark:text-white outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
                 >
                   <option value="PKR">PKR</option>
                 </select>
-              </div>
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Adult Price
-                </label>
-                <input
+              </FormField>
+              <FormField label="Adult Price">
+                <Input
                   type="text"
                   value={formData.price.sellingAdultPriceB2B ? formData.price.sellingAdultPriceB2B.toLocaleString() : ''}
                   onChange={(e) => setFormData({
@@ -822,14 +771,10 @@ const GroupTicketingForm = () => {
                     price: { ...formData.price, sellingAdultPriceB2B: Number(e.target.value.replace(/,/g, '')) || 0 }
                   })}
                   placeholder="0"
-                  className="w-full h-11 rounded-lg border border-gray-300 bg-white px-4 text-sm text-gray-800 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                 />
-              </div>
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Child Price
-                </label>
-                <input
+              </FormField>
+              <FormField label="Child Price">
+                <Input
                   type="text"
                   value={formData.price.sellingChildPriceB2B ? formData.price.sellingChildPriceB2B.toLocaleString() : ''}
                   onChange={(e) => setFormData({
@@ -837,14 +782,10 @@ const GroupTicketingForm = () => {
                     price: { ...formData.price, sellingChildPriceB2B: Number(e.target.value.replace(/,/g, '')) || 0 }
                   })}
                   placeholder="0"
-                  className="w-full h-11 rounded-lg border border-gray-300 bg-white px-4 text-sm text-gray-800 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                 />
-              </div>
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Infant Price
-                </label>
-                <input
+              </FormField>
+              <FormField label="Infant Price">
+                <Input
                   type="text"
                   value={formData.price.sellingInfantPriceB2B ? formData.price.sellingInfantPriceB2B.toLocaleString() : ''}
                   onChange={(e) => setFormData({
@@ -852,102 +793,77 @@ const GroupTicketingForm = () => {
                     price: { ...formData.price, sellingInfantPriceB2B: Number(e.target.value.replace(/,/g, '')) || 0 }
                   })}
                   placeholder="0"
-                  className="w-full h-11 rounded-lg border border-gray-300 bg-white px-4 text-sm text-gray-800 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                 />
-              </div>
+              </FormField>
             </div>
           </div>
 
-          {/* Booking & Contact Information */}
           <div className="space-y-4">
             <div className="flex items-center gap-2 mb-4">
               <FileText className="w-5 h-5 text-blue-600" />
               <h4 className="text-base font-semibold text-gray-900 dark:text-white">Booking & Contact Details</h4>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                  <div className="flex items-center gap-2">
-                    <FileText className="w-4 h-4" />
-                    PNR
-                  </div>
-                </label>
-                <input
+              <FormField label="PNR">
+                <Input
                   type="text"
                   value={formData.pnr}
                   onChange={(e) => setFormData({ ...formData, pnr: e.target.value })}
                   placeholder="Enter PNR"
-                  className="w-full h-11 rounded-lg border border-gray-300 bg-white px-4 text-sm text-gray-800 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                 />
-              </div>
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                  <div className="flex items-center gap-2">
-                    <Phone className="w-4 h-4" />
-                    Contact Phone
-                  </div>
-                </label>
-                <input
+              </FormField>
+              <FormField label="Contact Phone">
+                <Input
                   type="tel"
                   value={formData.contactPersonPhone}
                   onChange={(e) => setFormData({ ...formData, contactPersonPhone: e.target.value })}
                   placeholder="Phone Number"
-                  className="w-full h-11 rounded-lg border border-gray-300 bg-white px-4 text-sm text-gray-800 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                 />
-              </div>
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                  <div className="flex items-center gap-2">
-                    <Mail className="w-4 h-4" />
-                    Contact Email
-                  </div>
-                </label>
-                <input
+              </FormField>
+              <FormField label="Contact Email">
+                <Input
                   type="email"
                   value={formData.contactPersonEmail}
                   onChange={(e) => setFormData({ ...formData, contactPersonEmail: e.target.value })}
                   placeholder="Email Address"
-                  className="w-full h-11 rounded-lg border border-gray-300 bg-white px-4 text-sm text-gray-800 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                 />
-              </div>
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Internal Status
-                </label>
+              </FormField>
+              <FormField label="Internal Status">
                 <select
                   value={formData.internalStatus}
                   onChange={(e) => setFormData({ ...formData, internalStatus: e.target.value })}
-                  className="w-full h-11 rounded-lg border border-gray-300 bg-white px-4 text-sm text-gray-800 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                  className="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 text-sm text-gray-800 dark:text-white outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
                 >
                   <option value="Public">Public</option>
                   <option value="Private">Private</option>
                 </select>
-              </div>
+              </FormField>
             </div>
           </div>
 
-          {/* Action Buttons */}
           <div className="flex gap-3 justify-end pt-6 border-t border-gray-200 dark:border-gray-700">
-            <button
+            <Button
               type="button"
+              variant="outline"
               onClick={() => navigate("/group-ticketing")}
-              className="inline-flex items-center gap-2 rounded-lg bg-gray-500 px-6 py-3 text-sm font-medium text-white hover:bg-gray-600 transition-all duration-200 shadow-lg"
+              className="gap-2"
             >
               <ArrowLeft className="w-4 h-4" />
               Cancel
-            </button>
-            <button
+            </Button>
+            <Button
               type="submit"
               disabled={loading}
-              className="inline-flex items-center gap-2 rounded-lg bg-linear-to-r from-blue-600 to-indigo-600 px-6 py-3 text-sm font-medium text-white hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 shadow-lg shadow-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="gap-2"
             >
               <Save className="w-4 h-4" />
               {loading ? "Saving..." : editMode ? "Update Booking" : "Create Booking"}
-            </button>
+            </Button>
           </div>
         </form>
       </div>
-    </div>
+      </PageLayout>
+    </>
   );
 };
 
