@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import axiosInstance from "../../Api/axios";
 import Input from "../../components/form/input/InputField";
 import Button from "../../components/ui/button/Button";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 
 // Step 1: Request reset
 const RequestResetSchema = Yup.object().shape({

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import axiosInstance from "../Api/axios";
 import { useAuth } from "../context/AuthContext";
 import { Shield, Plus, Edit, Trash2, X, CheckCircle, XCircle } from "lucide-react";

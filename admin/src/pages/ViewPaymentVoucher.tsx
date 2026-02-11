@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { Receipt, Calendar, Filter, Eye, FileText } from "lucide-react";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import axiosInstance from "../Api/axios";
 
 interface Payment {

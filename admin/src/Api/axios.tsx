@@ -43,7 +43,7 @@ axiosInstance.interceptors.response.use(
       localStorage.removeItem("active_role");
       
       // Redirect to login page
-      window.location.href = "/admin-portal/auth/sign-in";
+      // window.location.href = "/admin-portal/signin";
     }
     
     // Handle errors globally

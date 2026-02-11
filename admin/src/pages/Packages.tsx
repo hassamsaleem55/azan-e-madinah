@@ -274,7 +274,7 @@ const Packages = () => {
                 {showViewModal && selectedPackage && (
                     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
                         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-                            <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800">
+                            <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800">
                                 <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
                                     Package Details
                                 </h2>
@@ -310,7 +310,7 @@ const Packages = () => {
                                 </div>
 
                                 {/* Basic Info */}
-                                <div className="grid grid-cols-2 gap-4 p-4 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 rounded-lg">
+                                <div className="grid grid-cols-2 gap-4 p-4 bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 rounded-lg">
                                     <div>
                                         <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Duration</p>
                                         <p className="text-lg font-semibold text-gray-900 dark:text-white">

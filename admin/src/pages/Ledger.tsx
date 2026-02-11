@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router";
 import axiosInstance from "../Api/axios";
 import { FileText, Calendar, Printer, Copy, FileSpreadsheet, FileDown } from "lucide-react";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 
 interface LedgerEntry {
   voucherId: string;

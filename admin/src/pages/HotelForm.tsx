@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { X, Plus, Trash2, Save, Upload, MapPin, Star, Building2, Phone, Mail, Globe } from 'lucide-react';
+import { X, Save, Upload, MapPin, Star, Building2, Phone, Mail, Globe } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import axiosInstance from '../Api/axios';
 import Button from '../components/ui/button/Button';
@@ -15,7 +15,7 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
     const [imageFiles, setImageFiles] = useState<File[]>([]);
     const [imagePreview, setImagePreview] = useState<string[]>([]);
     const [existingImages, setExistingImages] = useState<any[]>([]);
-    
+
     const [formData, setFormData] = useState({
         name: '',
         nameArabic: '',
@@ -23,7 +23,6 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
         location: {
             address: '',
             city: 'Makkah',
-            district: '',
             distanceFromHaram: 0,
             walkingTime: 0,
             coordinates: {
@@ -71,21 +70,21 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
         try {
             setLoading(true);
             const response = await axiosInstance.get(`/hotels/${editId}`);
-            
+
             if (!response.data.success) {
                 toast.error('Failed to load hotel details');
                 onClose();
                 return;
             }
-            
+
             const hotel = response.data.hotel;
-            
+
             if (!hotel) {
                 toast.error('Hotel not found');
                 onClose();
                 return;
             }
-            
+
             setFormData({
                 name: hotel.name || '',
                 nameArabic: hotel.nameArabic || '',
@@ -93,7 +92,6 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                 location: hotel.location || {
                     address: '',
                     city: 'Makkah',
-                    district: '',
                     distanceFromHaram: 0,
                     walkingTime: 0,
                     coordinates: { latitude: 0, longitude: 0 }
@@ -123,7 +121,7 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                 images: hotel.images || [],
                 isFeatured: hotel.isFeatured || false
             });
-            
+
             // Set existing images and previews if editing
             if (hotel.images && hotel.images.length > 0) {
                 setExistingImages(hotel.images);
@@ -131,7 +129,7 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
             }
         } catch (error: any) {
             console.error('Error fetching hotel:', error);
-            
+
             if (error.response?.status === 404) {
                 toast.error('Hotel not found');
             } else if (error.response?.status === 403) {
@@ -147,37 +145,37 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(e.target.files || []);
-        
+
         // Validate file types
         const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
         const invalidFiles = files.filter(file => !validTypes.includes(file.type));
-        
+
         if (invalidFiles.length > 0) {
             toast.error('Please upload only image files (JPG, PNG, GIF, WEBP)');
             return;
         }
-        
+
         // Validate file sizes (max 5MB each)
         const maxSize = 5 * 1024 * 1024; // 5MB
         const oversizedFiles = files.filter(file => file.size > maxSize);
-        
+
         if (oversizedFiles.length > 0) {
             toast.error('Each image must be less than 5MB');
             return;
         }
-        
+
         // Check total number of images
         if (imageFiles.length + files.length > 10) {
             toast.error('Maximum 10 images allowed');
             return;
         }
-        
+
         setImageFiles([...imageFiles, ...files]);
-        
+
         // Create preview URLs
         const newPreviews = files.map(file => URL.createObjectURL(file));
         setImagePreview([...imagePreview, ...newPreviews]);
-        
+
         toast.success(`${files.length} image(s) added`);
     };
 
@@ -193,17 +191,18 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
             const newFiles = imageFiles.filter((_, i) => i !== newFileIndex);
             setImageFiles(newFiles);
         }
-        
+
         // Update preview
         const newPreviews = imagePreview.filter((_, i) => i !== index);
         setImagePreview(newPreviews);
-        
+
         toast.success('Image removed');
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
+
         e.preventDefault();
-        
+
         // Validation
         if (!formData.name || !formData.name.trim()) {
             toast.error('Hotel name is required');
@@ -220,25 +219,24 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
             return;
         }
 
-        if (formData.location.distanceFromHaram === 0) {
-            toast.error('Distance from Haram is required');
+        if (formData.location.distanceFromHaram < 0) {
+            toast.error('Please enter a valid distance from Haram');
             return;
         }
-
         try {
             setLoading(true);
-            
+
             // Prepare form data with images
             const submitData = new FormData();
-            
+
             // For updates, include existing images that weren't removed
             const dataToSubmit = {
                 ...formData,
                 images: editId ? existingImages : [] // Include existing images only for updates
             };
-            
+
             submitData.append('data', JSON.stringify(dataToSubmit));
-            
+
             // Append new image files if any
             imageFiles.forEach(file => {
                 submitData.append('images', file);
@@ -248,7 +246,7 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                 const response = await axiosInstance.put(`/hotels/${editId}`, submitData, {
                     headers: { 'Content-Type': 'multipart/form-data' }
                 });
-                
+
                 if (response.data.success) {
                     toast.success('✓ Hotel updated successfully!');
                     onSuccess();
@@ -260,7 +258,7 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                 const response = await axiosInstance.post('/hotels', submitData, {
                     headers: { 'Content-Type': 'multipart/form-data' }
                 });
-                
+
                 if (response.data.success) {
                     toast.success('✓ Hotel created successfully!');
                     onSuccess();
@@ -271,7 +269,7 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
             }
         } catch (error: any) {
             console.error('Hotel submission error:', error);
-            
+
             if (error.response) {
                 // Server responded with error
                 const message = error.response.data?.message || 'Server error occurred';
@@ -325,7 +323,7 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-y-auto transform transition-all">
                 {/* Header */}
-                <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 sticky top-0 z-10">
+                <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 sticky top-0 z-10">
                     <h2 className="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
                         <Building2 className="w-6 h-6" />
                         {editId ? 'Edit Hotel' : 'Add New Hotel'}
@@ -340,26 +338,25 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
 
                 <form onSubmit={handleSubmit} className="p-6 space-y-6">
                     {/* Basic Information */}
-                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                    <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                             <Building2 className="w-5 h-5" />
                             Basic Information
                         </h3>
-                        
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    Hotel Name *
+                                    Hotel Name <span className="text-red-500">*</span>
                                 </label>
                                 <input
                                     type="text"
                                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                     value={formData.name}
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                                         setFormData({ ...formData, name: e.target.value })
                                     }
                                     placeholder="e.g., Al Rayyan International"
-                                    required
                                 />
                             </div>
 
@@ -371,7 +368,7 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                                     type="text"
                                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                     value={formData.nameArabic}
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                                         setFormData({ ...formData, nameArabic: e.target.value })
                                     }
                                     placeholder="الاسم بالعربية"
@@ -381,13 +378,12 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
 
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    Category *
+                                    Category <span className="text-red-500">*</span>
                                 </label>
                                 <select
                                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                     value={formData.category}
                                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                                    required
                                 >
                                     <option value="Economy">Economy</option>
                                     <option value="Standard">Standard</option>
@@ -399,13 +395,12 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
 
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    Star Rating *
+                                    Star Rating <span className="text-red-500">*</span>
                                 </label>
                                 <select
                                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                     value={formData.starRating}
                                     onChange={(e) => setFormData({ ...formData, starRating: parseInt(e.target.value) })}
-                                    required
                                 >
                                     <option value="1">1 Star</option>
                                     <option value="2">2 Star</option>
@@ -445,25 +440,24 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                     </div>
 
                     {/* Location Details */}
-                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                    <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                             <MapPin className="w-5 h-5" />
                             Location Details
                         </h3>
-                        
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    City *
+                                    City <span className="text-red-500">*</span>
                                 </label>
                                 <select
                                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                     value={formData.location.city}
-                                    onChange={(e) => setFormData({ 
-                                        ...formData, 
+                                    onChange={(e) => setFormData({
+                                        ...formData,
                                         location: { ...formData.location, city: e.target.value }
                                     })}
-                                    required
                                 >
                                     <option value="Makkah">Makkah</option>
                                     <option value="Madinah">Madinah</option>
@@ -472,60 +466,40 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
 
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    District
-                                </label>
-                                <input
-                                    type="text"
-                                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
-                                    value={formData.location.district}
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
-                                        setFormData({ 
-                                            ...formData, 
-                                            location: { ...formData.location, district: e.target.value }
-                                        })
-                                    }
-                                    placeholder="e.g., Aziziyah, Misfalah"
-                                />
-                            </div>
-
-                            <div className="md:col-span-2">
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    Address *
+                                    Address <span className="text-red-500">*</span>
                                 </label>
                                 <input
                                     type="text"
                                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                     value={formData.location.address}
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
-                                        setFormData({ 
-                                            ...formData, 
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                        setFormData({
+                                            ...formData,
                                             location: { ...formData.location, address: e.target.value }
                                         })
                                     }
                                     placeholder="Full address"
-                                    required
                                 />
                             </div>
 
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    Distance from Haram (meters) *
+                                    Distance from Haram (meters) <span className="text-red-500">*</span>
                                 </label>
                                 <input
                                     type="number"
                                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                     value={formData.location.distanceFromHaram?.toString() || '0'}
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
-                                        setFormData({ 
-                                            ...formData, 
-                                            location: { 
-                                                ...formData.location, 
-                                                distanceFromHaram: parseInt(e.target.value) || 0 
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                        setFormData({
+                                            ...formData,
+                                            location: {
+                                                ...formData.location,
+                                                distanceFromHaram: parseInt(e.target.value) || 0
                                             }
                                         })
                                     }
                                     min="0"
-                                    required
                                 />
                             </div>
 
@@ -537,12 +511,12 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                                     type="number"
                                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                     value={formData.location.walkingTime?.toString() || '0'}
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
-                                        setFormData({ 
-                                            ...formData, 
-                                            location: { 
-                                                ...formData.location, 
-                                                walkingTime: parseInt(e.target.value) || 0 
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                        setFormData({
+                                            ...formData,
+                                            location: {
+                                                ...formData.location,
+                                                walkingTime: parseInt(e.target.value) || 0
                                             }
                                         })
                                     }
@@ -559,11 +533,11 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                                     step="any"
                                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                     value={formData.location.coordinates.latitude?.toString() || '0'}
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
-                                        setFormData({ 
-                                            ...formData, 
-                                            location: { 
-                                                ...formData.location, 
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                        setFormData({
+                                            ...formData,
+                                            location: {
+                                                ...formData.location,
                                                 coordinates: {
                                                     ...formData.location.coordinates,
                                                     latitude: parseFloat(e.target.value) || 0
@@ -584,11 +558,11 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                                     step="any"
                                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                     value={formData.location.coordinates.longitude?.toString() || '0'}
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
-                                        setFormData({ 
-                                            ...formData, 
-                                            location: { 
-                                                ...formData.location, 
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                        setFormData({
+                                            ...formData,
+                                            location: {
+                                                ...formData.location,
                                                 coordinates: {
                                                     ...formData.location.coordinates,
                                                     longitude: parseFloat(e.target.value) || 0
@@ -603,9 +577,9 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                     </div>
 
                     {/* Services */}
-                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                    <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Services & Facilities</h3>
-                        
+
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                             {Object.entries(formData.services).map(([key, value]) => (
                                 <label key={key} className="flex items-center cursor-pointer">
@@ -627,9 +601,9 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                     </div>
 
                     {/* Amenities */}
-                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                    <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Amenities</h3>
-                        
+
                         <div className="space-y-4">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -643,11 +617,10 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                                                 key={amenity.name}
                                                 type="button"
                                                 onClick={() => isAdded ? removeAmenity(amenity.name) : addAmenity(amenity.name, amenity.category)}
-                                                className={`px-3 py-1 text-sm rounded-full transition-all ${
-                                                    isAdded 
-                                                        ? 'bg-primary-500 text-white' 
-                                                        : 'bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-500'
-                                                }`}
+                                                className={`px-3 py-1 text-sm rounded-full transition-all ${isAdded
+                                                    ? 'bg-primary-500 text-white'
+                                                    : 'bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-500'
+                                                    }`}
                                             >
                                                 {amenity.name}
                                             </button>
@@ -684,12 +657,12 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                     </div>
 
                     {/* Contact Information */}
-                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                    <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                             <Phone className="w-5 h-5" />
                             Contact Information
                         </h3>
-                        
+
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -700,9 +673,9 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                                     type="tel"
                                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                     value={formData.contact.phone}
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
-                                        setFormData({ 
-                                            ...formData, 
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                        setFormData({
+                                            ...formData,
                                             contact: { ...formData.contact, phone: e.target.value }
                                         })
                                     }
@@ -719,9 +692,9 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                                     type="email"
                                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                     value={formData.contact.email}
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
-                                        setFormData({ 
-                                            ...formData, 
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                        setFormData({
+                                            ...formData,
                                             contact: { ...formData.contact, email: e.target.value }
                                         })
                                     }
@@ -738,9 +711,9 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                                     type="url"
                                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                     value={formData.contact.website}
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
-                                        setFormData({ 
-                                            ...formData, 
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                        setFormData({
+                                            ...formData,
                                             contact: { ...formData.contact, website: e.target.value }
                                         })
                                     }
@@ -751,9 +724,9 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                     </div>
 
                     {/* Hotel Policies */}
-                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                    <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Hotel Policies</h3>
-                        
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -763,9 +736,9 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                                     type="time"
                                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                     value={formData.policies.checkInTime}
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
-                                        setFormData({ 
-                                            ...formData, 
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                        setFormData({
+                                            ...formData,
                                             policies: { ...formData.policies, checkInTime: e.target.value }
                                         })
                                     }
@@ -780,9 +753,9 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                                     type="time"
                                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                     value={formData.policies.checkOutTime}
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
-                                        setFormData({ 
-                                            ...formData, 
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                        setFormData({
+                                            ...formData,
                                             policies: { ...formData.policies, checkOutTime: e.target.value }
                                         })
                                     }
@@ -797,8 +770,8 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                     rows={3}
                                     value={formData.policies.cancellationPolicy}
-                                    onChange={(e) => setFormData({ 
-                                        ...formData, 
+                                    onChange={(e) => setFormData({
+                                        ...formData,
                                         policies: { ...formData.policies, cancellationPolicy: e.target.value }
                                     })}
                                     placeholder="Free cancellation up to 24 hours before check-in..."
@@ -813,9 +786,9 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                                     type="text"
                                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                     value={formData.policies.childPolicy}
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
-                                        setFormData({ 
-                                            ...formData, 
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                        setFormData({
+                                            ...formData,
                                             policies: { ...formData.policies, childPolicy: e.target.value }
                                         })
                                     }
@@ -831,9 +804,9 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                                     type="text"
                                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                     value={formData.policies.petPolicy}
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
-                                        setFormData({ 
-                                            ...formData, 
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                        setFormData({
+                                            ...formData,
                                             policies: { ...formData.policies, petPolicy: e.target.value }
                                         })
                                     }
@@ -844,12 +817,12 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                     </div>
 
                     {/* Hotel Images */}
-                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                    <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                             <Upload className="w-5 h-5" />
                             Hotel Images
                         </h3>
-                        
+
                         <div className="space-y-4">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -903,7 +876,7 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all disabled:opacity-50 flex items-center gap-2"
+                            className="px-6 py-3 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all disabled:opacity-50 flex items-center gap-2"
                         >
                             {loading ? (
                                 <>

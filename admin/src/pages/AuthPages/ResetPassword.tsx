@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import axiosInstance from "../../Api/axios";
 import { EyeCloseIcon, EyeIcon } from "../../icons";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 
 const ResetPasswordSchema = Yup.object().shape({
   newPassword: Yup.string()

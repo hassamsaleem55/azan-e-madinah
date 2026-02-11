@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axiosInstance from "../Api/axios";
 import { Plane, Plus, Edit, X, Upload } from "lucide-react";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { validateAirlineCode, validateTextLength, validateFile } from "../utils/validation";
 import PageMeta from "../components/common/PageMeta";
 import PageBreadCrumb from "../components/common/PageBreadCrumb";

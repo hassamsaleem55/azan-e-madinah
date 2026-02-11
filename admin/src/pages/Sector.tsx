@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axiosInstance from "../Api/axios";
 import { MapPin, Plus, Edit, Trash2, X } from "lucide-react";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import PageMeta from "../components/common/PageMeta";
 import PageBreadCrumb from "../components/common/PageBreadCrumb";
 import Button from "../components/ui/button/Button";

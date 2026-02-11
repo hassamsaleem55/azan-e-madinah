@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import axiosInstance from "../Api/axios";
 import { Users, Eye, Search, Filter } from "lucide-react";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 
 interface Flight {
   airline: string;

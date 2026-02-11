@@ -31,7 +31,6 @@ const locationSchema = new mongoose.Schema({
         enum: ['Makkah', 'Madinah'],
         index: true
     },
-    district: String,
     coordinates: {
         latitude: Number,
         longitude: Number

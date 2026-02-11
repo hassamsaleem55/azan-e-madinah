@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import AsyncSelect from "react-select/async";
 import { Plane, Calendar, Users, DollarSign, Mail, Phone, FileText, ArrowLeft, Plus, Trash2, Save } from "lucide-react";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import axiosInstance from "../Api/axios";
 
 interface Flight {

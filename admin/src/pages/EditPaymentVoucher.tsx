@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
 import { Receipt, Save, ArrowLeft, Upload, Calendar, DollarSign, FileText, Building2 } from "lucide-react";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import axiosInstance from "../Api/axios";
 import { useAuth } from "../context/AuthContext";
 

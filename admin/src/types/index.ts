@@ -37,7 +37,6 @@ export interface Hotel {
     location?: {
         address?: string;
         city: string;
-        district?: string;
         distanceFromHaram?: number;
         walkingTime?: number;
         coordinates?: {

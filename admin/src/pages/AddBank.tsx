@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axiosInstance from "../Api/axios";
 import { Building2, Plus, Edit, Trash2, X, Upload } from "lucide-react";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import PageMeta from "../components/common/PageMeta";
 import PageBreadCrumb from "../components/common/PageBreadCrumb";
 import Button from "../components/ui/button/Button";
@@ -322,7 +322,6 @@ const AddBank = () => {
                     <input
                       type="text"
                       name="bankName"
-                      required
                       value={formData.bankName}
                       onChange={(e) => setFormData({ ...formData, bankName: e.target.value })}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
@@ -336,8 +335,6 @@ const AddBank = () => {
                     </label>
                     <input
                       type="text"
-                      name="accountTitle"
-                      required
                       value={formData.accountTitle}
                       onChange={(e) => setFormData({ ...formData, accountTitle: e.target.value })}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
@@ -353,8 +350,7 @@ const AddBank = () => {
                     </label>
                     <input
                       type="text"
-                      name="accountNo"
-                      required
+                      name="accountNo"                      
                       value={formData.accountNo}
                       onChange={(e) => setFormData({ ...formData, accountNo: e.target.value })}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
@@ -368,8 +364,7 @@ const AddBank = () => {
                     </label>
                     <input
                       type="text"
-                      name="ibn"
-                      required
+                      name="ibn"                      
                       value={formData.ibn}
                       onChange={(e) => setFormData({ ...formData, ibn: e.target.value })}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
@@ -385,7 +380,6 @@ const AddBank = () => {
                   <input
                     type="text"
                     name="bankAddress"
-                    required
                     value={formData.bankAddress}
                     onChange={(e) => setFormData({ ...formData, bankAddress: e.target.value })}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"

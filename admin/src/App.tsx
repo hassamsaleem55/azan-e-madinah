@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router";
+import { Toaster } from 'react-hot-toast';
 import SignIn from "./pages/AuthPages/SignIn";
 import ChangePassword from "./pages/AuthPages/ChangePassword";
 import ForgotPassword from "./pages/AuthPages/ForgotPassword";
@@ -51,6 +52,31 @@ import ContentManagement from "./pages/ContentManagement";
 export default function App() {
   return (
     <>
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: '#363636',
+            color: '#fff',
+          },
+          success: {
+            duration: 3000,
+            iconTheme: {
+              primary: '#10b981',
+              secondary: '#fff',
+            },
+          },
+          error: {
+            duration: 4000,
+            iconTheme: {
+              primary: '#ef4444',
+              secondary: '#fff',
+            },
+          },
+        }}
+      />
       <AuthProvider>
         <Router basename="/admin-portal/">
           <ScrollToTop />
