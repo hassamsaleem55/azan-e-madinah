@@ -117,7 +117,11 @@ const ContentManagement = () => {
 
     const updateSection = (index: number, field: keyof ContentSection, value: string | number) => {
         const newSections = [...formData.sections];
-        newSections[index][field] = value as any;
+        if (field === 'heading' || field === 'content') {
+            newSections[index][field] = value as string;
+        } else if (field === 'order' || field === 'imageUrl') {
+            newSections[index][field] = value as never;
+        }
         setFormData({ ...formData, sections: newSections });
     };
 

@@ -1,11 +1,21 @@
 import { useState, useEffect } from 'react';
-import { Plane, Plus, Edit, Trash2, Eye, Calendar as CalendarIcon, Package as PackageIcon, Users } from 'lucide-react';
+import { Plane, Plus, Edit, Trash2, Calendar as CalendarIcon, Package as PackageIcon, Users } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import axiosInstance from '../Api/axios';
-import Button from '../components/ui/button/Button';
-import PageBreadCrumb from '../components/common/PageBreadCrumb';
-import PageMeta from '../components/common/PageMeta';
 import FlightPackageForm from './FlightPackageForm';
+import {
+  PageMeta,
+  PageLayout,
+  PageHeader,
+  FilterBar,
+  Button,
+  Badge,
+  DataTable,
+  LoadingState,
+  EmptyState,
+  FormField,
+  Select,
+} from '../components';
 
 interface FlightPackage {
     _id: string;
@@ -109,184 +119,178 @@ const FlightPackages = () => {
 
     return (
         <>
-            <PageMeta title="Flight Packages | Admin" description="" />
+            <PageMeta title="Flight Packages | Admin" description="Link packages with flights and manage schedules" />
             
-            <div className="space-y-6">
-                <PageBreadCrumb pageTitle="Flight Packages" />
+            <PageLayout>
+                <PageHeader
+                    title="Flight Packages"
+                    description="Link packages with flights and manage schedules"
+                    breadcrumbs={[
+                        { label: 'Home', path: '/' },
+                        { label: 'Flight Packages' },
+                    ]}
+                    actions={
+                        <Button onClick={handleCreate} startIcon={<Plus className="w-4 h-4" />}>
+                            Link Package to Flight
+                        </Button>
+                    }
+                />
 
-                <div className="flex justify-between items-center">
-                    <div>
-                        <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                            <Plane size={24} />
-                            Flight Packages
-                        </h1>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                            Link packages with flights and manage schedules
-                        </p>
-                    </div>
-                    <Button
-                        onClick={handleCreate}
-                        className="flex items-center gap-2"
-                    >
-                        <Plus size={18} />
-                        Link Package to Flight
-                    </Button>
-                </div>
+                <FilterBar
+                    searchValue={searchTerm}
+                    onSearchChange={setSearchTerm}
+                    searchPlaceholder="Search by flight, package, or airline..."
+                    filters={
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <FormField label="Status">
+                                <Select
+                                    value={filters.status}
+                                    onChange={(e) => setFilters({ ...filters, status: e.target.value })}
+                                    options={[
+                                        { value: 'Active', label: 'Active' },
+                                        { value: 'Sold Out', label: 'Sold Out' },
+                                        { value: 'Upcoming', label: 'Upcoming' },
+                                        { value: 'Inactive', label: 'Inactive' },
+                                    ]}
+                                    placeholder="All Statuses"
+                                />
+                            </FormField>
+                            <FormField label="Package Type">
+                                <Select
+                                    value={filters.packageType}
+                                    onChange={(e) => setFilters({ ...filters, packageType: e.target.value })}
+                                    options={[
+                                        { value: 'Umrah', label: 'Umrah' },
+                                        { value: 'Hajj', label: 'Hajj' },
+                                        { value: 'Combined', label: 'Combined' },
+                                    ]}
+                                    placeholder="All Package Types"
+                                />
+                            </FormField>
+                        </div>
+                    }
+                />
 
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <input
-                                type="text"
-                                placeholder="Search by flight, package, or airline..."
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
-                            />
-                        </div>
-                        <div>
-                            <select
-                                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
-                                value={filters.status}
-                                onChange={(e) => setFilters({ ...filters, status: e.target.value })}
-                            >
-                                <option value="">All Statuses</option>
-                                <option value="Active">Active</option>
-                                <option value="Sold Out">Sold Out</option>
-                                <option value="Upcoming">Upcoming</option>
-                                <option value="Inactive">Inactive</option>
-                            </select>
-                        </div>
-                        <div>
-                            <select
-                                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
-                                value={filters.packageType}
-                                onChange={(e) => setFilters({ ...filters, packageType: e.target.value })}
-                            >
-                                <option value="">All Package Types</option>
-                                <option value="Umrah">Umrah</option>
-                                <option value="Hajj">Hajj</option>
-                                <option value="Combined">Combined</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
-                    {loading ? (
-                        <div className="p-8 text-center">
-                            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
-                        </div>
-                    ) : filteredFlightPackages.length === 0 ? (
-                        <div className="p-8 text-center text-gray-500">
-                            <PackageIcon className="w-16 h-16 mx-auto mb-4 opacity-50" />
-                            <p className="text-lg font-medium">No flight packages found</p>
-                            <p className="text-sm mt-2">Link your first package to a flight to get started</p>
-                        </div>
-                    ) : (
-                        <div className="overflow-x-auto">
-                            <table className="w-full">
-                                <thead className="bg-gray-50 dark:bg-gray-700">
-                                    <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                            Flight Details
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                            Package Details
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                            Departure
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                            Slots
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                            Status
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                            Actions
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                                    {filteredFlightPackages.map((fp) => (
-                                        <tr key={fp._id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <div className="flex items-center gap-2">
-                                                    <Plane className="w-5 h-5 text-blue-600" />
-                                                    <div>
-                                                        <div className="text-sm font-medium text-gray-900 dark:text-white">
-                                                            {fp.flight?.flightNumber}
-                                                        </div>
-                                                        <div className="text-xs text-gray-500 dark:text-gray-400">
-                                                            {fp.flight?.airline?.airlineName}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <div className="flex items-center gap-2">
-                                                    <PackageIcon className="w-5 h-5 text-green-600" />
-                                                    <div>
-                                                        <div className="text-sm font-medium text-gray-900 dark:text-white">
-                                                            {fp.package?.name}
-                                                        </div>
-                                                        <div className="text-xs text-gray-500 dark:text-gray-400">
-                                                            {fp.package?.type} • {fp.package?.duration?.days}D/{fp.package?.duration?.nights}N
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <div className="flex items-center gap-2">
-                                                    <CalendarIcon className="w-4 h-4 text-gray-400" />
-                                                    <div className="text-sm text-gray-900 dark:text-white">
-                                                        {new Date(fp.flight?.departureDate).toLocaleDateString('en-US', {
-                                                            year: 'numeric',
-                                                            month: 'short',
-                                                            day: 'numeric'
-                                                        })}
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <div className="flex items-center gap-2">
-                                                    <Users className="w-4 h-4 text-gray-400" />
-                                                    <span className="text-sm font-medium text-gray-900 dark:text-white">
-                                                        {fp.remainingSlots}
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(fp.status)}`}>
-                                                    {fp.status}
-                                                </span>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                <div className="flex items-center gap-2">
-                                                    <button
-                                                        onClick={() => handleEdit(fp._id)}
-                                                        className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
-                                                        title="Edit"
-                                                    >
-                                                        <Edit size={18} />
-                                                    </button>
-                                                    <button
-                                                        onClick={() => handleDelete(fp._id)}
-                                                        className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
-                                                        title="Delete"
-                                                    >
-                                                        <Trash2 size={18} />
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
-                </div>
+                {loading ? (
+                    <LoadingState />
+                ) : filteredFlightPackages.length === 0 ? (
+                    <EmptyState
+                        icon={<PackageIcon className="w-16 h-16" />}
+                        title="No flight packages found"
+                        description="Link your first package to a flight to get started"
+                        action={
+                            <Button onClick={handleCreate} startIcon={<Plus className="w-4 h-4" />}>
+                                Link Package to Flight
+                            </Button>
+                        }
+                    />
+                ) : (
+                    <DataTable
+                        columns={[
+                            {
+                                key: 'flight',
+                                header: 'Flight Details',
+                                render: (fp: FlightPackage) => (
+                                    <div className="flex items-center gap-2">
+                                        <Plane className="w-5 h-5 text-blue-600" />
+                                        <div>
+                                            <div className="text-sm font-medium text-gray-900 dark:text-white">
+                                                {fp.flight?.flightNumber}
+                                            </div>
+                                            <div className="text-xs text-gray-500 dark:text-gray-400">
+                                                {fp.flight?.airline?.airlineName}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ),
+                            },
+                            {
+                                key: 'package',
+                                header: 'Package Details',
+                                render: (fp: FlightPackage) => (
+                                    <div className="flex items-center gap-2">
+                                        <PackageIcon className="w-5 h-5 text-green-600" />
+                                        <div>
+                                            <div className="text-sm font-medium text-gray-900 dark:text-white">
+                                                {fp.package?.name}
+                                            </div>
+                                            <div className="text-xs text-gray-500 dark:text-gray-400">
+                                                {fp.package?.type} • {fp.package?.duration?.days}D/{fp.package?.duration?.nights}N
+                                            </div>
+                                        </div>
+                                    </div>
+                                ),
+                            },
+                            {
+                                key: 'departure',
+                                header: 'Departure',
+                                render: (fp: FlightPackage) => (
+                                    <div className="flex items-center gap-2">
+                                        <CalendarIcon className="w-4 h-4 text-gray-400" />
+                                        <div className="text-sm text-gray-900 dark:text-white">
+                                            {new Date(fp.flight?.departureDate).toLocaleDateString('en-US', {
+                                                year: 'numeric',
+                                                month: 'short',
+                                                day: 'numeric'
+                                            })}
+                                        </div>
+                                    </div>
+                                ),
+                            },
+                            {
+                                key: 'slots',
+                                header: 'Slots',
+                                render: (fp: FlightPackage) => (
+                                    <div className="flex items-center gap-2">
+                                        <Users className="w-4 h-4 text-gray-400" />
+                                        <span className="text-sm font-medium text-gray-900 dark:text-white">
+                                            {fp.remainingSlots}
+                                        </span>
+                                    </div>
+                                ),
+                            },
+                            {
+                                key: 'status',
+                                header: 'Status',
+                                render: (fp: FlightPackage) => (
+                                    <Badge 
+                                        color={
+                                            fp.status === 'Active' ? 'success' :
+                                            fp.status === 'Sold Out' ? 'error' :
+                                            fp.status === 'Upcoming' ? 'info' : 'light'
+                                        }
+                                    >
+                                        {fp.status}
+                                    </Badge>
+                                ),
+                            },
+                            {
+                                key: 'actions',
+                                header: 'Actions',
+                                render: (fp: FlightPackage) => (
+                                    <div className="flex items-center gap-2">
+                                        <button
+                                            onClick={() => handleEdit(fp._id)}
+                                            className="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400"
+                                            title="Edit"
+                                        >
+                                            <Edit size={18} />
+                                        </button>
+                                        <button
+                                            onClick={() => handleDelete(fp._id)}
+                                            className="text-red-600 hover:text-red-900 dark:text-red-400"
+                                            title="Delete"
+                                        >
+                                            <Trash2 size={18} />
+                                        </button>
+                                    </div>
+                                ),
+                            },
+                        ]}
+                        data={filteredFlightPackages}
+                        keyExtractor={(fp) => fp._id}
+                    />
+                )}
 
                 {showModal && (
                     <FlightPackageForm
@@ -295,7 +299,7 @@ const FlightPackages = () => {
                         editId={editingId}
                     />
                 )}
-            </div>
+            </PageLayout>
         </>
     );
 };

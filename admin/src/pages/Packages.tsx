@@ -1,13 +1,25 @@
 import { useState, useEffect } from 'react';
-import { Plus, Edit, Trash2, Eye, X } from 'lucide-react';
+import { Plus, Edit, Trash2, Eye } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import axiosInstance from '../Api/axios';
-import PageMeta from '../components/common/PageMeta';
-import PageBreadCrumb from '../components/common/PageBreadCrumb';
-import Button from '../components/ui/button/Button';
-import Input from '../components/form/input/InputField';
 import { Package } from '../types';
 import PackageForm from './PackageForm';
+import {
+    PageMeta,
+    PageLayout,
+    PageHeader,
+    PageContent,
+    PageContentSection,
+    FilterBar,
+    Button,
+    Badge,
+    Modal,
+    DataTable,
+    LoadingState,
+    EmptyState,
+    FormField,
+    Select,
+} from '../components';
 
 const Packages = () => {
     const [packages, setPackages] = useState<Package[]>([]);
@@ -86,180 +98,196 @@ const Packages = () => {
         pkg.type.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    const getStatusColor = (status: string): 'success' | 'warning' | 'error' | 'info' => {
+        switch (status) {
+            case 'Active':
+                return 'success';
+            case 'Upcoming':
+                return 'info';
+            case 'Sold Out':
+                return 'error';
+            default:
+                return 'warning';
+        }
+    };
+
     return (
         <>
-            <PageMeta title="Package Management | Admin" description={''} />
+            <PageMeta title="Package Management | Admin" description="Manage Umrah & Hajj packages" />
             
-            <div className="space-y-6">
-                <PageBreadCrumb pageTitle="Package Management" />
+            <PageLayout>
+                <PageHeader
+                    title="Umrah & Hajj Packages"
+                    description="Manage all travel packages"
+                    breadcrumbs={[
+                        { label: 'Home', path: '/' },
+                        { label: 'Packages' },
+                    ]}
+                    actions={
+                        <Button
+                            onClick={handleCreate}
+                            startIcon={<Plus className="w-4 h-4" />}
+                        >
+                            Add Package
+                        </Button>
+                    }
+                />
 
-                {/* Header */}
-                <div className="flex justify-between items-center">
-                    <div>
-                        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-                            Umrah & Hajj Packages
-                        </h1>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                            Manage all travel packages
-                        </p>
-                    </div>
-                    <Button
-                        onClick={handleCreate}
-                        className="flex items-center gap-2"
-                    >
-                        <Plus size={18} />
-                        Add Package
-                    </Button>
-                </div>
+                <FilterBar
+                    searchValue={searchTerm}
+                    onSearchChange={setSearchTerm}
+                    searchPlaceholder="Search packages..."
+                    filters={
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <FormField label="Type">
+                                <Select
+                                    value={filters.type}
+                                    onChange={(e) => setFilters({ ...filters, type: e.target.value })}
+                                    options={[
+                                        { value: 'Umrah', label: 'Umrah' },
+                                        { value: 'Hajj', label: 'Hajj' },
+                                        { value: 'Combined', label: 'Combined' },
+                                    ]}
+                                    placeholder="All Types"
+                                />
+                            </FormField>
+                            <FormField label="Status">
+                                <Select
+                                    value={filters.status}
+                                    onChange={(e) => setFilters({ ...filters, status: e.target.value })}
+                                    options={[
+                                        { value: 'Active', label: 'Active' },
+                                        { value: 'Inactive', label: 'Inactive' },
+                                        { value: 'Sold Out', label: 'Sold Out' },
+                                        { value: 'Upcoming', label: 'Upcoming' },
+                                    ]}
+                                    placeholder="All Status"
+                                />
+                            </FormField>
+                            <FormField label="City">
+                                <Select
+                                    value={filters.city}
+                                    onChange={(e) => setFilters({ ...filters, city: e.target.value })}
+                                    options={[
+                                        { value: 'Lahore', label: 'Lahore' },
+                                        { value: 'Mumbai', label: 'Mumbai' },
+                                        { value: 'Peshawar', label: 'Peshawar' },
+                                    ]}
+                                    placeholder="All Cities"
+                                />
+                            </FormField>
+                        </div>
+                    }
+                    showFilters={true}
+                />
 
-                {/* Filters */}
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                        <div>
-                            <Input
-                                type="text"
-                                placeholder="Search packages..."
-                                value={searchTerm}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
+                <PageContent>
+                    <PageContentSection noPadding>
+                        {loading ? (
+                            <LoadingState message="Loading packages..." />
+                        ) : filteredPackages.length === 0 ? (
+                            <EmptyState
+                                icon={<Plus className="w-16 h-16" />}
+                                title="No packages found"
+                                description="Try adjusting your filters, or add a new package."
+                                action={
+                                    <Button
+                                        onClick={handleCreate}
+                                        startIcon={<Plus className="w-4 h-4" />}
+                                    >
+                                        Add First Package
+                                    </Button>
+                                }
                             />
-                        </div>
-                        <div>
-                            <select
-                                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
-                                value={filters.type}
-                                onChange={(e) => setFilters({ ...filters, type: e.target.value })}
-                            >
-                                <option value="">All Types</option>
-                                <option value="Umrah">Umrah</option>
-                                <option value="Hajj">Hajj</option>
-                                <option value="Combined">Combined</option>
-                            </select>
-                        </div>
-                        <div>
-                            <select
-                                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
-                                value={filters.status}
-                                onChange={(e) => setFilters({ ...filters, status: e.target.value })}
-                            >
-                                <option value="">All Status</option>
-                                <option value="Active">Active</option>
-                                <option value="Inactive">Inactive</option>
-                                <option value="Sold Out">Sold Out</option>
-                                <option value="Upcoming">Upcoming</option>
-                            </select>
-                        </div>
-                        <div>
-                            <select
-                                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
-                                value={filters.city}
-                                onChange={(e) => setFilters({ ...filters, city: e.target.value })}
-                            >
-                                <option value="">All Cities</option>
-                                <option value="Lahore">Lahore</option>
-                                <option value="Mumbai">Mumbai</option>
-                                <option value="Peshawar">Peshawar</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Table */}
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
-                    {loading ? (
-                        <div className="p-8 text-center">
-                            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
-                        </div>
-                    ) : filteredPackages.length === 0 ? (
-                        <div className="p-8 text-center text-gray-500">
-                            No packages found
-                        </div>
-                    ) : (
-                        <div className="overflow-x-auto">
-                            <table className="w-full">
-                                <thead className="bg-gray-50 dark:bg-gray-700">
-                                    <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                            Package
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                            Type
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                            Duration
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                            Price Range
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                            Status
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                            Actions
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                                    {filteredPackages.map((pkg) => (
-                                        <tr key={pkg._id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <div className="text-sm font-medium text-gray-900 dark:text-white">
-                                                    {pkg.name}
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <span className="px-2 py-1 text-xs font-semibold rounded-full bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">
-                                                    {pkg.type}
-                                                </span>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                        ) : (
+                            <DataTable
+                                columns={[
+                                    {
+                                        key: 'name',
+                                        header: 'Package',
+                                        render: (pkg: Package) => (
+                                            <div className="font-medium text-gray-900 dark:text-white">
+                                                {pkg.name}
+                                            </div>
+                                        ),
+                                    },
+                                    {
+                                        key: 'type',
+                                        header: 'Type',
+                                        render: (pkg: Package) => (
+                                            <Badge color="info">{pkg.type}</Badge>
+                                        ),
+                                    },
+                                    {
+                                        key: 'duration',
+                                        header: 'Duration',
+                                        render: (pkg: Package) => (
+                                            <span className="text-sm text-gray-600 dark:text-gray-400">
                                                 {pkg.duration?.days} Days / {pkg.duration?.nights} Nights
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                                                PKR {Math.min(...(pkg.pricing?.map((p: any) => p.price) || [0])).toLocaleString()} - 
-                                                PKR {Math.max(...(pkg.pricing?.map((p: any) => p.price) || [0])).toLocaleString()}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <span className={`px-2 py-1 text-xs font-semibold rounded-full ${
-                                                    pkg.status === 'Active' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
-                                                    pkg.status === 'Inactive' ? 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300' :
-                                                    pkg.status === 'Sold Out' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' :
-                                                    'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-                                                }`}>
-                                                    {pkg.status}
+                                            </span>
+                                        ),
+                                    },
+                                    {
+                                        key: 'price',
+                                        header: 'Price Range',
+                                        render: (pkg: Package) => {
+                                            const prices = pkg.pricing?.map((p: any) => p.price) || [0];
+                                            const min = Math.min(...prices);
+                                            const max = Math.max(...prices);
+                                            return (
+                                                <span className="text-sm text-gray-900 dark:text-white">
+                                                    PKR {min.toLocaleString()} - {max.toLocaleString()}
                                                 </span>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                <div className="flex items-center gap-2">
-                                                    <button
-                                                        onClick={() => handleView(pkg)}
-                                                        className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-                                                        title="View"
-                                                    >
-                                                        <Eye size={18} />
-                                                    </button>
-                                                    <button
-                                                        onClick={() => handleEdit(pkg._id)}
-                                                        className="text-yellow-600 hover:text-yellow-800 dark:text-yellow-400 dark:hover:text-yellow-300"
-                                                        title="Edit"
-                                                    >
-                                                        <Edit size={18} />
-                                                    </button>
-                                                    <button
-                                                        onClick={() => handleDelete(pkg._id)}
-                                                        className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
-                                                        title="Delete"
-                                                    >
-                                                        <Trash2 size={18} />
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    )}  
-                </div>
+                                            );
+                                        },
+                                    },
+                                    {
+                                        key: 'status',
+                                        header: 'Status',
+                                        render: (pkg: Package) => (
+                                            <Badge color={getStatusColor(pkg.status)}>
+                                                {pkg.status}
+                                            </Badge>
+                                        ),
+                                    },
+                                    {
+                                        key: 'actions',
+                                        header: 'Actions',
+                                        align: 'center',
+                                        render: (pkg: Package) => (
+                                            <div className="flex items-center justify-center gap-2">
+                                                <button
+                                                    onClick={() => handleView(pkg)}
+                                                    className="p-2 text-blue-600 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-900/20 rounded transition-colors"
+                                                    title="View"
+                                                >
+                                                    <Eye className="w-4 h-4" />
+                                                </button>
+                                                <button
+                                                    onClick={() => handleEdit(pkg._id)}
+                                                    className="p-2 text-warning-600 hover:bg-warning-50 dark:text-warning-400 dark:hover:bg-warning-900/20 rounded transition-colors"
+                                                    title="Edit"
+                                                >
+                                                    <Edit className="w-4 h-4" />
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDelete(pkg._id)}
+                                                    className="p-2 text-error-600 hover:bg-error-50 dark:text-error-400 dark:hover:bg-error-900/20 rounded transition-colors"
+                                                    title="Delete"
+                                                >
+                                                    <Trash2 className="w-4 h-4" />
+                                                </button>
+                                            </div>
+                                        ),
+                                    },
+                                ]}
+                                data={filteredPackages}
+                                keyExtractor={(pkg) => pkg._id}
+                                hover
+                            />
+                        )}
+                    </PageContentSection>
+                </PageContent>
 
                 {/* Create/Edit Modal */}
                 {showModal && (
@@ -272,135 +300,118 @@ const Packages = () => {
 
                 {/* View Modal */}
                 {showViewModal && selectedPackage && (
-                    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-                            <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800">
-                                <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
-                                    Package Details
-                                </h2>
-                                <button
-                                    onClick={() => setShowViewModal(false)}
-                                    className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-2 rounded-full transition-all"
-                                >
-                                    <X size={20} />
-                                </button>
+                    <Modal
+                        isOpen={showViewModal}
+                        onClose={() => setShowViewModal(false)}
+                        title="Package Details"
+                        size="xl"
+                    >
+                        <div className="space-y-6">
+                            {/* Header */}
+                            <div>
+                                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{selectedPackage.name}</h3>
+                                <div className="flex items-center gap-3 mt-3">
+                                    <Badge color="info">{selectedPackage.type}</Badge>
+                                    <Badge color={getStatusColor(selectedPackage.status)}>
+                                        {selectedPackage.status}
+                                    </Badge>
+                                    {selectedPackage.featured && (
+                                        <Badge color="warning">Featured</Badge>
+                                    )}
+                                </div>
                             </div>
-                            <div className="p-6 space-y-6">
-                                {/* Header */}
+
+                            {/* Basic Info */}
+                            <div className="grid grid-cols-2 gap-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
                                 <div>
-                                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{selectedPackage.name}</h3>
-                                    <div className="flex items-center gap-4 mt-2">
-                                        <span className="px-3 py-1 text-sm font-semibold rounded-full bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">
-                                            {selectedPackage.type}
-                                        </span>
-                                        <span className={`px-3 py-1 text-sm font-semibold rounded-full ${
-                                            selectedPackage.status === 'Active' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
-                                            selectedPackage.status === 'Inactive' ? 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300' :
-                                            selectedPackage.status === 'Sold Out' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' :
-                                            'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-                                        }`}>
-                                            {selectedPackage.status}
-                                        </span>
-                                        {selectedPackage.featured && (
-                                            <span className="px-3 py-1 text-sm font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
-                                                Featured
-                                            </span>
-                                        )}
-                                    </div>
+                                    <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Duration</p>
+                                    <p className="text-lg font-semibold text-gray-900 dark:text-white">
+                                        {selectedPackage.duration?.days} Days / {selectedPackage.duration?.nights} Nights
+                                    </p>
                                 </div>
-
-                                {/* Basic Info */}
-                                <div className="grid grid-cols-2 gap-4 p-4 bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 rounded-lg">
-                                    <div>
-                                        <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Duration</p>
-                                        <p className="text-lg font-semibold text-gray-900 dark:text-white">
-                                            {selectedPackage.duration?.days} Days / {selectedPackage.duration?.nights} Nights
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Type</p>
-                                        <p className="text-gray-900 dark:text-white">
-                                            {selectedPackage.type}
-                                        </p>
-                                    </div>
+                                <div>
+                                    <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Type</p>
+                                    <p className="text-lg font-semibold text-gray-900 dark:text-white">
+                                        {selectedPackage.type}
+                                    </p>
                                 </div>
-
-                                {/* Description */}
-                                {selectedPackage.description && (
-                                    <div>
-                                        <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Description</h4>
-                                        <p className="text-gray-600 dark:text-gray-400">{selectedPackage.description}</p>
-                                    </div>
-                                )}
-
-                                {/* Accommodation */}
-                                {selectedPackage.accommodation && selectedPackage.accommodation.length > 0 && (
-                                    <div>
-                                        <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Accommodation</h4>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            {selectedPackage.accommodation.map((acc: any, index: number) => (
-                                                <div key={index} className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
-                                                    <p className="font-semibold text-gray-900 dark:text-white">{acc.city}</p>
-                                                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                                                        {acc.hotel?.name || 'Hotel TBD'} - {acc.nights} nights
-                                                    </p>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* Pricing */}
-                                {selectedPackage.pricing && selectedPackage.pricing.length > 0 && (
-                                    <div>
-                                        <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Pricing Tiers</h4>
-                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                                            {selectedPackage.pricing.map((price: any, index: number) => (
-                                                <div key={index} className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 text-center">
-                                                    <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{price.tierType}</p>
-                                                    <p className="text-xl font-bold text-gray-900 dark:text-white mt-1">
-                                                        PKR {price.price?.toLocaleString()}
-                                                    </p>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* Inclusions */}
-                                {selectedPackage.inclusions && selectedPackage.inclusions.length > 0 && (
-                                    <div>
-                                        <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Package Includes</h4>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                                            {selectedPackage.inclusions.map((inclusion: string, index: number) => (
-                                                <div key={index} className="flex items-center gap-2 text-green-700 dark:text-green-400">
-                                                    <span className="text-green-600 dark:text-green-500">✓</span>
-                                                    <span>{inclusion}</span>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* Exclusions */}
-                                {selectedPackage.exclusions && selectedPackage.exclusions.length > 0 && (
-                                    <div>
-                                        <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Not Included</h4>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                                            {selectedPackage.exclusions.map((exclusion: string, index: number) => (
-                                                <div key={index} className="flex items-center gap-2 text-red-700 dark:text-red-400">
-                                                    <span className="text-red-600 dark:text-red-500">✗</span>
-                                                    <span>{exclusion}</span>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
                             </div>
+
+                            {/* Description */}
+                            {selectedPackage.description && (
+                                <div>
+                                    <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Description</h4>
+                                    <p className="text-gray-600 dark:text-gray-400">{selectedPackage.description}</p>
+                                </div>
+                            )}
+
+                            {/* Accommodation */}
+                            {selectedPackage.accommodation && selectedPackage.accommodation.length > 0 && (
+                                <div>
+                                    <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Accommodation</h4>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        {selectedPackage.accommodation.map((acc: any, index: number) => (
+                                            <div key={index} className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+                                                <p className="font-semibold text-gray-900 dark:text-white">{acc.city}</p>
+                                                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                                                    {acc.hotel?.name || 'Hotel TBD'} - {acc.nights} nights
+                                                </p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Pricing */}
+                            {selectedPackage.pricing && selectedPackage.pricing.length > 0 && (
+                                <div>
+                                    <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Pricing Tiers</h4>
+                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                        {selectedPackage.pricing.map((price: any, index: number) => (
+                                            <div key={index} className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 text-center">
+                                                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{price.tierType}</p>
+                                                <p className="text-xl font-bold text-gray-900 dark:text-white mt-1">
+                                                    PKR {price.price?.toLocaleString()}
+                                                </p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Inclusions */}
+                            {selectedPackage.inclusions && selectedPackage.inclusions.length > 0 && (
+                                <div>
+                                    <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Package Includes</h4>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                        {selectedPackage.inclusions.map((inclusion: string, index: number) => (
+                                            <div key={index} className="flex items-center gap-2 text-success-700 dark:text-success-400">
+                                                <span className="text-success-600 dark:text-success-500">✓</span>
+                                                <span>{inclusion}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Exclusions */}
+                            {selectedPackage.exclusions && selectedPackage.exclusions.length > 0 && (
+                                <div>
+                                    <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Not Included</h4>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                        {selectedPackage.exclusions.map((exclusion: string, index: number) => (
+                                            <div key={index} className="flex items-center gap-2 text-error-700 dark:text-error-400">
+                                                <span className="text-error-600 dark:text-error-500">✗</span>
+                                                <span>{exclusion}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                         </div>
-                    </div>
+                    </Modal>
                 )}
-            </div>
+            </PageLayout>
         </>
     );
 };

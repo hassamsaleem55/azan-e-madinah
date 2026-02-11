@@ -1,12 +1,22 @@
 import { useState, useEffect } from 'react';
-import { Check, X, Star, Search, MessageSquare } from 'lucide-react';
+import { Check, X, Star, MessageSquare } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import axiosInstance from '../Api/axios';
-import PageMeta from '../components/common/PageMeta';
-import PageBreadCrumb from '../components/common/PageBreadCrumb';
-import Button from '../components/ui/button/Button';
-import Input from '../components/form/input/InputField';
 import { Testimonial } from '../types';
+import {
+  PageMeta,
+  PageLayout,
+  PageHeader,
+  FilterBar,
+  Button,
+  Badge,
+  Modal,
+  LoadingState,
+  EmptyState,
+  FormField,
+  Select,
+  Textarea,
+} from '../components';
 
 const Testimonials = () => {
     const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
@@ -98,68 +108,64 @@ const Testimonials = () => {
 
     return (
         <>
-            <PageMeta title="Testimonial Management | Admin" description="" />
+            <PageMeta title="Testimonial Management | Admin" description="Review and manage customer feedback" />
             
-            <div className="space-y-6">
-                <PageBreadCrumb pageTitle="Testimonial Management" />
+            <PageLayout>
+                <PageHeader
+                    title="Customer Testimonials"
+                    description="Review and manage customer feedback"
+                    breadcrumbs={[
+                        { label: 'Home', path: '/' },
+                        { label: 'Testimonial Management' },
+                    ]}
+                />
 
-                <div>
-                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Customer Testimonials</h1>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                        Review and manage customer feedback
-                    </p>
-                </div>
+                <FilterBar
+                    searchValue={searchTerm}
+                    onSearchChange={setSearchTerm}
+                    searchPlaceholder="Search testimonials..."
+                    filters={
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <FormField label="Status">
+                                <Select
+                                    value={filters.status}
+                                    onChange={(e) => setFilters({ ...filters, status: e.target.value })}
+                                    options={[
+                                        { value: 'Pending', label: 'Pending' },
+                                        { value: 'Approved', label: 'Approved' },
+                                        { value: 'Rejected', label: 'Rejected' },
+                                    ]}
+                                    placeholder="All Status"
+                                />
+                            </FormField>
+                            <FormField label="Service Type">
+                                <Select
+                                    value={filters.serviceType}
+                                    onChange={(e) => setFilters({ ...filters, serviceType: e.target.value })}
+                                    options={[
+                                        { value: 'Umrah Package', label: 'Umrah Package' },
+                                        { value: 'Hajj Package', label: 'Hajj Package' },
+                                        { value: 'Hotel Booking', label: 'Hotel Booking' },
+                                        { value: 'Visa Service', label: 'Visa Service' },
+                                        { value: 'Tour Package', label: 'Tour Package' },
+                                    ]}
+                                    placeholder="All Services"
+                                />
+                            </FormField>
+                        </div>
+                    }
+                />
 
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <Input
-                                type="text"
-                                placeholder="Search testimonials..."
-                                value={searchTerm}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
-                            />
-                        </div>
-                        <div>
-                            <select
-                                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
-                                value={filters.status}
-                                onChange={(e) => setFilters({ ...filters, status: e.target.value })}
-                            >
-                                <option value="">All Status</option>
-                                <option value="Pending">Pending</option>
-                                <option value="Approved">Approved</option>
-                                <option value="Rejected">Rejected</option>
-                            </select>
-                        </div>
-                        <div>
-                            <select
-                                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
-                                value={filters.serviceType}
-                                onChange={(e) => setFilters({ ...filters, serviceType: e.target.value })}
-                            >
-                                <option value="">All Services</option>
-                                <option value="Umrah Package">Umrah Package</option>
-                                <option value="Hajj Package">Hajj Package</option>
-                                <option value="Hotel Booking">Hotel Booking</option>
-                                <option value="Visa Service">Visa Service</option>
-                                <option value="Tour Package">Tour Package</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-1 gap-6">
-                    {loading ? (
-                        <div className="p-8 text-center bg-white dark:bg-gray-800 rounded-lg shadow">
-                            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
-                        </div>
-                    ) : filteredTestimonials.length === 0 ? (
-                        <div className="p-8 text-center bg-white dark:bg-gray-800 rounded-lg shadow text-gray-500">
-                            No testimonials found
-                        </div>
-                    ) : (
-                        filteredTestimonials.map((testimonial) => (
+                {loading ? (
+                    <LoadingState />
+                ) : filteredTestimonials.length === 0 ? (
+                    <EmptyState
+                        title="No testimonials found"
+                        description="No customer feedback matches your filters"
+                    />
+                ) : (
+                    <div className="grid grid-cols-1 gap-6">
+                        {filteredTestimonials.map((testimonial) => (
                             <div key={testimonial._id} className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                                 <div className="flex justify-between items-start mb-4">
                                     <div className="flex items-start gap-4">
@@ -186,17 +192,16 @@ const Testimonials = () => {
                                         </div>
                                     </div>
                                     <div className="flex gap-2">
-                                        <span className={`px-3 py-1 text-xs font-semibold rounded-full ${
-                                            testimonial.status === 'Pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' :
-                                            testimonial.status === 'Approved' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
-                                            'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-                                        }`}>
+                                        <Badge 
+                                            color={
+                                                testimonial.status === 'Pending' ? 'warning' :
+                                                testimonial.status === 'Approved' ? 'success' : 'error'
+                                            }
+                                        >
                                             {testimonial.status}
-                                        </span>
+                                        </Badge>
                                         {testimonial.isFeatured && (
-                                            <span className="px-3 py-1 text-xs font-semibold rounded-full bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">
-                                                Featured
-                                            </span>
+                                            <Badge color="info">Featured</Badge>
                                         )}
                                     </div>
                                 </div>
@@ -275,41 +280,44 @@ const Testimonials = () => {
                                     )}
                                 </div>
                             </div>
-                        ))
-                    )}
-                </div>
-            </div>
+                        ))}
+                    </div>
+                )}
 
-            {/* Response Modal */}
-            {showResponseModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-                    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-lg">
-                        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
-                            Add Response
-                        </h3>
-                        <textarea
-                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+                {/* Response Modal */}
+                <Modal
+                    isOpen={showResponseModal}
+                    onClose={() => {
+                        setShowResponseModal(false);
+                        setResponse('');
+                        setSelectedTestimonial(null);
+                    }}
+                    title="Add Response"
+                    size="md"
+                >
+                    <div className="p-6">
+                        <Textarea
                             rows={4}
                             placeholder="Write your response..."
                             value={response}
                             onChange={(e) => setResponse(e.target.value)}
                         />
-                        <div className="flex gap-2 mt-4">
-                            <Button onClick={handleAddResponse}>Submit Response</Button>
-                            <Button
-                                onClick={() => {
-                                    setShowResponseModal(false);
-                                    setResponse('');
-                                    setSelectedTestimonial(null);
-                                }}
-                                variant="outline"
-                            >
-                                Cancel
-                            </Button>
-                        </div>
                     </div>
-                </div>
-            )}
+                    <div className="flex gap-2 px-6 pb-6">
+                        <Button onClick={handleAddResponse}>Submit Response</Button>
+                        <Button
+                            onClick={() => {
+                                setShowResponseModal(false);
+                                setResponse('');
+                                setSelectedTestimonial(null);
+                            }}
+                            variant="outline"
+                        >
+                            Cancel
+                        </Button>
+                    </div>
+                </Modal>
+            </PageLayout>
         </>
     );
 };

@@ -1,12 +1,28 @@
 import { useState, useEffect } from 'react';
-import { Plus, Edit, Trash2, Eye, X, Plane, Calendar as CalendarIcon, Clock } from 'lucide-react';
+import { Plus, Edit, Trash2, Eye, Plane, Calendar as CalendarIcon, Clock } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import axiosInstance from '../Api/axios';
-import PageMeta from '../components/common/PageMeta';
-import PageBreadCrumb from '../components/common/PageBreadCrumb';
-import Button from '../components/ui/button/Button';
-import Input from '../components/form/input/InputField';
 import DatePicker from 'react-datepicker';
+import {
+  PageMeta,
+  PageLayout,
+  PageHeader,
+  PageContent,
+  PageContentSection,
+  FilterBar,
+  Button,
+  Badge,
+  Modal,
+  ModalFooter,
+  DataTable,
+  LoadingState,
+  EmptyState,
+  FormField,
+  FormSection,
+  FormActions,
+  Input,
+  Select,
+} from '../components';
 
 interface Flight {
     _id: string;
@@ -177,486 +193,427 @@ const Flights = () => {
 
     return (
         <>
-            <PageMeta title="Flight Management | Admin" description="" />
+            <PageMeta title="Flight Management | Admin" description="Manage flight schedules and availability" />
             
-            <div className="space-y-6">
-                <PageBreadCrumb pageTitle="Flight Management" />
+            <PageLayout>
+                <PageHeader
+                    title="Flights"
+                    description="Manage flight schedules and availability"
+                    breadcrumbs={[
+                        { label: 'Home', path: '/' },
+                        { label: 'Flights' },
+                    ]}
+                    actions={
+                        <Button onClick={handleCreate} startIcon={<Plus className="w-4 h-4" />}>
+                            Add Flight
+                        </Button>
+                    }
+                />
 
-                <div className="flex justify-between items-center">
-                    <div>
-                        <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                            <Plane size={24} />
-                            Flights
-                        </h1>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                            Manage flight schedules and availability
-                        </p>
-                    </div>
-                    <Button
-                        onClick={handleCreate}
-                        className="flex items-center gap-2"
-                    >
-                        <Plus size={18} />
-                        Add Flight
-                    </Button>
-                </div>
+                <FilterBar
+                    searchValue={searchTerm}
+                    onSearchChange={setSearchTerm}
+                    searchPlaceholder="Search by flight number, airline, or sector..."
+                    filters={
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <FormField label="Filter by Airline">
+                                <Select
+                                    value={filters.airline}
+                                    onChange={(e) => setFilters({ ...filters, airline: e.target.value })}
+                                    options={airlines.map(a => ({ value: a._id, label: a.airlineName }))}
+                                    placeholder="All Airlines"
+                                />
+                            </FormField>
+                            <FormField label="Filter by Date">
+                                <div className="relative">
+                                    <DatePicker
+                                        selected={filters.date ? new Date(filters.date) : null}
+                                        onChange={(date: Date | null) => {
+                                            setFilters({ 
+                                                ...filters, 
+                                                date: date ? date.toISOString().split('T')[0] : '' 
+                                            });
+                                        }}
+                                        dateFormat="MMMM d, yyyy"
+                                        placeholderText="Select date"
+                                        className="w-full h-11 px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm focus:outline-none focus:ring-3 focus:ring-brand-500/20 dark:bg-gray-900 dark:text-white/90"
+                                        wrapperClassName="w-full"
+                                        isClearable
+                                    />
+                                    <CalendarIcon className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                                </div>
+                            </FormField>
+                        </div>
+                    }
+                    showFilters={true}
+                />
 
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <Input
-                                type="text"
-                                placeholder="Search flights..."
-                                value={searchTerm}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
+                <PageContent>
+                    <PageContentSection noPadding>
+                        {loading ? (
+                            <LoadingState message="Loading flights..." />
+                        ) : filteredFlights.length === 0 ? (
+                            <EmptyState
+                                icon={<Plane className="w-16 h-16" />}
+                                title="No flights found"
+                                description="Try adjusting your search or filters, or add a new flight."
+                                action={
+                                    <Button onClick={handleCreate} startIcon={<Plus className="w-4 h-4" />}>
+                                        Add First Flight
+                                    </Button>
+                                }
                             />
-                        </div>
-                        <div>
-                            <select
-                                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
-                                value={filters.airline}
-                                onChange={(e) => setFilters({ ...filters, airline: e.target.value })}
-                            >
-                                <option value="">All Airlines</option>
-                                {airlines.map(airline => (
-                                    <option key={airline._id} value={airline._id}>{airline.airlineName}</option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="relative">
-                            <DatePicker
-                                selected={filters.date ? new Date(filters.date) : null}
-                                onChange={(date: Date | null) => {
-                                    setFilters({ 
-                                        ...filters, 
-                                        date: date ? date.toISOString().split('T')[0] : '' 
-                                    });
-                                }}
-                                dateFormat="MMMM d, yyyy"
-                                placeholderText="Filter by date"
-                                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
-                                wrapperClassName="w-full"
-                                isClearable
-                            />
-                            <CalendarIcon className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
-                        </div>
-                    </div>
-                </div>
-
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
-                    {loading ? (
-                        <div className="p-8 text-center">
-                            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
-                        </div>
-                    ) : filteredFlights.length === 0 ? (
-                        <div className="p-8 text-center text-gray-500">No flights found</div>
-                    ) : (
-                        <div className="overflow-x-auto">
-                            <table className="w-full">
-                                <thead className="bg-gray-50 dark:bg-gray-700">
-                                    <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                            Flight
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                            Sector
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                            Departure
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                            Arrival
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                            Actions
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                                    {filteredFlights.map((flight) => (
-                                        <tr key={flight._id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <div>
-                                                    <div className="text-sm font-medium text-gray-900 dark:text-white">
-                                                        {flight.flightNumber}
-                                                    </div>
-                                                    <div className="text-sm text-gray-500 dark:text-gray-400">
-                                                        {flight.airline?.airlineName}
-                                                    </div>
+                        ) : (
+                            <DataTable
+                                columns={[
+                                    {
+                                        key: 'flight',
+                                        header: 'Flight',
+                                        render: (flight: Flight) => (
+                                            <div>
+                                                <div className="font-medium text-gray-900 dark:text-white">
+                                                    {flight.flightNumber}
                                                 </div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                                                {flight.sector?.sectorTitle}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <div className="text-sm font-medium text-gray-900 dark:text-white">
+                                                <div className="text-sm text-gray-500 dark:text-gray-400">
+                                                    {flight.airline?.airlineName}
+                                                </div>
+                                            </div>
+                                        ),
+                                    },
+                                    {
+                                        key: 'sector',
+                                        header: 'Sector',
+                                        render: (flight: Flight) => (
+                                            <span className="text-sm">{flight.sector?.sectorTitle}</span>
+                                        ),
+                                    },
+                                    {
+                                        key: 'departure',
+                                        header: 'Departure',
+                                        render: (flight: Flight) => (
+                                            <div>
+                                                <div className="font-medium text-gray-900 dark:text-white">
                                                     {flight.departureCity}
                                                 </div>
                                                 <div className="text-sm text-gray-500 dark:text-gray-400">
                                                     {new Date(flight.departureDate).toLocaleDateString()} {flight.departureTime}
                                                 </div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <div className="text-sm font-medium text-gray-900 dark:text-white">
+                                            </div>
+                                        ),
+                                    },
+                                    {
+                                        key: 'arrival',
+                                        header: 'Arrival',
+                                        render: (flight: Flight) => (
+                                            <div>
+                                                <div className="font-medium text-gray-900 dark:text-white">
                                                     {flight.arrivalCity}
                                                 </div>
                                                 <div className="text-sm text-gray-500 dark:text-gray-400">
                                                     {new Date(flight.arrivalDate).toLocaleDateString()} {flight.arrivalTime}
                                                 </div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                <div className="flex items-center gap-2">
-                                                    <button
-                                                        onClick={() => handleView(flight)}
-                                                        className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
-                                                        title="View"
-                                                    >
-                                                        <Eye size={18} />
-                                                    </button>
-                                                    <button
-                                                        onClick={() => handleEdit(flight._id)}
-                                                        className="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300"
-                                                        title="Edit"
-                                                    >
-                                                        <Edit size={18} />
-                                                    </button>
-                                                    <button
-                                                        onClick={() => handleDelete(flight._id)}
-                                                        className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
-                                                        title="Delete"
-                                                    >
-                                                        <Trash2 size={18} />
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
-                </div>
+                                            </div>
+                                        ),
+                                    },
+                                    {
+                                        key: 'actions',
+                                        header: 'Actions',
+                                        align: 'center',
+                                        render: (flight: Flight) => (
+                                            <div className="flex items-center justify-center gap-2">
+                                                <button
+                                                    onClick={() => handleView(flight)}
+                                                    className="p-2 text-blue-600 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-900/20 rounded transition-colors"
+                                                    title="View"
+                                                >
+                                                    <Eye className="w-4 h-4" />
+                                                </button>
+                                                <button
+                                                    onClick={() => handleEdit(flight._id)}
+                                                    className="p-2 text-warning-600 hover:bg-warning-50 dark:text-warning-400 dark:hover:bg-warning-900/20 rounded transition-colors"
+                                                    title="Edit"
+                                                >
+                                                    <Edit className="w-4 h-4" />
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDelete(flight._id)}
+                                                    className="p-2 text-error-600 hover:bg-error-50 dark:text-error-400 dark:hover:bg-error-900/20 rounded transition-colors"
+                                                    title="Delete"
+                                                >
+                                                    <Trash2 className="w-4 h-4" />
+                                                </button>
+                                            </div>
+                                        ),
+                                    },
+                                ]}
+                                data={filteredFlights}
+                                keyExtractor={(flight) => flight._id}
+                                hover
+                            />
+                        )}
+                    </PageContentSection>
+                </PageContent>
 
                 {/* Create/Edit Modal */}
-                {showModal && (
-                    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-                            <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 sticky top-0 z-10">
-                                <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
-                                    {editingId ? 'Edit Flight' : 'Add New Flight'}
-                                </h2>
-                                <button
-                                    onClick={() => setShowModal(false)}
-                                    className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-2 rounded-full transition-all"
-                                >
-                                    <X size={20} />
-                                </button>
+                <Modal
+                    isOpen={showModal}
+                    onClose={() => setShowModal(false)}
+                    title={editingId ? 'Edit Flight' : 'Add New Flight'}
+                    size="xl"
+                >
+                    <form onSubmit={handleSubmit} id="flight-form">
+                        <FormSection>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <FormField label="Flight Number" required>
+                                    <Input
+                                        type="text"
+                                        value={formData.flightNumber}
+                                        onChange={(e) => setFormData({ ...formData, flightNumber: e.target.value })}
+                                        placeholder="e.g., PK-725"
+                                    />
+                                </FormField>
+
+                                <FormField label="Airline" required>
+                                    <Select
+                                        value={formData.airline}
+                                        onChange={(e) => setFormData({ ...formData, airline: e.target.value })}
+                                        options={airlines.map(a => ({ value: a._id, label: a.airlineName }))}
+                                        placeholder="Select Airline"
+                                    />
+                                </FormField>
+
+                                <FormField label="Sector" required>
+                                    <Select
+                                        value={formData.sector}
+                                        onChange={(e) => setFormData({ ...formData, sector: e.target.value })}
+                                        options={sectors.map(s => ({ value: s._id, label: `${s.sectorTitle} - ${s.fullSector}` }))}
+                                        placeholder="Select Sector"
+                                    />
+                                </FormField>
+
+                                <FormField label="Departure City" required>
+                                    <Input
+                                        type="text"
+                                        value={formData.departureCity}
+                                        onChange={(e) => setFormData({ ...formData, departureCity: e.target.value })}
+                                        placeholder="e.g., Lahore"
+                                    />
+                                </FormField>
+
+                                <FormField label="Departure Date" required>
+                                    <div className="relative">
+                                        <DatePicker
+                                            selected={formData.departureDate ? new Date(formData.departureDate) : null}
+                                            onChange={(date: Date | null) => {
+                                                setFormData({ 
+                                                    ...formData, 
+                                                    departureDate: date ? date.toISOString().split('T')[0] : '' 
+                                                });
+                                            }}
+                                            dateFormat="MMMM d, yyyy"
+                                            minDate={new Date()}
+                                            placeholderText="Select departure date"
+                                            className="w-full h-11 px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm focus:outline-none focus:ring-3 focus:ring-brand-500/20 dark:bg-gray-900 dark:text-white/90"
+                                            wrapperClassName="w-full"
+                                        />
+                                        <CalendarIcon className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                                    </div>
+                                </FormField>
+
+                                <FormField label="Departure Time" required>
+                                    <div className="relative">
+                                        <DatePicker
+                                            selected={formData.departureTime ? new Date(`2000-01-01T${formData.departureTime}`) : null}
+                                            onChange={(date: Date | null) => {
+                                                if (date) {
+                                                    const hours = date.getHours().toString().padStart(2, '0');
+                                                    const minutes = date.getMinutes().toString().padStart(2, '0');
+                                                    setFormData({ ...formData, departureTime: `${hours}:${minutes}` });
+                                                } else {
+                                                    setFormData({ ...formData, departureTime: '' });
+                                                }
+                                            }}
+                                            showTimeSelect
+                                            showTimeSelectOnly
+                                            timeIntervals={15}
+                                            timeCaption="Time"
+                                            dateFormat="h:mm aa"
+                                            placeholderText="Select departure time"
+                                            className="w-full h-11 px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm focus:outline-none focus:ring-3 focus:ring-brand-500/20 dark:bg-gray-900 dark:text-white/90"
+                                            wrapperClassName="w-full"
+                                        />
+                                        <Clock className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                                    </div>
+                                </FormField>
+
+                                <FormField label="Arrival City" required>
+                                    <Input
+                                        type="text"
+                                        value={formData.arrivalCity}
+                                        onChange={(e) => setFormData({ ...formData, arrivalCity: e.target.value })}
+                                        placeholder="e.g., Jeddah"
+                                    />
+                                </FormField>
+
+                                <FormField label="Arrival Date" required>
+                                    <div className="relative">
+                                        <DatePicker
+                                            selected={formData.arrivalDate ? new Date(formData.arrivalDate) : null}
+                                            onChange={(date: Date | null) => {
+                                                setFormData({ 
+                                                    ...formData, 
+                                                    arrivalDate: date ? date.toISOString().split('T')[0] : '' 
+                                                });
+                                            }}
+                                            dateFormat="MMMM d, yyyy"
+                                            minDate={formData.departureDate ? new Date(formData.departureDate) : new Date()}
+                                            placeholderText="Select arrival date"
+                                            className="w-full h-11 px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm focus:outline-none focus:ring-3 focus:ring-brand-500/20 dark:bg-gray-900 dark:text-white/90"
+                                            wrapperClassName="w-full"
+                                        />
+                                        <CalendarIcon className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                                    </div>
+                                </FormField>
+
+                                <FormField label="Arrival Time" required>
+                                    <div className="relative">
+                                        <DatePicker
+                                            selected={formData.arrivalTime ? new Date(`2000-01-01T${formData.arrivalTime}`) : null}
+                                            onChange={(date: Date | null) => {
+                                                if (date) {
+                                                    const hours = date.getHours().toString().padStart(2, '0');
+                                                    const minutes = date.getMinutes().toString().padStart(2, '0');
+                                                    setFormData({ ...formData, arrivalTime: `${hours}:${minutes}` });
+                                                } else {
+                                                    setFormData({ ...formData, arrivalTime: '' });
+                                                }
+                                            }}
+                                            showTimeSelect
+                                            showTimeSelectOnly
+                                            timeIntervals={15}
+                                            timeCaption="Time"
+                                            dateFormat="h:mm aa"
+                                            placeholderText="Select arrival time"
+                                            className="w-full h-11 px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm focus:outline-none focus:ring-3 focus:ring-brand-500/20 dark:bg-gray-900 dark:text-white/90"
+                                            wrapperClassName="w-full"
+                                        />
+                                        <Clock className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                                    </div>
+                                </FormField>
                             </div>
-                            <form onSubmit={handleSubmit} className="p-6 space-y-6">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                            Flight Number *
-                                        </label>
-                                        <Input
-                                            type="text"
-                                            value={formData.flightNumber}
-                                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
-                                                setFormData({ ...formData, flightNumber: e.target.value })
-                                            }
-                                            placeholder="e.g., PK-725"
-                                        />
-                                    </div>
-
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                            Airline *
-                                        </label>
-                                        <select
-                                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
-                                            value={formData.airline}
-                                            onChange={(e) => setFormData({ ...formData, airline: e.target.value })}
-                                        >
-                                            <option value="">Select Airline</option>
-                                            {airlines.map(airline => (
-                                                <option key={airline._id} value={airline._id}>{airline.airlineName}</option>
-                                            ))}
-                                        </select>
-                                    </div>
-
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                            Sector *
-                                        </label>
-                                        <select
-                                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
-                                            value={formData.sector}
-                                            onChange={(e) => setFormData({ ...formData, sector: e.target.value })}
-                                        >
-                                            <option value="">Select Sector</option>
-                                            {sectors.map(sector => (
-                                                <option key={sector._id} value={sector._id}>
-                                                    {sector.sectorTitle} - {sector.fullSector}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
-
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                            Departure City *
-                                        </label>
-                                        <Input
-                                            type="text"
-                                            value={formData.departureCity}
-                                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
-                                                setFormData({ ...formData, departureCity: e.target.value })
-                                            }
-                                            placeholder="e.g., Lahore"
-                                        />
-                                    </div>
-
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                            Departure Date *
-                                        </label>
-                                        <div className="relative">
-                                            <DatePicker
-                                                selected={formData.departureDate ? new Date(formData.departureDate) : null}
-                                                onChange={(date: Date | null) => {
-                                                    setFormData({ 
-                                                        ...formData, 
-                                                        departureDate: date ? date.toISOString().split('T')[0] : '' 
-                                                    });
-                                                }}
-                                                dateFormat="MMMM d, yyyy"
-                                                minDate={new Date()}
-                                                placeholderText="Select departure date"
-                                                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
-                                                wrapperClassName="w-full"
-                                            />
-                                            <CalendarIcon className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                            Departure Time *
-                                        </label>
-                                        <div className="relative">
-                                            <DatePicker
-                                                selected={formData.departureTime ? new Date(`2000-01-01T${formData.departureTime}`) : null}
-                                                onChange={(date: Date | null) => {
-                                                    if (date) {
-                                                        const hours = date.getHours().toString().padStart(2, '0');
-                                                        const minutes = date.getMinutes().toString().padStart(2, '0');
-                                                        setFormData({ ...formData, departureTime: `${hours}:${minutes}` });
-                                                    } else {
-                                                        setFormData({ ...formData, departureTime: '' });
-                                                    }
-                                                }}
-                                                showTimeSelect
-                                                showTimeSelectOnly
-                                                timeIntervals={15}
-                                                timeCaption="Time"
-                                                dateFormat="h:mm aa"
-                                                placeholderText="Select departure time"
-                                                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
-                                                wrapperClassName="w-full"
-                                            />
-                                            <Clock className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                            Arrival City *
-                                        </label>
-                                        <Input
-                                            type="text"
-                                            value={formData.arrivalCity}
-                                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
-                                                setFormData({ ...formData, arrivalCity: e.target.value })
-                                            }
-                                            placeholder="e.g., Jeddah"
-                                        />
-                                    </div>
-
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                            Arrival Date *
-                                        </label>
-                                        <div className="relative">
-                                            <DatePicker
-                                                selected={formData.arrivalDate ? new Date(formData.arrivalDate) : null}
-                                                onChange={(date: Date | null) => {
-                                                    setFormData({ 
-                                                        ...formData, 
-                                                        arrivalDate: date ? date.toISOString().split('T')[0] : '' 
-                                                    });
-                                                }}
-                                                dateFormat="MMMM d, yyyy"
-                                                minDate={formData.departureDate ? new Date(formData.departureDate) : new Date()}
-                                                placeholderText="Select arrival date"
-                                                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
-                                                wrapperClassName="w-full"
-                                            />
-                                            <CalendarIcon className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                            Arrival Time *
-                                        </label>
-                                        <div className="relative">
-                                            <DatePicker
-                                                selected={formData.arrivalTime ? new Date(`2000-01-01T${formData.arrivalTime}`) : null}
-                                                onChange={(date: Date | null) => {
-                                                    if (date) {
-                                                        const hours = date.getHours().toString().padStart(2, '0');
-                                                        const minutes = date.getMinutes().toString().padStart(2, '0');
-                                                        setFormData({ ...formData, arrivalTime: `${hours}:${minutes}` });
-                                                    } else {
-                                                        setFormData({ ...formData, arrivalTime: '' });
-                                                    }
-                                                }}
-                                                showTimeSelect
-                                                showTimeSelectOnly
-                                                timeIntervals={15}
-                                                timeCaption="Time"
-                                                dateFormat="h:mm aa"
-                                                placeholderText="Select arrival time"
-                                                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
-                                                wrapperClassName="w-full"
-                                            />
-                                            <Clock className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="flex gap-4 justify-end pt-6 border-t border-gray-200 dark:border-gray-700">
-                                    <button
-                                        type="button"
-                                        onClick={() => setShowModal(false)}
-                                        className="px-6 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-all"
-                                    >
-                                        Cancel
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        className="px-6 py-3 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all"
-                                    >
-                                        {editingId ? 'Update Flight' : 'Add Flight'}
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                )}
+                        </FormSection>
+                        <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setShowModal(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                disabled={loading}
+              >
+                {loading ? 'Saving...' : editingId ? 'Update Flight' : 'Add Flight'}
+              </Button>
+            </div>
+                    </form>
+                </Modal>
 
                 {/* View Modal */}
-                {showViewModal && selectedFlight && (
-                    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-                            <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                                <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
-                                    Flight Details
-                                </h2>
-                                <button
-                                    onClick={() => setShowViewModal(false)}
-                                    className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-2 rounded-full transition-all"
-                                >
-                                    <X size={20} />
-                                </button>
+                {selectedFlight && (
+                    <Modal
+                        isOpen={showViewModal}
+                        onClose={() => setShowViewModal(false)}
+                        title="Flight Details"
+                        size="lg"
+                    >
+                        <div className="space-y-6">
+                            <div>
+                                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+                                    {selectedFlight.flightNumber}
+                                </h3>
+                                <p className="text-gray-600 dark:text-gray-400 mt-1">
+                                    {selectedFlight.airline?.airlineName}
+                                </p>
                             </div>
-                            <div className="p-6 space-y-6">
-                                <div>
-                                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
-                                        {selectedFlight.flightNumber}
-                                    </h3>
-                                    <p className="text-gray-600 dark:text-gray-400 mt-1">
-                                        {selectedFlight.airline?.airlineName}
-                                    </p>
-                                </div>
 
-                                <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                                    <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Sector</p>
-                                    <p className="text-lg font-semibold text-gray-900 dark:text-white">
-                                        {selectedFlight.sector?.fullSector}
-                                    </p>
-                                </div>
+                            <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Sector</p>
+                                <p className="text-lg font-semibold text-gray-900 dark:text-white mt-1">
+                                    {selectedFlight.sector?.fullSector}
+                                </p>
+                            </div>
 
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border-l-4 border-blue-500">
-                                        <h4 className="font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-                                            <Plane className="w-5 h-5" />
-                                            Departure
-                                        </h4>
-                                        <div className="space-y-2">
-                                            <div>
-                                                <p className="text-xs text-gray-500 dark:text-gray-400">City</p>
-                                                <p className="text-lg font-semibold text-gray-900 dark:text-white">
-                                                    {selectedFlight.departureCity}
-                                                </p>
-                                            </div>
-                                            <div>
-                                                <p className="text-xs text-gray-500 dark:text-gray-400">Date</p>
-                                                <p className="text-sm text-gray-700 dark:text-gray-300">
-                                                    {new Date(selectedFlight.departureDate).toLocaleDateString('en-US', { 
-                                                        weekday: 'short', 
-                                                        year: 'numeric', 
-                                                        month: 'short', 
-                                                        day: 'numeric' 
-                                                    })}
-                                                </p>
-                                            </div>
-                                            <div>
-                                                <p className="text-xs text-gray-500 dark:text-gray-400">Time</p>
-                                                <p className="text-sm text-gray-700 dark:text-gray-300">
-                                                    {selectedFlight.departureTime}
-                                                </p>
-                                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border-l-4 border-blue-500">
+                                    <h4 className="font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                                        <Plane className="w-5 h-5" />
+                                        Departure
+                                    </h4>
+                                    <div className="space-y-2">
+                                        <div>
+                                            <p className="text-xs text-gray-500 dark:text-gray-400">City</p>
+                                            <p className="text-lg font-semibold text-gray-900 dark:text-white">
+                                                {selectedFlight.departureCity}
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <p className="text-xs text-gray-500 dark:text-gray-400">Date</p>
+                                            <p className="text-sm text-gray-700 dark:text-gray-300">
+                                                {new Date(selectedFlight.departureDate).toLocaleDateString('en-US', { 
+                                                    weekday: 'short', 
+                                                    year: 'numeric', 
+                                                    month: 'short', 
+                                                    day: 'numeric' 
+                                                })}
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <p className="text-xs text-gray-500 dark:text-gray-400">Time</p>
+                                            <p className="text-sm text-gray-700 dark:text-gray-300">
+                                                {selectedFlight.departureTime}
+                                            </p>
                                         </div>
                                     </div>
+                                </div>
 
-                                    <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border-l-4 border-green-500">
-                                        <h4 className="font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-                                            <Plane className="w-5 h-5 rotate-90" />
-                                            Arrival
-                                        </h4>
-                                        <div className="space-y-2">
-                                            <div>
-                                                <p className="text-xs text-gray-500 dark:text-gray-400">City</p>
-                                                <p className="text-lg font-semibold text-gray-900 dark:text-white">
-                                                    {selectedFlight.arrivalCity}
-                                                </p>
-                                            </div>
-                                            <div>
-                                                <p className="text-xs text-gray-500 dark:text-gray-400">Date</p>
-                                                <p className="text-sm text-gray-700 dark:text-gray-300">
-                                                    {new Date(selectedFlight.arrivalDate).toLocaleDateString('en-US', { 
-                                                        weekday: 'short', 
-                                                        year: 'numeric', 
-                                                        month: 'short', 
-                                                        day: 'numeric' 
-                                                    })}
-                                                </p>
-                                            </div>
-                                            <div>
-                                                <p className="text-xs text-gray-500 dark:text-gray-400">Time</p>
-                                                <p className="text-sm text-gray-700 dark:text-gray-300">
-                                                    {selectedFlight.arrivalTime}
-                                                </p>
-                                            </div>
+                                <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border-l-4 border-green-500">
+                                    <h4 className="font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                                        <Plane className="w-5 h-5 rotate-90" />
+                                        Arrival
+                                    </h4>
+                                    <div className="space-y-2">
+                                        <div>
+                                            <p className="text-xs text-gray-500 dark:text-gray-400">City</p>
+                                            <p className="text-lg font-semibold text-gray-900 dark:text-white">
+                                                {selectedFlight.arrivalCity}
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <p className="text-xs text-gray-500 dark:text-gray-400">Date</p>
+                                            <p className="text-sm text-gray-700 dark:text-gray-300">
+                                                {new Date(selectedFlight.arrivalDate).toLocaleDateString('en-US', { 
+                                                    weekday: 'short', 
+                                                    year: 'numeric', 
+                                                    month: 'short', 
+                                                    day: 'numeric' 
+                                                })}
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <p className="text-xs text-gray-500 dark:text-gray-400">Time</p>
+                                            <p className="text-sm text-gray-700 dark:text-gray-300">
+                                                {selectedFlight.arrivalTime}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </Modal>
                 )}
-            </div>
+            </PageLayout>
         </>
     );
 };

@@ -1,11 +1,21 @@
 import { useState, useEffect } from "react";
 import axiosInstance from "../Api/axios";
-import { Plane, Plus, Edit, X, Upload } from "lucide-react";
+import { Plane, Plus, Edit, Upload } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { validateAirlineCode, validateTextLength, validateFile } from "../utils/validation";
-import PageMeta from "../components/common/PageMeta";
-import PageBreadCrumb from "../components/common/PageBreadCrumb";
-import Button from "../components/ui/button/Button";
+import {
+  PageMeta,
+  PageLayout,
+  PageHeader,
+  Button,
+  Modal,
+  ModalFooter,
+  DataTable,
+  LoadingState,
+  EmptyState,
+  FormField,
+  Input,
+} from "../components";
 
 interface Airline {
   _id: string;
@@ -191,179 +201,153 @@ const Airline = () => {
 
   return (
     <>
-      <PageMeta title="Airline Management | Admin" description="" />
+      <PageMeta title="Airline Management | Admin" description="Manage airlines and their logos" />
       
-      <div className="space-y-6">
-        <PageBreadCrumb pageTitle="Airline Management" />
+      <PageLayout>
+        <PageHeader
+          title="Airlines"
+          description="Manage airlines and their logos"
+          breadcrumbs={[
+            { label: 'Home', path: '/' },
+            { label: 'Airline Management' },
+          ]}
+          actions={
+            <Button onClick={handleCreate} startIcon={<Plus className="w-4 h-4" />}>
+              Add Airline
+            </Button>
+          }
+        />
 
-        <div className="flex justify-between items-center">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-              <Plane size={24} />
-              Airlines
-            </h1>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-              Manage airlines and their logos
-            </p>
-          </div>
-          <Button
-            onClick={handleCreate}
-            className="flex items-center gap-2"
-          >
-            <Plus size={18} />
-            Add Airline
-          </Button>
-        </div>
+        {fetchLoading ? (
+          <LoadingState />
+        ) : airlines.length === 0 ? (
+          <EmptyState
+            title="No airlines found"
+            description="Get started by adding your first airline"
+            action={
+              <Button onClick={handleCreate} startIcon={<Plus className="w-4 h-4" />}>
+                Add Airline
+              </Button>
+            }
+          />
+        ) : (
+          <DataTable
+            columns={[
+              {
+                key: 'index',
+                header: '#',
+                render: (_airline: Airline, index: number) => (
+                  <span className="text-sm text-gray-900 dark:text-gray-100">
+                    {(index ?? 0) + 1}
+                  </span>
+                ),
+              },
+              {
+                key: 'logo',
+                header: 'Logo',
+                render: (airline: Airline) => (
+                  airline.logo ? (
+                    <img
+                      src={airline.logo}
+                      alt={airline.airlineName}
+                      className="h-10 w-auto object-contain"
+                    />
+                  ) : (
+                    <div className="h-10 w-10 bg-gray-200 dark:bg-gray-700 rounded flex items-center justify-center">
+                      <Plane className="w-5 h-5 text-gray-400" />
+                    </div>
+                  )
+                ),
+              },
+              {
+                key: 'code',
+                header: 'Airline Code',
+                render: (airline: Airline) => (
+                  <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                    {airline.airlineCode}
+                  </span>
+                ),
+              },
+              {
+                key: 'details',
+                header: 'Airline Details',
+                render: (airline: Airline) => (
+                  <span className="text-sm text-gray-900 dark:text-gray-100">
+                    {airline.airlineName}
+                  </span>
+                ),
+              },
+              {
+                key: 'shortCode',
+                header: 'Short Code',
+                render: (airline: Airline) => (
+                  <span className="text-sm text-gray-900 dark:text-gray-100">
+                    {airline.shortCode}
+                  </span>
+                ),
+              },
+              {
+                key: 'status',
+                header: 'Status',
+                render: (airline: Airline) => (
+                  <button
+                    onClick={() => handleEdit(airline)}
+                    className="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400"
+                    title="Edit airline"
+                  >
+                    <Edit className="w-4 h-4" />
+                  </button>
+                ),
+              },
+            ]}
+            data={airlines}
+            keyExtractor={(airline) => airline._id}
+          />
+        )}
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
-          {fetchLoading ? (
-            <div className="p-8 text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
-            </div>
-          ) : airlines.length === 0 ? (
-            <div className="p-8 text-center text-gray-500">No airlines found</div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-gray-50 dark:bg-gray-700">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  #
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Logo
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Airline Code
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Airline Name
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Short Code
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
-                </th>
-              </tr>
-                </thead>
-                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                  {airlines.map((airline, index) => (
-                    <tr key={airline._id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
-                      {index + 1}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {airline.logo ? (
-                        <img
-                          src={airline.logo}
-                          alt={airline.airlineName}
-                          className="h-10 w-auto object-contain"
-                        />
-                      ) : (
-                        <div className="h-10 w-10 bg-gray-200 dark:bg-gray-700 rounded flex items-center justify-center">
-                          <Plane className="w-5 h-5 text-gray-400" />
-                        </div>
-                      )}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
-                      {airline.airlineCode}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
-                      {airline.airlineName}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
-                      {airline.shortCode}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm">
-                      <button
-                        onClick={() => handleEdit(airline)}
-                        className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-                        title="Edit airline"
-                      >
-                        <Edit className="w-4 h-4" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
-
-      {/* Create/Edit Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl transform transition-all animate-slideUp">
-            <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 bg-linear-to-r from-blue-50 to-indigo-50">
-              <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-                <Plane className="w-6 h-6 text-blue-600" />
-                {editingAirline ? 'Edit Airline' : 'Add New Airline'}
-              </h2>
-              <button
-                onClick={() => setShowModal(false)}
-                className="text-gray-400 hover:text-gray-600 hover:bg-white/50 p-2 rounded-full transition-all"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <form onSubmit={handleSubmit} className="p-6">
+        <Modal
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          title={editingAirline ? 'Edit Airline' : 'Add New Airline'}
+          size="md"
+        >
+          <form onSubmit={handleSubmit}>
+            <div className="p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Airline Code (Country) <span className="text-red-500">*</span>
-                  </label>
-                  <input
+                <FormField label="Airline Code (Country)" required error={errors.airlineCode}>
+                  <Input
                     type="text"
                     name="airlineCode"
                     required
                     value={formData.airlineCode}
                     onChange={handleInputChange}
-                    className={`w-full px-4 py-3 border ${errors.airlineCode ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'} rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all`}
                     placeholder="e.g., Pakistan"
                   />
-                  {errors.airlineCode && (
-                    <p className="mt-1 text-sm text-red-600">{errors.airlineCode}</p>
-                  )}
-                </div>
+                </FormField>
 
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Short Code (2-3 Letters) <span className="text-red-500">*</span>
-                  </label>
-                  <input
+                <FormField label="Short Code (2-3 Letters)" required error={errors.shortCode}>
+                  <Input
                     type="text"
                     name="shortCode"
                     required
                     value={formData.shortCode}
                     onChange={handleInputChange}
-                    maxLength={3}
-                    className={`w-full px-4 py-3 border ${errors.shortCode ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'} rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all uppercase`}
                     placeholder="e.g., PK"
+                    className="uppercase"
                   />
-                  {errors.shortCode && (
-                    <p className="mt-1 text-sm text-red-600">{errors.shortCode}</p>
-                  )}
-                </div>
+                </FormField>
 
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Airline Name <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="airlineName"
-                    required
-                    value={formData.airlineName}
-                    onChange={handleInputChange}
-                    className={`w-full px-4 py-3 border ${errors.airlineName ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'} rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all`}
-                    placeholder="e.g., Pakistan International Airlines"
-                  />
-                  {errors.airlineName && (
-                    <p className="mt-1 text-sm text-red-600">{errors.airlineName}</p>
-                  )}
+                  <FormField label="Airline Name" required error={errors.airlineName}>
+                    <Input
+                      type="text"
+                      name="airlineName"
+                      required
+                      value={formData.airlineName}
+                      onChange={handleInputChange}
+                      placeholder="e.g., Pakistan International Airlines"
+                    />
+                  </FormField>
                 </div>
 
                 <div className="md:col-span-2">
@@ -398,37 +382,25 @@ const Airline = () => {
                 </div>
               </div>
 
-              <div className="flex justify-end gap-3 mt-8 pt-6 border-t border-gray-200">
-                <button
-                  type="button"
-                  onClick={() => setShowModal(false)}
-                  className="px-6 py-3 border-2 border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 hover:border-gray-400 transition-all"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="px-6 py-3 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all disabled:opacity-50"
-                >
-                  {loading ? (
-                    <span className="flex items-center gap-2">
-                      <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                      </svg>
-                      {editingAirline ? 'Updating...' : 'Adding...'}
-                    </span>
-                  ) : (
-                    editingAirline ? 'Update Airline' : 'Add Airline'
-                  )}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-      </div>
+            </div>
+            <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setShowModal(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                disabled={loading}
+              >
+                {loading ? 'Saving...' : editingAirline ? 'Update Airline' : 'Add Airline'}
+              </Button>
+            </div>
+          </form>
+        </Modal>
+      </PageLayout>
     </>
   );
 };

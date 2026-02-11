@@ -1,10 +1,21 @@
 import { useState, useEffect } from "react";
 import axiosInstance from "../Api/axios";
-import { Building2, Plus, Edit, Trash2, X, Upload } from "lucide-react";
+import { Building2, Plus, Edit, Trash2, Upload } from "lucide-react";
 import { toast } from "react-hot-toast";
-import PageMeta from "../components/common/PageMeta";
-import PageBreadCrumb from "../components/common/PageBreadCrumb";
-import Button from "../components/ui/button/Button";
+import {
+  PageMeta,
+  PageLayout,
+  PageHeader,
+  Button,
+  Modal,
+  ModalFooter,
+  DataTable,
+  LoadingState,
+  EmptyState,
+  FormField,
+  Input,
+  Badge,
+} from "../components";
 
 interface Bank {
   _id: string;
@@ -174,66 +185,43 @@ const AddBank = () => {
 
   return (
     <>
-      <PageMeta title="Bank Management | Admin" description="" />
+      <PageMeta title="Bank Management | Admin" description="Manage bank accounts and details" />
       
-      <div className="space-y-6">
-        <PageBreadCrumb pageTitle="Bank Management" />
+      <PageLayout>
+        <PageHeader
+          title="Banks"
+          description="Manage bank accounts and details"
+          breadcrumbs={[
+            { label: 'Home', path: '/' },
+            { label: 'Bank Management' },
+          ]}
+          actions={
+            <Button onClick={handleCreate} startIcon={<Plus className="w-4 h-4" />}>
+              Add Bank
+            </Button>
+          }
+        />
 
-        <div className="flex justify-between items-center">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-              <Building2 size={24} />
-              Banks
-            </h1>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-              Manage bank accounts and details
-            </p>
-          </div>
-          <Button
-            onClick={handleCreate}
-            className="flex items-center gap-2"
-          >
-            <Plus size={18} />
-            Add Bank
-          </Button>
-        </div>
-
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
-          {fetchLoading ? (
-            <div className="p-8 text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
-            </div>
-          ) : banks.length === 0 ? (
-            <div className="p-8 text-center text-gray-500">No banks found</div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-gray-50 dark:bg-gray-700">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Logo
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Bank Name
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Account Details
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  IBN
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Status
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
-                </th>
-              </tr>
-                </thead>
-                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                  {banks.map((bank) => (
-                    <tr key={bank._id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                  <td className="px-6 py-4 whitespace-nowrap">
+        {fetchLoading ? (
+          <LoadingState />
+        ) : banks.length === 0 ? (
+          <EmptyState
+            title="No banks found"
+            description="Get started by adding your first bank"
+            action={
+              <Button onClick={handleCreate} startIcon={<Plus className="w-4 h-4" />}>
+                Add Bank
+              </Button>
+            }
+          />
+        ) : (
+          <DataTable
+            columns={[
+              {
+                key: 'logo',
+                header: 'Logo',
+                render: (bank: Bank) => (
+                  <div className="flex items-center">
                     {bank.logo ? (
                       <img
                         src={bank.logo}
@@ -245,156 +233,150 @@ const AddBank = () => {
                         <Building2 className="w-6 h-6 text-gray-400" />
                       </div>
                     )}
-                  </td>
-                  <td className="px-6 py-4">
+                  </div>
+                ),
+              },
+              {
+                key: 'name',
+                header: 'Bank Name',
+                render: (bank: Bank) => (
+                  <div>
                     <div className="text-sm font-medium text-gray-900 dark:text-gray-100">{bank.bankName}</div>
                     <div className="text-xs text-gray-500 dark:text-gray-400">{bank.bankAddress}</div>
-                  </td>
-                  <td className="px-6 py-4">
+                  </div>
+                ),
+              },
+              {
+                key: 'account',
+                header: 'Account Details',
+                render: (bank: Bank) => (
+                  <div>
                     <div className="text-sm text-gray-900 dark:text-gray-100">{bank.accountTitle}</div>
                     <div className="text-xs text-gray-500 dark:text-gray-400">Acc: {bank.accountNo}</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900 dark:text-gray-100">{bank.ibn}</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <button
-                      onClick={() => toggleStatus(bank._id, bank.status)}
-                      className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full transition-all ${
-                        bank.status === "Active"
-                          ? "bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900 dark:text-green-300 dark:hover:bg-green-800"
-                          : "bg-gray-100 text-gray-800 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
-                      }`}
-                    >
+                  </div>
+                ),
+              },
+              {
+                key: 'iban',
+                header: 'IBAN',
+                render: (bank: Bank) => (
+                  <span className="text-sm text-gray-900 dark:text-gray-100">{bank.ibn}</span>
+                ),
+              },
+              {
+                key: 'status',
+                header: 'Status',
+                render: (bank: Bank) => (
+                  <button
+                    onClick={() => toggleStatus(bank._id, bank.status)}
+                    className="transition-all"
+                  >
+                    <Badge color={bank.status === "Active" ? "success" : "light"}>
                       {bank.status}
+                    </Badge>
+                  </button>
+                ),
+              },
+              {
+                key: 'actions',
+                header: 'Actions',
+                render: (bank: Bank) => (
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleEdit(bank)}
+                      className="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400"
+                      title="Edit bank"
+                    >
+                      <Edit className="w-4 h-4" />
                     </button>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => handleEdit(bank)}
-                        className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-                        title="Edit bank"
-                      >
-                        <Edit className="w-4 h-4" />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(bank._id)}
-                        className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
-                        title="Delete bank"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
+                    <button
+                      onClick={() => handleDelete(bank._id)}
+                      className="text-red-600 hover:text-red-900 dark:text-red-400"
+                      title="Delete bank"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                ),
+              },
+            ]}
+            data={banks}
+            keyExtractor={(bank) => bank._id}
+          />
+        )}
 
-      {/* Create/Edit Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl transform transition-all animate-slideUp">
-            <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 bg-linear-to-r from-blue-50 to-indigo-50">
-              <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-                <Building2 className="w-6 h-6 text-blue-600" />
-                {editingBank ? 'Edit Bank' : 'Add New Bank'}
-              </h2>
-              <button
-                onClick={() => setShowModal(false)}
-                className="text-gray-400 hover:text-gray-600 hover:bg-white/50 p-2 rounded-full transition-all"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <form onSubmit={handleSubmit} className="p-6">
+        <Modal
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          title={editingBank ? 'Edit Bank' : 'Add New Bank'}
+          size="lg"
+        >
+          <form onSubmit={handleSubmit}>
+            <div className="p-6">
               <div className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Bank Name <span className="text-red-500">*</span>
-                    </label>
-                    <input
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <FormField label="Bank Name" required>
+                    <Input
                       type="text"
-                      name="bankName"
+                      required
                       value={formData.bankName}
                       onChange={(e) => setFormData({ ...formData, bankName: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                       placeholder="e.g., Bank Al Habib"
                     />
-                  </div>
+                  </FormField>
 
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Account Title <span className="text-red-500">*</span>
-                    </label>
-                    <input
+                  <FormField label="Account Title" required>
+                    <Input
                       type="text"
+                      required
                       value={formData.accountTitle}
                       onChange={(e) => setFormData({ ...formData, accountTitle: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                       placeholder="Account holder name"
                     />
-                  </div>
+                  </FormField>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Account Number <span className="text-red-500">*</span>
-                    </label>
-                    <input
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <FormField label="Account Number" required>
+                    <Input
                       type="text"
-                      name="accountNo"                      
+                      required
                       value={formData.accountNo}
                       onChange={(e) => setFormData({ ...formData, accountNo: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                       placeholder="Account number"
                     />
-                  </div>
+                  </FormField>
 
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      IBAN <span className="text-red-500">*</span>
-                    </label>
-                    <input
+                  <FormField label="IBAN" required>
+                    <Input
                       type="text"
-                      name="ibn"                      
+                      required
                       value={formData.ibn}
                       onChange={(e) => setFormData({ ...formData, ibn: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                       placeholder="IBAN number"
                     />
-                  </div>
+                  </FormField>
                 </div>
 
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Bank Address <span className="text-red-500">*</span>
-                  </label>
-                  <input
+                <FormField label="Bank Address" required>
+                  <Input
                     type="text"
-                    name="bankAddress"
+                    required
                     value={formData.bankAddress}
                     onChange={(e) => setFormData({ ...formData, bankAddress: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                     placeholder="Branch address"
                   />
-                </div>
+                </FormField>
 
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Bank Logo {!editingBank && <span className="text-red-500">*</span>}
-                  </label>
+                <FormField 
+                  label="Bank Logo" 
+                  required={!editingBank}
+                  hint={editingBank && editingBank.logo && !logo ? "Current logo will be kept if no new file is selected" : undefined}
+                >
                   <div className="flex items-center gap-4">
-                    <label className="flex items-center gap-2 px-4 py-3 bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 transition-all">
-                      <Upload className="w-5 h-5 text-gray-600" />
-                      <span className="text-sm text-gray-600">
+                    <label className="flex items-center gap-2 px-4 py-2.5 bg-gray-50 dark:bg-gray-700 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-all">
+                      <Upload className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                      <span className="text-sm text-gray-600 dark:text-gray-300">
                         {logo ? logo.name : editingBank ? "Change Logo" : "Choose Logo"}
                       </span>
                       <input
@@ -416,40 +398,27 @@ const AddBank = () => {
                       />
                     )}
                   </div>
-                </div>
+                </FormField>
               </div>
-
-              <div className="flex justify-end gap-3 mt-8 pt-6 border-t border-gray-200">
-                <button
-                  type="button"
-                  onClick={() => setShowModal(false)}
-                  className="px-6 py-3 border-2 border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 hover:border-gray-400 transition-all"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="px-6 py-3 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all disabled:opacity-50"
-                >
-                  {loading ? (
-                    <span className="flex items-center gap-2">
-                      <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                      </svg>
-                      {editingBank ? 'Updating...' : 'Adding...'}
-                    </span>
-                  ) : (
-                    editingBank ? 'Update Bank' : 'Add Bank'
-                  )}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-      </div>
+            </div>
+            <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setShowModal(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                disabled={loading}
+              >
+                {loading ? 'Saving...' : editingBank ? 'Update Bank' : 'Add Bank'}
+              </Button>
+            </div>
+          </form>
+        </Modal>
+      </PageLayout>
     </>
   );
 };

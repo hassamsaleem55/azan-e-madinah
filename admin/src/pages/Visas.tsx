@@ -1,12 +1,22 @@
 import { useState, useEffect } from 'react';
-import { Plus, Edit, Trash2, Eye, Globe, X } from 'lucide-react';
+import { Plus, Edit, Trash2, Eye, Globe } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import axiosInstance from '../Api/axios';
-import PageMeta from '../components/common/PageMeta';
-import PageBreadCrumb from '../components/common/PageBreadCrumb';
-import Button from '../components/ui/button/Button';
-import Input from '../components/form/input/InputField';
 import { Visa } from '../types';
+import {
+  PageMeta,
+  PageLayout,
+  PageHeader,
+  FilterBar,
+  Button,
+  Badge,
+  Modal,
+  DataTable,
+  LoadingState,
+  EmptyState,
+  FormField,
+  Select,
+} from '../components';
 
 const Visas = () => {
     const [visas, setVisas] = useState<Visa[]>([]);
@@ -75,212 +85,200 @@ const Visas = () => {
 
     return (
         <>
-            <PageMeta title="Visa Management | Admin" description="" />
+            <PageMeta title="Visa Management | Admin" description="Manage visa services for all countries" />
             
-            <div className="space-y-6">
-                <PageBreadCrumb pageTitle="Visa Management" />
+            <PageLayout>
+                <PageHeader
+                    title="Visa Services"
+                    description="Manage visa services for all countries"
+                    breadcrumbs={[
+                        { label: 'Home', path: '/' },
+                        { label: 'Visa Management' },
+                    ]}
+                    actions={
+                        <Button onClick={handleCreate} startIcon={<Plus className="w-4 h-4" />}>
+                            Add Visa
+                        </Button>
+                    }
+                />
 
-                <div className="flex justify-between items-center">
-                    <div>
-                        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Visa Services</h1>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                            Manage visa services for all countries
-                        </p>
-                    </div>
-                    <Button
-                        onClick={handleCreate}
-                        className="flex items-center gap-2"
-                    >
-                        <Plus size={18} />
-                        Add Visa
-                    </Button>
-                </div>
+                <FilterBar
+                    searchValue={searchTerm}
+                    onSearchChange={setSearchTerm}
+                    searchPlaceholder="Search by country or type..."
+                    filters={
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <FormField label="Visa Type">
+                                <Select
+                                    value={filters.visaType}
+                                    onChange={(e) => setFilters({ ...filters, visaType: e.target.value })}
+                                    options={[
+                                        { value: 'Tourist', label: 'Tourist' },
+                                        { value: 'Business', label: 'Business' },
+                                        { value: 'Student', label: 'Student' },
+                                        { value: 'Work', label: 'Work' },
+                                    ]}
+                                    placeholder="All Types"
+                                />
+                            </FormField>
+                            <FormField label="Status">
+                                <Select
+                                    value={filters.status}
+                                    onChange={(e) => setFilters({ ...filters, status: e.target.value })}
+                                    options={[
+                                        { value: 'Active', label: 'Active' },
+                                        { value: 'Inactive', label: 'Inactive' },
+                                    ]}
+                                    placeholder="All Status"
+                                />
+                            </FormField>
+                        </div>
+                    }
+                />
 
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <Input
-                                type="text"
-                                placeholder="Search by country or type..."
-                                value={searchTerm}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
-                            />
-                        </div>
-                        <div>
-                            <select
-                                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
-                                value={filters.visaType}
-                                onChange={(e) => setFilters({ ...filters, visaType: e.target.value })}
-                            >
-                                <option value="">All Types</option>
-                                <option value="Tourist">Tourist</option>
-                                <option value="Business">Business</option>
-                                <option value="Student">Student</option>
-                                <option value="Work">Work</option>
-                            </select>
-                        </div>
-                        <div>
-                            <select
-                                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
-                                value={filters.status}
-                                onChange={(e) => setFilters({ ...filters, status: e.target.value })}
-                            >
-                                <option value="">All Status</option>
-                                <option value="Active">Active</option>
-                                <option value="Inactive">Inactive</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
-                    {loading ? (
-                        <div className="p-8 text-center">
-                            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
-                        </div>
-                    ) : filteredVisas.length === 0 ? (
-                        <div className="p-8 text-center text-gray-500">No visas found</div>
-                    ) : (
-                        <div className="overflow-x-auto">
-                            <table className="w-full">
-                                <thead className="bg-gray-50 dark:bg-gray-700">
-                                    <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Country</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Visa Type</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Processing Time</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Price</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                                    {filteredVisas.map((visa) => (
-                                        <tr key={visa._id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <div className="flex items-center gap-2">
-                                                    <Globe size={16} className="text-gray-400" />
-                                                    <span className="text-sm font-medium text-gray-900 dark:text-white">
-                                                        {visa.country?.name}
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <span className="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
-                                                    {visa.visaType}
-                                                </span>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                                                {visa.processingTime?.min}-{visa.processingTime?.max || visa.processingTime?.min} {visa.processingTime?.unit}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                                                PKR {visa.pricing?.adult?.toLocaleString()}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <span className={`px-2 py-1 text-xs font-semibold rounded-full ${
-                                                    visa.status === 'Active' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
-                                                    'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
-                                                }`}>
-                                                    {visa.status}
-                                                </span>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                <div className="flex items-center gap-2">
-                                                    <button
-                                                        onClick={() => handleView(visa)}
-                                                        className="text-blue-600 hover:text-blue-900"
-                                                        title="View"
-                                                    >
-                                                        <Eye size={18} />
-                                                    </button>
-                                                    <button
-                                                        onClick={() => handleEdit(visa)}
-                                                        className="text-yellow-600 hover:text-yellow-900"
-                                                        title="Edit"
-                                                    >
-                                                        <Edit size={18} />
-                                                    </button>
-                                                    <button
-                                                        onClick={() => handleDelete(visa._id)}
-                                                        className="text-red-600 hover:text-red-900"
-                                                        title="Delete"
-                                                    >
-                                                        <Trash2 size={18} />
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
-                </div>
+                {loading ? (
+                    <LoadingState />
+                ) : filteredVisas.length === 0 ? (
+                    <EmptyState
+                        title="No visas found"
+                        description="Get started by adding your first visa service"
+                        action={
+                            <Button onClick={handleCreate} startIcon={<Plus className="w-4 h-4" />}>
+                                Add Visa
+                            </Button>
+                        }
+                    />
+                ) : (
+                    <DataTable
+                        columns={[
+                            {
+                                key: 'country',
+                                header: 'Country',
+                                render: (visa: Visa) => (
+                                    <div className="flex items-center gap-2">
+                                        <Globe size={16} className="text-gray-400" />
+                                        <span className="text-sm font-medium text-gray-900 dark:text-white">
+                                            {visa.country?.name}
+                                        </span>
+                                    </div>
+                                ),
+                            },
+                            {
+                                key: 'type',
+                                header: 'Visa Type',
+                                render: (visa: Visa) => (
+                                    <Badge color="info">{visa.visaType}</Badge>
+                                ),
+                            },
+                            {
+                                key: 'processing',
+                                header: 'Processing Time',
+                                render: (visa: Visa) => (
+                                    <span className="text-sm text-gray-900 dark:text-white">
+                                        {visa.processingTime?.min}-{visa.processingTime?.max || visa.processingTime?.min} {visa.processingTime?.unit}
+                                    </span>
+                                ),
+                            },
+                            {
+                                key: 'price',
+                                header: 'Price',
+                                render: (visa: Visa) => (
+                                    <span className="text-sm text-gray-900 dark:text-white">
+                                        PKR {visa.pricing?.adult?.toLocaleString()}
+                                    </span>
+                                ),
+                            },
+                            {
+                                key: 'status',
+                                header: 'Status',
+                                render: (visa: Visa) => (
+                                    <Badge color={visa.status === 'Active' ? 'success' : 'light'}>
+                                        {visa.status}
+                                    </Badge>
+                                ),
+                            },
+                            {
+                                key: 'actions',
+                                header: 'Actions',
+                                render: (visa: Visa) => (
+                                    <div className="flex items-center gap-2">
+                                        <button
+                                            onClick={() => handleView(visa)}
+                                            className="text-blue-600 hover:text-blue-900 dark:text-blue-400"
+                                            title="View"
+                                        >
+                                            <Eye size={18} />
+                                        </button>
+                                        <button
+                                            onClick={() => handleEdit(visa)}
+                                            className="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400"
+                                            title="Edit"
+                                        >
+                                            <Edit size={18} />
+                                        </button>
+                                        <button
+                                            onClick={() => handleDelete(visa._id)}
+                                            className="text-red-600 hover:text-red-900 dark:text-red-400"
+                                            title="Delete"
+                                        >
+                                            <Trash2 size={18} />
+                                        </button>
+                                    </div>
+                                ),
+                            },
+                        ]}
+                        data={filteredVisas}
+                        keyExtractor={(visa) => visa._id}
+                    />
+                )}
 
                 {/* Create/Edit Modal */}
-                {showModal && (
-                    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-                            <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                                <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
-                                    {editingVisa ? 'Edit Visa' : 'Add New Visa'}
-                                </h2>
-                                <button
-                                    onClick={() => setShowModal(false)}
-                                    className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-2 rounded-full transition-all"
-                                >
-                                    <X size={20} />
-                                </button>
-                            </div>
-                            <div className="p-6">
-                                <p className="text-gray-600 dark:text-gray-400 text-center py-8">
-                                    Visa form implementation pending - API integration required
-                                </p>
-                            </div>
-                        </div>
+                <Modal
+                    isOpen={showModal}
+                    onClose={() => setShowModal(false)}
+                    title={editingVisa ? 'Edit Visa' : 'Add New Visa'}
+                    size="lg"
+                >
+                    <div className="p-6">
+                        <p className="text-gray-600 dark:text-gray-400 text-center py-8">
+                            Visa form implementation pending - API integration required
+                        </p>
                     </div>
-                )}
+                </Modal>
 
                 {/* View Modal */}
-                {showViewModal && selectedVisa && (
-                    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-                            <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                                <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
-                                    Visa Details
-                                </h2>
-                                <button
-                                    onClick={() => setShowViewModal(false)}
-                                    className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-2 rounded-full transition-all"
-                                >
-                                    <X size={20} />
-                                </button>
+                <Modal
+                    isOpen={showViewModal}
+                    onClose={() => setShowViewModal(false)}
+                    title="Visa Details"
+                    size="lg"
+                >
+                    {selectedVisa && (
+                        <div className="p-6 space-y-4">
+                            <div>
+                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                                    {selectedVisa.country?.name || 'N/A'}
+                                </h3>
+                                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                                    {selectedVisa.visaType}
+                                </p>
                             </div>
-                            <div className="p-6 space-y-4">
+                            <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                                        {selectedVisa.country?.name || 'N/A'}
-                                    </h3>
-                                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                                        {selectedVisa.visaType}
+                                    <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Processing Time</p>
+                                    <p className="text-gray-900 dark:text-white">
+                                        {selectedVisa.processingTime?.min}-{selectedVisa.processingTime?.max || selectedVisa.processingTime?.min} {selectedVisa.processingTime?.unit}
                                     </p>
                                 </div>
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Processing Time</p>
-                                        <p className="text-gray-900 dark:text-white">
-                                            {selectedVisa.processingTime?.min}-{selectedVisa.processingTime?.max || selectedVisa.processingTime?.min} {selectedVisa.processingTime?.unit}
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Status</p>
-                                        <p className="text-gray-900 dark:text-white">{selectedVisa.status}</p>
-                                    </div>
+                                <div>
+                                    <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Status</p>
+                                    <p className="text-gray-900 dark:text-white">{selectedVisa.status}</p>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                )}
-            </div>
+                    )}
+                </Modal>
+            </PageLayout>
         </>
     );
 };
