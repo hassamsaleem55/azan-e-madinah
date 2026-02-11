@@ -1,7 +1,6 @@
 import React from "react";
 import DatePicker from "react-datepicker";
 import { formatDateInput, parseMaskedDate } from "../../utils/dateInput";
-import "react-datepicker/dist/react-datepicker.css";
 
 interface MaskedDatePickerProps {
   value: Date | null;

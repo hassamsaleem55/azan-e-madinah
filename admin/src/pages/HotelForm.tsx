@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { X, Save, Upload, MapPin, Star, Building2, Phone, Mail, Globe } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import axiosInstance from '../Api/axios';
-import Button from '../components/ui/button/Button';
 
 interface HotelFormProps {
     onClose: () => void;
@@ -35,14 +34,21 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
         amenities: [] as any[],
         services: {
             shuttleService: false,
-            breakfast: false,
-            wifi: true,
-            parking: false,
-            ac: true,
-            elevator: true,
+            frontDesk24h: false,
+            conciergeService: false,
+            currencyExchange: false,
+            tourDesk: false,
+            luggageStorage: false,
+            prayerFacilities: false,
+            businessCenter: false,
+            gym: false,
+            swimmingPool: false,
             restaurant: false,
             roomService: false,
-            laundry: false
+            laundryService: false,
+            parking: false,
+            elevator: false,
+            breakfast: false
         },
         contact: {
             phone: '',
@@ -101,14 +107,21 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                 amenities: hotel.amenities || [],
                 services: hotel.services || {
                     shuttleService: false,
-                    breakfast: false,
-                    wifi: true,
-                    parking: false,
-                    ac: true,
-                    elevator: true,
+                    frontDesk24h: false,
+                    conciergeService: false,
+                    currencyExchange: false,
+                    tourDesk: false,
+                    luggageStorage: false,
+                    prayerFacilities: false,
+                    businessCenter: false,
+                    gym: false,
+                    swimmingPool: false,
                     restaurant: false,
                     roomService: false,
-                    laundry: false
+                    laundryService: false,
+                    parking: false,
+                    elevator: false,
+                    breakfast: false
                 },
                 contact: hotel.contact || { phone: '', email: '', website: '' },
                 policies: hotel.policies || {
@@ -303,20 +316,26 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
     };
 
     const commonAmenities = [
-        { name: 'Free WiFi', category: 'General' },
+        { name: 'Free WiFi', category: 'Room' },
         { name: 'Air Conditioning', category: 'Room' },
         { name: 'TV', category: 'Room' },
         { name: 'Mini Fridge', category: 'Room' },
         { name: 'Safe', category: 'Room' },
+        { name: 'Kettle/Coffee Maker', category: 'Room' },
+        { name: 'Work Desk', category: 'Room' },
+        { name: 'Sofa/Seating Area', category: 'Room' },
         { name: 'Private Bathroom', category: 'Bathroom' },
+        { name: 'Shower', category: 'Bathroom' },
+        { name: 'Bathtub', category: 'Bathroom' },
         { name: 'Hot Water', category: 'Bathroom' },
         { name: 'Toiletries', category: 'Bathroom' },
-        { name: '24/7 Reception', category: 'Services' },
-        { name: 'Housekeeping', category: 'Services' },
-        { name: 'Laundry Service', category: 'Services' },
-        { name: 'Room Service', category: 'Services' },
-        { name: 'Restaurant', category: 'Food' },
-        { name: 'Breakfast', category: 'Food' }
+        { name: 'Hairdryer', category: 'Bathroom' },
+        { name: 'Bathrobe & Slippers', category: 'Bathroom' },
+        { name: 'Towels', category: 'Bathroom' },
+        { name: 'Iron/Ironing Board', category: 'Room' },
+        { name: 'Telephone', category: 'Room' },
+        { name: 'Alarm Clock', category: 'Room' },
+        { name: 'Blackout Curtains', category: 'Room' }
     ];
 
     return (
@@ -578,7 +597,8 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
 
                     {/* Services */}
                     <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
-                        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Services & Facilities</h3>
+                        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Hotel Services & Facilities</h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Select hotel-wide services and facilities available to guests</p>
 
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                             {Object.entries(formData.services).map(([key, value]) => (
@@ -593,7 +613,7 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                                         className="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
                                     />
                                     <span className="ml-2 text-sm text-gray-700 dark:text-gray-300 capitalize">
-                                        {key.replace(/([A-Z])/g, ' $1').trim()}
+                                        {key.replace(/([A-Z])/g, ' $1').replace(/24h/, '24/7').trim()}
                                     </span>
                                 </label>
                             ))}
@@ -602,7 +622,8 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
 
                     {/* Amenities */}
                     <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
-                        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Amenities</h3>
+                        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Room Amenities</h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Select in-room amenities and features</p>
 
                         <div className="space-y-4">
                             <div>

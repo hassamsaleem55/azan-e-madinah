@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { X, Plus, Trash2, Save } from 'lucide-react';
+import { X, Plus, Trash2, Save, Package, MapPin, DollarSign, CheckCircle, XCircle, Info } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import axiosInstance from '../Api/axios';
 import Button from '../components/ui/button/Button';
@@ -31,8 +31,14 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
         },
         accommodation: [] as any[],
         pricing: [] as any[],
-        inclusions: [] as string[],
-        exclusions: [] as string[],
+        inclusions: {
+            visa: true,
+            insurance: false,
+            transport: true,
+            accommodation: true,
+            ziayarahWithGuide: false,
+            returnFlights: true
+        },
         status: 'Active',
         featured: false
     });
@@ -65,8 +71,14 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
                 duration: pkg.duration || { days: 0, nights: 0 },
                 accommodation: pkg.accommodation || [],
                 pricing: pkg.pricing || [],
-                inclusions: pkg.inclusions || [],
-                exclusions: pkg.exclusions || [],
+                inclusions: pkg.inclusions || {
+                    visa: true,
+                    insurance: false,
+                    transport: true,
+                    accommodation: true,
+                    ziayarahWithGuide: false,
+                    returnFlights: true
+                },
                 status: pkg.status || 'Active',
                 featured: pkg.featured || false
             });
@@ -108,7 +120,9 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
             accommodation: [...formData.accommodation, {
                 city: 'Makkah',
                 hotel: '',
-                nights: 0
+                nights: 0,
+                shuttleService: false,
+                distanceFromHaram: 0
             }]
         });
     };
@@ -136,38 +150,6 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
         setFormData({ ...formData, accommodation: newAccommodation });
     };
 
-    const addInclusion = (inclusion: string) => {
-        if (inclusion && !formData.inclusions.includes(inclusion)) {
-            setFormData({
-                ...formData,
-                inclusions: [...formData.inclusions, inclusion]
-            });
-        }
-    };
-
-    const removeInclusion = (inclusion: string) => {
-        setFormData({
-            ...formData,
-            inclusions: formData.inclusions.filter(i => i !== inclusion)
-        });
-    };
-
-    const addExclusion = (exclusion: string) => {
-        if (exclusion && !formData.exclusions.includes(exclusion)) {
-            setFormData({
-                ...formData,
-                exclusions: [...formData.exclusions, exclusion]
-            });
-        }
-    };
-
-    const removeExclusion = (exclusion: string) => {
-        setFormData({
-            ...formData,
-            exclusions: formData.exclusions.filter(e => e !== exclusion)
-        });
-    };
-
     return (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto transform transition-all animate-slideUp">
@@ -185,13 +167,16 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
 
                 <form onSubmit={handleSubmit} className="p-6 space-y-6">
                     {/* Basic Information */}
-                    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Basic Information</h2>
+                    <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                            <Package className="w-5 h-5" />
+                            Basic Information
+                        </h3>
                         
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    Package Name *
+                                    Package Name <span className="text-red-500">*</span>
                                 </label>
                                 <Input
                                     type="text"
@@ -205,7 +190,7 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
 
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    Type *
+                                    Type <span className="text-red-500">*</span>
                                 </label>
                                 <select
                                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
@@ -220,7 +205,7 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
 
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    Days *
+                                    Days <span className="text-red-500">*</span>
                                 </label>
                                 <Input
                                     type="number"
@@ -237,7 +222,7 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
 
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    Nights *
+                                    Nights <span className="text-red-500">*</span>
                                 </label>
                                 <Input
                                     type="number"
@@ -296,9 +281,12 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
                     </div>
 
                     {/* Accommodation */}
-                    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                    <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                         <div className="flex justify-between items-center mb-4">
-                            <h2 className="text-xl font-bold text-gray-900 dark:text-white">Accommodation</h2>
+                            <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                                <MapPin className="w-5 h-5" />
+                                Accommodation
+                            </h3>
                             <Button type="button" onClick={addAccommodation} className="flex items-center gap-2" size="sm">
                                 <Plus size={16} />
                                 Add Accommodation
@@ -306,8 +294,14 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
                         </div>
 
                         <div className="space-y-4">
+                            {formData.accommodation.length === 0 && (
+                                <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                                    <MapPin className="w-12 h-12 mx-auto mb-2 opacity-50" />
+                                    <p>No accommodation added yet</p>
+                                </div>
+                            )}
                             {formData.accommodation.map((acc, index) => (
-                                <div key={index} className="grid grid-cols-1 md:grid-cols-4 gap-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                                <div key={index} className="grid grid-cols-1 md:grid-cols-5 gap-4 p-4 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                             City
@@ -353,7 +347,29 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
                                             min="0"
                                         />
                                     </div>
-                                    <div className="flex items-end">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            Distance (meters)
+                                        </label>
+                                        <Input
+                                            type="number"
+                                            value={acc.distanceFromHaram?.toString() || '0'}
+                                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
+                                                updateAccommodation(index, 'distanceFromHaram', parseInt(e.target.value) || 0)
+                                            }
+                                            min="0"
+                                        />
+                                    </div>
+                                    <div className="flex flex-col justify-between">
+                                        <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            <input
+                                                type="checkbox"
+                                                checked={acc.shuttleService || false}
+                                                onChange={(e) => updateAccommodation(index, 'shuttleService', e.target.checked)}
+                                                className="w-4 h-4"
+                                            />
+                                            Shuttle Service
+                                        </label>
                                         <button
                                             type="button"
                                             onClick={() => removeAccommodation(index)}
@@ -368,9 +384,12 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
                     </div>
 
                     {/* Pricing Tiers */}
-                    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                    <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                         <div className="flex justify-between items-center mb-4">
-                            <h2 className="text-xl font-bold text-gray-900 dark:text-white">Pricing Tiers</h2>
+                            <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                                <DollarSign className="w-5 h-5" />
+                                Pricing Tiers
+                            </h3>
                             <Button type="button" onClick={addPricing} className="flex items-center gap-2" size="sm">
                                 <Plus size={16} />
                                 Add Tier
@@ -378,6 +397,12 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
                         </div>
 
                         <div className="space-y-4">
+                            {formData.pricing.length === 0 && (
+                                <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                                    <DollarSign className="w-12 h-12 mx-auto mb-2 opacity-50" />
+                                    <p>No pricing tiers added yet</p>
+                                </div>
+                            )}
                             {formData.pricing.map((pricing, index) => (
                                 <div key={index} className="flex gap-4 items-end">
                                     <div className="flex-1">
@@ -431,92 +456,102 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
                         </div>
                     </div>
 
-                    {/* Inclusions */}
-                    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Package Inclusions</h2>
+                    {/* Package Inclusions */}
+                    <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                            <CheckCircle className="w-5 h-5" />
+                            Package Inclusions
+                        </h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Select what's included in this package</p>
                         
-                        <div className="space-y-4">
-                            <div className="flex gap-2">
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                            <label className="flex items-center gap-2 cursor-pointer p-3 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-primary-500 transition-all">
                                 <input
-                                    type="text"
-                                    placeholder="Add inclusion (e.g., Visa, Return Flights)"
-                                    onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                                        if (e.key === 'Enter') {
-                                            e.preventDefault();
-                                            const input = e.target as HTMLInputElement;
-                                            addInclusion(input.value);
-                                            input.value = '';
-                                        }
-                                    }}
-                                    className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+                                    type="checkbox"
+                                    checked={formData.inclusions.visa}
+                                    onChange={(e) => setFormData({
+                                        ...formData,
+                                        inclusions: { ...formData.inclusions, visa: e.target.checked }
+                                    })}
+                                    className="w-4 h-4 text-primary-600"
                                 />
-                            </div>
-                            <div className="space-y-2">
-                                {formData.inclusions.map((inclusion, index) => (
-                                    <div
-                                        key={index}
-                                        className="flex items-center justify-between p-3 bg-green-50 dark:bg-green-900/20 rounded-lg"
-                                    >
-                                        <span className="text-gray-900 dark:text-white">{inclusion}</span>
-                                        <button
-                                            type="button"
-                                            onClick={() => removeInclusion(inclusion)}
-                                            className="text-red-600 hover:text-red-800"
-                                        >
-                                            <X size={18} />
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
+                                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Visa</span>
+                            </label>
 
-                    {/* Exclusions */}
-                    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Package Exclusions</h2>
-                        
-                        <div className="space-y-4">
-                            <div className="flex gap-2">
+                            <label className="flex items-center gap-2 cursor-pointer p-3 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-primary-500 transition-all">
                                 <input
-                                    type="text"
-                                    placeholder="Add exclusion (e.g., Personal expenses)"
-                                    onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                                        if (e.key === 'Enter') {
-                                            e.preventDefault();
-                                            const input = e.target as HTMLInputElement;
-                                            addExclusion(input.value);
-                                            input.value = '';
-                                        }
-                                    }}
-                                    className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+                                    type="checkbox"
+                                    checked={formData.inclusions.insurance}
+                                    onChange={(e) => setFormData({
+                                        ...formData,
+                                        inclusions: { ...formData.inclusions, insurance: e.target.checked }
+                                    })}
+                                    className="w-4 h-4 text-primary-600"
                                 />
-                            </div>
-                            <div className="space-y-2">
-                                {formData.exclusions.map((exclusion, index) => (
-                                    <div
-                                        key={index}
-                                        className="flex items-center justify-between p-3 bg-red-50 dark:bg-red-900/20 rounded-lg"
-                                    >
-                                        <span className="text-gray-900 dark:text-white">{exclusion}</span>
-                                        <button
-                                            type="button"
-                                            onClick={() => removeExclusion(exclusion)}
-                                            className="text-red-600 hover:text-red-800"
-                                        >
-                                            <X size={18} />
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
+                                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Insurance</span>
+                            </label>
+
+                            <label className="flex items-center gap-2 cursor-pointer p-3 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-primary-500 transition-all">
+                                <input
+                                    type="checkbox"
+                                    checked={formData.inclusions.transport}
+                                    onChange={(e) => setFormData({
+                                        ...formData,
+                                        inclusions: { ...formData.inclusions, transport: e.target.checked }
+                                    })}
+                                    className="w-4 h-4 text-primary-600"
+                                />
+                                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Transport</span>
+                            </label>
+
+                            <label className="flex items-center gap-2 cursor-pointer p-3 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-primary-500 transition-all">
+                                <input
+                                    type="checkbox"
+                                    checked={formData.inclusions.accommodation}
+                                    onChange={(e) => setFormData({
+                                        ...formData,
+                                        inclusions: { ...formData.inclusions, accommodation: e.target.checked }
+                                    })}
+                                    className="w-4 h-4 text-primary-600"
+                                />
+                                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Accommodation</span>
+                            </label>
+
+                            <label className="flex items-center gap-2 cursor-pointer p-3 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-primary-500 transition-all">
+                                <input
+                                    type="checkbox"
+                                    checked={formData.inclusions.ziayarahWithGuide}
+                                    onChange={(e) => setFormData({
+                                        ...formData,
+                                        inclusions: { ...formData.inclusions, ziayarahWithGuide: e.target.checked }
+                                    })}
+                                    className="w-4 h-4 text-primary-600"
+                                />
+                                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Ziarah with Guide</span>
+                            </label>
+
+                            <label className="flex items-center gap-2 cursor-pointer p-3 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-primary-500 transition-all">
+                                <input
+                                    type="checkbox"
+                                    checked={formData.inclusions.returnFlights}
+                                    onChange={(e) => setFormData({
+                                        ...formData,
+                                        inclusions: { ...formData.inclusions, returnFlights: e.target.checked }
+                                    })}
+                                    className="w-4 h-4 text-primary-600"
+                                />
+                                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Return Flights</span>
+                            </label>
                         </div>
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="flex gap-4 justify-end pt-6 border-t border-gray-200 dark:border-gray-700">
+                    <div className="flex gap-4 justify-end pt-6 border-t border-gray-200 dark:border-gray-700 sticky bottom-0 bg-white dark:bg-gray-800 pb-2">
                         <button
                             type="button"
                             onClick={onClose}
                             className="px-6 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-all"
+                            disabled={loading}
                         >
                             Cancel
                         </button>
@@ -527,16 +562,13 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
                         >
                             {loading ? (
                                 <>
-                                    <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
-                                    {editId ? 'Updating...' : 'Adding...'}
+                                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                                    <span>{editId ? 'Updating...' : 'Creating...'}</span>
                                 </>
                             ) : (
                                 <>
-                                    <Save size={18} />
-                                    {editId ? 'Update Package' : 'Add Package'}
+                                    <Save className="w-5 h-5" />
+                                    <span>{editId ? 'Update Package' : 'Create Package'}</span>
                                 </>
                             )}
                         </button>

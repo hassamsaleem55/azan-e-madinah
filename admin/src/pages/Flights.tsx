@@ -7,8 +7,6 @@ import PageBreadCrumb from '../components/common/PageBreadCrumb';
 import Button from '../components/ui/button/Button';
 import Input from '../components/form/input/InputField';
 import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import './flights-datepicker.css';
 
 interface Flight {
     _id: string;

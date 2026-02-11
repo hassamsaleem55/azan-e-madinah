@@ -60,8 +60,11 @@ const navItems: NavItem[] = [
   {
     icon: <ListIcon />,
     name: "Packages",
-    path: "/packages",
     requiredPermission: "packages.view",
+    subItems: [
+      { name: "All Packages", path: "/packages", pro: false, requiredPermission: "packages.view" },
+      { name: "Flight Packages", path: "/flight-packages", pro: false, requiredPermission: "packages.view" },
+    ],
   },
   {
     icon: <ListIcon />,
