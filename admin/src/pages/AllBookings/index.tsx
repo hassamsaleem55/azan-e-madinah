@@ -530,7 +530,7 @@ export default function AllBookings() {
                 />
 
                 {/* Bookings Table */}
-                <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden relative">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-visible relative">
                     {fetching && (
                         <div className="absolute inset-0 bg-white dark:bg-gray-800 bg-opacity-75 dark:bg-opacity-75 flex items-center justify-center z-10">
                             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>

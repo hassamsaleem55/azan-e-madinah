@@ -286,7 +286,7 @@ const GroupTicketing = () => {
             {activeTab === "local" && (
               <>
                 {filteredLocal.length > 0 ? (
-                  <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden">
+                  <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-visible">
                     <div className="overflow-x-auto">
                       <table className="w-full">
                         <thead className="bg-gray-50 dark:bg-gray-700 border-b dark:border-gray-600">
@@ -423,7 +423,7 @@ const GroupTicketing = () => {
             {activeTab === "flyingzone" && (
               <>
                 {filteredFlyingZone.length > 0 ? (
-                  <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden">
+                  <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-visible">
                     <div className="overflow-x-auto">
                       <table className="w-full">
                         <thead className="bg-gray-50 dark:bg-gray-700 border-b dark:border-gray-600">

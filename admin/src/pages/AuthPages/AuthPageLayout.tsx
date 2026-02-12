@@ -30,7 +30,7 @@ export default function AuthLayout({
             </div>
           </div>
         </div> */}
-        <div className="fixed z-[--z-fixed] hidden bottom-6 right-6 sm:block">
+        <div className="fixed z-[1030] hidden bottom-6 right-6 sm:block">
           <ThemeTogglerTwo />
         </div>
       </div>

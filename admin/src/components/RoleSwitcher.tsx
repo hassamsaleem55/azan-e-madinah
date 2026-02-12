@@ -66,7 +66,7 @@ const RoleSwitcher = () => {
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute top-full mt-3 right-0 w-72 backdrop-blur-xl bg-white/95 dark:bg-gray-900/95 rounded-2xl shadow-2xl shadow-brand-500/10 dark:shadow-brand-500/5 border border-gray-200/50 dark:border-gray-700/50 z-[--z-dropdown] overflow-hidden animate-scaleIn origin-top-right">
+        <div className="absolute top-full mt-3 right-0 w-72 backdrop-blur-xl bg-white/95 dark:bg-gray-900/95 rounded-2xl shadow-2xl shadow-brand-500/10 dark:shadow-brand-500/5 border border-gray-200/50 dark:border-gray-700/50 z-[1000] overflow-hidden animate-scaleIn origin-top-right">
           <div className="px-4 py-3 bg-gradient-to-r from-brand-50/50 to-transparent dark:from-brand-900/20 dark:to-transparent border-b border-gray-200/50 dark:border-gray-700/50">
             <p className="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
               Switch Role

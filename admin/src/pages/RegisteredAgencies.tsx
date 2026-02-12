@@ -352,7 +352,7 @@ const RegisteredAgencies = () => {
         </div>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-visible">
         <div className="p-6 bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center gap-2 mb-4">
             <Filter className="w-5 h-5 text-blue-600 dark:text-blue-400" />
