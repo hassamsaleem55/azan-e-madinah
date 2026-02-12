@@ -42,7 +42,7 @@ const AppHeader: React.FC = () => {
   }, []);
 
   return (
-    <header className="sticky top-0 flex w-full backdrop-blur-xl bg-white/80 dark:bg-gray-900/80 border-b border-gray-200/50 dark:border-gray-800/50 z-[1020] shadow-sm transition-all duration-300">
+    <header className="fixed top-0 left-0 right-0 flex w-full backdrop-blur-xl bg-white/80 dark:bg-gray-900/80 border-b border-gray-200/50 dark:border-gray-800/50 z-[1060] shadow-sm transition-all duration-300">
       <div className="flex flex-col items-center justify-between grow lg:flex-row lg:px-6">
         <div className="flex items-center justify-between w-full gap-2 px-3 py-4 border-b border-gray-200/50 dark:border-gray-800/50 sm:gap-4 lg:justify-normal lg:border-b-0 lg:px-0 lg:py-5">
           <button

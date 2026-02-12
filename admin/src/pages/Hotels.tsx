@@ -233,21 +233,21 @@ const Hotels = () => {
                                             <div className="flex items-center justify-center gap-2">
                                                 <button
                                                     onClick={() => handleView(hotel)}
-                                                    className="p-2 text-blue-600 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-900/20 rounded transition-colors"
+                                                    className="p-2 sm:p-2.5 text-blue-600 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-900/20 rounded-lg transition-colors touch-manipulation"
                                                     title="View"
                                                 >
                                                     <Eye className="w-4 h-4" />
                                                 </button>
                                                 <button
                                                     onClick={() => handleEdit(hotel._id)}
-                                                    className="p-2 text-warning-600 hover:bg-warning-50 dark:text-warning-400 dark:hover:bg-warning-900/20 rounded transition-colors"
+                                                    className="p-2 sm:p-2.5 text-warning-600 hover:bg-warning-50 dark:text-warning-400 dark:hover:bg-warning-900/20 rounded-lg transition-colors touch-manipulation"
                                                     title="Edit"
                                                 >
                                                     <Edit className="w-4 h-4" />
                                                 </button>
                                                 <button
                                                     onClick={() => handleDelete(hotel._id)}
-                                                    className="p-2 text-error-600 hover:bg-error-50 dark:text-error-400 dark:hover:bg-error-900/20 rounded transition-colors"
+                                                    className="p-2 sm:p-2.5 text-error-600 hover:bg-error-50 dark:text-error-400 dark:hover:bg-error-900/20 rounded-lg transition-colors touch-manipulation"
                                                     title="Delete"
                                                 >
                                                     <Trash2 className="w-4 h-4" />

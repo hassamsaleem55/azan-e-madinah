@@ -23,10 +23,10 @@ const Button: React.FC<ButtonProps> = ({
   disabled = false,
   type = "button",
 }) => {
-  // Size Classes
+  // Size Classes - Responsive for mobile touch
   const sizeClasses = {
-    sm: "px-5 py-3 text-sm",
-    md: "px-6 py-3.5 text-sm font-medium",
+    sm: "px-4 py-2.5 text-sm sm:px-5 sm:py-3",
+    md: "px-5 py-3 text-sm sm:px-6 sm:py-3.5 sm:font-medium",
   };
 
   // Variant Classes

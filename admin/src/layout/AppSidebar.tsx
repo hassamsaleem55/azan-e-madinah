@@ -315,7 +315,7 @@ const AppSidebar: React.FC = () => {
 
   return (
     <aside
-      className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 backdrop-blur-xl bg-white/95 dark:bg-gray-900/95 dark:border-gray-800/50 text-gray-900 h-screen transition-all duration-500 ease-out z-50 border-r border-gray-200/50 shadow-xl
+      className={`fixed left-0 flex flex-col px-5 backdrop-blur-xl bg-white/95 dark:bg-gray-900/95 dark:border-gray-800/50 text-gray-900 transition-all duration-500 ease-out border-r border-gray-200/50 shadow-xl
         ${
           isExpanded || isMobileOpen
             ? "w-[290px]"
@@ -323,8 +323,8 @@ const AppSidebar: React.FC = () => {
             ? "w-[290px]"
             : "w-[90px]"
         }
-        ${isMobileOpen ? "translate-x-0" : "-translate-x-full"}
-        lg:translate-x-0`}
+        ${isMobileOpen ? "translate-x-0 z-[1050] top-16 h-[calc(100vh-4rem)]" : "-translate-x-full z-[1000] top-0 h-screen"}
+        lg:translate-x-0 lg:z-[1000] lg:top-0 lg:h-screen`}
       onMouseEnter={() => !isExpanded && setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

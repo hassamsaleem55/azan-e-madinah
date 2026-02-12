@@ -320,27 +320,27 @@ const Flights = () => {
                                         header: 'Actions',
                                         align: 'center',
                                         render: (flight: Flight) => (
-                                            <div className="flex items-center justify-center gap-2">
+                                            <div className="flex items-center justify-center gap-1 sm:gap-2">
                                                 <button
                                                     onClick={() => handleView(flight)}
-                                                    className="p-2 text-blue-600 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-900/20 rounded transition-colors"
+                                                    className="p-2 sm:p-2.5 text-blue-600 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-900/20 rounded-lg transition-colors touch-manipulation"
                                                     title="View"
                                                 >
-                                                    <Eye className="w-4 h-4" />
+                                                    <Eye className="w-4 h-4 sm:w-5 sm:h-5" />
                                                 </button>
                                                 <button
                                                     onClick={() => handleEdit(flight._id)}
-                                                    className="p-2 text-warning-600 hover:bg-warning-50 dark:text-warning-400 dark:hover:bg-warning-900/20 rounded transition-colors"
+                                                    className="p-2 sm:p-2.5 text-warning-600 hover:bg-warning-50 dark:text-warning-400 dark:hover:bg-warning-900/20 rounded-lg transition-colors touch-manipulation"
                                                     title="Edit"
                                                 >
-                                                    <Edit className="w-4 h-4" />
+                                                    <Edit className="w-4 h-4 sm:w-5 sm:h-5" />
                                                 </button>
                                                 <button
                                                     onClick={() => handleDelete(flight._id)}
-                                                    className="p-2 text-error-600 hover:bg-error-50 dark:text-error-400 dark:hover:bg-error-900/20 rounded transition-colors"
+                                                    className="p-2 sm:p-2.5 text-error-600 hover:bg-error-50 dark:text-error-400 dark:hover:bg-error-900/20 rounded-lg transition-colors touch-manipulation"
                                                     title="Delete"
                                                 >
-                                                    <Trash2 className="w-4 h-4" />
+                                                    <Trash2 className="w-4 h-4 sm:w-5 sm:h-5" />
                                                 </button>
                                             </div>
                                         ),
@@ -502,11 +502,11 @@ const Flights = () => {
                                 </FormField>
                             </div>
                         </FormSection>
-                        <div className="flex gap-4 justify-end pt-6 border-t border-gray-200 dark:border-gray-700 sticky bottom-0 bg-white dark:bg-gray-800 pb-2">
+                        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-end pt-6 border-t border-gray-200 dark:border-gray-700 sticky bottom-0 bg-white dark:bg-gray-800 pb-2">
                             <button
                                 type="button"
                                 onClick={() => setShowModal(false)}
-                                className="px-6 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-all"
+                                className="w-full sm:w-auto px-5 py-3 sm:px-6 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-all touch-manipulation"
                                 disabled={loading}
                             >
                                 Cancel
@@ -514,7 +514,7 @@ const Flights = () => {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="px-6 py-3 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all disabled:opacity-50 flex items-center gap-2"
+                                className="w-full sm:w-auto px-5 py-3 sm:px-6 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2 touch-manipulation"
                             >
                                 {loading ? (
                                     <>

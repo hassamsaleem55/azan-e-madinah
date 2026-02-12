@@ -215,7 +215,7 @@ export default function BookingDetail() {
                             <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Booking Information</h3>
                             </div>
-                            <div className="p-6 grid grid-cols-2 gap-4">
+                            <div className="p-4 sm:p-6 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                                 <div>
                                     <label className="text-sm text-gray-600">Contact Person</label>
                                     <p className="text-gray-900 font-medium">{(safeBooking?.passengers?.[0]?.givenName + ' ' + safeBooking?.passengers?.[0]?.surName) || 'N/A'}</p>

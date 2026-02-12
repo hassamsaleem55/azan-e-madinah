@@ -118,7 +118,7 @@ const Select: React.FC<SelectProps> = ({
     }
   };
 
-  const baseClasses = 'h-12 w-full flex items-center justify-between appearance-none rounded-xl border-2 px-4 py-3 text-sm font-semibold shadow-sm transition-all duration-300';
+  const baseClasses = 'h-11 sm:h-12 w-full flex items-center justify-between appearance-none rounded-xl border-2 px-3 sm:px-4 py-2.5 sm:py-3 text-sm font-semibold shadow-sm transition-all duration-300';
   const normalClasses = 'bg-white dark:bg-gray-900 text-gray-900 dark:text-white';
   const hoverClasses = 'hover:border-brand-300 hover:shadow-md hover:bg-linear-to-br hover:from-white hover:to-gray-50 dark:hover:border-brand-700 dark:hover:from-gray-900 dark:hover:to-gray-800';
   const focusClasses = 'focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 focus:shadow-lg focus:shadow-brand-500/20 dark:focus:border-brand-400';

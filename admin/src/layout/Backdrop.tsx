@@ -7,7 +7,8 @@ const Backdrop: React.FC = () => {
 
   return (
     <div
-      className="fixed inset-0 z-[1040] bg-gray-900/50 lg:hidden"
+      className="fixed inset-0 bg-gray-900/50 backdrop-blur-sm lg:hidden"
+      style={{ zIndex: 1045, top: '4rem' }}
       onClick={toggleMobileSidebar}
     />
   );

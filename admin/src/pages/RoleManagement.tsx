@@ -196,13 +196,13 @@ const RoleManagement = () => {
                 <div className="flex gap-2">
                   <button
                     onClick={() => openEditModal(role)}
-                    className="p-2 text-yellow-600 hover:bg-yellow-50 dark:hover:bg-yellow-900 rounded transition"
+                    className="p-2 sm:p-2.5 text-yellow-600 hover:bg-yellow-50 dark:hover:bg-yellow-900 rounded-lg transition touch-manipulation"
                   >
                     <Edit size={18} />
                   </button>
                   <button
                     onClick={() => handleDelete(role._id, role.name)}
-                    className="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900 rounded transition"
+                    className="p-2 sm:p-2.5 text-red-600 hover:bg-red-50 dark:hover:bg-red-900 rounded-lg transition touch-manipulation"
                   >
                     <Trash2 size={18} />
                   </button>
