@@ -30,26 +30,8 @@ const navItems: NavItem[] = [
     requiredPermission: "dashboard.view",
   },
   {
-    icon: <UserCircleIcon />,
-    name: "Registered Agencies",
-    path: "/registered-agencies",
-    requiredPermission: "agencies.view",
-  },
-  {
     icon: <TableIcon />,
-    name: "LOVs",
-    requiredPermission: "banks.view",
-    subItems: [
-      { name: "Banks", path: "/add-bank", pro: false, requiredPermission: "banks.view" },
-      { name: "Sectors", path: "/sector", pro: false, requiredPermission: "sectors.view" },
-      { name: "Airlines", path: "/airline", pro: false, requiredPermission: "airlines.view" },
-      { name: "Flights", path: "/flights", pro: false, requiredPermission: "airlines.view" },
-      { name: "Hotels", path: "/hotels", pro: false, requiredPermission: "hotels.view" },
-    ],
-  },
-  {
-    icon: <TableIcon />,
-    name: "Group Ticketing",
+    name: "Bookings & Tickets",
     requiredPermission: "bookings.view",
     subItems: [
       { name: "All Bookings", path: "/all-bookings", pro: false, requiredPermission: "bookings.view" },
@@ -59,44 +41,49 @@ const navItems: NavItem[] = [
   },
   {
     icon: <ListIcon />,
-    name: "Packages",
+    name: "Travel Services",
     requiredPermission: "packages.view",
     subItems: [
-      { name: "All Packages", path: "/packages", pro: false, requiredPermission: "packages.view" },
+      { name: "Packages", path: "/packages", pro: false, requiredPermission: "packages.view" },
       { name: "Flight Packages", path: "/flight-packages", pro: false, requiredPermission: "packages.view" },
+      { name: "Flights", path: "/flights", pro: false, requiredPermission: "airlines.view" },
+      { name: "Hotels", path: "/hotels", pro: false, requiredPermission: "hotels.view" },
+      { name: "Tours", path: "/tours", pro: false, requiredPermission: "tours.view" },
+      { name: "Visas", path: "/visas", pro: false, requiredPermission: "visas.view" },
+    ],
+  },
+  {
+    icon: <UserCircleIcon />,
+    name: "Agencies",
+    path: "/registered-agencies",
+    requiredPermission: "agencies.view",
+  },
+  {
+    icon: <TableIcon />,
+    name: "Financial",
+    requiredPermission: "ledger.view",
+    subItems: [
+      { name: "View Accounts", path: "/view-accounts", pro: false, requiredPermission: "ledger.view" },
+      { name: "Payment Vouchers", path: "/view-payment-voucher", pro: false, requiredPermission: "payments.view" },
     ],
   },
   {
     icon: <ListIcon />,
-    name: "Visas",
-    path: "/visas",
-    requiredPermission: "visas.view",
-  },
-  {
-    icon: <ListIcon />,
-    name: "Tours",
-    path: "/tours",
-    requiredPermission: "tours.view",
-  },
-  {
-    icon: <ListIcon />,
-    name: "Testimonials",
-    path: "/testimonials",
-    requiredPermission: "testimonials.view",
-  },
-  {
-    icon: <ListIcon />,
-    name: "CMS",
-    path: "/content-management",
+    name: "Content",
     requiredPermission: "content.view",
+    subItems: [
+      { name: "CMS", path: "/content-management", pro: false, requiredPermission: "content.view" },
+      { name: "Testimonials", path: "/testimonials", pro: false, requiredPermission: "testimonials.view" },
+    ],
   },
   {
     icon: <TableIcon />,
-    name: "Ledger",
-    requiredPermission: "ledger.view",
+    name: "Configuration",
+    requiredPermission: "banks.view",
     subItems: [
-      { name: "View Accounts", path: "/view-accounts", pro: false, requiredPermission: "ledger.view" },
-      { name: "View Payment Voucher", path: "/view-payment-voucher", pro: false, requiredPermission: "payments.view" },
+      { name: "Banks", path: "/add-bank", pro: false, requiredPermission: "banks.view" },
+      { name: "Sectors", path: "/sector", pro: false, requiredPermission: "sectors.view" },
+      { name: "Airlines", path: "/airline", pro: false, requiredPermission: "airlines.view" },
     ],
   },
   {
@@ -104,8 +91,8 @@ const navItems: NavItem[] = [
     name: "Settings",
     requiredPermission: "settings.roles",
     subItems: [
-      { name: "User Management", path: "/settings/users", pro: false, requiredPermission: "settings.roles" },
-      { name: "Role Management", path: "/settings/roles", pro: false, requiredPermission: "settings.roles" },
+      { name: "Users", path: "/settings/users", pro: false, requiredPermission: "settings.roles" },
+      { name: "Roles", path: "/settings/roles", pro: false, requiredPermission: "settings.roles" },
     ],
   },
 ];
@@ -177,7 +164,7 @@ const AppSidebar: React.FC = () => {
   };
 
   const renderMenuItems = (items: NavItem[], menuType: "main" | "others") => (
-    <ul className="flex flex-col gap-4">
+    <ul className="flex flex-col gap-1.5">
       {items
         .filter(nav => {
           // Check if user has required role for this menu item
@@ -200,7 +187,7 @@ const AppSidebar: React.FC = () => {
           {nav.subItems ? (
             <button
               onClick={() => handleSubmenuToggle(index, menuType)}
-              className={`menu-item group ${
+              className={`menu-item group relative ${
                 openSubmenu?.type === menuType && openSubmenu?.index === index
                   ? "menu-item-active"
                   : "menu-item-inactive"
@@ -211,7 +198,7 @@ const AppSidebar: React.FC = () => {
               }`}
             >
               <span
-                className={`menu-item-icon-size  ${
+                className={`menu-item-icon-size ${
                   openSubmenu?.type === menuType && openSubmenu?.index === index
                     ? "menu-item-icon-active"
                     : "menu-item-icon-inactive"
@@ -220,14 +207,14 @@ const AppSidebar: React.FC = () => {
                 {nav.icon}
               </span>
               {(isExpanded || isHovered || isMobileOpen) && (
-                <span className="menu-item-text">{nav.name}</span>
+                <span className="menu-item-text font-medium">{nav.name}</span>
               )}
               {(isExpanded || isHovered || isMobileOpen) && (
                 <ChevronDownIcon
-                  className={`ml-auto w-5 h-5 transition-transform duration-200 ${
+                  className={`ml-auto w-4 h-4 transition-transform duration-200 ${
                     openSubmenu?.type === menuType &&
                     openSubmenu?.index === index
-                      ? "rotate-180 text-brand-500"
+                      ? "rotate-180 text-blue-600 dark:text-blue-400"
                       : ""
                   }`}
                 />
@@ -237,7 +224,7 @@ const AppSidebar: React.FC = () => {
             nav.path && (
               <Link
                 to={nav.path}
-                className={`menu-item group ${
+                className={`menu-item group relative ${
                   isActive(nav.path) ? "menu-item-active" : "menu-item-inactive"
                 }`}
               >
@@ -251,7 +238,7 @@ const AppSidebar: React.FC = () => {
                   {nav.icon}
                 </span>
                 {(isExpanded || isHovered || isMobileOpen) && (
-                  <span className="menu-item-text">{nav.name}</span>
+                  <span className="menu-item-text font-medium">{nav.name}</span>
                 )}
               </Link>
             )
@@ -269,7 +256,7 @@ const AppSidebar: React.FC = () => {
                     : "0px",
               }}
             >
-              <ul className="mt-2 space-y-1 ml-9">
+              <ul className="mt-2 space-y-0.5 ml-9 bg-gray-50/50 dark:bg-gray-800/30 rounded-lg p-2">
                 {nav.subItems
                   .filter(subItem => {
                     // Filter sub-items based on permissions
@@ -282,33 +269,34 @@ const AppSidebar: React.FC = () => {
                   <li key={subItem.name}>
                     <Link
                       to={subItem.path}
-                      className={`menu-dropdown-item ${
+                      className={`group flex items-center gap-2 px-3 py-2 rounded-md text-sm transition-all duration-200 ${
                         isActive(subItem.path)
-                          ? "menu-dropdown-item-active"
-                          : "menu-dropdown-item-inactive"
+                          ? "bg-blue-600 text-white shadow-sm"
+                          : "text-gray-600 dark:text-gray-400 hover:bg-white dark:hover:bg-gray-700/50 hover:text-gray-900 dark:hover:text-gray-200"
                       }`}
                     >
-                      {subItem.name}
-                      <span className="flex items-center gap-1 ml-auto">
+                      <span className={`w-1 h-1 rounded-full transition-all ${
+                        isActive(subItem.path)
+                          ? "bg-white"
+                          : "bg-gray-400 dark:bg-gray-600 group-hover:bg-gray-600 dark:group-hover:bg-gray-400"
+                      }`}></span>
+                      <span className="flex-1">{subItem.name}</span>
+                      <span className="flex items-center gap-1">
                         {subItem.new && (
-                          <span
-                            className={`ml-auto ${
-                              isActive(subItem.path)
-                                ? "menu-dropdown-badge-active"
-                                : "menu-dropdown-badge-inactive"
-                            } menu-dropdown-badge`}
-                          >
+                          <span className={`px-1.5 py-0.5 text-[9px] font-semibold rounded uppercase ${
+                            isActive(subItem.path)
+                              ? "bg-white/20 text-white"
+                              : "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
+                          }`}>
                             new
                           </span>
                         )}
                         {subItem.pro && (
-                          <span
-                            className={`ml-auto ${
-                              isActive(subItem.path)
-                                ? "menu-dropdown-badge-active"
-                                : "menu-dropdown-badge-inactive"
-                            } menu-dropdown-badge`}
-                          >
+                          <span className={`px-1.5 py-0.5 text-[9px] font-semibold rounded uppercase ${
+                            isActive(subItem.path)
+                              ? "bg-white/20 text-white"
+                              : "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400"
+                          }`}>
                             pro
                           </span>
                         )}
@@ -344,49 +332,52 @@ const AppSidebar: React.FC = () => {
           !isExpanded && !isHovered ? "lg:justify-center" : "justify-center"
         }`}
       >
-        <Link to="/">
-          {isExpanded || isHovered || isMobileOpen ? (
-            <>
+        <Link 
+          to="/" 
+          className="relative group transition-all duration-300 ease-in-out"
+        >
+          <div className={`p-1 relative overflow-hidden rounded-xl bg-[#C9A536] shadow-xl shadow-[#C9A536]/40 dark:from-gray-800 dark:to-gray-700 transition-all duration-300 ${
+            isExpanded || isHovered || isMobileOpen 
+              ? "shadow-lg hover:shadow-xl" 
+              : "shadow-md hover:shadow-lg"
+          }`}>
+            {isExpanded || isHovered || isMobileOpen ? (
               <img
-                // className="dark:hidden"
                 src="/admin-portal/images/logo/azan-e-madinah-logo.png"
-                alt="Logo"
-                width={150}
+                alt="Azan-e-Madinah Logo"
+                width={80}
                 height={40}
+                className="relative z-10 transition-transform duration-300 group-hover:scale-105 rounded-xl"
               />
-              {/* <img
-                className="hidden dark:block"
-                src="/admin-portal/images/logo/logo-dark.webp"
-                alt="Logo"
-                width={150}
+            ) : (
+              <img
+                src="/admin-portal/images/logo/azan-e-madinah-logo.png"
+                alt="Azan-e-Madinah Logo"
+                width={40}
                 height={40}
-              /> */}
-            </>
-          ) : (
-            <img
-              src="/admin-portal/images/logo/azan-e-madinah-logo.png"
-              alt="Logo"
-              width={32}
-              height={32}
-            />
-          )}
+                className="relative z-10 transition-transform duration-300 group-hover:scale-110 rounded-xl"
+              />
+            )}
+            {/* Elegant shine effect on hover */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></div>
+          </div>
         </Link>
       </div>
       <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar flex-1">
         <nav className="mb-6">
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2.5">
             <div>
               <h2
-                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
+                className={`mb-3 text-[10px] font-bold uppercase tracking-wider flex leading-[20px] text-gray-400 dark:text-gray-500 ${
                   !isExpanded && !isHovered
                     ? "lg:justify-center"
                     : "justify-start"
                 }`}
               >
                 {isExpanded || isHovered || isMobileOpen ? (
-                  "Menu"
+                  "Main Menu"
                 ) : (
-                  <HorizontaLDots className="size-6" />
+                  <HorizontaLDots className="size-5" />
                 )}
               </h2>
               {renderMenuItems(navItems, "main")}
@@ -396,13 +387,23 @@ const AppSidebar: React.FC = () => {
       </div>
       
       {/* Copyright Footer */}
-      <div className={`py-4 border-t border-gray-200 dark:border-gray-800 ${!isExpanded && !isHovered ? "lg:text-center" : "text-center"}`}>
+      <div className={`py-4 px-2 border-t border-gray-200 dark:border-gray-800 bg-gradient-to-b from-transparent to-gray-50/50 dark:to-gray-900/50 ${!isExpanded && !isHovered ? "lg:text-center" : "text-center"}`}>
         {isExpanded || isHovered || isMobileOpen ? (
-          <p className="text-xs text-gray-500 dark:text-gray-400">
-            © {new Date().getFullYear()} <a href="https://nexagensolution.com" target="_blank">Nexagen Solution</a><br />All rights reserved.
-          </p>
+          <div className="space-y-1">
+            <p className="text-[10px] font-medium text-gray-600 dark:text-gray-400">
+              © {new Date().getFullYear()} All rights reserved
+            </p>
+            <a 
+              href="https://nexagensolution.com" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-[10px] text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors inline-flex items-center gap-1"
+            >
+              Powered by Nexagen Solutions
+            </a>
+          </div>
         ) : (
-          <p className="text-xs text-gray-500 dark:text-gray-400">
+          <p className="text-[9px] font-semibold text-gray-500 dark:text-gray-400">
             © {new Date().getFullYear()}
           </p>
         )}
