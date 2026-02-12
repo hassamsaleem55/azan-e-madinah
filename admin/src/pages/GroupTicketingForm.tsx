@@ -353,28 +353,28 @@ const GroupTicketingForm = () => {
         description={editMode ? "Update group ticketing details" : "Add new airline group booking"}
       />
       <PageLayout>
-        <div className="flex items-center justify-between mb-6">
-          <PageHeader
-            title={editMode ? "Edit Group Booking" : "Create Group Booking"}
-            description={editMode ? "Update group ticketing details" : "Add new airline group booking"}
-            breadcrumbs={[
-              { label: "Dashboard", path: "/" },
-              { label: "Group Ticketing", path: "/group-ticketing" },
-              { label: editMode ? "Edit" : "Create" }
-            ]}
-          />
-          <Button
-            variant="outline"
-            onClick={() => navigate("/group-ticketing")}
-            className="gap-2"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back
-          </Button>
-        </div>
+        <PageHeader
+          title={editMode ? "Edit Group Booking" : "Create Group Booking"}
+          description={editMode ? "Update group ticketing details" : "Add new airline group booking"}
+          breadcrumbs={[
+            { label: "Home", path: "/" },
+            { label: "Group Ticketing", path: "/group-ticketing" },
+            { label: editMode ? "Edit" : "Create" }
+          ]}
+          // actions={
+          //   <Button
+          //     variant="outline"
+          //     onClick={() => navigate("/group-ticketing")}
+          //     className="gap-2"
+          //   >
+          //     <ArrowLeft className="w-4 h-4" />
+          //     Back
+          //   </Button>
+          // }
+        />
 
       <div className="rounded-2xl border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800">
-        <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-5 rounded-t-2xl border-b border-gray-200 dark:border-gray-700">
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-5 rounded-t-2xl border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-blue-600 rounded-lg">
               <FileText className="w-5 h-5 text-white" />
@@ -388,13 +388,15 @@ const GroupTicketingForm = () => {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-8">
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 mb-4">
-              <Users className="w-5 h-5 text-blue-600" />
-              <h4 className="text-base font-semibold text-gray-900 dark:text-white">Basic Information</h4>
+        <form onSubmit={handleSubmit} className="p-8 space-y-10">
+          <div className="space-y-6">
+            <div className="flex items-center gap-3 pb-2 border-b border-gray-200 dark:border-gray-700">
+              <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                <Users className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+              </div>
+              <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Basic Information</h4>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField label="Supplier Account" required>
                 <Input
                   type="text"
@@ -405,7 +407,7 @@ const GroupTicketingForm = () => {
                 />
               </FormField>
               <FormField label="Sector">
-                <select
+                <Select
                   value={formData.sector}
                   onChange={(e) => {
                     setFormData({
@@ -413,27 +415,28 @@ const GroupTicketingForm = () => {
                       sector: e.target.value
                     });
                   }}
-                  className="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 text-sm text-gray-800 dark:text-white outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
-                >
-                  <option value="">Select Sector</option>
-                  {sectors.map((sector) => (
-                    <option key={sector._id} value={sector.sectorTitle}>
-                      {sector.sectorTitle} - {sector.fullSector}
-                    </option>
-                  ))}
-                </select>
+                  options={[
+                    { value: "", label: "Select Sector" },
+                    ...sectors.map((sector) => ({
+                      value: sector.sectorTitle,
+                      label: `${sector.sectorTitle} - ${sector.fullSector}`
+                    }))
+                  ]}
+                />
               </FormField>
             </div>
           </div>
 
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 mb-4">
-              <Plane className="w-5 h-5 text-blue-600" />
-              <h4 className="text-base font-semibold text-gray-900 dark:text-white">Group Details</h4>
+          <div className="space-y-6">
+            <div className="flex items-center gap-3 pb-2 border-b border-gray-200 dark:border-gray-700">
+              <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                <Plane className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+              </div>
+              <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Group Details</h4>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <FormField label="Airline">
-                <select
+                <Select
                   value={formData.airline}
                   onChange={(e) => {
                     const selectedAirline = airlines.find(a => a.airlineName === e.target.value);
@@ -448,32 +451,30 @@ const GroupTicketingForm = () => {
                       flights: updatedFlights
                     });
                   }}
-                  className="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 text-sm text-gray-800 dark:text-white outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
-                >
-                  <option value="">Select Airline</option>
-                  {airlines.map((airline) => (
-                    <option key={airline._id} value={airline.airlineName}>
-                      {airline.airlineName} ({airline.shortCode})
-                    </option>
-                  ))}
-                </select>
+                  options={[
+                    { value: "", label: "Select Airline" },
+                    ...airlines.map((airline) => ({
+                      value: airline.airlineName,
+                      label: `${airline.airlineName} (${airline.shortCode})`
+                    }))
+                  ]}
+                />
               </FormField>
               <FormField label="Group Category" required>
-                <select
-                  required
+                <Select
                   value={formData.groupCategory}
                   onChange={(e) => setFormData({ ...formData, groupCategory: e.target.value })}
-                  className="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 text-sm text-gray-800 dark:text-white outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
-                >
-                  <option value="">Select Group Category</option>
-                  <option value="UAE Groups">UAE Groups</option>
-                  <option value="KSA Groups">KSA Groups</option>
-                  <option value="Bahrain Groups">Bahrain Groups</option>
-                  <option value="Mascat Groups">Mascat Groups</option>
-                  <option value="Qatar Groups">Qatar Groups</option>
-                  <option value="UK Groups">UK Groups</option>
-                  <option value="Umrah Groups">Umrah Groups</option>
-                </select>
+                  options={[
+                    { value: "", label: "Select Group Category" },
+                    { value: "UAE Groups", label: "UAE Groups" },
+                    { value: "KSA Groups", label: "KSA Groups" },
+                    { value: "Bahrain Groups", label: "Bahrain Groups" },
+                    { value: "Mascat Groups", label: "Mascat Groups" },
+                    { value: "Qatar Groups", label: "Qatar Groups" },
+                    { value: "UK Groups", label: "UK Groups" },
+                    { value: "Umrah Groups", label: "Umrah Groups" }
+                  ]}
+                />
               </FormField>
               <FormField label="Group Name">
                 <Input
@@ -494,38 +495,40 @@ const GroupTicketingForm = () => {
               </FormField>
             </div>
 
-            <div className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-700/30 rounded-lg">
-              <label className="flex items-center cursor-pointer">
+            <div className="flex items-center gap-3 p-5 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700/50 dark:to-gray-800/50 rounded-xl border border-blue-200 dark:border-gray-600">
+              <label className="flex items-center cursor-pointer group">
                 <input
                   type="checkbox"
                   checked={formData.showSeat}
                   onChange={(e) => setFormData({ ...formData, showSeat: e.target.checked })}
-                  className="w-10 h-6 appearance-none bg-gray-300 rounded-full relative cursor-pointer transition-colors checked:bg-blue-600 before:absolute before:w-5 before:h-5 before:rounded-full before:bg-white before:top-0.5 before:left-0.5 before:transition-transform checked:before:translate-x-4 before:shadow-md"
+                  className="w-11 h-6 appearance-none bg-gray-300 dark:bg-gray-600 rounded-full relative cursor-pointer transition-all duration-200 checked:bg-blue-600 dark:checked:bg-blue-500 before:absolute before:w-5 before:h-5 before:rounded-full before:bg-white before:top-0.5 before:left-0.5 before:transition-transform before:duration-200 checked:before:translate-x-5 before:shadow-md group-hover:before:shadow-lg"
                 />
-                <span className="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300">Show Available Seats</span>
+                <span className="ml-4 text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100 transition-colors">Show Available Seats</span>
               </label>
             </div>
           </div>
 
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Calendar className="w-5 h-5 text-blue-600" />
-                <h4 className="text-base font-semibold text-gray-900 dark:text-white">Flight Details</h4>
+          <div className="space-y-6">
+            <div className="flex items-center justify-between pb-2 border-b border-gray-200 dark:border-gray-700">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                  <Calendar className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                </div>
+                <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Flight Details</h4>
               </div>
-              <button
+              <Button
                 type="button"
                 onClick={addFlight}
-                className="inline-flex items-center gap-2 rounded-lg bg-linear-to-r from-green-600 to-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-lg shadow-green-500/30 hover:from-green-700 hover:to-emerald-700 transition-all duration-200"
+                className="gap-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 shadow-lg shadow-green-500/25"
               >
                 <Plus className="w-4 h-4" />
                 Add Flight
-              </button>
+              </Button>
             </div>
             
-            <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
+            <div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
               <table className="w-full">
-                <thead className="bg-linear-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800">
+                <thead className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800">
                     <tr>
                     <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 border-b border-gray-200 dark:border-gray-600">Flight#</th>
                     <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 border-b border-gray-200 dark:border-gray-600">Dep Date</th>
@@ -561,7 +564,7 @@ const GroupTicketingForm = () => {
                         value={flight.depDate}
                         onChange={(e) => updateFlight(index, "depDate", e.target.value)}
                         onClick={(e) => e.currentTarget.showPicker?.()}
-                        className="w-full min-w-[140px] h-9 px-2 text-xs border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-blue-500/20 transition-all"
+                        className="w-full min-w-[140px] h-9 px-2 text-xs border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
                       />
                     </td>
                     <td className="px-3 py-3">
@@ -571,7 +574,7 @@ const GroupTicketingForm = () => {
                         value={flight.depTime}
                         onChange={(e) => updateFlight(index, "depTime", e.target.value)}
                         onClick={(e) => e.currentTarget.showPicker?.()}
-                        className="w-full min-w-[120px] h-9 px-2 text-xs border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-blue-500/20 transition-all"
+                        className="w-full min-w-[120px] h-9 px-2 text-xs border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
                       />
                     </td>
                     <td className="px-3 py-3">
@@ -624,7 +627,7 @@ const GroupTicketingForm = () => {
                       <select
                         value={flight.flightClass}
                         onChange={(e) => updateFlight(index, "flightClass", e.target.value)}
-                        className="w-full min-w-[100px] h-9 rounded-lg border border-gray-300 px-2 text-xs outline-none focus:border-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500/20 transition-all"
+                        className="w-full min-w-[100px] h-9 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-2 text-xs text-gray-900 dark:text-white outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
                       >
                         <option value="">Select</option>
                         <option value="Economy">Economy</option>
@@ -639,7 +642,7 @@ const GroupTicketingForm = () => {
                         value={flight.arrDate}
                         onChange={(e) => updateFlight(index, "arrDate", e.target.value)}
                         onClick={(e) => e.currentTarget.showPicker?.()}
-                        className="w-full min-w-[140px] h-9 px-2 text-xs border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-blue-500/20 transition-all"
+                        className="w-full min-w-[140px] h-9 px-2 text-xs border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
                       />
                     </td>
                     <td className="px-3 py-3">
@@ -649,7 +652,7 @@ const GroupTicketingForm = () => {
                         value={flight.arrTime}
                         onChange={(e) => updateFlight(index, "arrTime", e.target.value)}
                         onClick={(e) => e.currentTarget.showPicker?.()}
-                        className="w-full min-w-[120px] h-9 px-2 text-xs border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-blue-500/20 transition-all"
+                        className="w-full min-w-[120px] h-9 px-2 text-xs border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
                       />
                     </td>
                     <td className="px-3 py-3">
@@ -665,7 +668,7 @@ const GroupTicketingForm = () => {
                       <select
                         value={flight.meal}
                         onChange={(e) => updateFlight(index, "meal", e.target.value)}
-                        className="w-full min-w-[100px] h-9 rounded-lg border border-gray-300 px-2 text-xs outline-none focus:border-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500/20 transition-all"
+                        className="w-full min-w-[100px] h-9 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-2 text-xs text-gray-900 dark:text-white outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
                       >
                         <option value="">Select</option>
                         <option value="Yes">Yes</option>
@@ -674,14 +677,16 @@ const GroupTicketingForm = () => {
                     </td>
                       <td className="px-3 py-3">
                         {formData.flights.length > 1 && (
-                          <button
+                          <Button
                             type="button"
                             onClick={() => removeFlight(index)}
-                            className="inline-flex items-center gap-1 rounded-lg bg-red-500 px-3 py-1.5 text-xs font-medium text-white hover:bg-red-600 transition-colors shadow-sm"
+                            variant="outline"
+                            size="sm"
+                            className="text-red-600 border-red-300 hover:bg-red-50 hover:border-red-400 dark:text-red-400 dark:border-red-600 dark:hover:bg-red-900/20"
                           >
                             <Trash2 className="w-3 h-3" />
                             Remove
-                          </button>
+                          </Button>
                         )}
                       </td>
                     </tr>
@@ -691,23 +696,25 @@ const GroupTicketingForm = () => {
             </div>
           </div>
 
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 mb-4">
-              <DollarSign className="w-5 h-5 text-blue-600" />
-              <h4 className="text-base font-semibold text-gray-900 dark:text-white">Buying Prices</h4>
+          <div className="space-y-6">
+            <div className="flex items-center gap-3 pb-2 border-b border-gray-200 dark:border-gray-700">
+              <div className="p-2 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+                <DollarSign className="w-5 h-5 text-orange-600 dark:text-orange-400" />
+              </div>
+              <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Buying Prices</h4>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <FormField label="Currency">
-                <select
+                <Select
                   value={formData.price.buyingCurrency}
                   onChange={(e) => setFormData({
                     ...formData,
                     price: { ...formData.price, buyingCurrency: e.target.value }
                   })}
-                  className="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 text-sm text-gray-800 dark:text-white outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
-                >
-                  <option value="PKR">PKR</option>
-                </select>
+                  options={[
+                    { value: "PKR", label: "PKR" }
+                  ]}
+                />
               </FormField>
               <FormField label="Adult Price">
                 <Input
@@ -744,23 +751,25 @@ const GroupTicketingForm = () => {
             </div>
           </div>
 
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 mb-4">
-              <DollarSign className="w-5 h-5 text-green-600" />
-              <h4 className="text-base font-semibold text-gray-900 dark:text-white">Selling Prices (B2B)</h4>
+          <div className="space-y-6">
+            <div className="flex items-center gap-3 pb-2 border-b border-gray-200 dark:border-gray-700">
+              <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                <DollarSign className="w-5 h-5 text-green-600 dark:text-green-400" />
+              </div>
+              <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Selling Prices (B2B)</h4>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <FormField label="Currency">
-                <select
+                <Select
                   value={formData.price.sellingCurrencyB2B}
                   onChange={(e) => setFormData({
                     ...formData,
                     price: { ...formData.price, sellingCurrencyB2B: e.target.value }
                   })}
-                  className="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 text-sm text-gray-800 dark:text-white outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
-                >
-                  <option value="PKR">PKR</option>
-                </select>
+                  options={[
+                    { value: "PKR", label: "PKR" }
+                  ]}
+                />
               </FormField>
               <FormField label="Adult Price">
                 <Input
@@ -798,12 +807,14 @@ const GroupTicketingForm = () => {
             </div>
           </div>
 
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 mb-4">
-              <FileText className="w-5 h-5 text-blue-600" />
-              <h4 className="text-base font-semibold text-gray-900 dark:text-white">Booking & Contact Details</h4>
+          <div className="space-y-6">
+            <div className="flex items-center gap-3 pb-2 border-b border-gray-200 dark:border-gray-700">
+              <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                <FileText className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+              </div>
+              <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Booking & Contact Details</h4>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <FormField label="PNR">
                 <Input
                   type="text"
@@ -829,24 +840,24 @@ const GroupTicketingForm = () => {
                 />
               </FormField>
               <FormField label="Internal Status">
-                <select
+                <Select
                   value={formData.internalStatus}
                   onChange={(e) => setFormData({ ...formData, internalStatus: e.target.value })}
-                  className="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 text-sm text-gray-800 dark:text-white outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
-                >
-                  <option value="Public">Public</option>
-                  <option value="Private">Private</option>
-                </select>
+                  options={[
+                    { value: "Public", label: "Public" },
+                    { value: "Private", label: "Private" }
+                  ]}
+                />
               </FormField>
             </div>
           </div>
 
-          <div className="flex gap-3 justify-end pt-6 border-t border-gray-200 dark:border-gray-700">
+          <div className="flex flex-col sm:flex-row gap-4 justify-end pt-8 border-t border-gray-200 dark:border-gray-700">
             <Button
               type="button"
               variant="outline"
               onClick={() => navigate("/group-ticketing")}
-              className="gap-2"
+              className="gap-2 min-w-[120px]"
             >
               <ArrowLeft className="w-4 h-4" />
               Cancel
@@ -854,7 +865,7 @@ const GroupTicketingForm = () => {
             <Button
               type="submit"
               disabled={loading}
-              className="gap-2"
+              className="gap-2 min-w-[140px] bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/25"
             >
               <Save className="w-4 h-4" />
               {loading ? "Saving..." : editMode ? "Update Booking" : "Create Booking"}

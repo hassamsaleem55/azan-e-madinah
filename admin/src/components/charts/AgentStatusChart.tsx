@@ -22,7 +22,7 @@ export default function AgentStatusChart() {
       setIsDark(document.documentElement.classList.contains("dark"));
     };
     checkTheme();
-    
+
     const observer = new MutationObserver(checkTheme);
     observer.observe(document.documentElement, {
       attributes: true,
@@ -45,10 +45,10 @@ export default function AgentStatusChart() {
         //   Authorization: `Bearer ${token}`,
         // },
       });
-      
+
       if (response.data.success) {
         const users = response.data.data as User[];
-        
+
         // Filter users with Agent role
         const agencies = users.filter((user) => {
           if (user.roles && Array.isArray(user.roles)) {
@@ -58,11 +58,11 @@ export default function AgentStatusChart() {
           const roleName = typeof user.role === 'string' ? user.role : user.role?.name;
           return roleName === "Agency" || roleName === "Agent";
         });
-        
+
         // Use agentStatus instead of status for agent-specific status
         const active = agencies.filter((user) => user.agentStatus === "Active").length;
         const inactive = agencies.filter((user) => user.agentStatus !== "Active").length;
-        
+
         setActiveCount(active);
         setInactiveCount(inactive);
       }
@@ -158,8 +158,8 @@ export default function AgentStatusChart() {
 
   if (loading) {
     return (
-      <div className="rounded-lg border border-stroke bg-white p-6 shadow-default dark:border-strokedark dark:bg-boxdark">
-        <div className="flex justify-center items-center h-[280px]">
+      <div className="rounded-lg bg-white p-6 shadow-default dark:border-strokedark dark:bg-boxdark">
+        <div className="flex justify-center items-center h-70">
           <div className="text-gray-500 dark:text-gray-400">Loading agent statistics...</div>
         </div>
       </div>
@@ -167,15 +167,13 @@ export default function AgentStatusChart() {
   }
 
   return (
-    <div className="rounded-lg border border-stroke bg-white p-6 shadow-default dark:border-strokedark dark:bg-boxdark">
-      <div className="mb-4">
-        <h4 className="text-xl font-semibold text-black dark:text-white">
-          Agent Status Overview
-        </h4>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-          Distribution of active and inactive agents
-        </p>
-      </div>
+    <div className="rounded-lg bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+      <h4 className="text-xl font-semibold text-black dark:text-white">
+        Agent Status Overview
+      </h4>
+      <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+        Distribution of active and inactive agents
+      </p>
       <div className="flex justify-center">
         <Chart options={options} series={series} type="donut" height={280} />
       </div>
