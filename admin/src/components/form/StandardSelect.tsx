@@ -141,7 +141,7 @@ const Select: React.FC<SelectProps> = ({
 
       {/* Dropdown Panel */}
       {isOpen && (
-        <div className="absolute z-50 w-full mt-2 backdrop-blur-xl bg-white/95 dark:bg-gray-900/95 rounded-2xl border-2 border-brand-200/50 dark:border-brand-700/50 shadow-2xl shadow-brand-500/20 dark:shadow-brand-500/10 animate-scaleIn origin-top overflow-hidden">
+        <div className="absolute z-[--z-dropdown] w-full mt-2 backdrop-blur-xl bg-white/95 dark:bg-gray-900/95 rounded-2xl border-2 border-brand-200/50 dark:border-brand-700/50 shadow-2xl shadow-brand-500/20 dark:shadow-brand-500/10 animate-scaleIn origin-top overflow-hidden">
           {/* Search Input */}
           {options.length > 5 && (
             <div className="p-3 border-b-2 border-gray-100 dark:border-gray-800">

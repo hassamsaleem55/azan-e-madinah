@@ -42,11 +42,11 @@ const AppHeader: React.FC = () => {
   }, []);
 
   return (
-    <header className="sticky top-0 flex w-full backdrop-blur-xl bg-white/80 dark:bg-gray-900/80 border-b border-gray-200/50 dark:border-gray-800/50 z-50 shadow-sm transition-all duration-300">
+    <header className="sticky top-0 flex w-full backdrop-blur-xl bg-white/80 dark:bg-gray-900/80 border-b border-gray-200/50 dark:border-gray-800/50 z-[--z-sticky] shadow-sm transition-all duration-300">
       <div className="flex flex-col items-center justify-between grow lg:flex-row lg:px-6">
         <div className="flex items-center justify-between w-full gap-2 px-3 py-4 border-b border-gray-200/50 dark:border-gray-800/50 sm:gap-4 lg:justify-normal lg:border-b-0 lg:px-0 lg:py-5">
           <button
-            className="items-center justify-center w-11 h-11 text-gray-600 bg-gray-100 dark:bg-gray-800 rounded-xl z-99999 dark:border-gray-800 lg:flex dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
+            className="items-center justify-center w-11 h-11 text-gray-600 bg-gray-100 dark:bg-gray-800 rounded-xl dark:border-gray-800 lg:flex dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
             onClick={handleToggle}
             aria-label="Toggle Sidebar"
           >
@@ -101,7 +101,7 @@ const AppHeader: React.FC = () => {
 
           <button
             onClick={toggleApplicationMenu}
-            className="flex items-center justify-center w-11 h-11 text-gray-700 bg-gray-100 dark:bg-gray-800 rounded-xl z-99999 hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 lg:hidden transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
+            className="flex items-center justify-center w-11 h-11 text-gray-700 bg-gray-100 dark:bg-gray-800 rounded-xl hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 lg:hidden transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
           >
             <svg
               width="24"

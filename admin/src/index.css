@@ -156,13 +156,37 @@ layer(base);
   --drop-shadow-4xl: 0 35px 35px rgba(0, 0, 0, 0.25),
     0 45px 65px rgba(0, 0, 0, 0.15);
 
-  --z-index-1: 1;
-  --z-index-9: 9;
-  --z-index-99: 99;
-  --z-index-999: 999;
-  --z-index-9999: 9999;
-  --z-index-99999: 99999;
-  --z-index-999999: 999999;
+  /**
+   * Semantic Z-Index Scale - Premium Layering System
+   * 
+   * A consistent, predictable z-index system for proper UI stacking.
+   * Use these semantic values instead of arbitrary numbers.
+   * 
+   * Usage in CSS: z-[--z-modal]
+   * Usage in JS: Use numeric values (1050) for inline styles
+   * 
+   * Layers (from bottom to top):
+   * - base (0):         Default layer for normal content
+   * - dropdown (1000):  Dropdown menus, select panels
+   * - sticky (1020):    Sticky headers, navigation bars
+   * - fixed (1030):     Fixed position elements (scroll-to-top, etc.)
+   * - backdrop (1040):  Modal/dialog backdrops
+   * - modal (1050):     Modal dialogs, popups
+   * - offcanvas (1055): Side panels, sliding menus
+   * - popover (1060):   Popovers, date pickers, tooltips with interaction
+   * - tooltip (1070):   Pure tooltips (hover-only)
+   * - notification (1080): Toast notifications, alerts
+   */
+  --z-base: 0;
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-backdrop: 1040;
+  --z-modal: 1050;
+  --z-offcanvas: 1055;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+  --z-notification: 1080;
 }
 
 /*
@@ -193,7 +217,7 @@ layer(base);
   }
   
   body {
-    @apply relative font-normal font-outfit z-1 bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950;
+    @apply relative font-normal font-outfit bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950;
     transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 

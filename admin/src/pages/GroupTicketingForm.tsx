@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import AsyncSelect from "react-select/async";
-import { Plane, Calendar, Users, DollarSign, Mail, Phone, FileText, ArrowLeft, Plus, Trash2, Save } from "lucide-react";
+import DatePicker from "react-datepicker";
+import { Plane, Calendar as CalendarIcon, Users, DollarSign, Mail, Phone, FileText, ArrowLeft, Plus, Trash2, Save, Clock } from "lucide-react";
 import { toast } from "react-hot-toast";
 import axiosInstance from "../Api/axios";
 import { PageMeta, PageLayout, PageHeader, FormField, Input, Select, LoadingState, Button } from "../components";
@@ -296,7 +297,7 @@ const GroupTicketingForm = () => {
     }),
     menuPortal: (provided: any) => ({
       ...provided,
-      zIndex: 9999,
+      zIndex: 1060, // --z-popover
     }),
   });
 
@@ -353,12 +354,6 @@ const GroupTicketingForm = () => {
         const response = await axiosInstance.post(
           "/group-ticketing",
           formData,
-          // {
-          //   headers: {
-          //     Authorization: `Bearer ${token}`,
-          //     "Content-Type": "application/json",
-          //   },
-          // }
         );
         if (response.data.success) {
           toast.success("Booking created successfully!");
@@ -577,73 +572,97 @@ const GroupTicketingForm = () => {
           </div>
 
           <div className="space-y-6">
-            <div className="flex items-center justify-between pb-2 border-b border-gray-200 dark:border-gray-700">
+            <div className="flex items-center justify-between pb-4 border-b-2 border-gradient-to-r from-brand-200/50 to-brand-300/50 dark:from-brand-700/50 dark:to-brand-600/50">
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-                  <Calendar className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                <div className="p-3 bg-gradient-to-br from-brand-100 to-brand-200 dark:from-brand-900/30 dark:to-brand-800/20 rounded-xl shadow-md">
+                  <CalendarIcon className="w-6 h-6 text-brand-600 dark:text-brand-400" />
                 </div>
-                <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Flight Details</h4>
+                <div>
+                  <h4 className="text-lg font-bold text-gray-900 dark:text-white">Flight Details</h4>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Add flight segments for this booking</p>
+                </div>
               </div>
               <Button
                 type="button"
                 onClick={addFlight}
-                className="gap-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 shadow-lg shadow-green-500/25"
+                className="gap-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 shadow-lg shadow-green-500/30 hover:shadow-xl hover:shadow-green-500/40 hover:scale-105 transition-all duration-300"
               >
                 <Plus className="w-4 h-4" />
                 Add Flight
               </Button>
             </div>
             
-            <div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+            <div className="overflow-x-auto rounded-2xl border-2 border-gray-200/80 dark:border-gray-700/80 shadow-xl shadow-gray-200/50 dark:shadow-gray-900/50 backdrop-blur-sm">
               <table className="w-full">
-                <thead className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800">
+                <thead className="bg-gradient-to-r from-brand-600 via-brand-500 to-indigo-600 dark:from-brand-700 dark:via-brand-600 dark:to-indigo-700">
                     <tr>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 border-b border-gray-200 dark:border-gray-600">Flight#</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 border-b border-gray-200 dark:border-gray-600">Dep Date</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 border-b border-gray-200 dark:border-gray-600">Dep Time</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 border-b border-gray-200 dark:border-gray-600">Sector From</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 border-b border-gray-200 dark:border-gray-600">From Terminal</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 border-b border-gray-200 dark:border-gray-600">Sector To</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 border-b border-gray-200 dark:border-gray-600">To Terminal</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 border-b border-gray-200 dark:border-gray-600">Class</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 border-b border-gray-200 dark:border-gray-600">Arr Date</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 border-b border-gray-200 dark:border-gray-600">Arr Time</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 border-b border-gray-200 dark:border-gray-600">Baggage</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 border-b border-gray-200 dark:border-gray-600">Meal</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 border-b border-gray-200 dark:border-gray-600">Action</th>
+                    <th className="px-4 py-4 text-left text-xs font-bold text-white uppercase tracking-wide border-b-2 border-brand-400/30 dark:border-brand-500/30">Flight#</th>
+                    <th className="px-4 py-4 text-left text-xs font-bold text-white uppercase tracking-wide border-b-2 border-brand-400/30 dark:border-brand-500/30">Dep Date</th>
+                    <th className="px-4 py-4 text-left text-xs font-bold text-white uppercase tracking-wide border-b-2 border-brand-400/30 dark:border-brand-500/30">Dep Time</th>
+                    <th className="px-4 py-4 text-left text-xs font-bold text-white uppercase tracking-wide border-b-2 border-brand-400/30 dark:border-brand-500/30">Sector From</th>
+                    <th className="px-4 py-4 text-left text-xs font-bold text-white uppercase tracking-wide border-b-2 border-brand-400/30 dark:border-brand-500/30">From Terminal</th>
+                    <th className="px-4 py-4 text-left text-xs font-bold text-white uppercase tracking-wide border-b-2 border-brand-400/30 dark:border-brand-500/30">Sector To</th>
+                    <th className="px-4 py-4 text-left text-xs font-bold text-white uppercase tracking-wide border-b-2 border-brand-400/30 dark:border-brand-500/30">To Terminal</th>
+                    <th className="px-4 py-4 text-left text-xs font-bold text-white uppercase tracking-wide border-b-2 border-brand-400/30 dark:border-brand-500/30">Class</th>
+                    <th className="px-4 py-4 text-left text-xs font-bold text-white uppercase tracking-wide border-b-2 border-brand-400/30 dark:border-brand-500/30">Arr Date</th>
+                    <th className="px-4 py-4 text-left text-xs font-bold text-white uppercase tracking-wide border-b-2 border-brand-400/30 dark:border-brand-500/30">Arr Time</th>
+                    <th className="px-4 py-4 text-left text-xs font-bold text-white uppercase tracking-wide border-b-2 border-brand-400/30 dark:border-brand-500/30">Baggage</th>
+                    <th className="px-4 py-4 text-left text-xs font-bold text-white uppercase tracking-wide border-b-2 border-brand-400/30 dark:border-brand-500/30">Meal</th>
+                    <th className="px-4 py-4 text-center text-xs font-bold text-white uppercase tracking-wide border-b-2 border-brand-400/30 dark:border-brand-500/30">Action</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                <tbody className="divide-y divide-gray-200/50 dark:divide-gray-700/50">
                 {formData.flights.map((flight, index) => (
-                  <tr key={index} className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors">
-                    <td className="px-3 py-3">
+                  <tr key={index} className="bg-white dark:bg-gray-800 hover:bg-gradient-to-r hover:from-brand-50/30 hover:to-brand-100/20 dark:hover:from-brand-900/10 dark:hover:to-brand-800/5 transition-all duration-300">
+                    <td className="px-4 py-4">
                       <input
                         type="text"
                         required
                         value={flight.flightNo}
                         onChange={(e) => updateFlight(index, "flightNo", e.target.value)}
-                        className="w-full min-w-[80px] h-9 rounded-lg border border-gray-300 px-2 text-xs outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                        placeholder="e.g., PK-340"
+                        className="w-full min-w-[100px] h-10 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 text-xs font-semibold text-gray-900 dark:text-white placeholder:text-gray-400 outline-none hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 shadow-sm hover:shadow-md"
                       />
                     </td>
-                    <td className="px-3 py-3">
-                      <input
-                        type="date"
-                        required
-                        value={flight.depDate}
-                        onChange={(e) => updateFlight(index, "depDate", e.target.value)}
-                        onClick={(e) => e.currentTarget.showPicker?.()}
-                        className="w-full min-w-[140px] h-9 px-2 text-xs border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
-                      />
+                    <td className="px-4 py-4">
+                      <div className="relative">
+                        <DatePicker
+                          selected={flight.depDate ? new Date(flight.depDate) : null}
+                          onChange={(date: Date | null) => {
+                            updateFlight(index, "depDate", date ? date.toISOString().split('T')[0] : "");
+                          }}
+                          dateFormat="MMMM d, yyyy"
+                          placeholderText="Select departure date"
+                          className="w-full min-w-[150px] h-10 pl-10 pr-3 text-xs font-semibold border-2 border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white outline-none hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer"
+                          wrapperClassName="w-full"
+                        />
+                        <CalendarIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-500 dark:text-brand-400 pointer-events-none" />
+                      </div>
                     </td>
-                    <td className="px-3 py-3">
-                      <input
-                        type="time"
-                        required
-                        value={flight.depTime}
-                        onChange={(e) => updateFlight(index, "depTime", e.target.value)}
-                        onClick={(e) => e.currentTarget.showPicker?.()}
-                        className="w-full min-w-[120px] h-9 px-2 text-xs border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
-                      />
+                    <td className="px-4 py-4">
+                      <div className="relative">
+                        <DatePicker
+                          selected={flight.depTime ? new Date(`2000-01-01T${flight.depTime}`) : null}
+                          onChange={(date: Date | null) => {
+                            if (date) {
+                              const hours = date.getHours().toString().padStart(2, '0');
+                              const minutes = date.getMinutes().toString().padStart(2, '0');
+                              updateFlight(index, "depTime", `${hours}:${minutes}`);
+                            } else {
+                              updateFlight(index, "depTime", "");
+                            }
+                          }}
+                          showTimeSelect
+                          showTimeSelectOnly
+                          timeIntervals={15}
+                          timeCaption="Time"
+                          dateFormat="h:mm aa"
+                          placeholderText="Select departure time"
+                          className="w-full min-w-[130px] h-10 pl-10 pr-3 text-xs font-semibold border-2 border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white outline-none hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer"
+                          wrapperClassName="w-full"
+                        />
+                        <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-500 dark:text-brand-400 pointer-events-none" />
+                      </div>
                     </td>
                     <td className="px-3 py-3">
                       <AsyncSelect
@@ -659,13 +678,13 @@ const GroupTicketingForm = () => {
                         menuPosition="fixed"
                       />
                     </td>
-                    <td className="px-3 py-3">
+                    <td className="px-4 py-4">
                       <input
                         type="text"
                         value={flight.fromTerminal}
                         onChange={(e) => updateFlight(index, "fromTerminal", e.target.value)}
-                        placeholder="Terminal"
-                        className="w-full min-w-[80px] h-9 rounded-lg border border-gray-300 px-2 text-xs outline-none focus:border-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500/20 transition-all"
+                        placeholder="T1, T2..."
+                        className="w-full min-w-[90px] h-10 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 text-xs font-semibold text-gray-900 dark:text-white placeholder:text-gray-400 outline-none hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 shadow-sm hover:shadow-md"
                       />
                     </td>
                     <td className="px-3 py-3">
@@ -682,94 +701,117 @@ const GroupTicketingForm = () => {
                         menuPosition="fixed"
                       />
                     </td>
-                    <td className="px-3 py-3">
+                    <td className="px-4 py-4">
                       <input
                         type="text"
                         value={flight.toTerminal}
                         onChange={(e) => updateFlight(index, "toTerminal", e.target.value)}
-                        placeholder="Terminal"
-                        className="w-full min-w-[80px] h-9 rounded-lg border border-gray-300 px-2 text-xs outline-none focus:border-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500/20 transition-all"
+                        placeholder="T1, T2..."
+                        className="w-full min-w-[90px] h-10 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 text-xs font-semibold text-gray-900 dark:text-white placeholder:text-gray-400 outline-none hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 shadow-sm hover:shadow-md"
                       />
                     </td>
-                    <td className="px-3 py-3">
+                    <td className="px-4 py-4">
                       <div className="relative">
                         <select
                           value={flight.flightClass}
                           onChange={(e) => updateFlight(index, "flightClass", e.target.value)}
-                          className="w-full min-w-[110px] h-9 appearance-none rounded-lg border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-2 pr-7 text-xs font-semibold text-gray-900 dark:text-white hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-200 cursor-pointer"
+                          className="w-full min-w-[120px] h-10 appearance-none rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 pr-9 text-xs font-bold text-gray-900 dark:text-white hover:border-brand-300 dark:hover:border-brand-700 hover:shadow-md focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 cursor-pointer shadow-sm"
                         >
-                          <option value="" className="text-gray-500">Select</option>
-                          <option value="Economy">Economy</option>
-                          <option value="Business">Business</option>
-                          <option value="First">First</option>
+                          <option value="" className="text-gray-500">Select Class</option>
+                          <option value="Economy" className="font-semibold">✈️ Economy</option>
+                          <option value="Business" className="font-semibold">💼 Business</option>
+                          <option value="First" className="font-semibold">👑 First Class</option>
                         </select>
-                        <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-brand-500 dark:text-brand-400">
-                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-brand-500 dark:text-brand-400">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
                           </svg>
                         </div>
                       </div>
                     </td>
-                    <td className="px-3 py-3">
-                      <input
-                        type="date"
-                        required
-                        value={flight.arrDate}
-                        onChange={(e) => updateFlight(index, "arrDate", e.target.value)}
-                        onClick={(e) => e.currentTarget.showPicker?.()}
-                        className="w-full min-w-[140px] h-9 px-2 text-xs border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
-                      />
+                    <td className="px-4 py-4">
+                      <div className="relative">
+                        <DatePicker
+                          selected={flight.arrDate ? new Date(flight.arrDate) : null}
+                          onChange={(date: Date | null) => {
+                            updateFlight(index, "arrDate", date ? date.toISOString().split('T')[0] : "");
+                          }}
+                          dateFormat="MMMM d, yyyy"
+                          minDate={flight.depDate ? new Date(flight.depDate) : undefined}
+                          placeholderText="Select arrival date"
+                          className="w-full min-w-[150px] h-10 pl-10 pr-3 text-xs font-semibold border-2 border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white outline-none hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer"
+                          wrapperClassName="w-full"
+                        />
+                        <CalendarIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-500 dark:text-brand-400 pointer-events-none" />
+                      </div>
                     </td>
-                    <td className="px-3 py-3">
-                      <input
-                        type="time"
-                        required
-                        value={flight.arrTime}
-                        onChange={(e) => updateFlight(index, "arrTime", e.target.value)}
-                        onClick={(e) => e.currentTarget.showPicker?.()}
-                        className="w-full min-w-[120px] h-9 px-2 text-xs border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
-                      />
+                    <td className="px-4 py-4">
+                      <div className="relative">
+                        <DatePicker
+                          selected={flight.arrTime ? new Date(`2000-01-01T${flight.arrTime}`) : null}
+                          onChange={(date: Date | null) => {
+                            if (date) {
+                              const hours = date.getHours().toString().padStart(2, '0');
+                              const minutes = date.getMinutes().toString().padStart(2, '0');
+                              updateFlight(index, "arrTime", `${hours}:${minutes}`);
+                            } else {
+                              updateFlight(index, "arrTime", "");
+                            }
+                          }}
+                          showTimeSelect
+                          showTimeSelectOnly
+                          timeIntervals={15}
+                          timeCaption="Time"
+                          dateFormat="h:mm aa"
+                          placeholderText="Select arrival time"
+                          className="w-full min-w-[130px] h-10 pl-10 pr-3 text-xs font-semibold border-2 border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white outline-none hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer"
+                          wrapperClassName="w-full"
+                        />
+                        <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-500 dark:text-brand-400 pointer-events-none" />
+                      </div>
                     </td>
-                    <td className="px-3 py-3">
+                    <td className="px-4 py-4">
                       <input
                         type="text"
                         value={flight.baggage}
                         onChange={(e) => updateFlight(index, "baggage", e.target.value)}
-                        placeholder="e.g., 30kg"
-                        className="w-full min-w-[80px] h-9 rounded-lg border border-gray-300 px-2 text-xs outline-none focus:border-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500/20 transition-all"
+                        placeholder="30kg"
+                        className="w-full min-w-[90px] h-10 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 text-xs font-semibold text-gray-900 dark:text-white placeholder:text-gray-400 outline-none hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 shadow-sm hover:shadow-md"
                       />
                     </td>
-                    <td className="px-3 py-3">
+                    <td className="px-4 py-4">
                       <div className="relative">
                         <select
                           value={flight.meal}
                           onChange={(e) => updateFlight(index, "meal", e.target.value)}
-                          className="w-full min-w-[100px] h-9 appearance-none rounded-lg border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-2 pr-7 text-xs font-semibold text-gray-900 dark:text-white hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-200 cursor-pointer"
+                          className="w-full min-w-[110px] h-10 appearance-none rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 pr-9 text-xs font-bold text-gray-900 dark:text-white hover:border-brand-300 dark:hover:border-brand-700 hover:shadow-md focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 cursor-pointer shadow-sm"
                         >
                           <option value="" className="text-gray-500">Select</option>
-                          <option value="Yes">Yes</option>
-                          <option value="No">No</option>
+                          <option value="Yes" className="font-semibold">🍽️ Yes</option>
+                          <option value="No" className="font-semibold">❌ No</option>
                         </select>
-                        <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-brand-500 dark:text-brand-400">
-                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-brand-500 dark:text-brand-400">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
                           </svg>
                         </div>
                       </div>
                     </td>
-                      <td className="px-3 py-3">
-                        {formData.flights.length > 1 && (
-                          <Button
-                            type="button"
-                            onClick={() => removeFlight(index)}
-                            variant="outline"
-                            size="sm"
-                            className="text-red-600 border-red-300 hover:bg-red-50 hover:border-red-400 dark:text-red-400 dark:border-red-600 dark:hover:bg-red-900/20"
-                          >
-                            <Trash2 className="w-3 h-3" />
-                            Remove
-                          </Button>
-                        )}
+                      <td className="px-4 py-4">
+                        <div className="flex items-center justify-center">
+                          {formData.flights.length > 1 && (
+                            <Button
+                              type="button"
+                              onClick={() => removeFlight(index)}
+                              variant="outline"
+                              size="sm"
+                              className="text-red-600 border-2 border-red-300 hover:bg-gradient-to-r hover:from-red-50 hover:to-red-100/50 hover:border-red-400 hover:shadow-lg hover:shadow-red-500/20 dark:text-red-400 dark:border-red-600 dark:hover:bg-red-900/30 dark:hover:from-red-900/20 dark:hover:to-red-800/10 transition-all duration-300"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                              
+                            </Button>
+                          )}
+                        </div>
                       </td>
                     </tr>
                   ))}

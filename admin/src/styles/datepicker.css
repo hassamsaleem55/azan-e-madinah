@@ -245,7 +245,7 @@
 
 /* Popper */
 .react-datepicker-popper {
-    z-index: 9999 !important;
+    z-index: var(--z-popover) !important;
 }
 
 .react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle {

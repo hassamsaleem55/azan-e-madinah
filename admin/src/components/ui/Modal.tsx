@@ -58,7 +58,7 @@ export const Modal: React.FC<ModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto">
+    <div className="fixed inset-0 z-[--z-modal] overflow-y-auto">
       {/* Backdrop with premium blur */}
       <div
         className="fixed inset-0 bg-gradient-to-br from-black/70 via-black/60 to-black/70 backdrop-blur-md transition-all duration-300 animate-fadeIn"
