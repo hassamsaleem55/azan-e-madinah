@@ -66,33 +66,33 @@ export const Modal: React.FC<ModalProps> = ({
       />
 
       {/* Modal */}
-      <div className="flex min-h-full items-center justify-center p-4 sm:p-6">
+      <div className="flex min-h-full items-center justify-center p-2 sm:p-4 md:p-6">
         <div
-          className={`relative w-full ${sizeClasses[size]} backdrop-blur-xl bg-white/95 dark:bg-gray-900/95 rounded-3xl shadow-2xl shadow-brand-500/10 dark:shadow-brand-500/5 border border-gray-200/50 dark:border-gray-700/50 transform transition-all duration-500 max-h-[90vh] overflow-hidden animate-scaleIn`}
+          className={`relative w-full ${sizeClasses[size]} backdrop-blur-xl bg-white/95 dark:bg-gray-900/95 rounded-2xl sm:rounded-3xl shadow-2xl shadow-brand-500/10 dark:shadow-brand-500/5 border border-gray-200/50 dark:border-gray-700/50 transform transition-all duration-500 max-h-[95vh] sm:max-h-[90vh] overflow-hidden animate-scaleIn`}
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header with gradient */}
-          <div className="flex items-center justify-between px-8 py-6 border-b border-gray-200/50 dark:border-gray-700/50 bg-linear-to-r from-brand-50/50 via-white to-brand-50/50 dark:from-gray-800/50 dark:via-gray-900 dark:to-gray-800/50 sticky top-0 z-10 backdrop-blur-xl">
-            <h2 className="text-2xl font-bold bg-linear-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
+          <div className="flex items-center justify-between px-4 sm:px-6 md:px-8 py-4 sm:py-5 md:py-6 border-b border-gray-200/50 dark:border-gray-700/50 bg-linear-to-r from-brand-50/50 via-white to-brand-50/50 dark:from-gray-800/50 dark:via-gray-900 dark:to-gray-800/50 sticky top-0 z-10 backdrop-blur-xl">
+            <h2 className="text-lg sm:text-xl md:text-2xl font-bold bg-linear-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
               {title}
             </h2>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 p-2.5 rounded-xl transition-all duration-300 hover:scale-110 hover:rotate-90 group"
+              className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 p-2 sm:p-2.5 rounded-xl transition-all duration-300 hover:scale-110 hover:rotate-90 group"
               aria-label="Close modal"
             >
-              <X className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
+              <X className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:scale-110" />
             </button>
           </div>
 
           {/* Content with premium scrollbar */}
-          <div className="px-8 py-6 overflow-y-auto max-h-[calc(90vh-180px)] premium-scrollbar">
+          <div className="px-4 sm:px-6 md:px-8 py-4 sm:py-5 md:py-6 overflow-y-auto max-h-[calc(95vh-200px)] sm:max-h-[calc(90vh-180px)] premium-scrollbar">
             {children}
           </div>
 
           {/* Footer with gradient */}
           {footer && (
-            <div className="flex items-center justify-end gap-4 px-8 py-6 border-t border-gray-200/50 dark:border-gray-700/50 bg-linear-to-r from-gray-50/80 via-white to-gray-50/80 dark:from-gray-800/80 dark:via-gray-900 dark:to-gray-800/80 rounded-b-3xl backdrop-blur-xl sticky bottom-0">
+            <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-3 md:gap-4 px-4 sm:px-6 md:px-8 py-4 sm:py-5 md:py-6 border-t border-gray-200/50 dark:border-gray-700/50 bg-linear-to-r from-gray-50/80 via-white to-gray-50/80 dark:from-gray-800/80 dark:via-gray-900 dark:to-gray-800/80 rounded-b-2xl sm:rounded-b-3xl backdrop-blur-xl sticky bottom-0">
               {footer}
             </div>
           )}

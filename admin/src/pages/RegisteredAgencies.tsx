@@ -314,39 +314,39 @@ const RegisteredAgencies = () => {
         ]}
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div className="bg-linear-to-br from-emerald-400 to-teal-500 rounded-xl shadow-lg p-6 text-white">
-          <div className="flex items-center gap-4">
-            <div className="bg-white/90 rounded-full p-3 shadow-md">
-              <UserCheck className="w-8 h-8 text-emerald-500" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+        <div className="bg-linear-to-br from-emerald-400 to-teal-500 rounded-xl shadow-lg p-4 sm:p-6 text-white">
+          <div className="flex items-center gap-3 sm:gap-4">
+            <div className="bg-white/90 rounded-full p-2 sm:p-3 shadow-md">
+              <UserCheck className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-500" />
             </div>
             <div>
-              <div className="text-sm font-semibold tracking-wide">Active Agents</div>
-              <div className="text-3xl font-bold">{activeCount}</div>
+              <div className="text-xs sm:text-sm font-semibold tracking-wide">Active Agents</div>
+              <div className="text-2xl sm:text-3xl font-bold">{activeCount}</div>
             </div>
           </div>
         </div>
 
-        <div className="bg-linear-to-br from-yellow-400 to-orange-500 rounded-xl shadow-lg p-6 text-white">
-          <div className="flex items-center gap-4">
-            <div className="bg-white/90 rounded-full p-3 shadow-md">
-              <Clock className="w-8 h-8 text-yellow-600" />
+        <div className="bg-linear-to-br from-yellow-400 to-orange-500 rounded-xl shadow-lg p-4 sm:p-6 text-white">
+          <div className="flex items-center gap-3 sm:gap-4">
+            <div className="bg-white/90 rounded-full p-2 sm:p-3 shadow-md">
+              <Clock className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-600" />
             </div>
             <div>
-              <div className="text-sm font-semibold tracking-wide">Pending Agents</div>
-              <div className="text-3xl font-bold">{pendingCount}</div>
+              <div className="text-xs sm:text-sm font-semibold tracking-wide">Pending Agents</div>
+              <div className="text-2xl sm:text-3xl font-bold">{pendingCount}</div>
             </div>
           </div>
         </div>
 
-        <div className="bg-linear-to-br from-gray-400 to-slate-500 rounded-xl shadow-lg p-6 text-white">
-          <div className="flex items-center gap-4">
-            <div className="bg-white/90 rounded-full p-3 shadow-md">
-              <UserX className="w-8 h-8 text-gray-600" />
+        <div className="bg-linear-to-br from-gray-400 to-slate-500 rounded-xl shadow-lg p-4 sm:p-6 text-white">
+          <div className="flex items-center gap-3 sm:gap-4">
+            <div className="bg-white/90 rounded-full p-2 sm:p-3 shadow-md">
+              <UserX className="w-6 h-6 sm:w-8 sm:h-8 text-gray-600" />
             </div>
             <div>
-              <div className="text-sm font-semibold tracking-wide">Inactive Agents</div>
-              <div className="text-3xl font-bold">{inactiveCount}</div>
+              <div className="text-xs sm:text-sm font-semibold tracking-wide">Inactive Agents</div>
+              <div className="text-2xl sm:text-3xl font-bold">{inactiveCount}</div>
             </div>
           </div>
         </div>
@@ -423,22 +423,24 @@ const RegisteredAgencies = () => {
             </div>
           </div>
 
-          <div className="flex gap-3 mt-4">
+          <div className="flex flex-wrap gap-3 mt-4">
             <button
               onClick={handleDownloadPDF}
               disabled={downloadingPDF}
-              className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-all shadow-lg disabled:opacity-50"
+              className="flex items-center gap-2 bg-red-600 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-red-700 transition-all shadow-lg disabled:opacity-50 text-sm"
             >
               <FileText className="w-4 h-4" />
-              {downloadingPDF ? "Downloading..." : "Export PDF"}
+              <span className="hidden sm:inline">{downloadingPDF ? "Downloading..." : "Export PDF"}</span>
+              <span className="sm:hidden">PDF</span>
             </button>
             <button
               onClick={handleDownloadExcel}
               disabled={downloadingExcel}
-              className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all shadow-lg disabled:opacity-50"
+              className="flex items-center gap-2 bg-green-600 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-green-700 transition-all shadow-lg disabled:opacity-50 text-sm"
             >
               <Download className="w-4 h-4" />
-              {downloadingExcel ? "Downloading..." : "Export Excel"}
+              <span className="hidden sm:inline">{downloadingExcel ? "Downloading..." : "Export Excel"}</span>
+              <span className="sm:hidden">Excel</span>
             </button>
           </div>
         </div>

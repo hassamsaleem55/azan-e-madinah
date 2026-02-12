@@ -157,14 +157,14 @@ export default function MyBookings() {
     return (
         <div className="w-full pb-20">
             {/* Header & Filters */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5 mb-6">
-                <div className="flex flex-col lg:flex-row gap-6 justify-between items-start lg:items-center mb-4">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-5 mb-6">
+                <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 justify-between items-start lg:items-center mb-4">
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-900">My Bookings</h1>
-                        <p className="text-sm text-gray-500 mt-1">Manage and track your flight reservations</p>
+                        <h1 className="text-xl sm:text-2xl font-bold text-gray-900">My Bookings</h1>
+                        <p className="text-xs sm:text-sm text-gray-500 mt-1">Manage and track your flight reservations</p>
                     </div>
 
-                    <div className="flex flex-wrap gap-3 w-full lg:w-auto">
+                    <div className="flex flex-wrap gap-2 sm:gap-3 w-full lg:w-auto">
                         <div className="relative flex-1 min-w-60">
                             <Search size={16} className="absolute left-3 top-3 text-gray-400" />
                             <input

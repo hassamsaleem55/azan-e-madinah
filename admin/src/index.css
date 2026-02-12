@@ -219,6 +219,8 @@ layer(base);
   body {
     @apply relative font-normal font-outfit bg-linear-to-br from-gray-50 via-white to-gray-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950;
     transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Prevent horizontal scroll on mobile */
+    overflow-x: hidden;
   }
 
   /* Premium smooth scrolling */
@@ -326,6 +328,35 @@ layer(base);
 }
 .dark .custom-scrollbar::-webkit-scrollbar-thumb {
   background-color: #344054;
+}
+
+@utility table-responsive {
+  @apply overflow-x-auto;
+  -webkit-overflow-scrolling: touch;
+  
+  & table {
+    @apply min-w-full;
+  }
+}
+
+@utility mobile-stack {
+  @apply flex flex-col gap-4 md:flex-row md:items-center;
+}
+
+@utility responsive-grid-2 {
+  @apply grid grid-cols-1 gap-4 md:grid-cols-2;
+}
+
+@utility responsive-grid-3 {
+  @apply grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3;
+}
+
+@utility responsive-grid-4 {
+  @apply grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+}
+
+@utility card-container {
+  @apply bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg;
 }
 
 @layer utilities {

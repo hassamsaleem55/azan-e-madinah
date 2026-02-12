@@ -168,7 +168,7 @@ export default function BookingDetail() {
                 {/* Header */}
                 <div className="mb-8 flex justify-between items-start">
                     <div>
-                        <h1 className="text-3xl font-bold text-gray-900">Booking Details</h1>
+                        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Booking Details</h1>
                         <p className="text-gray-600 mt-1">Reference: <span className="font-semibold text-blue-600">{safeBooking.bookingReference}</span></p>
                     </div>
                     <button

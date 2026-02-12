@@ -300,7 +300,7 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
                                 </div>
                             )}
                             {formData.accommodation.map((acc, index) => (
-                                <div key={index} className="grid grid-cols-1 md:grid-cols-5 gap-4 p-4 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+                                <div key={index} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 p-4 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                             City

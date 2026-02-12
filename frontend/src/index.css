@@ -36,6 +36,11 @@ textarea {
     resize: none;
 }
 
+body {
+    /* Prevent horizontal scroll on mobile */
+    overflow-x: hidden;
+}
+
 .main-container {
     width: 100%;
     max-width: 1300px;
@@ -85,7 +90,19 @@ textarea {
 }
 
 .table-responsive table {
-    min-width: 600px;
+    min-width: 800px;
+}
+
+@media screen and (max-width: 768px) {
+    .table-responsive table {
+        min-width: 100%;
+    }
+    
+    .table-responsive td,
+    .table-responsive th {
+        font-size: 0.875rem;
+        padding: 0.75rem 0.5rem;
+    }
 }
 
 /* Button responsive */
