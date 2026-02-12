@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router";
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import SignIn from "./pages/AuthPages/SignIn";
 import ChangePassword from "./pages/AuthPages/ChangePassword";
 import ForgotPassword from "./pages/AuthPages/ForgotPassword";
