@@ -709,9 +709,9 @@ const GroupTicketingForm = () => {
                         value={flight.flightClass}
                         onChange={(e) => updateFlight(index, "flightClass", e.target.value)}
                         placeholder="Select Class"
-                        className="h-10 text-xs text-gray-400"
+                        className="h-10! w-40! text-xs! text-gray-400!"
+                        menuPortalTarget={document.body}
                         options={[
-                          { value: "", label: "Select Class" },
                           { value: "Economy", label: "✈️ Economy" },
                           { value: "Business", label: "💼 Business" },
                           { value: "First", label: "👑 First Class" }
@@ -777,9 +777,9 @@ const GroupTicketingForm = () => {
                         value={flight.meal}
                         onChange={(e) => updateFlight(index, "meal", e.target.value)}
                         placeholder="Select"
-                        className="min-w-[110px]"
+                        className="h-10! w-30! text-xs! text-gray-400!"
+                        menuPortalTarget={document.body}
                         options={[
-                          { value: "", label: "Select" },
                           { value: "Yes", label: "🍽️ Yes" },
                           { value: "No", label: "❌ No" }
                         ]}
