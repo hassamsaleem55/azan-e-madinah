@@ -4,6 +4,7 @@ import { toast } from 'react-hot-toast';
 import axiosInstance from '../Api/axios';
 import Button from '../components/ui/button/Button';
 import Input from '../components/form/input/InputField';
+import { Select } from '../components';
 
 interface Flight {
     _id: string;
@@ -117,7 +118,7 @@ const FlightPackageForm = ({ onClose, onSuccess, editId }: FlightPackageFormProp
     return (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[--z-modal] p-4 animate-fadeIn">
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto transform transition-all animate-slideUp">
-                <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 sticky top-0 z-10">
+                <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 sticky top-0 z-10">
                     <h2 className="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
                         <Plane className="w-6 h-6" />
                         {editId ? 'Edit Flight Package Link' : 'Link Package to Flight'}
@@ -132,7 +133,7 @@ const FlightPackageForm = ({ onClose, onSuccess, editId }: FlightPackageFormProp
 
                 <form onSubmit={handleSubmit} className="p-6 space-y-6">
                     {/* Flight and Package Selection */}
-                    <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                             <Plane className="w-5 h-5" />
                             Flight & Package Selection
@@ -143,26 +144,19 @@ const FlightPackageForm = ({ onClose, onSuccess, editId }: FlightPackageFormProp
                                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                     Select Flight <span className="text-red-500">*</span>
                                 </label>
-                                <div className="relative">
-                                    <select
-                                        className="w-full h-12 appearance-none rounded-xl border-2 border-gray-200 bg-white dark:bg-gray-900 px-4 py-3 pr-10 text-sm font-semibold shadow-sm hover:border-brand-300 hover:shadow-md hover:bg-gradient-to-br hover:from-white hover:to-gray-50 dark:hover:border-brand-700 dark:hover:from-gray-900 dark:hover:to-gray-800 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:shadow-lg focus:shadow-brand-500/20 dark:border-gray-700 dark:text-white/90 dark:focus:border-brand-400 transition-all duration-300 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
-                                        value={formData.flight}
-                                        onChange={(e) => setFormData({ ...formData, flight: e.target.value })}
-                                        disabled={loading}
-                                    >
-                                        <option value="" className="text-gray-500">Choose a flight...</option>
-                                        {flights.map(flight => (
-                                            <option key={flight._id} value={flight._id} className="py-2">
-                                                {flight.flightNumber} - {flight.airline?.airlineName} • {flight.sector?.sectorTitle || `${flight.departureCity} to ${flight.arrivalCity}`} • {new Date(flight.departureDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                                            </option>
-                                        ))}
-                                    </select>
-                                    <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-brand-500 dark:text-brand-400">
-                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                        </svg>
-                                    </div>
-                                </div>
+                                <Select
+                                    value={formData.flight}
+                                    onChange={(e) => setFormData({ ...formData, flight: e.target.value })}
+                                    disabled={loading}
+                                    placeholder="Choose a flight..."
+                                    options={[
+                                        { value: "", label: "Choose a flight..." },
+                                        ...flights.map(flight => ({
+                                            value: flight._id,
+                                            label: `${flight.flightNumber} - ${flight.airline?.airlineName} • ${flight.sector?.sectorTitle || `${flight.departureCity} to ${flight.arrivalCity}`} • ${new Date(flight.departureDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`
+                                        }))
+                                    ]}
+                                />
                                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                                     Select the flight this package will be associated with
                                 </p>
@@ -172,26 +166,19 @@ const FlightPackageForm = ({ onClose, onSuccess, editId }: FlightPackageFormProp
                                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                     Select Package <span className="text-red-500">*</span>
                                 </label>
-                                <div className="relative">
-                                    <select
-                                        className="w-full h-12 appearance-none rounded-xl border-2 border-gray-200 bg-white dark:bg-gray-900 px-4 py-3 pr-10 text-sm font-semibold shadow-sm hover:border-brand-300 hover:shadow-md hover:bg-gradient-to-br hover:from-white hover:to-gray-50 dark:hover:border-brand-700 dark:hover:from-gray-900 dark:hover:to-gray-800 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:shadow-lg focus:shadow-brand-500/20 dark:border-gray-700 dark:text-white/90 dark:focus:border-brand-400 transition-all duration-300 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
-                                        value={formData.package}
-                                        onChange={(e) => setFormData({ ...formData, package: e.target.value })}
-                                        disabled={loading}
-                                    >
-                                        <option value="" className="text-gray-500">Choose a package...</option>
-                                        {packages.map(pkg => (
-                                            <option key={pkg._id} value={pkg._id} className="py-2">
-                                                {pkg.name} • {pkg.type} • {pkg.duration.days}D/{pkg.duration.nights}N
-                                            </option>
-                                        ))}
-                                    </select>
-                                    <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-brand-500 dark:text-brand-400">
-                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                        </svg>
-                                    </div>
-                                </div>
+                                <Select
+                                    value={formData.package}
+                                    onChange={(e) => setFormData({ ...formData, package: e.target.value })}
+                                    disabled={loading}
+                                    placeholder="Choose a package..."
+                                    options={[
+                                        { value: "", label: "Choose a package..." },
+                                        ...packages.map(pkg => ({
+                                            value: pkg._id,
+                                            label: `${pkg.name} • ${pkg.type} • ${pkg.duration.days}D/${pkg.duration.nights}N`
+                                        }))
+                                    ]}
+                                />
                                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                                     Select the package to link with the flight
                                 </p>
@@ -200,7 +187,7 @@ const FlightPackageForm = ({ onClose, onSuccess, editId }: FlightPackageFormProp
                     </div>
 
                     {/* Availability & Status */}
-                    <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                             <PackageIcon className="w-5 h-5" />
                             Availability & Status
@@ -229,23 +216,16 @@ const FlightPackageForm = ({ onClose, onSuccess, editId }: FlightPackageFormProp
                                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                     Status <span className="text-red-500">*</span>
                                 </label>
-                                <div className="relative">
-                                    <select
-                                        className="w-full h-12 appearance-none rounded-xl border-2 border-gray-200 bg-white dark:bg-gray-900 px-4 py-3 pr-10 text-sm font-semibold shadow-sm hover:border-brand-300 hover:shadow-md hover:bg-gradient-to-br hover:from-white hover:to-gray-50 dark:hover:border-brand-700 dark:hover:from-gray-900 dark:hover:to-gray-800 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:shadow-lg focus:shadow-brand-500/20 dark:border-gray-700 dark:text-white/90 dark:focus:border-brand-400 transition-all duration-300 cursor-pointer"
-                                        value={formData.status}
-                                        onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                                    >
-                                        <option value="Active">Active</option>
-                                        <option value="Sold Out">Sold Out</option>
-                                        <option value="Upcoming">Upcoming</option>
-                                        <option value="Inactive">Inactive</option>
-                                    </select>
-                                    <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-brand-500 dark:text-brand-400">
-                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                        </svg>
-                                    </div>
-                                </div>
+                                <Select
+                                    value={formData.status}
+                                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                                    options={[
+                                        { value: "Active", label: "Active" },
+                                        { value: "Sold Out", label: "Sold Out" },
+                                        { value: "Upcoming", label: "Upcoming" },
+                                        { value: "Inactive", label: "Inactive" }
+                                    ]}
+                                />
                                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                                     Set the availability status for this flight-package combination
                                 </p>
@@ -283,7 +263,7 @@ const FlightPackageForm = ({ onClose, onSuccess, editId }: FlightPackageFormProp
                         <button
                             type="submit"
                             disabled={loading}
-                            className="px-6 py-3 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all disabled:opacity-50 flex items-center gap-2"
+                            className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all disabled:opacity-50 flex items-center gap-2"
                         >
                             {loading ? (
                                 <>

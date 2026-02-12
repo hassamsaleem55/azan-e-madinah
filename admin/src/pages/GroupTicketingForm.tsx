@@ -711,23 +711,18 @@ const GroupTicketingForm = () => {
                       />
                     </td>
                     <td className="px-4 py-4">
-                      <div className="relative">
-                        <select
-                          value={flight.flightClass}
-                          onChange={(e) => updateFlight(index, "flightClass", e.target.value)}
-                          className="w-full min-w-[120px] h-10 appearance-none rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 pr-9 text-xs font-bold text-gray-900 dark:text-white hover:border-brand-300 dark:hover:border-brand-700 hover:shadow-md focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 cursor-pointer shadow-sm"
-                        >
-                          <option value="" className="text-gray-500">Select Class</option>
-                          <option value="Economy" className="font-semibold">✈️ Economy</option>
-                          <option value="Business" className="font-semibold">💼 Business</option>
-                          <option value="First" className="font-semibold">👑 First Class</option>
-                        </select>
-                        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-brand-500 dark:text-brand-400">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
-                          </svg>
-                        </div>
-                      </div>
+                      <Select
+                        value={flight.flightClass}
+                        onChange={(e) => updateFlight(index, "flightClass", e.target.value)}
+                        placeholder="Select Class"
+                        className="min-w-[120px]"
+                        options={[
+                          { value: "", label: "Select Class" },
+                          { value: "Economy", label: "✈️ Economy" },
+                          { value: "Business", label: "💼 Business" },
+                          { value: "First", label: "👑 First Class" }
+                        ]}
+                      />
                     </td>
                     <td className="px-4 py-4">
                       <div className="relative">
@@ -780,22 +775,17 @@ const GroupTicketingForm = () => {
                       />
                     </td>
                     <td className="px-4 py-4">
-                      <div className="relative">
-                        <select
-                          value={flight.meal}
-                          onChange={(e) => updateFlight(index, "meal", e.target.value)}
-                          className="w-full min-w-[110px] h-10 appearance-none rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 pr-9 text-xs font-bold text-gray-900 dark:text-white hover:border-brand-300 dark:hover:border-brand-700 hover:shadow-md focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 cursor-pointer shadow-sm"
-                        >
-                          <option value="" className="text-gray-500">Select</option>
-                          <option value="Yes" className="font-semibold">🍽️ Yes</option>
-                          <option value="No" className="font-semibold">❌ No</option>
-                        </select>
-                        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-brand-500 dark:text-brand-400">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
-                          </svg>
-                        </div>
-                      </div>
+                      <Select
+                        value={flight.meal}
+                        onChange={(e) => updateFlight(index, "meal", e.target.value)}
+                        placeholder="Select"
+                        className="min-w-[110px]"
+                        options={[
+                          { value: "", label: "Select" },
+                          { value: "Yes", label: "🍽️ Yes" },
+                          { value: "No", label: "❌ No" }
+                        ]}
+                      />
                     </td>
                       <td className="px-4 py-4">
                         <div className="flex items-center justify-center">

@@ -6,6 +6,7 @@ import PageMeta from '../components/common/PageMeta';
 import PageHeader from '../components/layout/PageHeader';
 import Button from '../components/ui/button/Button';
 import Input from '../components/form/input/InputField';
+import { Select } from '../components';
 import { Content, ContentSection, ContentStatistic, ContentCoreValue } from '../types';
 
 const ContentManagement = () => {
@@ -200,22 +201,21 @@ const ContentManagement = () => {
                 />
 
                 <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden">
-                    <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                    <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <label className="text-lg font-semibold text-gray-900 dark:text-white">
                             Select Page
                         </label>
                         <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Choose which page to edit</p>
                     </div>
                     <div className="p-6">
-                        <select
-                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+                        <Select
                         value={selectedPage}
                         onChange={(e) => setSelectedPage(e.target.value)}
-                    >
-                        {pageOptions.map(opt => (
-                            <option key={opt.value} value={opt.value}>{opt.label}</option>
-                        ))}
-                    </select>
+                        options={pageOptions.map(opt => ({
+                            value: opt.value,
+                            label: opt.label
+                        }))}
+                    />
                     </div>
                 </div>
 
@@ -227,7 +227,7 @@ const ContentManagement = () => {
                     <>
                         {/* Basic Info */}
                         <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden">
-                            <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                                 <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Basic Information</h2>
                                 <p className="text-sm text-gray-600 dark:text-gray-400">Page title and metadata</p>
                             </div>
@@ -248,7 +248,7 @@ const ContentManagement = () => {
 
                         {/* Sections */}
                         <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden">
-                            <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                                 <div className="flex justify-between items-center">
                                     <div>
                                         <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Content Sections</h2>
@@ -296,7 +296,7 @@ const ContentManagement = () => {
 
                         {/* Statistics */}
                         <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden">
-                            <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                                 <div className="flex justify-between items-center">
                                     <div>
                                         <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Statistics</h2>
@@ -346,7 +346,7 @@ const ContentManagement = () => {
 
                         {/* Core Values */}
                         <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden">
-                            <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                                 <div className="flex justify-between items-center">
                                     <div>
                                         <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Core Values</h2>
@@ -394,7 +394,7 @@ const ContentManagement = () => {
 
                         {/* SEO */}
                         <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden">
-                            <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                                 <h2 className="text-lg font-semibold text-gray-900 dark:text-white">SEO Settings</h2>
                                 <p className="text-sm text-gray-600 dark:text-gray-400">Meta tags for search engines</p>
                             </div>

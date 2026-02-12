@@ -5,6 +5,7 @@ import { Receipt, Save, ArrowLeft, Upload, Calendar, DollarSign, FileText, Build
 import { toast } from "react-hot-toast";
 import axiosInstance from "../Api/axios";
 import { useAuth } from "../context/AuthContext";
+import { Select } from "../components";
 
 interface Payment {
   _id: string;
@@ -338,15 +339,15 @@ const EditPaymentVoucher = () => {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Status
                 </label>
-                <select
+                <Select
                   name="status"
                   value={formData.status}
                   onChange={handleChange}
-                  className="w-full h-11 px-4 py-2 rounded-lg border border-gray-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-                >
-                  <option value="Posted">Posted</option>
-                  <option value="Un Posted">Un Posted</option>
-                </select>
+                  options={[
+                    { value: "Posted", label: "Posted" },
+                    { value: "Un Posted", label: "Un Posted" }
+                  ]}
+                />
               </div>
 
               {/* Date */}

@@ -4,6 +4,7 @@ import { toast } from 'react-hot-toast';
 import axiosInstance from '../Api/axios';
 import Button from '../components/ui/button/Button';
 import Input from '../components/form/input/InputField';
+import { Select } from '../components';
 
 interface Hotel {
     _id: string;
@@ -153,7 +154,7 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
     return (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[--z-modal] p-4 animate-fadeIn">
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto transform transition-all animate-slideUp">
-                <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 sticky top-0 z-10">
+                <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 sticky top-0 z-10">
                     <h2 className="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
                         {editId ? 'Edit Package' : 'Add New Package'}
                     </h2>
@@ -166,7 +167,7 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
                 </div>
 
                 <form onSubmit={handleSubmit} className="p-6 space-y-6">
-                    <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                             <Package className="w-5 h-5" />
                             Basic Information
@@ -191,22 +192,15 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
                                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                     Type <span className="text-red-500">*</span>
                                 </label>
-                                <div className="relative">
-                                    <select
-                                        className="w-full h-12 appearance-none rounded-xl border-2 border-gray-200 bg-white dark:bg-gray-900 px-4 py-3 pr-10 text-sm font-semibold shadow-sm hover:border-brand-300 hover:shadow-md hover:bg-gradient-to-br hover:from-white hover:to-gray-50 dark:hover:border-brand-700 dark:hover:from-gray-900 dark:hover:to-gray-800 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:shadow-lg focus:shadow-brand-500/20 dark:border-gray-700 dark:text-white/90 dark:focus:border-brand-400 transition-all duration-300 cursor-pointer"
-                                        value={formData.type}
-                                        onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                                    >
-                                        <option value="Umrah">Umrah</option>
-                                        <option value="Hajj">Hajj</option>
-                                        <option value="Combined">Combined</option>
-                                    </select>
-                                    <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-brand-500 dark:text-brand-400">
-                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                        </svg>
-                                    </div>
-                                </div>
+                                <Select
+                                    value={formData.type}
+                                    onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                                    options={[
+                                        { value: "Umrah", label: "Umrah" },
+                                        { value: "Hajj", label: "Hajj" },
+                                        { value: "Combined", label: "Combined" }
+                                    ]}
+                                />
                             </div>
 
                             <div>
@@ -247,23 +241,16 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
                                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                     Status
                                 </label>
-                                <div className="relative">
-                                    <select
-                                        className="w-full h-12 appearance-none rounded-xl border-2 border-gray-200 bg-white dark:bg-gray-900 px-4 py-3 pr-10 text-sm font-semibold shadow-sm hover:border-brand-300 hover:shadow-md hover:bg-gradient-to-br hover:from-white hover:to-gray-50 dark:hover:border-brand-700 dark:hover:from-gray-900 dark:hover:to-gray-800 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:shadow-lg focus:shadow-brand-500/20 dark:border-gray-700 dark:text-white/90 dark:focus:border-brand-400 transition-all duration-300 cursor-pointer"
-                                        value={formData.status}
-                                        onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                                    >
-                                        <option value="Active">Active</option>
-                                        <option value="Inactive">Inactive</option>
-                                        <option value="Sold Out">Sold Out</option>
-                                        <option value="Upcoming">Upcoming</option>
-                                    </select>
-                                    <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-brand-500 dark:text-brand-400">
-                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                        </svg>
-                                    </div>
-                                </div>
+                                <Select
+                                    value={formData.status}
+                                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                                    options={[
+                                        { value: "Active", label: "Active" },
+                                        { value: "Inactive", label: "Inactive" },
+                                        { value: "Sold Out", label: "Sold Out" },
+                                        { value: "Upcoming", label: "Upcoming" }
+                                    ]}
+                                />
                             </div>
 
                             <div className="flex items-center">
@@ -293,7 +280,7 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
                         </div>
                     </div>
 
-                    <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
                                 <MapPin className="w-5 h-5" />
@@ -318,47 +305,33 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                             City
                                         </label>
-                                        <div className="relative">
-                                            <select
-                                                className="w-full h-11 appearance-none rounded-xl border-2 border-gray-200 bg-white dark:bg-gray-900 px-4 py-2.5 pr-10 text-sm font-semibold shadow-sm hover:border-brand-300 hover:shadow-md dark:hover:border-brand-700 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10 dark:border-gray-700 dark:text-white/90 dark:focus:border-brand-400 transition-all duration-300 cursor-pointer"
-                                                value={acc.city}
-                                                onChange={(e) => updateAccommodation(index, 'city', e.target.value)}
-                                            >
-                                                <option value="Makkah">Makkah</option>
-                                                <option value="Madinah">Madinah</option>
-                                            </select>
-                                            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-brand-500 dark:text-brand-400">
-                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                                </svg>
-                                            </div>
-                                        </div>
+                                        <Select
+                                            value={acc.city}
+                                            onChange={(e) => updateAccommodation(index, 'city', e.target.value)}
+                                            options={[
+                                                { value: "Makkah", label: "Makkah" },
+                                                { value: "Madinah", label: "Madinah" }
+                                            ]}
+                                        />
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                             Hotel
                                         </label>
-                                        <div className="relative">
-                                            <select
-                                                className="w-full h-11 appearance-none rounded-xl border-2 border-gray-200 bg-white dark:bg-gray-900 px-4 py-2.5 pr-10 text-sm font-semibold shadow-sm hover:border-brand-300 hover:shadow-md dark:hover:border-brand-700 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10 dark:border-gray-700 dark:text-white/90 dark:focus:border-brand-400 transition-all duration-300 cursor-pointer"
-                                                value={acc.hotel}
-                                                onChange={(e) => updateAccommodation(index, 'hotel', e.target.value)}
-                                            >
-                                                <option value="" className="text-gray-500">Select Hotel</option>
-                                                {hotels
+                                        <Select
+                                            value={acc.hotel}
+                                            onChange={(e) => updateAccommodation(index, 'hotel', e.target.value)}
+                                            placeholder="Select Hotel"
+                                            options={[
+                                                { value: "", label: "Select Hotel" },
+                                                ...hotels
                                                     .filter(h => h.location.city === acc.city)
-                                                    .map(hotel => (
-                                                        <option key={hotel._id} value={hotel._id}>
-                                                            {hotel.name}
-                                                        </option>
-                                                    ))}
-                                            </select>
-                                            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-brand-500 dark:text-brand-400">
-                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                                </svg>
-                                            </div>
-                                        </div>
+                                                    .map(hotel => ({
+                                                        value: hotel._id,
+                                                        label: hotel.name
+                                                    }))
+                                            ]}
+                                        />
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -409,7 +382,7 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
                         </div>
                     </div>
 
-                    <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
                                 <DollarSign className="w-5 h-5" />
@@ -434,20 +407,20 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                             Tier Type
                                         </label>
-                                        <select
-                                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
+                                        <Select
                                             value={pricing.tierType}
                                             onChange={(e) => {
                                                 const newPricing = [...formData.pricing];
                                                 newPricing[index].tierType = e.target.value;
                                                 setFormData({ ...formData, pricing: newPricing });
                                             }}
-                                        >
-                                            <option value="Sharing">Sharing</option>
-                                            <option value="Quad">Quad</option>
-                                            <option value="Triple">Triple</option>
-                                            <option value="Double">Double</option>
-                                        </select>
+                                            options={[
+                                                { value: "Sharing", label: "Sharing" },
+                                                { value: "Quad", label: "Quad" },
+                                                { value: "Triple", label: "Triple" },
+                                                { value: "Double", label: "Double" }
+                                            ]}
+                                        />
                                     </div>
                                     <div className="flex-1">
                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -481,7 +454,7 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
                         </div>
                     </div>
 
-                    <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                             <CheckCircle className="w-5 h-5" />
                             Package Inclusions
@@ -581,7 +554,7 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="px-6 py-3 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all disabled:opacity-50 flex items-center gap-2"
+                            className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all disabled:opacity-50 flex items-center gap-2"
                         >
                             {loading ? (
                                 <>

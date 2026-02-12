@@ -4,6 +4,7 @@ import PageHeader from "../components/layout/PageHeader";
 import { Receipt, Calendar, Filter, Eye, FileText } from "lucide-react";
 import { toast } from "react-hot-toast";
 import axiosInstance from "../Api/axios";
+import { Select } from "../components";
 
 interface Payment {
   _id: string;
@@ -125,7 +126,7 @@ const ViewPaymentVoucher = () => {
       />
 
       <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden">
-        <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-5 border-b border-gray-200 dark:border-gray-700">
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-5 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-blue-600 rounded-lg">
               <Filter className="w-5 h-5 text-white" />
@@ -174,26 +175,25 @@ const ViewPaymentVoucher = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                 Status
               </label>
-              <select
-                name="status"
+              <Select
                 value={filters.status}
                 onChange={handleFilterChange}
-                className="w-full h-11 px-4 py-2 rounded-lg border border-gray-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-              >
-                <option value="">All Status</option>
-                <option value="Posted">Posted</option>
-                <option value="Un Posted">Un Posted</option>
-              </select>
+                options={[
+                  { value: "", label: "All Status" },
+                  { value: "Posted", label: "Posted" },
+                  { value: "Un Posted", label: "Un Posted" }
+                ]}
+              />
             </div>
 
             <div className="flex items-end">
               <button
                 onClick={handleFilter}
                 disabled={loading}
-                className="w-full h-11 px-4 py-2 bg-linear-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 shadow-lg shadow-blue-500/30 transition-all duration-200"
+                className="w-full h-11 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 shadow-lg shadow-blue-500/30 transition-all duration-200"
               >
                 Apply Filters
               </button>
@@ -203,7 +203,7 @@ const ViewPaymentVoucher = () => {
       </div>
 
       <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden">
-        <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-5 border-b border-gray-200 dark:border-gray-700">
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-5 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-blue-600 rounded-lg">
               <FileText className="w-5 h-5 text-white" />
@@ -231,7 +231,7 @@ const ViewPaymentVoucher = () => {
             <>
               <div className="overflow-x-auto">
                 <table className="w-full">
-                  <thead className="bg-linear-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800">
+                  <thead className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800">
                     <tr>
                       <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                         #
@@ -353,7 +353,7 @@ const ViewPaymentVoucher = () => {
                           <td className="px-6 py-4 whitespace-nowrap text-sm">
                             <button
                               onClick={() => navigate(`/view-payment-voucher/edit/${payment._id}`)}
-                              className="inline-flex items-center gap-2 px-4 py-2 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg shadow-blue-500/30"
+                              className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg shadow-blue-500/30"
                             >
                               <Eye className="w-4 h-4" />
                               Details
@@ -366,7 +366,7 @@ const ViewPaymentVoucher = () => {
                 </table>
               </div>
 
-              <div className="bg-linear-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-t border-gray-200 dark:border-gray-700">
+              <div className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-t border-gray-200 dark:border-gray-700">
                 <div className="flex justify-end items-center gap-4">
                   <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                     Total Amount:

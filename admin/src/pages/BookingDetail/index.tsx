@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router'
 import axiosInstance from '../../Api/axios'
+import { Select } from '../../components'
 
 interface Booking {
     _id: string
@@ -187,16 +188,17 @@ export default function BookingDetail() {
                             <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                                 <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Booking Status</h2>
                             </div>
-                            <div className="p-6">
-                                <select
+                            <div className="p-6 flex gap-4 items-center">
+                                <Select
                                     value={selectedStatus}
                                     onChange={(e) => setSelectedStatus(e.target.value)}
-                                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                >
-                                    <option value="on hold">On Hold</option>
-                                    <option value="confirmed">Confirmed</option>
-                                    <option value="cancelled">Cancelled</option>
-                                </select>
+                                    className="flex-1"
+                                    options={[
+                                        { value: "on hold", label: "On Hold" },
+                                        { value: "confirmed", label: "Confirmed" },
+                                        { value: "cancelled", label: "Cancelled" }
+                                    ]}
+                                />
                                 <button
                                     onClick={handleStatusChange}
                                     disabled={selectedStatus === safeBooking.status || isUpdating}

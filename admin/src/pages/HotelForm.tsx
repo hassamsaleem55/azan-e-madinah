@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { X, Save, Upload, MapPin, Star, Building2, Phone, Mail, Globe } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import axiosInstance from '../Api/axios';
+import { Select } from '../components';
 
 interface HotelFormProps {
     onClose: () => void;
@@ -342,7 +343,7 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[--z-modal] p-4 animate-fadeIn">
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-y-auto transform transition-all">
                 {/* Header */}
-                <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 sticky top-0 z-10">
+                <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 sticky top-0 z-10">
                     <h2 className="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
                         <Building2 className="w-6 h-6" />
                         {editId ? 'Edit Hotel' : 'Add New Hotel'}
@@ -357,7 +358,7 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
 
                 <form onSubmit={handleSubmit} className="p-6 space-y-6">
                     {/* Basic Information */}
-                    <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                             <Building2 className="w-5 h-5" />
                             Basic Information
@@ -399,48 +400,34 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                     Category <span className="text-red-500">*</span>
                                 </label>
-                                <div className="relative">
-                                    <select
-                                        className="w-full h-12 appearance-none rounded-xl border-2 border-gray-200 bg-white dark:bg-gray-900 px-4 py-3 pr-10 text-sm font-semibold shadow-sm hover:border-brand-300 hover:shadow-md hover:bg-gradient-to-br hover:from-white hover:to-gray-50 dark:hover:border-brand-700 dark:hover:from-gray-900 dark:hover:to-gray-800 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:shadow-lg focus:shadow-brand-500/20 dark:border-gray-700 dark:text-white/90 dark:focus:border-brand-400 transition-all duration-300 cursor-pointer"
-                                        value={formData.category}
-                                        onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                                    >
-                                        <option value="Economy">Economy</option>
-                                        <option value="Standard">Standard</option>
-                                        <option value="Deluxe">Deluxe</option>
-                                        <option value="Premium">Premium</option>
-                                        <option value="Luxury">Luxury</option>
-                                    </select>
-                                    <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-brand-500 dark:text-brand-400">
-                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                        </svg>
-                                    </div>
-                                </div>
+                                <Select
+                                    value={formData.category}
+                                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                                    options={[
+                                        { value: "Economy", label: "Economy" },
+                                        { value: "Standard", label: "Standard" },
+                                        { value: "Deluxe", label: "Deluxe" },
+                                        { value: "Premium", label: "Premium" },
+                                        { value: "Luxury", label: "Luxury" }
+                                    ]}
+                                />
                             </div>
 
                             <div>
                                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                     Star Rating <span className="text-red-500">*</span>
                                 </label>
-                                <div className="relative">
-                                    <select
-                                        className="w-full h-12 appearance-none rounded-xl border-2 border-gray-200 bg-white dark:bg-gray-900 px-4 py-3 pr-10 text-sm font-semibold shadow-sm hover:border-brand-300 hover:shadow-md hover:bg-gradient-to-br hover:from-white hover:to-gray-50 dark:hover:border-brand-700 dark:hover:from-gray-900 dark:hover:to-gray-800 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:shadow-lg focus:shadow-brand-500/20 dark:border-gray-700 dark:text-white/90 dark:focus:border-brand-400 transition-all duration-300 cursor-pointer"
-                                        value={formData.starRating}
-                                        onChange={(e) => setFormData({ ...formData, starRating: parseInt(e.target.value) })}
-                                    >
-                                        <option value="1">1 Star</option>
-                                        <option value="2">2 Star</option>
-                                        <option value="3">3 Star</option>
-                                        <option value="4">4 Star</option>
-                                        <option value="5">5 Star</option>
-                                    </select>
-                                    <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-brand-500 dark:text-brand-400">
-                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                        </svg>
-                                    </div>
-                                </div>
+                                <Select
+                                    value={formData.starRating.toString()}
+                                    onChange={(e) => setFormData({ ...formData, starRating: parseInt(e.target.value) })}
+                                    options={[
+                                        { value: "1", label: "1 Star" },
+                                        { value: "2", label: "2 Star" },
+                                        { value: "3", label: "3 Star" },
+                                        { value: "4", label: "4 Star" },
+                                        { value: "5", label: "5 Star" }
+                                    ]}
+                                />
                             </div>
 
                             <div className="flex items-center pt-6">
@@ -473,7 +460,7 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                     </div>
 
                     {/* Location Details */}
-                    <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                             <MapPin className="w-5 h-5" />
                             Location Details
@@ -484,24 +471,17 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                     City <span className="text-red-500">*</span>
                                 </label>
-                                <div className="relative">
-                                    <select
-                                        className="w-full h-12 appearance-none rounded-xl border-2 border-gray-200 bg-white dark:bg-gray-900 px-4 py-3 pr-10 text-sm font-semibold shadow-sm hover:border-brand-300 hover:shadow-md hover:bg-gradient-to-br hover:from-white hover:to-gray-50 dark:hover:border-brand-700 dark:hover:from-gray-900 dark:hover:to-gray-800 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:shadow-lg focus:shadow-brand-500/20 dark:border-gray-700 dark:text-white/90 dark:focus:border-brand-400 transition-all duration-300 cursor-pointer"
-                                        value={formData.location.city}
-                                        onChange={(e) => setFormData({
-                                            ...formData,
-                                            location: { ...formData.location, city: e.target.value }
-                                        })}
-                                    >
-                                        <option value="Makkah">Makkah</option>
-                                        <option value="Madinah">Madinah</option>
-                                    </select>
-                                    <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-brand-500 dark:text-brand-400">
-                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                        </svg>
-                                    </div>
-                                </div>
+                                <Select
+                                    value={formData.location.city}
+                                    onChange={(e) => setFormData({
+                                        ...formData,
+                                        location: { ...formData.location, city: e.target.value }
+                                    })}
+                                    options={[
+                                        { value: "Makkah", label: "Makkah" },
+                                        { value: "Madinah", label: "Madinah" }
+                                    ]}
+                                />
                             </div>
 
                             <div>
@@ -617,7 +597,7 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                     </div>
 
                     {/* Services */}
-                    <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Hotel Services & Facilities</h3>
                         <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Select hotel-wide services and facilities available to guests</p>
 
@@ -642,7 +622,7 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                     </div>
 
                     {/* Amenities */}
-                    <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Room Amenities</h3>
                         <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Select in-room amenities and features</p>
 
@@ -699,7 +679,7 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                     </div>
 
                     {/* Contact Information */}
-                    <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                             <Phone className="w-5 h-5" />
                             Contact Information
@@ -766,7 +746,7 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                     </div>
 
                     {/* Hotel Policies */}
-                    <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Hotel Policies</h3>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -859,7 +839,7 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                     </div>
 
                     {/* Hotel Images */}
-                    <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                             <Upload className="w-5 h-5" />
                             Hotel Images
@@ -918,7 +898,7 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="px-6 py-3 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all disabled:opacity-50 flex items-center gap-2"
+                            className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all disabled:opacity-50 flex items-center gap-2"
                         >
                             {loading ? (
                                 <>
