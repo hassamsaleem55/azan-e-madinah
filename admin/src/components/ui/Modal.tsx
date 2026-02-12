@@ -61,7 +61,7 @@ export const Modal: React.FC<ModalProps> = ({
     <div className="fixed inset-0 z-[1050] overflow-y-auto">
       {/* Backdrop with premium blur */}
       <div
-        className="fixed inset-0 bg-gradient-to-br from-black/70 via-black/60 to-black/70 backdrop-blur-md transition-all duration-300 animate-fadeIn"
+        className="fixed inset-0 bg-linear-to-br from-black/70 via-black/60 to-black/70 backdrop-blur-md transition-all duration-300 animate-fadeIn"
         onClick={closeOnBackdrop ? onClose : undefined}
       />
 
@@ -72,8 +72,8 @@ export const Modal: React.FC<ModalProps> = ({
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header with gradient */}
-          <div className="flex items-center justify-between px-8 py-6 border-b border-gray-200/50 dark:border-gray-700/50 bg-gradient-to-r from-brand-50/50 via-white to-brand-50/50 dark:from-gray-800/50 dark:via-gray-900 dark:to-gray-800/50 sticky top-0 z-10 backdrop-blur-xl">
-            <h2 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
+          <div className="flex items-center justify-between px-8 py-6 border-b border-gray-200/50 dark:border-gray-700/50 bg-linear-to-r from-brand-50/50 via-white to-brand-50/50 dark:from-gray-800/50 dark:via-gray-900 dark:to-gray-800/50 sticky top-0 z-10 backdrop-blur-xl">
+            <h2 className="text-2xl font-bold bg-linear-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
               {title}
             </h2>
             <button
@@ -92,7 +92,7 @@ export const Modal: React.FC<ModalProps> = ({
 
           {/* Footer with gradient */}
           {footer && (
-            <div className="flex items-center justify-end gap-4 px-8 py-6 border-t border-gray-200/50 dark:border-gray-700/50 bg-gradient-to-r from-gray-50/80 via-white to-gray-50/80 dark:from-gray-800/80 dark:via-gray-900 dark:to-gray-800/80 rounded-b-3xl backdrop-blur-xl sticky bottom-0">
+            <div className="flex items-center justify-end gap-4 px-8 py-6 border-t border-gray-200/50 dark:border-gray-700/50 bg-linear-to-r from-gray-50/80 via-white to-gray-50/80 dark:from-gray-800/80 dark:via-gray-900 dark:to-gray-800/80 rounded-b-3xl backdrop-blur-xl sticky bottom-0">
               {footer}
             </div>
           )}
@@ -138,7 +138,7 @@ export const ModalFooter: React.FC<ModalFooterProps> = ({
         <Button 
           onClick={onSubmit} 
           disabled={submitDisabled || isSubmitting}
-          className="bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-600 hover:to-brand-700 shadow-lg shadow-brand-500/30 hover:shadow-xl hover:shadow-brand-500/40"
+          className="bg-linear-to-r from-brand-500 to-brand-600 hover:from-brand-600 hover:to-brand-700 shadow-lg shadow-brand-500/30 hover:shadow-xl hover:shadow-brand-500/40"
         >
           {isSubmitting ? (
             <div className="flex items-center gap-2.5">

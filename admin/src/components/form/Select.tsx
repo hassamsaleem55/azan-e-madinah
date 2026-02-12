@@ -32,7 +32,7 @@ const Select: React.FC<SelectProps> = ({
   return (
     <div className="relative">
       <select
-        className={`h-12 w-full appearance-none rounded-xl border-2 border-gray-200 bg-white dark:bg-gray-900 px-4 py-3 pr-11 text-sm font-semibold shadow-sm placeholder:text-gray-400 hover:border-brand-300 hover:shadow-md hover:bg-gradient-to-br hover:from-white hover:to-gray-50 dark:hover:border-brand-700 dark:hover:from-gray-900 dark:hover:to-gray-800 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:shadow-lg focus:shadow-brand-500/20 dark:border-gray-700 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-400 transition-all duration-300 cursor-pointer ${
+        className={`h-12 w-full appearance-none rounded-xl border-2 border-gray-200 bg-white dark:bg-gray-900 px-4 py-3 pr-11 text-sm font-semibold shadow-sm placeholder:text-gray-400 hover:border-brand-300 hover:shadow-md hover:bg-linear-to-br hover:from-white hover:to-gray-50 dark:hover:border-brand-700 dark:hover:from-gray-900 dark:hover:to-gray-800 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:shadow-lg focus:shadow-brand-500/20 dark:border-gray-700 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-400 transition-all duration-300 cursor-pointer ${
           selectedValue
             ? "text-gray-900 dark:text-white/90"
             : "text-gray-400 dark:text-gray-400"

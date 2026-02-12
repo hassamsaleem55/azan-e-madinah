@@ -424,20 +424,10 @@ const GroupTicketingForm = () => {
             { label: "Group Ticketing", path: "/group-ticketing" },
             { label: editMode ? "Edit" : "Create" }
           ]}
-          // actions={
-          //   <Button
-          //     variant="outline"
-          //     onClick={() => navigate("/group-ticketing")}
-          //     className="gap-2"
-          //   >
-          //     <ArrowLeft className="w-4 h-4" />
-          //     Back
-          //   </Button>
-          // }
         />
 
       <div className="rounded-2xl border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800 overflow-visible">
-        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-5 rounded-t-2xl border-b border-gray-200 dark:border-gray-700">
+        <div className="bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 px-6 py-5 rounded-t-2xl border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-blue-600 rounded-lg">
               <FileText className="w-5 h-5 text-white" />
@@ -558,7 +548,7 @@ const GroupTicketingForm = () => {
               </FormField>
             </div>
 
-            <div className="flex items-center gap-3 p-5 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700/50 dark:to-gray-800/50 rounded-xl border border-blue-200 dark:border-gray-600">
+            <div className="flex items-center gap-3 p-5 bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700/50 dark:to-gray-800/50 rounded-xl border border-blue-200 dark:border-gray-600">
               <label className="flex items-center cursor-pointer group">
                 <input
                   type="checkbox"
@@ -571,10 +561,10 @@ const GroupTicketingForm = () => {
             </div>
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-6 relative z-10">
             <div className="flex items-center justify-between pb-4 border-b-2 border-gradient-to-r from-brand-200/50 to-brand-300/50 dark:from-brand-700/50 dark:to-brand-600/50">
               <div className="flex items-center gap-3">
-                <div className="p-3 bg-gradient-to-br from-brand-100 to-brand-200 dark:from-brand-900/30 dark:to-brand-800/20 rounded-xl shadow-md">
+                <div className="p-3 bg-linear-to-br from-brand-100 to-brand-200 dark:from-brand-900/30 dark:to-brand-800/20 rounded-xl shadow-md">
                   <CalendarIcon className="w-6 h-6 text-brand-600 dark:text-brand-400" />
                 </div>
                 <div>
@@ -585,16 +575,16 @@ const GroupTicketingForm = () => {
               <Button
                 type="button"
                 onClick={addFlight}
-                className="gap-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 shadow-lg shadow-green-500/30 hover:shadow-xl hover:shadow-green-500/40 hover:scale-105 transition-all duration-300"
+                className="gap-2 bg-linear-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 shadow-lg shadow-green-500/30 hover:shadow-xl hover:shadow-green-500/40 hover:scale-105 transition-all duration-300"
               >
                 <Plus className="w-4 h-4" />
                 Add Flight
               </Button>
             </div>
             
-            <div className="overflow-x-auto rounded-2xl border-2 border-gray-200/80 dark:border-gray-700/80 shadow-xl shadow-gray-200/50 dark:shadow-gray-900/50 backdrop-blur-sm">
+            <div className="overflow-x-auto rounded-2xl border-2 border-gray-200/80 dark:border-gray-700/80 shadow-xl shadow-gray-200/50 dark:shadow-gray-900/50 backdrop-blur-sm relative z-0">
               <table className="w-full">
-                <thead className="bg-gradient-to-r from-brand-600 via-brand-500 to-indigo-600 dark:from-brand-700 dark:via-brand-600 dark:to-indigo-700">
+                <thead className="bg-linear-to-r from-brand-600 via-brand-500 to-indigo-600 dark:from-brand-700 dark:via-brand-600 dark:to-indigo-700">
                     <tr>
                     <th className="px-4 py-4 text-left text-xs font-bold text-white uppercase tracking-wide border-b-2 border-brand-400/30 dark:border-brand-500/30">Flight#</th>
                     <th className="px-4 py-4 text-left text-xs font-bold text-white uppercase tracking-wide border-b-2 border-brand-400/30 dark:border-brand-500/30">Dep Date</th>
@@ -613,7 +603,7 @@ const GroupTicketingForm = () => {
                 </thead>
                 <tbody className="divide-y divide-gray-200/50 dark:divide-gray-700/50">
                 {formData.flights.map((flight, index) => (
-                  <tr key={index} className="bg-white dark:bg-gray-800 hover:bg-gradient-to-r hover:from-brand-50/30 hover:to-brand-100/20 dark:hover:from-brand-900/10 dark:hover:to-brand-800/5 transition-all duration-300">
+                  <tr key={index} className="bg-white dark:bg-gray-800 hover:bg-linear-to-r hover:from-brand-50/30 hover:to-brand-100/20 dark:hover:from-brand-900/10 dark:hover:to-brand-800/5 transition-all duration-300">
                     <td className="px-4 py-4">
                       <input
                         type="text"
@@ -635,6 +625,8 @@ const GroupTicketingForm = () => {
                           placeholderText="Select departure date"
                           className="w-full min-w-[150px] h-10 pl-10 pr-3 text-xs font-semibold border-2 border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white outline-none hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer"
                           wrapperClassName="w-full"
+                          popperClassName="z-50"
+                          portalId="root"
                         />
                         <CalendarIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-500 dark:text-brand-400 pointer-events-none" />
                       </div>
@@ -660,11 +652,13 @@ const GroupTicketingForm = () => {
                           placeholderText="Select departure time"
                           className="w-full min-w-[130px] h-10 pl-10 pr-3 text-xs font-semibold border-2 border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white outline-none hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer"
                           wrapperClassName="w-full"
+                          popperClassName="z-50"
+                          portalId="root"
                         />
                         <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-500 dark:text-brand-400 pointer-events-none" />
                       </div>
                     </td>
-                    <td className="px-3 py-3">
+                    <td className="px-4 py-4">
                       <AsyncSelect
                         cacheOptions
                         defaultOptions={cityOptions}
@@ -687,7 +681,7 @@ const GroupTicketingForm = () => {
                         className="w-full min-w-[90px] h-10 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 text-xs font-semibold text-gray-900 dark:text-white placeholder:text-gray-400 outline-none hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 shadow-sm hover:shadow-md"
                       />
                     </td>
-                    <td className="px-3 py-3">
+                    <td className="px-4 py-4">
                       <AsyncSelect
                         cacheOptions
                         defaultOptions={cityOptions}
@@ -715,7 +709,7 @@ const GroupTicketingForm = () => {
                         value={flight.flightClass}
                         onChange={(e) => updateFlight(index, "flightClass", e.target.value)}
                         placeholder="Select Class"
-                        className="min-w-[120px]"
+                        className="h-10 text-xs text-gray-400"
                         options={[
                           { value: "", label: "Select Class" },
                           { value: "Economy", label: "✈️ Economy" },
@@ -736,6 +730,8 @@ const GroupTicketingForm = () => {
                           placeholderText="Select arrival date"
                           className="w-full min-w-[150px] h-10 pl-10 pr-3 text-xs font-semibold border-2 border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white outline-none hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer"
                           wrapperClassName="w-full"
+                          popperClassName="z-50"
+                          portalId="root"
                         />
                         <CalendarIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-500 dark:text-brand-400 pointer-events-none" />
                       </div>
@@ -761,6 +757,8 @@ const GroupTicketingForm = () => {
                           placeholderText="Select arrival time"
                           className="w-full min-w-[130px] h-10 pl-10 pr-3 text-xs font-semibold border-2 border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white outline-none hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer"
                           wrapperClassName="w-full"
+                          popperClassName="z-50"
+                          portalId="root"
                         />
                         <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-500 dark:text-brand-400 pointer-events-none" />
                       </div>
@@ -795,7 +793,7 @@ const GroupTicketingForm = () => {
                               onClick={() => removeFlight(index)}
                               variant="outline"
                               size="sm"
-                              className="text-red-600 border-2 border-red-300 hover:bg-gradient-to-r hover:from-red-50 hover:to-red-100/50 hover:border-red-400 hover:shadow-lg hover:shadow-red-500/20 dark:text-red-400 dark:border-red-600 dark:hover:bg-red-900/30 dark:hover:from-red-900/20 dark:hover:to-red-800/10 transition-all duration-300"
+                              className="text-red-600 border-2 border-red-300 hover:bg-linear-to-r hover:from-red-50 hover:to-red-100/50 hover:border-red-400 hover:shadow-lg hover:shadow-red-500/20 dark:text-red-400 dark:border-red-600 dark:hover:bg-red-900/30 dark:hover:from-red-900/20 dark:hover:to-red-800/10 transition-all duration-300"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
                               
@@ -979,7 +977,7 @@ const GroupTicketingForm = () => {
             <Button
               type="submit"
               disabled={loading}
-              className="gap-2 min-w-[140px] bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/25"
+              className="gap-2 min-w-[140px] bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/25"
             >
               <Save className="w-4 h-4" />
               {loading ? "Saving..." : editMode ? "Update Booking" : "Create Booking"}

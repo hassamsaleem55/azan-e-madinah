@@ -69,7 +69,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
         type="button"
         onClick={handleToggle}
         disabled={disabled}
-        className={`h-12 w-full flex items-center justify-between appearance-none rounded-xl border-2 bg-white dark:bg-gray-900 px-4 py-3 text-sm font-semibold shadow-sm hover:border-brand-300 hover:shadow-md hover:bg-gradient-to-br hover:from-white hover:to-gray-50 dark:hover:border-brand-700 dark:hover:from-gray-900 dark:hover:to-gray-800 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:shadow-lg focus:shadow-brand-500/20 dark:text-white/90 transition-all duration-300 ${
+        className={`h-12 w-full flex items-center justify-between appearance-none rounded-xl border-2 bg-white dark:bg-gray-900 px-4 py-3 text-sm font-semibold shadow-sm hover:border-brand-300 hover:shadow-md hover:bg-linear-to-br hover:from-white hover:to-gray-50 dark:hover:border-brand-700 dark:hover:from-gray-900 dark:hover:to-gray-800 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:shadow-lg focus:shadow-brand-500/20 dark:text-white/90 transition-all duration-300 ${
           isOpen
             ? 'border-brand-500 ring-4 ring-brand-500/10 shadow-lg shadow-brand-500/20 dark:border-brand-400'
             : 'border-gray-200 dark:border-gray-700'
@@ -118,8 +118,8 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
                     onClick={() => handleSelect(option.value)}
                     className={`w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-left rounded-xl transition-all duration-300 ${
                       isSelected
-                        ? 'bg-gradient-to-r from-brand-50 to-brand-100/50 text-brand-700 dark:from-brand-900/30 dark:to-brand-800/20 dark:text-brand-300 shadow-md'
-                        : 'text-gray-700 dark:text-gray-300 hover:bg-gradient-to-r hover:from-brand-50/50 hover:to-brand-100/30 hover:text-brand-600 dark:hover:from-brand-900/20 dark:hover:to-brand-800/10 dark:hover:text-brand-400 hover:translate-x-1 hover:shadow-sm'
+                        ? 'bg-linear-to-r from-brand-50 to-brand-100/50 text-brand-700 dark:from-brand-900/30 dark:to-brand-800/20 dark:text-brand-300 shadow-md'
+                        : 'text-gray-700 dark:text-gray-300 hover:bg-linear-to-r hover:from-brand-50/50 hover:to-brand-100/30 hover:text-brand-600 dark:hover:from-brand-900/20 dark:hover:to-brand-800/10 dark:hover:text-brand-400 hover:translate-x-1 hover:shadow-sm'
                     }`}
                   >
                     <span className="truncate">{option.label}</span>

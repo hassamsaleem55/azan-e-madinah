@@ -32,12 +32,12 @@ export default function Home() {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 animate-fadeIn">
           {/* Agents Card */}
           <Link to="/registered-agencies" className="block group">
-            <div className="relative overflow-hidden bg-gradient-to-br from-teal-500 via-teal-600 to-emerald-600 dark:from-teal-600 dark:via-teal-700 dark:to-emerald-700 rounded-2xl p-8 text-white shadow-xl shadow-teal-500/30 hover:shadow-2xl hover:shadow-teal-500/40 transition-all duration-500 hover:-translate-y-1">
+            <div className="relative overflow-hidden bg-linear-to-br from-teal-500 via-teal-600 to-emerald-600 dark:from-teal-600 dark:via-teal-700 dark:to-emerald-700 rounded-2xl p-8 text-white shadow-xl shadow-teal-500/30 hover:shadow-2xl hover:shadow-teal-500/40 transition-all duration-500 hover:-translate-y-1">
               {/* Background Pattern */}
               <div className="absolute inset-0 bg-dots opacity-10"></div>
               
               {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-transparent to-black/10"></div>
+              <div className="absolute inset-0 bg-linear-to-br from-transparent to-black/10"></div>
               
               <div className="absolute top-6 right-6 opacity-10 group-hover:opacity-20 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6">
                 <UsersIcon className="w-24 h-24" />
@@ -60,12 +60,12 @@ export default function Home() {
           </Link>
 
           {/* Index Cards */}
-          <div className="relative overflow-hidden bg-gradient-to-br from-slate-500 via-slate-600 to-blue-600 dark:from-slate-600 dark:via-slate-700 dark:to-blue-700 rounded-2xl p-8 text-white shadow-xl shadow-slate-500/30 hover:shadow-2xl hover:shadow-slate-500/40 transition-all duration-500 hover:-translate-y-1 group cursor-pointer">
+          <div className="relative overflow-hidden bg-linear-to-br from-slate-500 via-slate-600 to-blue-600 dark:from-slate-600 dark:via-slate-700 dark:to-blue-700 rounded-2xl p-8 text-white shadow-xl shadow-slate-500/30 hover:shadow-2xl hover:shadow-slate-500/40 transition-all duration-500 hover:-translate-y-1 group cursor-pointer">
             {/* Background Pattern */}
             <div className="absolute inset-0 bg-dots opacity-10"></div>
             
             {/* Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-transparent to-black/10"></div>
+            <div className="absolute inset-0 bg-linear-to-br from-transparent to-black/10"></div>
             
             <div className="absolute top-6 right-6 opacity-10 group-hover:opacity-20 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6">
               <IdentificationIcon className="w-24 h-24" />

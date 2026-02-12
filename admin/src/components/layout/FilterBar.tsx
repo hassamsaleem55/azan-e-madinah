@@ -73,7 +73,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
 
       {/* Collapsible Filters */}
       {filters && showFilters && (
-        <div className="p-6 bg-gradient-to-br from-gray-50 to-white dark:from-gray-800/50 dark:to-gray-900/30 border-2 border-gray-200/80 dark:border-gray-700/80 rounded-2xl shadow-lg shadow-gray-200/50 dark:shadow-gray-900/50 backdrop-blur-sm animate-slideIn">
+        <div className="p-6 bg-linear-to-br from-gray-50 to-white dark:from-gray-800/50 dark:to-gray-900/30 border-2 border-gray-200/80 dark:border-gray-700/80 rounded-2xl shadow-lg shadow-gray-200/50 dark:shadow-gray-900/50 backdrop-blur-sm animate-slideIn">
           {filters}
         </div>
       )}

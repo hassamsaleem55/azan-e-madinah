@@ -30,7 +30,7 @@ const Switch: React.FC<SwitchProps> = ({
     color === "blue"
       ? {
           background: isChecked
-            ? "bg-gradient-to-r from-brand-500 to-brand-600 shadow-lg shadow-brand-500/30"
+            ? "bg-linear-to-r from-brand-500 to-brand-600 shadow-lg shadow-brand-500/30"
             : "bg-gray-200 dark:bg-gray-700 shadow-sm", // Blue version
           knob: isChecked
             ? "translate-x-full bg-white shadow-xl scale-110"
@@ -38,7 +38,7 @@ const Switch: React.FC<SwitchProps> = ({
         }
       : {
           background: isChecked
-            ? "bg-gradient-to-r from-gray-700 to-gray-800 dark:from-gray-600 dark:to-gray-700 shadow-lg"
+            ? "bg-linear-to-r from-gray-700 to-gray-800 dark:from-gray-600 dark:to-gray-700 shadow-lg"
             : "bg-gray-200 dark:bg-gray-700 shadow-sm", // Gray version
           knob: isChecked
             ? "translate-x-full bg-white shadow-xl scale-110"

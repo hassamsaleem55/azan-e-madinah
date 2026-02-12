@@ -22,11 +22,11 @@ export default function NotificationDropdown() {
   return (
     <div className="relative">
       <button
-        className="relative flex items-center justify-center text-gray-500 transition-all duration-300 bg-white border-2 border-gray-200 rounded-full dropdown-toggle hover:text-brand-600 h-11 w-11 hover:bg-gradient-to-br hover:from-brand-50 hover:to-brand-100/50 hover:border-brand-300 hover:scale-105 hover:shadow-lg hover:shadow-brand-500/20 active:scale-95 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-brand-400 dark:hover:border-brand-700"
+        className="relative flex items-center justify-center text-gray-500 transition-all duration-300 bg-white border-2 border-gray-200 rounded-full dropdown-toggle hover:text-brand-600 h-11 w-11 hover:bg-linear-to-br hover:from-brand-50 hover:to-brand-100/50 hover:border-brand-300 hover:scale-105 hover:shadow-lg hover:shadow-brand-500/20 active:scale-95 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-brand-400 dark:hover:border-brand-700"
         onClick={handleClick}
       >
         <span
-          className={`absolute right-0 top-0.5 z-10 h-2.5 w-2.5 rounded-full bg-gradient-to-r from-orange-400 to-orange-500 shadow-lg shadow-orange-500/50 ${
+          className={`absolute right-0 top-0.5 z-10 h-2.5 w-2.5 rounded-full bg-linear-to-r from-orange-400 to-orange-500 shadow-lg shadow-orange-500/50 ${
             !notifying ? "hidden" : "flex"
           }`}
         >
@@ -53,12 +53,12 @@ export default function NotificationDropdown() {
         className="absolute -right-[240px] mt-3 flex h-[520px] w-[380px] flex-col rounded-3xl border-2 border-gray-200/60 bg-white/95 backdrop-blur-xl p-4 shadow-2xl shadow-brand-500/10 dark:border-gray-800/60 dark:bg-gray-dark/95 sm:w-[400px] lg:right-0"
       >
         <div className="flex items-center justify-between pb-4 mb-4 border-b-2 border-gradient-to-r from-brand-500/10 via-brand-500/5 to-transparent">
-          <h5 className="text-xl font-bold text-transparent bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text">
+          <h5 className="text-xl font-bold text-transparent bg-linear-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text">
             Notifications
           </h5>
           <button
             onClick={toggleDropdown}
-            className="flex items-center justify-center w-8 h-8 text-gray-500 transition-all duration-300 rounded-xl hover:bg-gradient-to-br hover:from-gray-100 hover:to-gray-50 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:scale-110 active:scale-95 dark:hover:bg-gray-800/50"
+            className="flex items-center justify-center w-8 h-8 text-gray-500 transition-all duration-300 rounded-xl hover:bg-linear-to-br hover:from-gray-100 hover:to-gray-50 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:scale-110 active:scale-95 dark:hover:bg-gray-800/50"
           >
             <svg
               className="fill-current"
@@ -81,7 +81,7 @@ export default function NotificationDropdown() {
           <li>
             <DropdownItem
               onItemClick={closeDropdown}
-              className="flex gap-3.5 rounded-xl border border-gray-100 p-4 hover:bg-gradient-to-r hover:from-brand-50 hover:to-brand-100/50 hover:border-brand-200 hover:shadow-md hover:translate-x-1 transition-all duration-300 dark:border-gray-800 dark:hover:bg-gradient-to-r dark:hover:from-brand-900/20 dark:hover:to-brand-800/10 dark:hover:border-brand-700/50"
+              className="flex gap-3.5 rounded-xl border border-gray-100 p-4 hover:bg-linear-to-r hover:from-brand-50 hover:to-brand-100/50 hover:border-brand-200 hover:shadow-md hover:translate-x-1 transition-all duration-300 dark:border-gray-800 dark:hover:bg-linear-to-r dark:hover:from-brand-900/20 dark:hover:to-brand-800/10 dark:hover:border-brand-700/50"
             >
               <span className="relative block w-full h-12 rounded-full z-1 max-w-12 ring-2 ring-brand-200 ring-offset-2">
                 <img
@@ -91,7 +91,7 @@ export default function NotificationDropdown() {
                   alt="User"
                   className="w-full overflow-hidden rounded-full"
                 />
-                <span className="absolute bottom-0 right-0 z-10 h-3 w-full max-w-3 rounded-full border-2 border-white bg-gradient-to-r from-success-500 to-success-600 shadow-lg shadow-success-500/50 dark:border-gray-900"></span>
+                <span className="absolute bottom-0 right-0 z-10 h-3 w-full max-w-3 rounded-full border-2 border-white bg-linear-to-r from-success-500 to-success-600 shadow-lg shadow-success-500/50 dark:border-gray-900"></span>
               </span>
 
               <span className="flex-1 block">
@@ -117,7 +117,7 @@ export default function NotificationDropdown() {
           <li>
             <DropdownItem
               onItemClick={closeDropdown}
-              className="flex gap-3.5 rounded-xl border border-gray-100 p-4 hover:bg-gradient-to-r hover:from-brand-50 hover:to-brand-100/50 hover:border-brand-200 hover:shadow-md hover:translate-x-1 transition-all duration-300 dark:border-gray-800 dark:hover:bg-gradient-to-r dark:hover:from-brand-900/20 dark:hover:to-brand-800/10 dark:hover:border-brand-700/50"
+              className="flex gap-3.5 rounded-xl border border-gray-100 p-4 hover:bg-linear-to-r hover:from-brand-50 hover:to-brand-100/50 hover:border-brand-200 hover:shadow-md hover:translate-x-1 transition-all duration-300 dark:border-gray-800 dark:hover:bg-linear-to-r dark:hover:from-brand-900/20 dark:hover:to-brand-800/10 dark:hover:border-brand-700/50"
             >
               <span className="relative block w-full h-12 rounded-full z-1 max-w-12 ring-2 ring-brand-200 ring-offset-2">
                 <img
@@ -127,7 +127,7 @@ export default function NotificationDropdown() {
                   alt="User"
                   className="w-full overflow-hidden rounded-full"
                 />
-                <span className="absolute bottom-0 right-0 z-10 h-3 w-full max-w-3 rounded-full border-2 border-white bg-gradient-to-r from-success-500 to-success-600 shadow-lg shadow-success-500/50 dark:border-gray-900"></span>
+                <span className="absolute bottom-0 right-0 z-10 h-3 w-full max-w-3 rounded-full border-2 border-white bg-linear-to-r from-success-500 to-success-600 shadow-lg shadow-success-500/50 dark:border-gray-900"></span>
               </span>
 
               <span className="flex-1 block">
@@ -153,7 +153,7 @@ export default function NotificationDropdown() {
           <li>
             <DropdownItem
               onItemClick={closeDropdown}
-              className="flex gap-3.5 rounded-xl border border-gray-100 p-4 hover:bg-gradient-to-r hover:from-brand-50 hover:to-brand-100/50 hover:border-brand-200 hover:shadow-md hover:translate-x-1 transition-all duration-300 dark:border-gray-800 dark:hover:bg-gradient-to-r dark:hover:from-brand-900/20 dark:hover:to-brand-800/10 dark:hover:border-brand-700/50"
+              className="flex gap-3.5 rounded-xl border border-gray-100 p-4 hover:bg-linear-to-r hover:from-brand-50 hover:to-brand-100/50 hover:border-brand-200 hover:shadow-md hover:translate-x-1 transition-all duration-300 dark:border-gray-800 dark:hover:bg-linear-to-r dark:hover:from-brand-900/20 dark:hover:to-brand-800/10 dark:hover:border-brand-700/50"
             >
               <span className="relative block w-full h-12 rounded-full z-1 max-w-12 ring-2 ring-brand-200 ring-offset-2">
                 <img
@@ -163,7 +163,7 @@ export default function NotificationDropdown() {
                   alt="User"
                   className="w-full overflow-hidden rounded-full"
                 />
-                <span className="absolute bottom-0 right-0 z-10 h-3 w-full max-w-3 rounded-full border-2 border-white bg-gradient-to-r from-success-500 to-success-600 shadow-lg shadow-success-500/50 dark:border-gray-900"></span>
+                <span className="absolute bottom-0 right-0 z-10 h-3 w-full max-w-3 rounded-full border-2 border-white bg-linear-to-r from-success-500 to-success-600 shadow-lg shadow-success-500/50 dark:border-gray-900"></span>
               </span>
 
               <span className="flex-1 block">
@@ -189,7 +189,7 @@ export default function NotificationDropdown() {
           <li>
             <DropdownItem
               onItemClick={closeDropdown}
-              className="flex gap-3.5 rounded-xl border border-gray-100 p-4 hover:bg-gradient-to-r hover:from-brand-50 hover:to-brand-100/50 hover:border-brand-200 hover:shadow-md hover:translate-x-1 transition-all duration-300 dark:border-gray-800 dark:hover:bg-gradient-to-r dark:hover:from-brand-900/20 dark:hover:to-brand-800/10 dark:hover:border-brand-700/50"
+              className="flex gap-3.5 rounded-xl border border-gray-100 p-4 hover:bg-linear-to-r hover:from-brand-50 hover:to-brand-100/50 hover:border-brand-200 hover:shadow-md hover:translate-x-1 transition-all duration-300 dark:border-gray-800 dark:hover:bg-linear-to-r dark:hover:from-brand-900/20 dark:hover:to-brand-800/10 dark:hover:border-brand-700/50"
               to="/"
             >
               <span className="relative block w-full h-12 rounded-full z-1 max-w-12 ring-2 ring-brand-200 ring-offset-2">
@@ -200,7 +200,7 @@ export default function NotificationDropdown() {
                   alt="User"
                   className="w-full overflow-hidden rounded-full"
                 />
-                <span className="absolute bottom-0 right-0 z-10 h-3 w-full max-w-3 rounded-full border-2 border-white bg-gradient-to-r from-error-500 to-error-600 shadow-lg shadow-error-500/50 dark:border-gray-900"></span>
+                <span className="absolute bottom-0 right-0 z-10 h-3 w-full max-w-3 rounded-full border-2 border-white bg-linear-to-r from-error-500 to-error-600 shadow-lg shadow-error-500/50 dark:border-gray-900"></span>
               </span>
 
               <span className="flex-1 block">
@@ -225,7 +225,7 @@ export default function NotificationDropdown() {
 
           <li>
             <DropdownItem
-              className="flex gap-3.5 rounded-xl border border-gray-100 p-4 hover:bg-gradient-to-r hover:from-brand-50 hover:to-brand-100/50 hover:border-brand-200 hover:shadow-md hover:translate-x-1 transition-all duration-300 dark:border-gray-800 dark:hover:bg-gradient-to-r dark:hover:from-brand-900/20 dark:hover:to-brand-800/10 dark:hover:border-brand-700/50"
+              className="flex gap-3.5 rounded-xl border border-gray-100 p-4 hover:bg-linear-to-r hover:from-brand-50 hover:to-brand-100/50 hover:border-brand-200 hover:shadow-md hover:translate-x-1 transition-all duration-300 dark:border-gray-800 dark:hover:bg-linear-to-r dark:hover:from-brand-900/20 dark:hover:to-brand-800/10 dark:hover:border-brand-700/50"
               onItemClick={closeDropdown}
             >
               <span className="relative block w-full h-12 rounded-full z-1 max-w-12 ring-2 ring-brand-200 ring-offset-2">
@@ -236,7 +236,7 @@ export default function NotificationDropdown() {
                   alt="User"
                   className="w-full overflow-hidden rounded-full"
                 />
-                <span className="absolute bottom-0 right-0 z-10 h-3 w-full max-w-3 rounded-full border-2 border-white bg-gradient-to-r from-success-500 to-success-600 shadow-lg shadow-success-500/50 dark:border-gray-900"></span>
+                <span className="absolute bottom-0 right-0 z-10 h-3 w-full max-w-3 rounded-full border-2 border-white bg-linear-to-r from-success-500 to-success-600 shadow-lg shadow-success-500/50 dark:border-gray-900"></span>
               </span>
 
               <span className="flex-1 block">
@@ -262,7 +262,7 @@ export default function NotificationDropdown() {
           <li>
             <DropdownItem
               onItemClick={closeDropdown}
-              className="flex gap-3.5 rounded-xl border border-gray-100 p-4 hover:bg-gradient-to-r hover:from-brand-50 hover:to-brand-100/50 hover:border-brand-200 hover:shadow-md hover:translate-x-1 transition-all duration-300 dark:border-gray-800 dark:hover:bg-gradient-to-r dark:hover:from-brand-900/20 dark:hover:to-brand-800/10 dark:hover:border-brand-700/50"
+              className="flex gap-3.5 rounded-xl border border-gray-100 p-4 hover:bg-linear-to-r hover:from-brand-50 hover:to-brand-100/50 hover:border-brand-200 hover:shadow-md hover:translate-x-1 transition-all duration-300 dark:border-gray-800 dark:hover:bg-linear-to-r dark:hover:from-brand-900/20 dark:hover:to-brand-800/10 dark:hover:border-brand-700/50"
             >
               <span className="relative block w-full h-12 rounded-full z-1 max-w-12 ring-2 ring-brand-200 ring-offset-2">
                 <img
@@ -272,7 +272,7 @@ export default function NotificationDropdown() {
                   alt="User"
                   className="w-full overflow-hidden rounded-full"
                 />
-                <span className="absolute bottom-0 right-0 z-10 h-3 w-full max-w-3 rounded-full border-2 border-white bg-gradient-to-r from-success-500 to-success-600 shadow-lg shadow-success-500/50 dark:border-gray-900"></span>
+                <span className="absolute bottom-0 right-0 z-10 h-3 w-full max-w-3 rounded-full border-2 border-white bg-linear-to-r from-success-500 to-success-600 shadow-lg shadow-success-500/50 dark:border-gray-900"></span>
               </span>
 
               <span className="flex-1 block">
@@ -298,7 +298,7 @@ export default function NotificationDropdown() {
           <li>
             <DropdownItem
               onItemClick={closeDropdown}
-              className="flex gap-3.5 rounded-xl border border-gray-100 p-4 hover:bg-gradient-to-r hover:from-brand-50 hover:to-brand-100/50 hover:border-brand-200 hover:shadow-md hover:translate-x-1 transition-all duration-300 dark:border-gray-800 dark:hover:bg-gradient-to-r dark:hover:from-brand-900/20 dark:hover:to-brand-800/10 dark:hover:border-brand-700/50"
+              className="flex gap-3.5 rounded-xl border border-gray-100 p-4 hover:bg-linear-to-r hover:from-brand-50 hover:to-brand-100/50 hover:border-brand-200 hover:shadow-md hover:translate-x-1 transition-all duration-300 dark:border-gray-800 dark:hover:bg-linear-to-r dark:hover:from-brand-900/20 dark:hover:to-brand-800/10 dark:hover:border-brand-700/50"
             >
               <span className="relative block w-full h-12 rounded-full z-1 max-w-12 ring-2 ring-brand-200 ring-offset-2">
                 <img
@@ -308,7 +308,7 @@ export default function NotificationDropdown() {
                   alt="User"
                   className="w-full overflow-hidden rounded-full"
                 />
-                <span className="absolute bottom-0 right-0 z-10 h-3 w-full max-w-3 rounded-full border-2 border-white bg-gradient-to-r from-success-500 to-success-600 shadow-lg shadow-success-500/50 dark:border-gray-900"></span>
+                <span className="absolute bottom-0 right-0 z-10 h-3 w-full max-w-3 rounded-full border-2 border-white bg-linear-to-r from-success-500 to-success-600 shadow-lg shadow-success-500/50 dark:border-gray-900"></span>
               </span>
 
               <span className="flex-1 block">
@@ -334,7 +334,7 @@ export default function NotificationDropdown() {
           <li>
             <DropdownItem
               onItemClick={closeDropdown}
-              className="flex gap-3.5 rounded-xl border border-gray-100 p-4 hover:bg-gradient-to-r hover:from-brand-50 hover:to-brand-100/50 hover:border-brand-200 hover:shadow-md hover:translate-x-1 transition-all duration-300 dark:border-gray-800 dark:hover:bg-gradient-to-r dark:hover:from-brand-900/20 dark:hover:to-brand-800/10 dark:hover:border-brand-700/50"
+              className="flex gap-3.5 rounded-xl border border-gray-100 p-4 hover:bg-linear-to-r hover:from-brand-50 hover:to-brand-100/50 hover:border-brand-200 hover:shadow-md hover:translate-x-1 transition-all duration-300 dark:border-gray-800 dark:hover:bg-linear-to-r dark:hover:from-brand-900/20 dark:hover:to-brand-800/10 dark:hover:border-brand-700/50"
             >
               <span className="relative block w-full h-12 rounded-full z-1 max-w-12 ring-2 ring-brand-200 ring-offset-2">
                 <img
@@ -344,7 +344,7 @@ export default function NotificationDropdown() {
                   alt="User"
                   className="w-full overflow-hidden rounded-full"
                 />
-                <span className="absolute bottom-0 right-0 z-10 h-3 w-full max-w-3 rounded-full border-2 border-white bg-gradient-to-r from-error-500 to-error-600 shadow-lg shadow-error-500/50 dark:border-gray-900"></span>
+                <span className="absolute bottom-0 right-0 z-10 h-3 w-full max-w-3 rounded-full border-2 border-white bg-linear-to-r from-error-500 to-error-600 shadow-lg shadow-error-500/50 dark:border-gray-900"></span>
               </span>
 
               <span className="flex-1 block">
@@ -370,7 +370,7 @@ export default function NotificationDropdown() {
         </ul>
         <Link
           to="/"
-          className="block px-5 py-3.5 mt-4 text-sm font-semibold text-center text-white bg-gradient-to-r from-brand-500 to-brand-600 border-2 border-transparent rounded-xl hover:from-brand-600 hover:to-brand-700 hover:shadow-lg hover:shadow-brand-500/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 dark:from-brand-600 dark:to-brand-700 dark:hover:from-brand-500 dark:hover:to-brand-600"
+          className="block px-5 py-3.5 mt-4 text-sm font-semibold text-center text-white bg-linear-to-r from-brand-500 to-brand-600 border-2 border-transparent rounded-xl hover:from-brand-600 hover:to-brand-700 hover:shadow-lg hover:shadow-brand-500/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 dark:from-brand-600 dark:to-brand-700 dark:hover:from-brand-500 dark:hover:to-brand-600"
         >
           View All Notifications
         </Link>

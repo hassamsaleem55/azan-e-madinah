@@ -46,40 +46,41 @@ interface BookingsTableProps {
 
 const BookingsTable = memo(({ bookings, getStatusBadge, formatDate, navigate, timers }: BookingsTableProps) => {
     return (
-        <table className="min-w-full border-collapse">
-            <thead className="bg-linear-to-r from-[#1e3a5f] to-[#2d5a8f]">
+        <table className="min-w-full">
+            <thead className="bg-linear-to-r from-brand-600 via-brand-500 to-indigo-600 dark:from-brand-700 dark:via-brand-600 dark:to-indigo-700">
                 <tr>
-                    <th className="px-4 py-3 text-left text-xs font-semibold text-white border-r border-[#3d6fa8]">
+                    <th className="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">
                         Booking Details
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold text-white border-r border-[#3d6fa8]">
-                        <div className="flex items-center gap-1">
-                            <span>Group</span>
-                            <span>✈</span>
-                        </div>
+                    <th className="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">
+                        Flight & Travel Info
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold text-white border-r border-[#3d6fa8]">
-                        <div className="flex items-center gap-1">
-                            <span>Passengers</span>
-                            <span>👥</span>
-                        </div>
+                    <th className="px-6 py-4 text-center text-xs font-bold text-white uppercase tracking-wider">
+                        Passengers
                     </th>
-                    <th className="px-4 py-3 text-center text-xs font-semibold text-white border-r border-[#3d6fa8]">
+                    <th className="px-6 py-4 text-center text-xs font-bold text-white uppercase tracking-wider">
                         Price (PKR)
                     </th>
-                    <th className="px-4 py-3 text-center text-xs font-semibold text-white border-r border-[#3d6fa8]">
-                        <span>Status</span>
+                    <th className="px-6 py-4 text-center text-xs font-bold text-white uppercase tracking-wider">
+                        Status
                     </th>
-                    <th className="px-4 py-3 text-center text-xs font-semibold text-white">
-                        Action
+                    <th className="px-6 py-4 text-center text-xs font-bold text-white uppercase tracking-wider">
+                        Actions
                     </th>
                 </tr>
             </thead>
-            <tbody className="bg-white">
+            <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                 {bookings.length === 0 ? (
                     <tr>
-                        <td colSpan={6} className="px-4 py-8 text-center text-gray-500 text-sm border">
-                            No bookings found
+                        <td colSpan={6} className="px-6 py-12 text-center">
+                            <div className="flex flex-col items-center justify-center gap-3">
+                                <div className="w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                                    <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                    </svg>
+                                </div>
+                                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">No bookings found</p>
+                            </div>
                         </td>
                     </tr>
                 ) : (
@@ -88,178 +89,174 @@ const BookingsTable = memo(({ bookings, getStatusBadge, formatDate, navigate, ti
                         const userId = typeof booking.userId === 'object' ? booking.userId : null
                         const firstPassenger = booking.passengers?.[0]
                         return (
-                            <tr key={booking._id} className="border-b border-gray-300 hover:bg-blue-50/20 transition-colors">
+                            <tr key={booking._id} className="hover:bg-linear-to-r hover:from-brand-50/30 hover:to-brand-100/20 dark:hover:from-brand-900/10 dark:hover:to-brand-800/5 transition-all duration-300">
                                 {/* Booking Details */}
-                                <td className="px-4 py-4 align-top border-r border-gray-300">
-                                    <div className="space-y-1.5">
+                                <td className="px-6 py-4">
+                                    <div className="space-y-2.5">
                                         <div className="flex items-center gap-2">
-                                            <span className="inline-block bg-linear-to-r from-amber-600 to-amber-700 text-white px-3 py-1.5 rounded-md text-xs font-semibold shadow-md">
-                                                Airline PNR #: {booking.pnr || 'N/A'}
+                                            <span className="inline-flex items-center gap-1.5 bg-linear-to-r from-amber-500 to-amber-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-md shadow-amber-500/20">
+                                                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
+                                                </svg>
+                                                PNR: {booking.pnr || 'N/A'}
                                             </span>
                                         </div>
-                                        <div className="text-xs text-gray-700 leading-relaxed">
-                                            <span className="font-semibold text-gray-800">Agency:</span> {userId?.companyName || 'N/A'}
-                                        </div>
-                                        <div className="text-xs text-gray-700 leading-relaxed">
-                                            <span className="font-semibold text-gray-800">AGT #:</span>{userId?.agencyCode || 'N/A'}
-                                            <span className="mx-2 font-semibold text-gray-800">BK#:</span>{booking.bookingReference}
-                                        </div>
-                                        <div className="text-xs text-gray-600 pt-0.5">
-                                            Created: {formatDate(booking.createdAt)}
+                                        <div className="space-y-1">
+                                            <div className="flex items-center gap-2 text-sm">
+                                                <span className="font-semibold text-gray-700 dark:text-gray-300">Agency:</span>
+                                                <span className="text-gray-900 dark:text-white font-medium">{userId?.companyName || 'N/A'}</span>
+                                            </div>
+                                            <div className="flex items-center gap-3 text-xs text-gray-600 dark:text-gray-400">
+                                                <span className="flex items-center gap-1">
+                                                    <span className="font-semibold">AGT#:</span>
+                                                    <span className="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 rounded font-mono">{userId?.agencyCode || 'N/A'}</span>
+                                                </span>
+                                                <span className="flex items-center gap-1">
+                                                    <span className="font-semibold">BK#:</span>
+                                                    <span className="px-2 py-0.5 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded font-mono">{booking.bookingReference}</span>
+                                                </span>
+                                            </div>
+                                            <div className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1.5 mt-1">
+                                                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                </svg>
+                                                Created: {formatDate(booking.createdAt)}
+                                            </div>
                                         </div>
                                     </div>
                                 </td>
 
-                                {/* Group */}
-                                <td className="px-4 py-4 align-top border-r border-gray-300">
-                                    <div className="space-y-1.5">
-                                        <div className="font-bold text-sm text-gray-900">
-                                            {booking.airline?.name || 'N/A'}
+                                {/* Flight & Travel Info */}
+                                <td className="px-6 py-4">
+                                    <div className="space-y-2">
+                                        <div className="flex items-center gap-2">
+                                            {booking.airline?.logoUrl && (
+                                                <img src={booking.airline.logoUrl} alt={booking.airline.name} className="w-6 h-6 object-contain" />
+                                            )}
+                                            <span className="font-bold text-sm text-gray-900 dark:text-white">
+                                                {booking.airline?.name || 'N/A'}
+                                            </span>
                                         </div>
-                                        <div className="text-xs text-gray-700 font-medium">
-                                            {booking.sector}
+                                        <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+                                            <svg className="w-4 h-4 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            </svg>
+                                            <span className="font-semibold">{booking.sector}</span>
                                         </div>
-                                        <div className="text-xs text-gray-700">
-                                            {formatDate(booking.departureDate)}
+                                        <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
+                                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                            </svg>
+                                            Departure: {formatDate(booking.departureDate)}
                                         </div>
-                                        <div className="text-xs text-gray-600 font-medium pt-0.5">
-                                            <div className="text-xs text-gray-600 font-medium pt-0.5">
-                                                {firstPassenger
-                                                    ? `${firstPassenger.givenName} ${firstPassenger.surName}`
-                                                    : 'N/A'}{' '}
-                                                X {booking.totalPassengers || 0}
-                                            </div>
-
+                                        <div className="flex items-center gap-1.5 text-xs text-gray-600 dark:text-gray-400 mt-1">
+                                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                            </svg>
+                                            {firstPassenger
+                                                ? `${firstPassenger.givenName} ${firstPassenger.surName}`
+                                                : 'N/A'}
                                         </div>
                                     </div>
                                 </td>
 
                                 {/* Passengers */}
-                                <td className="px-4 py-4 align-top border-r border-gray-300">
-                                    <div className="inline-block w-full">
-                                        <table className="w-full text-xs border border-slate-300 rounded-lg overflow-hidden">
-                                            <thead className="bg-[#2d5a8f] text-white">
-                                                <tr>
-                                                    <th className="px-3 py-2 text-left font-semibold border-r border-slate-600">
-                                                        Status
-                                                    </th>
-                                                    <th className="px-3 py-2 text-center font-semibold border-r border-slate-600">
-                                                        Adults
-                                                    </th>
-                                                    <th className="px-3 py-2 text-center font-semibold border-r border-slate-600">
-                                                        Child
-                                                    </th>
-                                                    <th className="px-3 py-2 text-center font-semibold border-r border-slate-600">
-                                                        Infants
-                                                    </th>
-                                                    <th className="px-3 py-2 text-center font-semibold">
-                                                        Seats
-                                                    </th>
-                                                </tr>
-                                            </thead>
-
-                                            <tbody className="bg-white divide-y divide-slate-200">
-                                                {[
-                                                    { key: 'on hold', label: 'Requested', match: ['on hold', 'pending', 'cancelled'] },
-                                                    { key: 'confirmed', label: 'Confirmed', match: ['confirmed'] },
-                                                ].map(({ key, label, match }) => {
-                                                    const active = match.includes(booking.status)
-
-                                                    const adults = active ? booking.adultsCount || 0 : 0
-                                                    const children = active ? booking.childrenCount || 0 : 0
-                                                    const infants = active ? booking.infantsCount || 0 : 0
-                                                    const seats = adults + children + infants
-
-                                                    return (
-                                                        <tr
-                                                            key={key}
-                                                            className="hover:bg-slate-50 transition-colors"
-                                                        >
-                                                            <td className="px-3 py-2 font-medium text-slate-700 bg-slate-50 border-r border-slate-200">
-                                                                {label}
-                                                            </td>
-
-                                                            <td className="px-3 py-2 text-center font-semibold border-r border-slate-200">
-                                                                {adults}
-                                                            </td>
-
-                                                            <td className="px-3 py-2 text-center font-semibold border-r border-slate-200">
-                                                                {children}
-                                                            </td>
-
-                                                            <td className="px-3 py-2 text-center font-semibold border-r border-slate-200">
-                                                                {infants}
-                                                            </td>
-
-                                                            <td className="px-3 py-2 text-center font-bold text-slate-900">
-                                                                {seats}
-                                                            </td>
-                                                        </tr>
-                                                    )
-                                                })}
-                                            </tbody>
-                                        </table>
+                                <td className="px-6 py-4">
+                                    <div className="flex flex-col gap-2">
+                                        <div className="inline-flex items-center justify-center gap-2 px-4 py-3 bg-linear-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl border border-blue-200 dark:border-blue-800">
+                                            <svg className="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                            </svg>
+                                            <span className="text-2xl font-bold text-gray-900 dark:text-white">
+                                                {booking.totalPassengers || 0}
+                                            </span>
+                                        </div>
+                                        <div className="grid grid-cols-3 gap-1.5 text-xs">
+                                            <div className="flex flex-col items-center gap-1 px-2 py-1.5 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                                                <span className="text-gray-500 dark:text-gray-400 font-medium">Adults</span>
+                                                <span className="font-bold text-gray-900 dark:text-white">{booking.adultsCount || 0}</span>
+                                            </div>
+                                            <div className="flex flex-col items-center gap-1 px-2 py-1.5 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                                                <span className="text-gray-500 dark:text-gray-400 font-medium">Children</span>
+                                                <span className="font-bold text-gray-900 dark:text-white">{booking.childrenCount || 0}</span>
+                                            </div>
+                                            <div className="flex flex-col items-center gap-1 px-2 py-1.5 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                                                <span className="text-gray-500 dark:text-gray-400 font-medium">Infants</span>
+                                                <span className="font-bold text-gray-900 dark:text-white">{booking.infantsCount || 0}</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </td>
 
                                 {/* Price */}
-                                <td className={`px-4 py-4 ${(booking.status === 'on hold' || booking.status === 'pending') ? "align-bottom" : "align-middle"} text-center border-r border-gray-300`}>
-                                    <div className="font-bold text-base text-gray-900">
-                                        {(booking.status === 'on hold' || booking.status === 'pending') ? (<div className="text-xs text-yellow-700 font-semibold bg-yellow-50 px-2.5 py-1.5 rounded-md border border-yellow-300">
-                                            Admin Review<br />Required
-                                        </div>) :
-                                            `PKR ${booking.pricing?.grandTotal?.toLocaleString() || '0'}`
-                                        }
-                                    </div>
+                                <td className="px-6 py-4 text-center">
+                                    {(booking.status === 'on hold' || booking.status === 'pending') ? (
+                                        <div className="inline-flex items-center gap-2 px-3 py-2 bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-300 rounded-lg border border-yellow-300 dark:border-yellow-700">
+                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                            </svg>
+                                            <span className="text-xs font-semibold">Review Required</span>
+                                        </div>
+                                    ) : (
+                                        <div className="flex flex-col items-center gap-1">
+                                            <span className="text-lg font-bold text-gray-900 dark:text-white">
+                                                PKR {booking.pricing?.grandTotal?.toLocaleString() || '0'}
+                                            </span>
+                                            <span className="text-xs text-gray-500 dark:text-gray-400">Total Amount</span>
+                                        </div>
+                                    )}
                                 </td>
 
                                 {/* Status */}
-                                <td className="px-4 py-4 align-top border-r border-gray-300">
-                                    <div className="flex flex-col gap-2 items-center">
-                                        <span className={`inline-block px-3 py-1.5 rounded-md text-xs shadow-sm ${statusBadge.color}`}>
+                                <td className="px-6 py-4">
+                                    <div className="flex flex-col gap-3 items-center">
+                                        <span className={`inline-flex items-center px-4 py-2 rounded-xl text-xs font-bold shadow-sm ${statusBadge.color}`}>
                                             {statusBadge.label}
                                         </span>
                                         {(booking.status === 'on hold' || booking.status === 'pending') && (
-                                            <div className="flex flex-col gap-2 items-center text-xs">
-                                                <div className="font-bold text-gray-800">Booking Expiry Time</div>
-                                                {/* <div className="flex items-center gap-1.5"> */}
+                                            <div className="flex flex-col gap-2 items-center">
+                                                <div className="text-xs font-semibold text-gray-700 dark:text-gray-300">Expiry Timer</div>
                                                 {timers[booking._id] && timers[booking._id].expired ? (
-                                                    <div className="text-red-600 font-bold text-xs">EXPIRED</div>
+                                                    <div className="flex items-center gap-1.5 px-3 py-2 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded-lg border border-red-300 dark:border-red-700">
+                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                        </svg>
+                                                        <span className="text-xs font-bold">EXPIRED</span>
+                                                    </div>
                                                 ) : (
                                                     <div className="flex items-center gap-1.5">
-                                                        <div className="bg-linear-to-br from-rose-500 to-rose-600 text-white px-3 py-2 rounded-lg shadow-md text-center min-w-10">
-                                                            <div className="text-xl font-bold leading-none">
+                                                        <div className="bg-linear-to-br from-rose-500 to-rose-600 text-white px-2.5 py-2 rounded-lg shadow-md text-center min-w-[50px]">
+                                                            <div className="text-lg font-bold leading-none">
                                                                 {String(timers[booking._id]?.hours || 0).padStart(2, '0')}
                                                             </div>
-                                                            <div className="text-[9px] font-medium mt-1 opacity-90">HOURS</div>
+                                                            <div className="text-[8px] font-semibold mt-0.5 opacity-90">HRS</div>
                                                         </div>
-                                                        <div className="bg-linear-to-br from-amber-500 to-amber-600 text-white px-3 py-2 rounded-lg shadow-md text-center min-w-10">
-                                                            <div className="text-xl font-bold leading-none">
+                                                        <div className="bg-linear-to-br from-amber-500 to-amber-600 text-white px-2.5 py-2 rounded-lg shadow-md text-center min-w-[50px]">
+                                                            <div className="text-lg font-bold leading-none">
                                                                 {String(timers[booking._id]?.minutes || 0).padStart(2, '0')}
                                                             </div>
-                                                            <div className="text-[9px] font-medium mt-1 opacity-90">MINS</div>
+                                                            <div className="text-[8px] font-semibold mt-0.5 opacity-90">MIN</div>
                                                         </div>
-                                                        <div className="bg-linear-to-br from-indigo-500 to-indigo-600 text-white px-3 py-2 rounded-lg shadow-md text-center min-w-10">
-                                                            <div className="text-xl font-bold leading-none">
+                                                        <div className="bg-linear-to-br from-indigo-500 to-indigo-600 text-white px-2.5 py-2 rounded-lg shadow-md text-center min-w-[50px]">
+                                                            <div className="text-lg font-bold leading-none">
                                                                 {String(timers[booking._id]?.seconds || 0).padStart(2, '0')}
                                                             </div>
-                                                            <div className="text-[9px] font-medium mt-1 opacity-90">SECS</div>
+                                                            <div className="text-[8px] font-semibold mt-0.5 opacity-90">SEC</div>
                                                         </div>
                                                     </div>
                                                 )}
-                                                {/* </div> */}
                                             </div>
                                         )}
                                     </div>
                                 </td>
 
-                                {/* Action */}
-                                <td className="py-4 align-top">
+                                {/* Actions */}
+                                <td className="px-6 py-4">
                                     <div className="flex justify-center items-center gap-2">
-                                        {/* View Details - Available for all bookings */}
                                         <button
                                             onClick={() => navigate(`/booking-detail/${booking._id}`)}
-                                            className="p-2.5 text-slate-600 bg-slate-100 hover:bg-slate-200 hover:text-slate-700 rounded-lg transition-all shadow-sm hover:shadow-md border border-slate-200"
+                                            className="p-2.5 text-blue-600 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:text-blue-400 dark:bg-blue-900/20 dark:hover:bg-blue-900/30 rounded-lg transition-all shadow-sm hover:shadow-md border border-blue-200 dark:border-blue-800"
                                             title="View Details"
                                         >
                                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -268,24 +265,20 @@ const BookingsTable = memo(({ bookings, getStatusBadge, formatDate, navigate, ti
                                             </svg>
                                         </button>
 
-                                        {/* On Hold booking actions */}
                                         {(booking.status === 'on hold' || booking.status === 'pending' || booking.status === 'confirmed') && (
-                                            <>
-                                                <button
-                                                    onClick={() => {
-                                                        // Handle PDF download
-                                                        generateBookingPDF(booking).catch((err: any) => {
-                                                            console.error('Error generating PDF:', err)
-                                                        })
-                                                    }}
-                                                    className="p-2.5 text-slate-600 bg-slate-100 hover:bg-slate-200 hover:text-slate-700 rounded-lg transition-all shadow-sm hover:shadow-md border border-slate-200"
-                                                    title="Download PDF"
-                                                >
-                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                                    </svg>
-                                                </button>
-                                            </>
+                                            <button
+                                                onClick={() => {
+                                                    generateBookingPDF(booking).catch((err: any) => {
+                                                        console.error('Error generating PDF:', err)
+                                                    })
+                                                }}
+                                                className="p-2.5 text-green-600 bg-green-50 hover:bg-green-100 hover:text-green-700 dark:text-green-400 dark:bg-green-900/20 dark:hover:bg-green-900/30 rounded-lg transition-all shadow-sm hover:shadow-md border border-green-200 dark:border-green-800"
+                                                title="Download PDF"
+                                            >
+                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                                </svg>
+                                            </button>
                                         )}
                                     </div>
                                 </td>
@@ -467,9 +460,10 @@ export default function AllBookings() {
                     ]}
                 />
 
-                <FilterBar
-                    filters={
-                        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+                <div className="relative z-10">
+                    <FilterBar
+                        filters={
+                            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                             <FormField label="Search">
                                 <Input
                                     type="text"
@@ -528,9 +522,10 @@ export default function AllBookings() {
                     }
                     showFilters={true}
                 />
+                </div>
 
                 {/* Bookings Table */}
-                <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-visible relative">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden relative z-0">
                     {fetching && (
                         <div className="absolute inset-0 bg-white dark:bg-gray-800 bg-opacity-75 dark:bg-opacity-75 flex items-center justify-center z-10">
                             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>

@@ -90,7 +90,7 @@ export default function UserDropdown() {
               onItemClick={closeDropdown}
               tag="a"
               to="/change-password"
-              className="flex items-center gap-3 px-4 py-3 font-semibold text-gray-700 rounded-xl group text-sm hover:bg-gradient-to-r hover:from-brand-50 hover:to-brand-100/50 dark:hover:from-brand-900/20 dark:hover:to-brand-900/10 hover:text-brand-700 dark:text-gray-300 dark:hover:text-brand-300 transition-all duration-300 hover:shadow-sm"
+              className="flex items-center gap-3 px-4 py-3 font-semibold text-gray-700 rounded-xl group text-sm hover:bg-linear-to-r hover:from-brand-50 hover:to-brand-100/50 dark:hover:from-brand-900/20 dark:hover:to-brand-900/10 hover:text-brand-700 dark:text-gray-300 dark:hover:text-brand-300 transition-all duration-300 hover:shadow-sm"
             >
               <svg
                 className="fill-gray-500 group-hover:fill-brand-600 dark:fill-gray-400 dark:group-hover:fill-brand-400 transition-colors duration-300"
@@ -113,7 +113,7 @@ export default function UserDropdown() {
         </ul>
         <button
           onClick={logout}
-          className="flex items-center gap-3 px-4 py-3 mt-3 font-semibold text-error-600 dark:text-error-400 rounded-xl group text-sm hover:bg-gradient-to-r hover:from-error-50 hover:to-error-100/50 dark:hover:from-error-900/20 dark:hover:to-error-900/10 transition-all duration-300 hover:shadow-sm"
+          className="flex items-center gap-3 px-4 py-3 mt-3 font-semibold text-error-600 dark:text-error-400 rounded-xl group text-sm hover:bg-linear-to-r hover:from-error-50 hover:to-error-100/50 dark:hover:from-error-900/20 dark:hover:to-error-900/10 transition-all duration-300 hover:shadow-sm"
         >
           <svg
             className="fill-error-500 group-hover:fill-error-600 dark:fill-error-400 dark:group-hover:fill-error-300 transition-colors duration-300"

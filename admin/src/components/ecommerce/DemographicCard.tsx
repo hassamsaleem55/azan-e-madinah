@@ -36,13 +36,13 @@ export default function DemographicCard() {
           >
             <DropdownItem
               onItemClick={closeDropdown}
-              className="flex w-full font-semibold text-left text-gray-700 rounded-xl px-4 py-3 hover:bg-gradient-to-r hover:from-brand-50 hover:to-brand-100/50 hover:text-brand-600 hover:shadow-md hover:translate-x-1 dark:text-gray-300 dark:hover:from-brand-900/20 dark:hover:to-brand-800/10 dark:hover:text-brand-400 transition-all duration-300"
+              className="flex w-full font-semibold text-left text-gray-700 rounded-xl px-4 py-3 hover:bg-linear-to-r hover:from-brand-50 hover:to-brand-100/50 hover:text-brand-600 hover:shadow-md hover:translate-x-1 dark:text-gray-300 dark:hover:from-brand-900/20 dark:hover:to-brand-800/10 dark:hover:text-brand-400 transition-all duration-300"
             >
               View More
             </DropdownItem>
             <DropdownItem
               onItemClick={closeDropdown}
-              className="flex w-full font-semibold text-left text-gray-700 rounded-xl px-4 py-3 hover:bg-gradient-to-r hover:from-red-50 hover:to-red-100/50 hover:text-red-600 hover:shadow-md hover:translate-x-1 dark:text-gray-300 dark:hover:from-red-900/20 dark:hover:to-red-800/10 dark:hover:text-red-400 transition-all duration-300"
+              className="flex w-full font-semibold text-left text-gray-700 rounded-xl px-4 py-3 hover:bg-linear-to-r hover:from-red-50 hover:to-red-100/50 hover:text-red-600 hover:shadow-md hover:translate-x-1 dark:text-gray-300 dark:hover:from-red-900/20 dark:hover:to-red-800/10 dark:hover:text-red-400 transition-all duration-300"
             >
               Delete
             </DropdownItem>

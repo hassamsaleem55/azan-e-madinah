@@ -118,7 +118,7 @@ const FlightPackageForm = ({ onClose, onSuccess, editId }: FlightPackageFormProp
     return (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[1050] p-4 animate-fadeIn">
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto transform transition-all animate-slideUp">
-                <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 sticky top-0 z-10">
+                <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 sticky top-0 z-10">
                     <h2 className="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
                         <Plane className="w-6 h-6" />
                         {editId ? 'Edit Flight Package Link' : 'Link Package to Flight'}
@@ -133,7 +133,7 @@ const FlightPackageForm = ({ onClose, onSuccess, editId }: FlightPackageFormProp
 
                 <form onSubmit={handleSubmit} className="p-6 space-y-6">
                     {/* Flight and Package Selection */}
-                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                    <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                             <Plane className="w-5 h-5" />
                             Flight & Package Selection
@@ -187,7 +187,7 @@ const FlightPackageForm = ({ onClose, onSuccess, editId }: FlightPackageFormProp
                     </div>
 
                     {/* Availability & Status */}
-                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                    <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                             <PackageIcon className="w-5 h-5" />
                             Availability & Status
@@ -263,7 +263,7 @@ const FlightPackageForm = ({ onClose, onSuccess, editId }: FlightPackageFormProp
                         <button
                             type="submit"
                             disabled={loading}
-                            className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all disabled:opacity-50 flex items-center gap-2"
+                            className="px-6 py-3 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all disabled:opacity-50 flex items-center gap-2"
                         >
                             {loading ? (
                                 <>

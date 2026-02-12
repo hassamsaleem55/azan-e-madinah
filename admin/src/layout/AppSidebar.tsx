@@ -257,7 +257,7 @@ const AppSidebar: React.FC = () => {
                     : "0px",
               }}
             >
-              <ul className="mt-3 space-y-1 ml-4 bg-gradient-to-b from-brand-50/40 via-brand-50/20 to-transparent dark:from-brand-900/15 dark:via-brand-900/5 dark:to-transparent rounded-2xl p-3 border border-brand-100/60 dark:border-brand-900/30 backdrop-blur-sm shadow-inner">
+              <ul className="mt-3 space-y-1 ml-4 bg-linear-to-b from-brand-50/40 via-brand-50/20 to-transparent dark:from-brand-900/15 dark:via-brand-900/5 dark:to-transparent rounded-2xl p-3 border border-brand-100/60 dark:border-brand-900/30 backdrop-blur-sm shadow-inner">
                 {nav.subItems
                   .filter(subItem => {
                     // Filter sub-items based on permissions
@@ -272,7 +272,7 @@ const AppSidebar: React.FC = () => {
                       to={subItem.path}
                       className={`group flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
                         isActive(subItem.path)
-                          ? "bg-gradient-to-r from-brand-500 to-brand-600 text-white shadow-lg shadow-brand-500/30 scale-[1.02]"
+                          ? "bg-linear-to-r from-brand-500 to-brand-600 text-white shadow-lg shadow-brand-500/30 scale-[1.02]"
                           : "text-gray-600 dark:text-gray-400 hover:bg-white dark:hover:bg-gray-800/70 hover:text-gray-900 dark:hover:text-gray-200 hover:shadow-sm hover:translate-x-0.5"
                       }`}
                     >
@@ -287,7 +287,7 @@ const AppSidebar: React.FC = () => {
                           <span className={`px-2 py-0.5 text-[9px] font-bold rounded-md uppercase tracking-wider shadow-sm ${
                             isActive(subItem.path)
                               ? "bg-white/20 text-white backdrop-blur-sm"
-                              : "bg-gradient-to-r from-emerald-100 to-green-100 text-emerald-700 dark:from-emerald-900/40 dark:to-green-900/40 dark:text-emerald-400"
+                              : "bg-linear-to-r from-emerald-100 to-green-100 text-emerald-700 dark:from-emerald-900/40 dark:to-green-900/40 dark:text-emerald-400"
                           }`}>
                             new
                           </span>
@@ -296,7 +296,7 @@ const AppSidebar: React.FC = () => {
                           <span className={`px-2 py-0.5 text-[9px] font-bold rounded-md uppercase tracking-wider shadow-sm ${
                             isActive(subItem.path)
                               ? "bg-white/20 text-white backdrop-blur-sm"
-                              : "bg-gradient-to-r from-purple-100 to-pink-100 text-purple-700 dark:from-purple-900/40 dark:to-pink-900/40 dark:text-purple-400"
+                              : "bg-linear-to-r from-purple-100 to-pink-100 text-purple-700 dark:from-purple-900/40 dark:to-pink-900/40 dark:text-purple-400"
                           }`}>
                             pro
                           </span>
@@ -360,7 +360,7 @@ const AppSidebar: React.FC = () => {
               />
             )}
             {/* Elegant shine effect on hover */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out"></div>
+            <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out"></div>
           </div>
         </Link>
       </div>
@@ -388,7 +388,7 @@ const AppSidebar: React.FC = () => {
       </div>
       
       {/* Premium Copyright Footer */}
-      <div className={`py-5 px-2 border-t border-gray-200/50 dark:border-gray-800/50 bg-gradient-to-b from-transparent via-gray-50/30 to-gray-100/50 dark:from-transparent dark:via-gray-900/30 dark:to-gray-950/50 backdrop-blur-sm ${!isExpanded && !isHovered ? "lg:text-center" : "text-center"}`}>
+      <div className={`py-5 px-2 border-t border-gray-200/50 dark:border-gray-800/50 bg-linear-to-b from-transparent via-gray-50/30 to-gray-100/50 dark:from-transparent dark:via-gray-900/30 dark:to-gray-950/50 backdrop-blur-sm ${!isExpanded && !isHovered ? "lg:text-center" : "text-center"}`}>
         {isExpanded || isHovered || isMobileOpen ? (
           <div className="space-y-1.5 animate-fadeIn">
             <p className="text-[10px] font-semibold text-gray-600 dark:text-gray-400 tracking-wide">
@@ -398,7 +398,7 @@ const AppSidebar: React.FC = () => {
               href="https://nexagensolution.com" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-[10px] bg-gradient-to-r from-brand-600 to-brand-700 bg-clip-text text-transparent hover:from-brand-500 hover:to-brand-600 font-bold transition-all inline-flex items-center gap-1 tracking-wide"
+              className="text-[10px] bg-linear-to-r from-brand-600 to-brand-700 bg-clip-text text-transparent hover:from-brand-500 hover:to-brand-600 font-bold transition-all inline-flex items-center gap-1 tracking-wide"
             >
               Powered by Nexagen Solutions
             </a>

@@ -67,7 +67,7 @@ const RoleSwitcher = () => {
       {/* Dropdown Menu */}
       {isOpen && (
         <div className="absolute top-full mt-3 right-0 w-72 backdrop-blur-xl bg-white/95 dark:bg-gray-900/95 rounded-2xl shadow-2xl shadow-brand-500/10 dark:shadow-brand-500/5 border border-gray-200/50 dark:border-gray-700/50 z-[1000] overflow-hidden animate-scaleIn origin-top-right">
-          <div className="px-4 py-3 bg-gradient-to-r from-brand-50/50 to-transparent dark:from-brand-900/20 dark:to-transparent border-b border-gray-200/50 dark:border-gray-700/50">
+          <div className="px-4 py-3 bg-linear-to-r from-brand-50/50 to-transparent dark:from-brand-900/20 dark:to-transparent border-b border-gray-200/50 dark:border-gray-700/50">
             <p className="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
               Switch Role
             </p>
@@ -80,9 +80,9 @@ const RoleSwitcher = () => {
                 onClick={() => handleRoleSwitch(role._id)}
                 className={`
                   w-full px-3 py-3 flex items-center justify-between gap-3 rounded-xl
-                  hover:bg-gradient-to-r hover:from-brand-50 hover:to-brand-100/50 dark:hover:from-brand-900/20 dark:hover:to-brand-900/10
+                  hover:bg-linear-to-r hover:from-brand-50 hover:to-brand-100/50 dark:hover:from-brand-900/20 dark:hover:to-brand-900/10
                   transition-all duration-300 text-left hover:shadow-sm hover:translate-x-1
-                  ${activeRole?._id === role._id ? 'bg-gradient-to-r from-brand-100 to-brand-50 dark:from-brand-900/30 dark:to-brand-900/15 shadow-sm' : ''}
+                  ${activeRole?._id === role._id ? 'bg-linear-to-r from-brand-100 to-brand-50 dark:from-brand-900/30 dark:to-brand-900/15 shadow-sm' : ''}
                 `}
               >
                 <div className="flex items-center gap-3 flex-1">

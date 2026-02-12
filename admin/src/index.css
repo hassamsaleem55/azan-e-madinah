@@ -217,7 +217,7 @@ layer(base);
   }
   
   body {
-    @apply relative font-normal font-outfit bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950;
+    @apply relative font-normal font-outfit bg-linear-to-br from-gray-50 via-white to-gray-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950;
     transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
@@ -243,7 +243,7 @@ layer(base);
 }
 
 @utility menu-item-active {
-  @apply bg-gradient-to-r from-brand-50 to-brand-100/50 text-brand-600 shadow-sm dark:from-brand-500/20 dark:to-brand-500/10 dark:text-brand-400;
+  @apply bg-linear-to-r from-brand-50 to-brand-100/50 text-brand-600 shadow-sm dark:from-brand-500/20 dark:to-brand-500/10 dark:text-brand-400;
 }
 
 @utility menu-item-inactive {
@@ -285,7 +285,7 @@ layer(base);
 }
 
 @utility menu-dropdown-item-active {
-  @apply bg-gradient-to-r from-brand-50 to-brand-100/50 text-brand-600 dark:from-brand-500/20 dark:to-brand-500/10 dark:text-brand-400;
+  @apply bg-linear-to-r from-brand-50 to-brand-100/50 text-brand-600 dark:from-brand-500/20 dark:to-brand-500/10 dark:text-brand-400;
 }
 
 @utility menu-dropdown-item-inactive {
@@ -931,7 +931,7 @@ span.flatpickr-weekday,
 /* Premium Button Enhancements */
 @utility btn-premium {
   @apply relative overflow-hidden transition-all duration-300 ease-out;
-  @apply before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/10 before:to-transparent;
+  @apply before:absolute before:inset-0 before:bg-linear-to-r before:from-transparent before:via-white/10 before:to-transparent;
   @apply before:translate-x-[-200%] hover:before:translate-x-[200%] before:transition-transform before:duration-700;
 }
 
@@ -951,11 +951,11 @@ span.flatpickr-weekday,
 
 /* Gradient Text */
 @utility text-gradient {
-  @apply bg-gradient-to-r from-brand-500 to-brand-700 bg-clip-text text-transparent;
+  @apply bg-linear-to-r from-brand-500 to-brand-700 bg-clip-text text-transparent;
 }
 
 @utility text-gradient-purple {
-  @apply bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent;
+  @apply bg-linear-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent;
 }
 
 /* Loading Shimmer Effect */
@@ -981,7 +981,7 @@ span.flatpickr-weekday,
   }
 
   &::-webkit-scrollbar-thumb {
-    @apply bg-gradient-to-b from-brand-400 to-brand-600 rounded-full hover:from-brand-500 hover:to-brand-700;
+    @apply bg-linear-to-b from-brand-400 to-brand-600 rounded-full hover:from-brand-500 hover:to-brand-700;
   }
 }
 
