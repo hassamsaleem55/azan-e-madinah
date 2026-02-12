@@ -59,39 +59,40 @@ export const Modal: React.FC<ModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
-      {/* Backdrop */}
+      {/* Backdrop with premium blur */}
       <div
-        className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity animate-fadeIn"
+        className="fixed inset-0 bg-gradient-to-br from-black/70 via-black/60 to-black/70 backdrop-blur-md transition-all duration-300 animate-fadeIn"
         onClick={closeOnBackdrop ? onClose : undefined}
       />
 
       {/* Modal */}
-      <div className="flex min-h-full items-center justify-center p-4">
+      <div className="flex min-h-full items-center justify-center p-4 sm:p-6">
         <div
-          className={`relative w-full ${sizeClasses[size]} bg-white dark:bg-gray-800 rounded-2xl shadow-2xl transform transition-all max-h-[90vh] overflow-y-auto animate-slideUp`}
+          className={`relative w-full ${sizeClasses[size]} backdrop-blur-xl bg-white/95 dark:bg-gray-900/95 rounded-3xl shadow-2xl shadow-brand-500/10 dark:shadow-brand-500/5 border border-gray-200/50 dark:border-gray-700/50 transform transition-all duration-500 max-h-[90vh] overflow-hidden animate-scaleIn`}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 sticky top-0 z-10">
-            <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
+          {/* Header with gradient */}
+          <div className="flex items-center justify-between px-8 py-6 border-b border-gray-200/50 dark:border-gray-700/50 bg-gradient-to-r from-brand-50/50 via-white to-brand-50/50 dark:from-gray-800/50 dark:via-gray-900 dark:to-gray-800/50 sticky top-0 z-10 backdrop-blur-xl">
+            <h2 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
               {title}
             </h2>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-white/50 p-2 rounded-full transition-all"
+              className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 p-2.5 rounded-xl transition-all duration-300 hover:scale-110 hover:rotate-90 group"
+              aria-label="Close modal"
             >
-              <X className="w-5 h-5" />
+              <X className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
             </button>
           </div>
 
-          {/* Content */}
-          <div className="px-6 py-4">
+          {/* Content with premium scrollbar */}
+          <div className="px-8 py-6 overflow-y-auto max-h-[calc(90vh-180px)] premium-scrollbar">
             {children}
           </div>
 
-          {/* Footer */}
+          {/* Footer with gradient */}
           {footer && (
-            <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 rounded-b-2xl">
+            <div className="flex items-center justify-end gap-4 px-8 py-6 border-t border-gray-200/50 dark:border-gray-700/50 bg-gradient-to-r from-gray-50/80 via-white to-gray-50/80 dark:from-gray-800/80 dark:via-gray-900 dark:to-gray-800/80 rounded-b-3xl backdrop-blur-xl sticky bottom-0">
               {footer}
             </div>
           )}
@@ -128,7 +129,7 @@ export const ModalFooter: React.FC<ModalFooterProps> = ({
           variant="outline" 
           onClick={onCancel} 
           disabled={isSubmitting}
-          className="border-2 border-gray-300 dark:border-gray-600"
+          className="border-2 border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-md"
         >
           {cancelText}
         </Button>
@@ -137,15 +138,15 @@ export const ModalFooter: React.FC<ModalFooterProps> = ({
         <Button 
           onClick={onSubmit} 
           disabled={submitDisabled || isSubmitting}
-          className="bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl"
+          className="bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-600 hover:to-brand-700 shadow-lg shadow-brand-500/30 hover:shadow-xl hover:shadow-brand-500/40"
         >
           {isSubmitting ? (
-            <div className="flex items-center gap-2">
-              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-              <span>Saving...</span>
+            <div className="flex items-center gap-2.5">
+              <div className="animate-spin rounded-full h-5 w-5 border-2 border-white/30 border-t-white"></div>
+              <span className="font-medium">Saving...</span>
             </div>
           ) : (
-            submitText
+            <span className="font-medium">{submitText}</span>
           )}
         </Button>
       )}

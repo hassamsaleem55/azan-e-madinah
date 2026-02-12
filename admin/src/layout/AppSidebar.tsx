@@ -29,6 +29,12 @@ const navItems: NavItem[] = [
     path: "/",
     requiredPermission: "dashboard.view",
   },
+   {
+    icon: <UserCircleIcon />,
+    name: "Agencies",
+    path: "/registered-agencies",
+    requiredPermission: "agencies.view",
+  },
   {
     icon: <TableIcon />,
     name: "Bookings & Tickets",
@@ -52,12 +58,7 @@ const navItems: NavItem[] = [
       { name: "Visas", path: "/visas", pro: false, requiredPermission: "visas.view" },
     ],
   },
-  {
-    icon: <UserCircleIcon />,
-    name: "Agencies",
-    path: "/registered-agencies",
-    requiredPermission: "agencies.view",
-  },
+ 
   {
     icon: <TableIcon />,
     name: "Financial",
@@ -256,7 +257,7 @@ const AppSidebar: React.FC = () => {
                     : "0px",
               }}
             >
-              <ul className="mt-2 space-y-0.5 ml-9 bg-gray-50/50 dark:bg-gray-800/30 rounded-lg p-2">
+              <ul className="mt-3 space-y-1 ml-4 bg-gradient-to-b from-brand-50/40 via-brand-50/20 to-transparent dark:from-brand-900/15 dark:via-brand-900/5 dark:to-transparent rounded-2xl p-3 border border-brand-100/60 dark:border-brand-900/30 backdrop-blur-sm shadow-inner">
                 {nav.subItems
                   .filter(subItem => {
                     // Filter sub-items based on permissions
@@ -269,33 +270,33 @@ const AppSidebar: React.FC = () => {
                   <li key={subItem.name}>
                     <Link
                       to={subItem.path}
-                      className={`group flex items-center gap-2 px-3 py-2 rounded-md text-sm transition-all duration-200 ${
+                      className={`group flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
                         isActive(subItem.path)
-                          ? "bg-blue-600 text-white shadow-sm"
-                          : "text-gray-600 dark:text-gray-400 hover:bg-white dark:hover:bg-gray-700/50 hover:text-gray-900 dark:hover:text-gray-200"
+                          ? "bg-gradient-to-r from-brand-500 to-brand-600 text-white shadow-lg shadow-brand-500/30 scale-[1.02]"
+                          : "text-gray-600 dark:text-gray-400 hover:bg-white dark:hover:bg-gray-800/70 hover:text-gray-900 dark:hover:text-gray-200 hover:shadow-sm hover:translate-x-0.5"
                       }`}
                     >
-                      <span className={`w-1 h-1 rounded-full transition-all ${
+                      <span className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
                         isActive(subItem.path)
-                          ? "bg-white"
-                          : "bg-gray-400 dark:bg-gray-600 group-hover:bg-gray-600 dark:group-hover:bg-gray-400"
+                          ? "bg-white shadow-sm shadow-white/50"
+                          : "bg-gray-400 dark:bg-gray-600 group-hover:bg-brand-500 dark:group-hover:bg-brand-400 group-hover:shadow-sm"
                       }`}></span>
-                      <span className="flex-1">{subItem.name}</span>
-                      <span className="flex items-center gap-1">
+                      <span className="flex-1 font-medium">{subItem.name}</span>
+                      <span className="flex items-center gap-1.5">
                         {subItem.new && (
-                          <span className={`px-1.5 py-0.5 text-[9px] font-semibold rounded uppercase ${
+                          <span className={`px-2 py-0.5 text-[9px] font-bold rounded-md uppercase tracking-wider shadow-sm ${
                             isActive(subItem.path)
-                              ? "bg-white/20 text-white"
-                              : "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
+                              ? "bg-white/20 text-white backdrop-blur-sm"
+                              : "bg-gradient-to-r from-emerald-100 to-green-100 text-emerald-700 dark:from-emerald-900/40 dark:to-green-900/40 dark:text-emerald-400"
                           }`}>
                             new
                           </span>
                         )}
                         {subItem.pro && (
-                          <span className={`px-1.5 py-0.5 text-[9px] font-semibold rounded uppercase ${
+                          <span className={`px-2 py-0.5 text-[9px] font-bold rounded-md uppercase tracking-wider shadow-sm ${
                             isActive(subItem.path)
-                              ? "bg-white/20 text-white"
-                              : "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400"
+                              ? "bg-white/20 text-white backdrop-blur-sm"
+                              : "bg-gradient-to-r from-purple-100 to-pink-100 text-purple-700 dark:from-purple-900/40 dark:to-pink-900/40 dark:text-purple-400"
                           }`}>
                             pro
                           </span>
@@ -314,7 +315,7 @@ const AppSidebar: React.FC = () => {
 
   return (
     <aside
-      className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
+      className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 backdrop-blur-xl bg-white/95 dark:bg-gray-900/95 dark:border-gray-800/50 text-gray-900 h-screen transition-all duration-500 ease-out z-50 border-r border-gray-200/50 shadow-xl
         ${
           isExpanded || isMobileOpen
             ? "w-[290px]"
@@ -336,10 +337,10 @@ const AppSidebar: React.FC = () => {
           to="/" 
           className="relative group transition-all duration-300 ease-in-out"
         >
-          <div className={`p-1 relative overflow-hidden rounded-xl bg-[#C9A536] shadow-xl shadow-[#C9A536]/40 dark:from-gray-800 dark:to-gray-700 transition-all duration-300 ${
+          <div className={`p-1 relative overflow-hidden rounded-2xl bg-[#C9A536] shadow-2xl shadow-[#C9A536]/30 dark:shadow-[#C9A536]/20 transition-all duration-300 hover:shadow-[#C9A536]/50 dark:hover:shadow-[#C9A536]/30 ${
             isExpanded || isHovered || isMobileOpen 
-              ? "shadow-lg hover:shadow-xl" 
-              : "shadow-md hover:shadow-lg"
+              ? "shadow-xl hover:shadow-2xl hover:scale-105" 
+              : "shadow-lg hover:shadow-xl hover:scale-110"
           }`}>
             {isExpanded || isHovered || isMobileOpen ? (
               <img
@@ -359,16 +360,16 @@ const AppSidebar: React.FC = () => {
               />
             )}
             {/* Elegant shine effect on hover */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out"></div>
           </div>
         </Link>
       </div>
-      <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar flex-1">
+      <div className="flex flex-col overflow-y-auto duration-300 ease-linear custom-scrollbar flex-1 px-1">
         <nav className="mb-6">
           <div className="flex flex-col gap-2.5">
             <div>
               <h2
-                className={`mb-3 text-[10px] font-bold uppercase tracking-wider flex leading-[20px] text-gray-400 dark:text-gray-500 ${
+                className={`mb-4 text-[11px] font-bold uppercase tracking-widest flex leading-[20px] text-gray-500 dark:text-gray-400 ${
                   !isExpanded && !isHovered
                     ? "lg:justify-center"
                     : "justify-start"
@@ -386,24 +387,24 @@ const AppSidebar: React.FC = () => {
         </nav>
       </div>
       
-      {/* Copyright Footer */}
-      <div className={`py-4 px-2 border-t border-gray-200 dark:border-gray-800 bg-gradient-to-b from-transparent to-gray-50/50 dark:to-gray-900/50 ${!isExpanded && !isHovered ? "lg:text-center" : "text-center"}`}>
+      {/* Premium Copyright Footer */}
+      <div className={`py-5 px-2 border-t border-gray-200/50 dark:border-gray-800/50 bg-gradient-to-b from-transparent via-gray-50/30 to-gray-100/50 dark:from-transparent dark:via-gray-900/30 dark:to-gray-950/50 backdrop-blur-sm ${!isExpanded && !isHovered ? "lg:text-center" : "text-center"}`}>
         {isExpanded || isHovered || isMobileOpen ? (
-          <div className="space-y-1">
-            <p className="text-[10px] font-medium text-gray-600 dark:text-gray-400">
+          <div className="space-y-1.5 animate-fadeIn">
+            <p className="text-[10px] font-semibold text-gray-600 dark:text-gray-400 tracking-wide">
               © {new Date().getFullYear()} All rights reserved
             </p>
             <a 
               href="https://nexagensolution.com" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-[10px] text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors inline-flex items-center gap-1"
+              className="text-[10px] bg-gradient-to-r from-brand-600 to-brand-700 bg-clip-text text-transparent hover:from-brand-500 hover:to-brand-600 font-bold transition-all inline-flex items-center gap-1 tracking-wide"
             >
               Powered by Nexagen Solutions
             </a>
           </div>
         ) : (
-          <p className="text-[9px] font-semibold text-gray-500 dark:text-gray-400">
+          <p className="text-[9px] font-bold text-gray-500 dark:text-gray-400">
             © {new Date().getFullYear()}
           </p>
         )}

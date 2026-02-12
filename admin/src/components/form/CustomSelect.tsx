@@ -1,46 +1,32 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { ChevronDown, Check } from 'lucide-react';
 
-interface SelectOption {
+interface Option {
   value: string;
   label: string;
 }
 
-interface SelectProps {
-  id?: string;
-  name?: string;
-  value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  onBlur?: (e: React.FocusEvent<HTMLSelectElement>) => void;
-  options: SelectOption[];
+interface CustomSelectProps {
+  value: string;
+  onChange: (value: string) => void;
+  options: Option[];
   placeholder?: string;
-  disabled?: boolean;
-  error?: boolean;
-  success?: boolean;
   className?: string;
+  disabled?: boolean;
 }
 
-/**
- * Standard select component with custom dropdown panel and consistent styling
- */
-const Select: React.FC<SelectProps> = ({
-  id,
-  name,
-  value = '',
+export const CustomSelect: React.FC<CustomSelectProps> = ({
+  value,
   onChange,
-  onBlur,
   options,
   placeholder = 'Select an option',
-  disabled = false,
-  error = false,
-  success = false,
   className = '',
+  disabled = false,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const hiddenSelectRef = useRef<HTMLSelectElement>(null);
 
   const selectedOption = options.find(opt => opt.value === value);
 
@@ -63,13 +49,7 @@ const Select: React.FC<SelectProps> = ({
   );
 
   const handleSelect = (optionValue: string) => {
-    // Trigger the onChange event with synthetic event for backwards compatibility
-    if (onChange && hiddenSelectRef.current) {
-      hiddenSelectRef.current.value = optionValue;
-      const event = new Event('change', { bubbles: true });
-      Object.defineProperty(event, 'target', { writable: false, value: hiddenSelectRef.current });
-      onChange(event as any);
-    }
+    onChange(optionValue);
     setIsOpen(false);
     setSearchTerm('');
   };
@@ -82,60 +62,26 @@ const Select: React.FC<SelectProps> = ({
     }
   };
 
-  const baseClasses = 'h-12 w-full flex items-center justify-between appearance-none rounded-xl border-2 px-4 py-3 text-sm font-semibold shadow-sm transition-all duration-300';
-  const normalClasses = 'bg-white dark:bg-gray-900 text-gray-900 dark:text-white';
-  const hoverClasses = 'hover:border-brand-300 hover:shadow-md hover:bg-gradient-to-br hover:from-white hover:to-gray-50 dark:hover:border-brand-700 dark:hover:from-gray-900 dark:hover:to-gray-800';
-  const focusClasses = 'focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 focus:shadow-lg focus:shadow-brand-500/20 dark:focus:border-brand-400';
-  const disabledClasses = 'disabled:bg-gray-100 disabled:dark:bg-gray-800 disabled:text-gray-500 disabled:dark:text-gray-400 disabled:cursor-not-allowed disabled:opacity-60';
-  const errorClasses = error ? 'border-error-500 focus:border-error-500 focus:ring-error-500/20 focus:shadow-error-500/20' : '';
-  const successClasses = success ? 'border-success-500 focus:border-success-500 focus:ring-success-500/20 focus:shadow-success-500/20' : '';
-
-  const buttonClasses = `${baseClasses} ${normalClasses} ${!error && !success && !disabled ? hoverClasses : ''} ${disabledClasses} ${errorClasses} ${successClasses} ${
-    isOpen && !error && !success
-      ? 'border-brand-500 ring-4 ring-brand-500/10 shadow-lg shadow-brand-500/20 dark:border-brand-400'
-      : !error && !success
-      ? 'border-gray-200 dark:border-gray-700'
-      : ''
-  } ${disabled ? '' : 'cursor-pointer'} ${
-    !value ? 'text-gray-400 dark:text-gray-400' : ''
-  } ${className}`;
-
   return (
-    <div ref={containerRef} className="relative">
-      {/* Hidden native select for form compatibility */}
-      <select
-        ref={hiddenSelectRef}
-        id={id}
-        name={name}
-        value={value}
-        onBlur={onBlur}
-        disabled={disabled}
-        className="sr-only"
-        tabIndex={-1}
-        aria-hidden="true"
-      >
-        <option value="">{placeholder}</option>
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-
-      {/* Custom Select Button */}
+    <div ref={containerRef} className={`relative ${className}`}>
+      {/* Select Button */}
       <button
         type="button"
         onClick={handleToggle}
         disabled={disabled}
-        className={buttonClasses}
-        aria-haspopup="listbox"
-        aria-expanded={isOpen}
+        className={`h-12 w-full flex items-center justify-between appearance-none rounded-xl border-2 bg-white dark:bg-gray-900 px-4 py-3 text-sm font-semibold shadow-sm hover:border-brand-300 hover:shadow-md hover:bg-gradient-to-br hover:from-white hover:to-gray-50 dark:hover:border-brand-700 dark:hover:from-gray-900 dark:hover:to-gray-800 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:shadow-lg focus:shadow-brand-500/20 dark:text-white/90 transition-all duration-300 ${
+          isOpen
+            ? 'border-brand-500 ring-4 ring-brand-500/10 shadow-lg shadow-brand-500/20 dark:border-brand-400'
+            : 'border-gray-200 dark:border-gray-700'
+        } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} ${
+          !value ? 'text-gray-400 dark:text-gray-400' : 'text-gray-900 dark:text-white/90'
+        }`}
       >
         <span className="truncate">{selectedOption?.label || placeholder}</span>
         <ChevronDown
-          className={`w-5 h-5 flex-shrink-0 ml-2 transition-all duration-300 ${
-            error ? 'text-error-500' : success ? 'text-success-500' : 'text-brand-500 dark:text-brand-400'
-          } ${isOpen ? 'rotate-180' : ''}`}
+          className={`w-5 h-5 text-gray-400 dark:text-gray-500 transition-transform duration-300 flex-shrink-0 ml-2 ${
+            isOpen ? 'rotate-180' : ''
+          }`}
         />
       </button>
 
@@ -175,8 +121,6 @@ const Select: React.FC<SelectProps> = ({
                         ? 'bg-gradient-to-r from-brand-50 to-brand-100/50 text-brand-700 dark:from-brand-900/30 dark:to-brand-800/20 dark:text-brand-300 shadow-md'
                         : 'text-gray-700 dark:text-gray-300 hover:bg-gradient-to-r hover:from-brand-50/50 hover:to-brand-100/30 hover:text-brand-600 dark:hover:from-brand-900/20 dark:hover:to-brand-800/10 dark:hover:text-brand-400 hover:translate-x-1 hover:shadow-sm'
                     }`}
-                    role="option"
-                    aria-selected={isSelected}
                   >
                     <span className="truncate">{option.label}</span>
                     {isSelected && (
@@ -193,4 +137,4 @@ const Select: React.FC<SelectProps> = ({
   );
 };
 
-export default Select;
+export default CustomSelect;

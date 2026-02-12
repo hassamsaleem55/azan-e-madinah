@@ -18,6 +18,7 @@ export {
 } from './form/FormComponents';
 export { default as Input } from './form/Input';
 export { default as Select } from './form/StandardSelect';
+export { default as CustomSelect } from './form/CustomSelect';
 export { default as Textarea } from './form/Textarea';
 export { default as Checkbox } from './form/Checkbox';
 export { default as Label } from './form/Label';

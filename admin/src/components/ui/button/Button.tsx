@@ -25,32 +25,32 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   // Size Classes
   const sizeClasses = {
-    sm: "px-4 py-3 text-sm",
-    md: "px-5 py-3.5 text-sm",
+    sm: "px-5 py-3 text-sm",
+    md: "px-6 py-3.5 text-sm font-medium",
   };
 
   // Variant Classes
   const variantClasses = {
     primary:
-      "bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300",
+      "bg-gradient-to-r from-brand-500 to-brand-600 text-white shadow-lg shadow-brand-500/30 hover:shadow-xl hover:shadow-brand-500/40 hover:from-brand-600 hover:to-brand-700 active:scale-[0.98] disabled:from-brand-300 disabled:to-brand-300 disabled:shadow-none",
     outline:
-      "bg-white text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-400 dark:ring-gray-700 dark:hover:bg-white/[0.03] dark:hover:text-gray-300",
+      "bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 ring-2 ring-inset ring-gray-300 dark:ring-gray-700 hover:bg-gray-50 hover:ring-gray-400 dark:hover:bg-gray-800 dark:hover:ring-gray-600 shadow-sm hover:shadow-md active:scale-[0.98]",
   };
 
   return (
     <button
       type={type}
-      className={`inline-flex items-center justify-center gap-2 rounded-lg transition ${className} ${
+      className={`inline-flex items-center justify-center gap-2.5 rounded-xl transition-all duration-300 ${className} ${
         sizeClasses[size]
       } ${variantClasses[variant]} ${
-        disabled ? "cursor-not-allowed opacity-50" : ""
+        disabled ? "cursor-not-allowed opacity-50 hover:shadow-none" : ""
       }`}
       onClick={onClick}
       disabled={disabled}
     >
-      {startIcon && <span className="flex items-center">{startIcon}</span>}
+      {startIcon && <span className="flex items-center transition-transform group-hover:scale-110">{startIcon}</span>}
       {children}
-      {endIcon && <span className="flex items-center">{endIcon}</span>}
+      {endIcon && <span className="flex items-center transition-transform group-hover:scale-110">{endIcon}</span>}
     </button>
   );
 };

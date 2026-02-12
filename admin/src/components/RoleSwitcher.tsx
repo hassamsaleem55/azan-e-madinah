@@ -49,53 +49,56 @@ const RoleSwitcher = () => {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={`
-          flex items-center gap-2 px-4 py-2 rounded-lg border-2 transition-all
+          flex items-center gap-3 px-4 py-2.5 rounded-xl border-2 transition-all duration-300 shadow-md hover:shadow-lg
           ${getRoleColor(activeRole?.name || '')}
-          hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500
+          hover:scale-105 focus:outline-none focus:ring-4 focus:ring-brand-500/20 dark:focus:ring-brand-400/20
         `}
       >
-        {getRoleIcon(activeRole?.name || '')}
+        <div className="p-1.5 rounded-lg bg-white/50 dark:bg-black/20">
+          {getRoleIcon(activeRole?.name || '')}
+        </div>
         <div className="flex flex-col items-start">
-          <span className="text-xs font-medium opacity-70">Active Role</span>
+          <span className="text-xs font-semibold opacity-70 uppercase tracking-wide">Active Role</span>
           <span className="text-sm font-bold">{activeRole?.name || 'Select Role'}</span>
         </div>
-        <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute top-full mt-2 right-0 w-64 bg-white rounded-lg shadow-xl border border-gray-200 z-50 overflow-hidden">
-          <div className="p-2 bg-gray-50 border-b">
-            <p className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
+        <div className="absolute top-full mt-3 right-0 w-72 backdrop-blur-xl bg-white/95 dark:bg-gray-900/95 rounded-2xl shadow-2xl shadow-brand-500/10 dark:shadow-brand-500/5 border border-gray-200/50 dark:border-gray-700/50 z-50 overflow-hidden animate-scaleIn origin-top-right">
+          <div className="px-4 py-3 bg-gradient-to-r from-brand-50/50 to-transparent dark:from-brand-900/20 dark:to-transparent border-b border-gray-200/50 dark:border-gray-700/50">
+            <p className="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
               Switch Role
             </p>
           </div>
           
-          <div className="max-h-80 overflow-y-auto">
+          <div className="max-h-80 overflow-y-auto premium-scrollbar p-2">
             {availableRoles.map((role) => (
               <button
                 key={role._id}
                 onClick={() => handleRoleSwitch(role._id)}
                 className={`
-                  w-full px-4 py-3 flex items-center justify-between gap-3
-                  hover:bg-gray-50 transition-colors text-left
-                  ${activeRole?._id === role._id ? 'bg-blue-50' : ''}
+                  w-full px-3 py-3 flex items-center justify-between gap-3 rounded-xl
+                  hover:bg-gradient-to-r hover:from-brand-50 hover:to-brand-100/50 dark:hover:from-brand-900/20 dark:hover:to-brand-900/10
+                  transition-all duration-300 text-left hover:shadow-sm hover:translate-x-1
+                  ${activeRole?._id === role._id ? 'bg-gradient-to-r from-brand-100 to-brand-50 dark:from-brand-900/30 dark:to-brand-900/15 shadow-sm' : ''}
                 `}
               >
                 <div className="flex items-center gap-3 flex-1">
-                  <div className={`p-2 rounded-lg ${getRoleColor(role.name)}`}>
+                  <div className={`p-2.5 rounded-xl shadow-sm ${getRoleColor(role.name)}`}>
                     {getRoleIcon(role.name)}
                   </div>
                   <div className="flex-1">
-                    <div className="font-semibold text-sm text-gray-800">
+                    <div className="font-bold text-sm text-gray-900 dark:text-white">
                       {role.name}
                     </div>
                     {role.description && (
-                      <div className="text-xs text-gray-500 mt-0.5">
+                      <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">
                         {role.description}
                       </div>
                     )}
-                    <div className="text-xs text-gray-400 mt-1">
+                    <div className="text-xs text-gray-500 dark:text-gray-500 mt-1.5 font-medium">
                       {role.permissions?.length || 0} permissions
                     </div>
                   </div>

@@ -16,7 +16,7 @@ export const DropdownItem: React.FC<DropdownItemProps> = ({
   to,
   onClick,
   onItemClick,
-  baseClassName = "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900",
+  baseClassName = "block w-full text-left px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gradient-to-r hover:from-brand-50 hover:to-brand-100/50 dark:hover:from-brand-900/20 dark:hover:to-brand-900/10 hover:text-brand-700 dark:hover:text-brand-300 rounded-xl transition-all duration-300 hover:shadow-sm hover:translate-x-1",
   className = "",
   children,
 }) => {

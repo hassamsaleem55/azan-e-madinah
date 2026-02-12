@@ -1,6 +1,6 @@
 /**
- * Design System Constants
- * Central design tokens for consistent UI across the application
+ * Premium Design System
+ * Elegant design tokens for a sophisticated admin portal
  */
 
 // Spacing scale (in pixels, use with Tailwind classes)
@@ -13,20 +13,22 @@ export const SPACING = {
   '2xl': '2.5rem', // 40px
   '3xl': '3rem',   // 48px
   '4xl': '4rem',   // 64px
+  '5xl': '5rem',   // 80px
 } as const;
 
-// Border radius
+// Premium Border Radius
 export const BORDER_RADIUS = {
   none: '0',
-  sm: '0.25rem',   // 4px
-  md: '0.5rem',    // 8px
-  lg: '0.75rem',   // 12px
-  xl: '1rem',      // 16px
-  '2xl': '1.5rem', // 24px
+  sm: '0.375rem',   // 6px
+  md: '0.625rem',   // 10px
+  lg: '0.875rem',   // 14px
+  xl: '1.125rem',   // 18px
+  '2xl': '1.5rem',  // 24px
+  '3xl': '2rem',    // 32px
   full: '9999px',
 } as const;
 
-// Typography
+// Premium Typography
 export const TYPOGRAPHY = {
   fontSize: {
     xs: '0.75rem',     // 12px
@@ -38,45 +40,72 @@ export const TYPOGRAPHY = {
     '3xl': '1.875rem', // 30px
     '4xl': '2.25rem',  // 36px
     '5xl': '3rem',     // 48px
+    '6xl': '3.75rem',  // 60px
   },
   fontWeight: {
+    light: '300',
     normal: '400',
     medium: '500',
     semibold: '600',
     bold: '700',
+    extrabold: '800',
   },
   lineHeight: {
     tight: '1.25',
+    snug: '1.375',
     normal: '1.5',
-    relaxed: '1.75',
+    relaxed: '1.625',
+    loose: '1.75',
+  },
+  letterSpacing: {
+    tighter: '-0.05em',
+    tight: '-0.025em',
+    normal: '0',
+    wide: '0.025em',
+    wider: '0.05em',
+    widest: '0.1em',
   },
 } as const;
 
-// Shadows
+// Premium Shadows with layered depth
 export const SHADOWS = {
-  sm: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
-  md: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
-  lg: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
-  xl: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
-  '2xl': '0 25px 50px -12px rgb(0 0 0 / 0.25)',
+  sm: '0 1px 3px 0 rgb(0 0 0 / 0.08), 0 1px 2px -1px rgb(0 0 0 / 0.06)',
+  md: '0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.06)',
+  lg: '0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.06)',
+  xl: '0 20px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.06)',
+  '2xl': '0 25px 50px -12px rgb(0 0 0 / 0.2)',
+  inner: 'inset 0 2px 4px 0 rgb(0 0 0 / 0.05)',
+  glow: '0 0 20px rgb(70 95 255 / 0.15)',
+  'glow-lg': '0 0 40px rgb(70 95 255 / 0.2)',
 } as const;
 
 // Z-index layers
 export const Z_INDEX = {
+  base: 0,
   dropdown: 1000,
   sticky: 1020,
   fixed: 1030,
   modalBackdrop: 1040,
   modal: 1050,
+  offcanvas: 1055,
   popover: 1060,
   tooltip: 1070,
+  notification: 1080,
 } as const;
 
-// Animation durations
+// Premium Animation System
 export const ANIMATION = {
-  fast: '150ms',
+  fastest: '100ms',
+  fast: '200ms',
   normal: '300ms',
   slow: '500ms',
+  slowest: '700ms',
+  // Easing functions
+  easeIn: 'cubic-bezier(0.4, 0, 1, 1)',
+  easeOut: 'cubic-bezier(0, 0, 0.2, 1)',
+  easeInOut: 'cubic-bezier(0.4, 0, 0.2, 1)',
+  spring: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+  smooth: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
 } as const;
 
 // Breakpoints (matches Tailwind defaults)
@@ -88,13 +117,25 @@ export const BREAKPOINTS = {
   '2xl': '1536px',
 } as const;
 
-// Common UI patterns
+// Premium UI Patterns
 export const UI_PATTERNS = {
-  pageMaxWidth: '1440px',
-  contentMaxWidth: '1200px',
-  sidebarWidth: '280px',
-  headerHeight: '64px',
-  mobileHeaderHeight: '56px',
+  pageMaxWidth: '1600px',
+  contentMaxWidth: '1280px',
+  sidebarWidthExpanded: '280px',
+  sidebarWidthCollapsed: '80px',
+  headerHeight: '72px',
+  mobileHeaderHeight: '64px',
+  cardPadding: '1.5rem',
+  cardPaddingLarge: '2rem',
+} as const;
+
+// Glassmorphism effects
+export const GLASS = {
+  light: 'rgba(255, 255, 255, 0.7)',
+  medium: 'rgba(255, 255, 255, 0.5)',
+  dark: 'rgba(0, 0, 0, 0.3)',
+  backdrop: 'blur(12px)',
+  backdropStrong: 'blur(20px)',
 } as const;
 
 // Status colors mapping

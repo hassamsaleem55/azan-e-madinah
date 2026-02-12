@@ -51,7 +51,7 @@ const mongoIdValidation = (field = 'id') => param(field)
 // Auth validations
 export const validateRegister = [
   emailValidation,
-  passwordValidation,
+  // passwordValidation,
   nameValidation,
   body('companyName')
     .trim()

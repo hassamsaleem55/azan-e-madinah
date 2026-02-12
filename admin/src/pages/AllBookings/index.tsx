@@ -5,7 +5,7 @@ import { Calendar as CalendarIcon } from 'lucide-react'
 import DatePicker from 'react-datepicker'
 import axiosInstance from '../../Api/axios'
 import { generateBookingPDF } from '../../utils'
-import { PageMeta, PageLayout, PageHeader, FilterBar, FormField, Input, Button, LoadingState } from '../../components'
+import { PageMeta, PageLayout, PageHeader, FilterBar, FormField, Input, Button, LoadingState, CustomSelect } from '../../components'
 
 interface Booking {
     _id: string
@@ -479,32 +479,26 @@ export default function AllBookings() {
                                 />
                             </FormField>
                             <FormField label="Sector">
-                                <select
+                                <CustomSelect
                                     value={filters.sector}
-                                    onChange={(e) => handleFilterChange('sector', e.target.value)}
-                                    className="w-full h-11 px-3 border border-gray-300 dark:border-gray-700 rounded-md text-sm bg-white dark:bg-gray-900 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                >
-                                    <option value="">All Sectors</option>
-                                    {uniqueSectors.map(sector => (
-                                        <option key={sector} value={sector}>
-                                            {sector}
-                                        </option>
-                                    ))}
-                                </select>
+                                    onChange={(value) => handleFilterChange('sector', value)}
+                                    options={[
+                                        { value: '', label: 'All Sectors' },
+                                        ...uniqueSectors.map(sector => ({ value: sector, label: sector }))
+                                    ]}
+                                    placeholder="All Sectors"
+                                />
                             </FormField>
                             <FormField label="Airline">
-                                <select
+                                <CustomSelect
                                     value={filters.airline}
-                                    onChange={(e) => handleFilterChange('airline', e.target.value)}
-                                    className="w-full h-11 px-3 border border-gray-300 dark:border-gray-700 rounded-md text-sm bg-white dark:bg-gray-900 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                >
-                                    <option value="">All Airlines</option>
-                                    {uniqueAirlines.map(airline => (
-                                        <option key={airline} value={airline}>
-                                            {airline}
-                                        </option>
-                                    ))}
-                                </select>
+                                    onChange={(value) => handleFilterChange('airline', value)}
+                                    options={[
+                                        { value: '', label: 'All Airlines' },
+                                        ...uniqueAirlines.map(airline => ({ value: airline, label: airline }))
+                                    ]}
+                                    placeholder="All Airlines"
+                                />
                             </FormField>
                             <FormField label="Departure Date">
                                 <div className="relative">

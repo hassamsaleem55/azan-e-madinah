@@ -37,13 +37,14 @@ const Input: React.FC<InputProps> = ({
   readOnly = false,
   required = false,
 }) => {
-  const baseClasses = 'w-full h-11 px-4 py-2.5 text-sm rounded-lg border transition-colors';
-  const normalClasses = 'bg-white dark:bg-gray-900 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700';
-  const focusClasses = 'focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 dark:focus:border-blue-400';
-  const disabledClasses = 'disabled:bg-gray-100 disabled:dark:bg-gray-800 disabled:text-gray-500 disabled:dark:text-gray-400 disabled:cursor-not-allowed disabled:opacity-60';
+  const baseClasses = 'w-full h-12 px-4 py-3 text-sm font-medium rounded-xl border-2 transition-all duration-300';
+  const normalClasses = 'bg-white dark:bg-gray-900 text-gray-900 dark:text-white border-gray-200 dark:border-gray-700';
+  const focusClasses = 'focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 dark:focus:border-brand-400 focus:shadow-lg';
+  const disabledClasses = 'disabled:bg-gray-50 disabled:dark:bg-gray-800 disabled:text-gray-500 disabled:dark:text-gray-400 disabled:cursor-not-allowed disabled:opacity-60 disabled:border-gray-200 dark:disabled:border-gray-700';
   const placeholderClasses = 'placeholder:text-gray-400 dark:placeholder:text-gray-500';
+  const hoverClasses = 'hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-sm';
 
-  const inputClasses = `${baseClasses} ${normalClasses} ${focusClasses} ${disabledClasses} ${placeholderClasses} ${className}`;
+  const inputClasses = `${baseClasses} ${normalClasses} ${focusClasses} ${disabledClasses} ${placeholderClasses} ${hoverClasses} ${className}`;
 
   return (
     <input

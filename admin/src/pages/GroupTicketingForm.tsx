@@ -199,18 +199,32 @@ const GroupTicketingForm = () => {
     }
   };
 
-  // Custom select styles
+  // Custom select styles with premium design
   const getCustomSelectStyles = (hasError: boolean = false) => ({
     control: (provided: any, state: any) => ({
       ...provided,
       minHeight: "36px",
       height: "36px",
       fontSize: "0.75rem",
-      borderColor: hasError ? "red" : provided.borderColor,
-      boxShadow: hasError ? "0 0 0 1px red" : state.isFocused ? provided.boxShadow : "none",
-      borderRadius: ".375rem",
+      fontWeight: "600",
+      borderWidth: "2px",
+      borderColor: hasError 
+        ? "#ef4444" 
+        : state.isFocused 
+          ? "#6366f1" 
+          : state.menuIsOpen
+            ? "#6366f1"
+            : "#e5e7eb",
+      borderRadius: "0.75rem",
+      backgroundColor: "#ffffff",
+      boxShadow: state.isFocused 
+        ? "0 0 0 4px rgba(99, 102, 241, 0.1), 0 10px 15px -3px rgba(0, 0, 0, 0.1)" 
+        : "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+      transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
       "&:hover": {
-        borderColor: hasError ? "red" : provided.borderColor,
+        borderColor: hasError ? "#ef4444" : "#c7d2fe",
+        backgroundColor: "linear-gradient(to bottom right, #ffffff, #f9fafb)",
+        boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
       },
     }),
     valueContainer: (provided: any) => ({
@@ -221,10 +235,64 @@ const GroupTicketingForm = () => {
       ...provided,
       height: "36px",
     }),
+    dropdownIndicator: (provided: any, state: any) => ({
+      ...provided,
+      color: state.isFocused ? "#6366f1" : "#9ca3af",
+      transition: "all 0.2s",
+      "&:hover": {
+        color: "#6366f1",
+      },
+    }),
+    indicatorSeparator: () => ({
+      display: "none",
+    }),
     input: (provided: any) => ({
       ...provided,
       margin: "0",
       padding: "0",
+      color: "#111827",
+    }),
+    placeholder: (provided: any) => ({
+      ...provided,
+      color: "#9ca3af",
+      fontWeight: "500",
+    }),
+    singleValue: (provided: any) => ({
+      ...provided,
+      color: "#111827",
+      fontWeight: "600",
+    }),
+    menu: (provided: any) => ({
+      ...provided,
+      borderRadius: "0.75rem",
+      border: "2px solid #e5e7eb",
+      boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+      overflow: "hidden",
+      marginTop: "4px",
+    }),
+    menuList: (provided: any) => ({
+      ...provided,
+      padding: "4px",
+      maxHeight: "240px",
+    }),
+    option: (provided: any, state: any) => ({
+      ...provided,
+      fontSize: "0.75rem",
+      fontWeight: "500",
+      padding: "8px 12px",
+      borderRadius: "0.5rem",
+      backgroundColor: state.isSelected
+        ? "#6366f1"
+        : state.isFocused
+          ? "#eef2ff"
+          : "transparent",
+      color: state.isSelected ? "#ffffff" : "#111827",
+      cursor: "pointer",
+      transition: "all 0.2s",
+      "&:active": {
+        backgroundColor: "#6366f1",
+        color: "#ffffff",
+      },
     }),
     menuPortal: (provided: any) => ({
       ...provided,
@@ -624,16 +692,23 @@ const GroupTicketingForm = () => {
                       />
                     </td>
                     <td className="px-3 py-3">
-                      <select
-                        value={flight.flightClass}
-                        onChange={(e) => updateFlight(index, "flightClass", e.target.value)}
-                        className="w-full min-w-[100px] h-9 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-2 text-xs text-gray-900 dark:text-white outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
-                      >
-                        <option value="">Select</option>
-                        <option value="Economy">Economy</option>
-                        <option value="Business">Business</option>
-                        <option value="First">First</option>
-                      </select>
+                      <div className="relative">
+                        <select
+                          value={flight.flightClass}
+                          onChange={(e) => updateFlight(index, "flightClass", e.target.value)}
+                          className="w-full min-w-[110px] h-9 appearance-none rounded-lg border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-2 pr-7 text-xs font-semibold text-gray-900 dark:text-white hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-200 cursor-pointer"
+                        >
+                          <option value="" className="text-gray-500">Select</option>
+                          <option value="Economy">Economy</option>
+                          <option value="Business">Business</option>
+                          <option value="First">First</option>
+                        </select>
+                        <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-brand-500 dark:text-brand-400">
+                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </div>
+                      </div>
                     </td>
                     <td className="px-3 py-3">
                       <input
@@ -665,15 +740,22 @@ const GroupTicketingForm = () => {
                       />
                     </td>
                     <td className="px-3 py-3">
-                      <select
-                        value={flight.meal}
-                        onChange={(e) => updateFlight(index, "meal", e.target.value)}
-                        className="w-full min-w-[100px] h-9 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-2 text-xs text-gray-900 dark:text-white outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
-                      >
-                        <option value="">Select</option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                      </select>
+                      <div className="relative">
+                        <select
+                          value={flight.meal}
+                          onChange={(e) => updateFlight(index, "meal", e.target.value)}
+                          className="w-full min-w-[100px] h-9 appearance-none rounded-lg border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-2 pr-7 text-xs font-semibold text-gray-900 dark:text-white hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-200 cursor-pointer"
+                        >
+                          <option value="" className="text-gray-500">Select</option>
+                          <option value="Yes">Yes</option>
+                          <option value="No">No</option>
+                        </select>
+                        <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-brand-500 dark:text-brand-400">
+                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </div>
+                      </div>
                     </td>
                       <td className="px-3 py-3">
                         {formData.flights.length > 1 && (

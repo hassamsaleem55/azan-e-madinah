@@ -265,28 +265,42 @@ const AgentDetail = () => {
               />
             </FormRow>
             <FormRow label="Status">
-              <select
-                value={formState.status}
-                onChange={(e) => handleChange("status", e.target.value as FormState["status"])}
-                className="w-full rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
-              >
-                <option value="Active">Active</option>
-                <option value="Inactive">Inactive</option>
-                <option value="Pending">Pending</option>
-                <option value="Suspended">Suspended</option>
-              </select>
+              <div className="relative">
+                <select
+                  value={formState.status}
+                  onChange={(e) => handleChange("status", e.target.value as FormState["status"])}
+                  className="w-full h-12 appearance-none rounded-xl border-2 border-gray-200 bg-white dark:bg-gray-900 px-4 py-3 pr-10 text-sm font-semibold shadow-sm hover:border-brand-300 hover:shadow-md hover:bg-gradient-to-br hover:from-white hover:to-gray-50 dark:hover:border-brand-700 dark:hover:from-gray-900 dark:hover:to-gray-800 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:shadow-lg focus:shadow-brand-500/20 dark:border-gray-700 dark:text-white/90 dark:focus:border-brand-400 transition-all duration-300 cursor-pointer"
+                >
+                  <option value="Active">Active</option>
+                  <option value="Inactive">Inactive</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Suspended">Suspended</option>
+                </select>
+                <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-brand-500 dark:text-brand-400">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </div>
             </FormRow>
 
             <div className="grid gap-3 md:grid-cols-4">
               <FormRow label="Margin Type">
-                <select
-                  value={formState.marginType}
-                  onChange={(e) => handleChange("marginType", e.target.value as FormState["marginType"])}
-                  className="w-full rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
-                >
-                  <option value="Percentage">Percentage</option>
-                  <option value="Amount">Amount</option>
-                </select>
+                <div className="relative">
+                  <select
+                    value={formState.marginType}
+                    onChange={(e) => handleChange("marginType", e.target.value as FormState["marginType"])}
+                    className="w-full h-12 appearance-none rounded-xl border-2 border-gray-200 bg-white dark:bg-gray-900 px-4 py-3 pr-10 text-sm font-semibold shadow-sm hover:border-brand-300 hover:shadow-md hover:bg-gradient-to-br hover:from-white hover:to-gray-50 dark:hover:border-brand-700 dark:hover:from-gray-900 dark:hover:to-gray-800 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:shadow-lg focus:shadow-brand-500/20 dark:border-gray-700 dark:text-white/90 dark:focus:border-brand-400 transition-all duration-300 cursor-pointer"
+                  >
+                    <option value="Percentage">Percentage</option>
+                    <option value="Amount">Amount</option>
+                  </select>
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-brand-500 dark:text-brand-400">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </div>
               </FormRow>
               <FormRow label="Flight Margin%">
                 <input

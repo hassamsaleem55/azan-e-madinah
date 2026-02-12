@@ -396,37 +396,51 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                     Category <span className="text-red-500">*</span>
                                 </label>
-                                <select
-                                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
-                                    value={formData.category}
-                                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                                >
-                                    <option value="Economy">Economy</option>
-                                    <option value="Standard">Standard</option>
-                                    <option value="Deluxe">Deluxe</option>
-                                    <option value="Premium">Premium</option>
-                                    <option value="Luxury">Luxury</option>
-                                </select>
+                                <div className="relative">
+                                    <select
+                                        className="w-full h-12 appearance-none rounded-xl border-2 border-gray-200 bg-white dark:bg-gray-900 px-4 py-3 pr-10 text-sm font-semibold shadow-sm hover:border-brand-300 hover:shadow-md hover:bg-gradient-to-br hover:from-white hover:to-gray-50 dark:hover:border-brand-700 dark:hover:from-gray-900 dark:hover:to-gray-800 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:shadow-lg focus:shadow-brand-500/20 dark:border-gray-700 dark:text-white/90 dark:focus:border-brand-400 transition-all duration-300 cursor-pointer"
+                                        value={formData.category}
+                                        onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                                    >
+                                        <option value="Economy">Economy</option>
+                                        <option value="Standard">Standard</option>
+                                        <option value="Deluxe">Deluxe</option>
+                                        <option value="Premium">Premium</option>
+                                        <option value="Luxury">Luxury</option>
+                                    </select>
+                                    <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-brand-500 dark:text-brand-400">
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </div>
+                                </div>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                     Star Rating <span className="text-red-500">*</span>
                                 </label>
-                                <select
-                                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
-                                    value={formData.starRating}
-                                    onChange={(e) => setFormData({ ...formData, starRating: parseInt(e.target.value) })}
-                                >
-                                    <option value="1">1 Star</option>
-                                    <option value="2">2 Star</option>
-                                    <option value="3">3 Star</option>
-                                    <option value="4">4 Star</option>
-                                    <option value="5">5 Star</option>
-                                </select>
+                                <div className="relative">
+                                    <select
+                                        className="w-full h-12 appearance-none rounded-xl border-2 border-gray-200 bg-white dark:bg-gray-900 px-4 py-3 pr-10 text-sm font-semibold shadow-sm hover:border-brand-300 hover:shadow-md hover:bg-gradient-to-br hover:from-white hover:to-gray-50 dark:hover:border-brand-700 dark:hover:from-gray-900 dark:hover:to-gray-800 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:shadow-lg focus:shadow-brand-500/20 dark:border-gray-700 dark:text-white/90 dark:focus:border-brand-400 transition-all duration-300 cursor-pointer"
+                                        value={formData.starRating}
+                                        onChange={(e) => setFormData({ ...formData, starRating: parseInt(e.target.value) })}
+                                    >
+                                        <option value="1">1 Star</option>
+                                        <option value="2">2 Star</option>
+                                        <option value="3">3 Star</option>
+                                        <option value="4">4 Star</option>
+                                        <option value="5">5 Star</option>
+                                    </select>
+                                    <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-brand-500 dark:text-brand-400">
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </div>
+                                </div>
                             </div>
 
                             <div className="flex items-center pt-6">
@@ -467,20 +481,27 @@ const HotelForm = ({ onClose, onSuccess, editId }: HotelFormProps) => {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                     City <span className="text-red-500">*</span>
                                 </label>
-                                <select
-                                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
-                                    value={formData.location.city}
-                                    onChange={(e) => setFormData({
-                                        ...formData,
-                                        location: { ...formData.location, city: e.target.value }
-                                    })}
-                                >
-                                    <option value="Makkah">Makkah</option>
-                                    <option value="Madinah">Madinah</option>
-                                </select>
+                                <div className="relative">
+                                    <select
+                                        className="w-full h-12 appearance-none rounded-xl border-2 border-gray-200 bg-white dark:bg-gray-900 px-4 py-3 pr-10 text-sm font-semibold shadow-sm hover:border-brand-300 hover:shadow-md hover:bg-gradient-to-br hover:from-white hover:to-gray-50 dark:hover:border-brand-700 dark:hover:from-gray-900 dark:hover:to-gray-800 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:shadow-lg focus:shadow-brand-500/20 dark:border-gray-700 dark:text-white/90 dark:focus:border-brand-400 transition-all duration-300 cursor-pointer"
+                                        value={formData.location.city}
+                                        onChange={(e) => setFormData({
+                                            ...formData,
+                                            location: { ...formData.location, city: e.target.value }
+                                        })}
+                                    >
+                                        <option value="Makkah">Makkah</option>
+                                        <option value="Madinah">Madinah</option>
+                                    </select>
+                                    <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-brand-500 dark:text-brand-400">
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </div>
+                                </div>
                             </div>
 
                             <div>

@@ -113,17 +113,17 @@ export default function MonthlySalesChart() {
           <Dropdown
             isOpen={isOpen}
             onClose={closeDropdown}
-            className="w-40 p-2"
+            className="w-48 p-2"
           >
             <DropdownItem
               onItemClick={closeDropdown}
-              className="flex w-full font-normal text-left text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
+              className="flex w-full font-semibold text-left text-gray-700 rounded-xl px-4 py-3 hover:bg-gradient-to-r hover:from-brand-50 hover:to-brand-100/50 hover:text-brand-600 hover:shadow-md hover:translate-x-1 dark:text-gray-300 dark:hover:from-brand-900/20 dark:hover:to-brand-800/10 dark:hover:text-brand-400 transition-all duration-300"
             >
               View More
             </DropdownItem>
             <DropdownItem
               onItemClick={closeDropdown}
-              className="flex w-full font-normal text-left text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
+              className="flex w-full font-semibold text-left text-gray-700 rounded-xl px-4 py-3 hover:bg-gradient-to-r hover:from-red-50 hover:to-red-100/50 hover:text-red-600 hover:shadow-md hover:translate-x-1 dark:text-gray-300 dark:hover:from-red-900/20 dark:hover:to-red-800/10 dark:hover:text-red-400 transition-all duration-300"
             >
               Delete
             </DropdownItem>

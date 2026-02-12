@@ -22,11 +22,11 @@ export default function NotificationDropdown() {
   return (
     <div className="relative">
       <button
-        className="relative flex items-center justify-center text-gray-500 transition-colors bg-white border border-gray-200 rounded-full dropdown-toggle hover:text-gray-700 h-11 w-11 hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white"
+        className="relative flex items-center justify-center text-gray-500 transition-all duration-300 bg-white border-2 border-gray-200 rounded-full dropdown-toggle hover:text-brand-600 h-11 w-11 hover:bg-gradient-to-br hover:from-brand-50 hover:to-brand-100/50 hover:border-brand-300 hover:scale-105 hover:shadow-lg hover:shadow-brand-500/20 active:scale-95 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-brand-400 dark:hover:border-brand-700"
         onClick={handleClick}
       >
         <span
-          className={`absolute right-0 top-0.5 z-10 h-2 w-2 rounded-full bg-orange-400 ${
+          className={`absolute right-0 top-0.5 z-10 h-2.5 w-2.5 rounded-full bg-gradient-to-r from-orange-400 to-orange-500 shadow-lg shadow-orange-500/50 ${
             !notifying ? "hidden" : "flex"
           }`}
         >
@@ -50,15 +50,15 @@ export default function NotificationDropdown() {
       <Dropdown
         isOpen={isOpen}
         onClose={closeDropdown}
-        className="absolute -right-[240px] mt-[17px] flex h-[480px] w-[350px] flex-col rounded-2xl border border-gray-200 bg-white p-3 shadow-theme-lg dark:border-gray-800 dark:bg-gray-dark sm:w-[361px] lg:right-0"
+        className="absolute -right-[240px] mt-3 flex h-[520px] w-[380px] flex-col rounded-3xl border-2 border-gray-200/60 bg-white/95 backdrop-blur-xl p-4 shadow-2xl shadow-brand-500/10 dark:border-gray-800/60 dark:bg-gray-dark/95 sm:w-[400px] lg:right-0"
       >
-        <div className="flex items-center justify-between pb-3 mb-3 border-b border-gray-100 dark:border-gray-700">
-          <h5 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-            Notification
+        <div className="flex items-center justify-between pb-4 mb-4 border-b-2 border-gradient-to-r from-brand-500/10 via-brand-500/5 to-transparent">
+          <h5 className="text-xl font-bold text-transparent bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text">
+            Notifications
           </h5>
           <button
             onClick={toggleDropdown}
-            className="text-gray-500 transition dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+            className="flex items-center justify-center w-8 h-8 text-gray-500 transition-all duration-300 rounded-xl hover:bg-gradient-to-br hover:from-gray-100 hover:to-gray-50 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:scale-110 active:scale-95 dark:hover:bg-gray-800/50"
           >
             <svg
               className="fill-current"
@@ -76,38 +76,38 @@ export default function NotificationDropdown() {
             </svg>
           </button>
         </div>
-        <ul className="flex flex-col h-auto overflow-y-auto custom-scrollbar">
+        <ul className="flex flex-col h-auto overflow-y-auto premium-scrollbar space-y-2">
           {/* Example notification items */}
           <li>
             <DropdownItem
               onItemClick={closeDropdown}
-              className="flex gap-3 rounded-lg border-b border-gray-100 p-3 px-4.5 py-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-white/5"
+              className="flex gap-3.5 rounded-xl border border-gray-100 p-4 hover:bg-gradient-to-r hover:from-brand-50 hover:to-brand-100/50 hover:border-brand-200 hover:shadow-md hover:translate-x-1 transition-all duration-300 dark:border-gray-800 dark:hover:bg-gradient-to-r dark:hover:from-brand-900/20 dark:hover:to-brand-800/10 dark:hover:border-brand-700/50"
             >
-              <span className="relative block w-full h-10 rounded-full z-1 max-w-10">
+              <span className="relative block w-full h-12 rounded-full z-1 max-w-12 ring-2 ring-brand-200 ring-offset-2">
                 <img
-                  width={40}
-                  height={40}
+                  width={48}
+                  height={48}
                   src="/images/user/user-02.jpg"
                   alt="User"
                   className="w-full overflow-hidden rounded-full"
                 />
-                <span className="absolute bottom-0 right-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px] border-white bg-success-500 dark:border-gray-900"></span>
+                <span className="absolute bottom-0 right-0 z-10 h-3 w-full max-w-3 rounded-full border-2 border-white bg-gradient-to-r from-success-500 to-success-600 shadow-lg shadow-success-500/50 dark:border-gray-900"></span>
               </span>
 
-              <span className="block">
-                <span className="mb-1.5 block  text-theme-sm text-gray-500 dark:text-gray-400 space-x-1">
-                  <span className="font-medium text-gray-800 dark:text-white/90">
+              <span className="flex-1 block">
+                <span className="mb-2 block text-sm text-gray-600 dark:text-gray-400 space-x-1">
+                  <span className="font-semibold text-gray-900 dark:text-white">
                     Terry Franci
                   </span>
                   <span> requests permission to change</span>
-                  <span className="font-medium text-gray-800 dark:text-white/90">
+                  <span className="font-semibold text-brand-600 dark:text-brand-400">
                     Project - Nganter App
                   </span>
                 </span>
 
-                <span className="flex items-center gap-2 text-gray-500 text-theme-xs dark:text-gray-400">
-                  <span>Project</span>
-                  <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
+                <span className="flex items-center gap-2.5 text-gray-500 text-xs dark:text-gray-400">
+                  <span className="font-medium">Project</span>
+                  <span className="w-1.5 h-1.5 bg-gray-400 rounded-full"></span>
                   <span>5 min ago</span>
                 </span>
               </span>
@@ -117,33 +117,33 @@ export default function NotificationDropdown() {
           <li>
             <DropdownItem
               onItemClick={closeDropdown}
-              className="flex gap-3 rounded-lg border-b border-gray-100 p-3 px-4.5 py-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-white/5"
+              className="flex gap-3.5 rounded-xl border border-gray-100 p-4 hover:bg-gradient-to-r hover:from-brand-50 hover:to-brand-100/50 hover:border-brand-200 hover:shadow-md hover:translate-x-1 transition-all duration-300 dark:border-gray-800 dark:hover:bg-gradient-to-r dark:hover:from-brand-900/20 dark:hover:to-brand-800/10 dark:hover:border-brand-700/50"
             >
-              <span className="relative block w-full h-10 rounded-full z-1 max-w-10">
+              <span className="relative block w-full h-12 rounded-full z-1 max-w-12 ring-2 ring-brand-200 ring-offset-2">
                 <img
-                  width={40}
-                  height={40}
+                  width={48}
+                  height={48}
                   src="/images/user/user-03.jpg"
                   alt="User"
                   className="w-full overflow-hidden rounded-full"
                 />
-                <span className="absolute bottom-0 right-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px] border-white bg-success-500 dark:border-gray-900"></span>
+                <span className="absolute bottom-0 right-0 z-10 h-3 w-full max-w-3 rounded-full border-2 border-white bg-gradient-to-r from-success-500 to-success-600 shadow-lg shadow-success-500/50 dark:border-gray-900"></span>
               </span>
 
-              <span className="block">
-                <span className="mb-1.5 block space-x-1 text-theme-sm text-gray-500 dark:text-gray-400">
-                  <span className="font-medium text-gray-800 dark:text-white/90">
+              <span className="flex-1 block">
+                <span className="mb-2 block space-x-1 text-sm text-gray-600 dark:text-gray-400">
+                  <span className="font-semibold text-gray-900 dark:text-white">
                     Alena Franci
                   </span>
                   <span>requests permission to change</span>
-                  <span className="font-medium text-gray-800 dark:text-white/90">
+                  <span className="font-semibold text-brand-600 dark:text-brand-400">
                     Project - Nganter App
                   </span>
                 </span>
 
-                <span className="flex items-center gap-2 text-gray-500 text-theme-xs dark:text-gray-400">
-                  <span>Project</span>
-                  <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
+                <span className="flex items-center gap-2.5 text-gray-500 text-xs dark:text-gray-400">
+                  <span className="font-medium">Project</span>
+                  <span className="w-1.5 h-1.5 bg-gray-400 rounded-full"></span>
                   <span>8 min ago</span>
                 </span>
               </span>
@@ -153,33 +153,33 @@ export default function NotificationDropdown() {
           <li>
             <DropdownItem
               onItemClick={closeDropdown}
-              className="flex gap-3 rounded-lg border-b border-gray-100 p-3 px-4.5 py-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-white/5"
+              className="flex gap-3.5 rounded-xl border border-gray-100 p-4 hover:bg-gradient-to-r hover:from-brand-50 hover:to-brand-100/50 hover:border-brand-200 hover:shadow-md hover:translate-x-1 transition-all duration-300 dark:border-gray-800 dark:hover:bg-gradient-to-r dark:hover:from-brand-900/20 dark:hover:to-brand-800/10 dark:hover:border-brand-700/50"
             >
-              <span className="relative block w-full h-10 rounded-full z-1 max-w-10">
+              <span className="relative block w-full h-12 rounded-full z-1 max-w-12 ring-2 ring-brand-200 ring-offset-2">
                 <img
-                  width={40}
-                  height={40}
+                  width={48}
+                  height={48}
                   src="/images/user/user-04.jpg"
                   alt="User"
                   className="w-full overflow-hidden rounded-full"
                 />
-                <span className="absolute bottom-0 right-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px] border-white bg-success-500 dark:border-gray-900"></span>
+                <span className="absolute bottom-0 right-0 z-10 h-3 w-full max-w-3 rounded-full border-2 border-white bg-gradient-to-r from-success-500 to-success-600 shadow-lg shadow-success-500/50 dark:border-gray-900"></span>
               </span>
 
-              <span className="block">
-                <span className="mb-1.5 block space-x-1 text-theme-sm text-gray-500 dark:text-gray-400">
-                  <span className="font-medium text-gray-800 dark:text-white/90">
+              <span className="flex-1 block">
+                <span className="mb-2 block space-x-1 text-sm text-gray-600 dark:text-gray-400">
+                  <span className="font-semibold text-gray-900 dark:text-white">
                     Jocelyn Kenter
                   </span>
                   <span> requests permission to change</span>
-                  <span className="font-medium text-gray-800 dark:text-white/90">
+                  <span className="font-semibold text-brand-600 dark:text-brand-400">
                     Project - Nganter App
                   </span>
                 </span>
 
-                <span className="flex items-center gap-2 text-gray-500 text-theme-xs dark:text-gray-400">
-                  <span>Project</span>
-                  <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
+                <span className="flex items-center gap-2.5 text-gray-500 text-xs dark:text-gray-400">
+                  <span className="font-medium">Project</span>
+                  <span className="w-1.5 h-1.5 bg-gray-400 rounded-full"></span>
                   <span>15 min ago</span>
                 </span>
               </span>
@@ -189,34 +189,34 @@ export default function NotificationDropdown() {
           <li>
             <DropdownItem
               onItemClick={closeDropdown}
-              className="flex gap-3 rounded-lg border-b border-gray-100 p-3 px-4.5 py-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-white/5"
+              className="flex gap-3.5 rounded-xl border border-gray-100 p-4 hover:bg-gradient-to-r hover:from-brand-50 hover:to-brand-100/50 hover:border-brand-200 hover:shadow-md hover:translate-x-1 transition-all duration-300 dark:border-gray-800 dark:hover:bg-gradient-to-r dark:hover:from-brand-900/20 dark:hover:to-brand-800/10 dark:hover:border-brand-700/50"
               to="/"
             >
-              <span className="relative block w-full h-10 rounded-full z-1 max-w-10">
+              <span className="relative block w-full h-12 rounded-full z-1 max-w-12 ring-2 ring-brand-200 ring-offset-2">
                 <img
-                  width={40}
-                  height={40}
+                  width={48}
+                  height={48}
                   src="/images/user/user-05.jpg"
                   alt="User"
                   className="w-full overflow-hidden rounded-full"
                 />
-                <span className="absolute bottom-0 right-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px] border-white bg-error-500 dark:border-gray-900"></span>
+                <span className="absolute bottom-0 right-0 z-10 h-3 w-full max-w-3 rounded-full border-2 border-white bg-gradient-to-r from-error-500 to-error-600 shadow-lg shadow-error-500/50 dark:border-gray-900"></span>
               </span>
 
-              <span className="block">
-                <span className="mb-1.5 space-x-1 block text-theme-sm text-gray-500 dark:text-gray-400">
-                  <span className="font-medium text-gray-800 dark:text-white/90">
+              <span className="flex-1 block">
+                <span className="mb-2 space-x-1 block text-sm text-gray-600 dark:text-gray-400">
+                  <span className="font-semibold text-gray-900 dark:text-white">
                     Brandon Philips
                   </span>
                   <span>requests permission to change</span>
-                  <span className="font-medium text-gray-800 dark:text-white/90">
+                  <span className="font-semibold text-brand-600 dark:text-brand-400">
                     Project - Nganter App
                   </span>
                 </span>
 
-                <span className="flex items-center gap-2 text-gray-500 text-theme-xs dark:text-gray-400">
-                  <span>Project</span>
-                  <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
+                <span className="flex items-center gap-2.5 text-gray-500 text-xs dark:text-gray-400">
+                  <span className="font-medium">Project</span>
+                  <span className="w-1.5 h-1.5 bg-gray-400 rounded-full"></span>
                   <span>1 hr ago</span>
                 </span>
               </span>
@@ -225,34 +225,34 @@ export default function NotificationDropdown() {
 
           <li>
             <DropdownItem
-              className="flex gap-3 rounded-lg border-b border-gray-100 p-3 px-4.5 py-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-white/5"
+              className="flex gap-3.5 rounded-xl border border-gray-100 p-4 hover:bg-gradient-to-r hover:from-brand-50 hover:to-brand-100/50 hover:border-brand-200 hover:shadow-md hover:translate-x-1 transition-all duration-300 dark:border-gray-800 dark:hover:bg-gradient-to-r dark:hover:from-brand-900/20 dark:hover:to-brand-800/10 dark:hover:border-brand-700/50"
               onItemClick={closeDropdown}
             >
-              <span className="relative block w-full h-10 rounded-full z-1 max-w-10">
+              <span className="relative block w-full h-12 rounded-full z-1 max-w-12 ring-2 ring-brand-200 ring-offset-2">
                 <img
-                  width={40}
-                  height={40}
+                  width={48}
+                  height={48}
                   src="/images/user/user-02.jpg"
                   alt="User"
                   className="w-full overflow-hidden rounded-full"
                 />
-                <span className="absolute bottom-0 right-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px] border-white bg-success-500 dark:border-gray-900"></span>
+                <span className="absolute bottom-0 right-0 z-10 h-3 w-full max-w-3 rounded-full border-2 border-white bg-gradient-to-r from-success-500 to-success-600 shadow-lg shadow-success-500/50 dark:border-gray-900"></span>
               </span>
 
-              <span className="block">
-                <span className="mb-1.5 block space-x-1 text-theme-sm text-gray-500 dark:text-gray-400">
-                  <span className="font-medium text-gray-800 dark:text-white/90">
+              <span className="flex-1 block">
+                <span className="mb-2 block space-x-1 text-sm text-gray-600 dark:text-gray-400">
+                  <span className="font-semibold text-gray-900 dark:text-white">
                     Terry Franci
                   </span>
                   <span> requests permission to change</span>
-                  <span className="font-medium text-gray-800 dark:text-white/90">
+                  <span className="font-semibold text-brand-600 dark:text-brand-400">
                     Project - Nganter App
                   </span>
                 </span>
 
-                <span className="flex items-center gap-2 text-gray-500 text-theme-xs dark:text-gray-400">
-                  <span>Project</span>
-                  <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
+                <span className="flex items-center gap-2.5 text-gray-500 text-xs dark:text-gray-400">
+                  <span className="font-medium">Project</span>
+                  <span className="w-1.5 h-1.5 bg-gray-400 rounded-full"></span>
                   <span>5 min ago</span>
                 </span>
               </span>
@@ -262,33 +262,33 @@ export default function NotificationDropdown() {
           <li>
             <DropdownItem
               onItemClick={closeDropdown}
-              className="flex gap-3 rounded-lg border-b border-gray-100 p-3 px-4.5 py-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-white/5"
+              className="flex gap-3.5 rounded-xl border border-gray-100 p-4 hover:bg-gradient-to-r hover:from-brand-50 hover:to-brand-100/50 hover:border-brand-200 hover:shadow-md hover:translate-x-1 transition-all duration-300 dark:border-gray-800 dark:hover:bg-gradient-to-r dark:hover:from-brand-900/20 dark:hover:to-brand-800/10 dark:hover:border-brand-700/50"
             >
-              <span className="relative block w-full h-10 rounded-full z-1 max-w-10">
+              <span className="relative block w-full h-12 rounded-full z-1 max-w-12 ring-2 ring-brand-200 ring-offset-2">
                 <img
-                  width={40}
-                  height={40}
+                  width={48}
+                  height={48}
                   src="/images/user/user-03.jpg"
                   alt="User"
                   className="w-full overflow-hidden rounded-full"
                 />
-                <span className="absolute bottom-0 right-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px] border-white bg-success-500 dark:border-gray-900"></span>
+                <span className="absolute bottom-0 right-0 z-10 h-3 w-full max-w-3 rounded-full border-2 border-white bg-gradient-to-r from-success-500 to-success-600 shadow-lg shadow-success-500/50 dark:border-gray-900"></span>
               </span>
 
-              <span className="block">
-                <span className="mb-1.5 block space-x-1 text-theme-sm text-gray-500 dark:text-gray-400">
-                  <span className="font-medium text-gray-800 dark:text-white/90">
+              <span className="flex-1 block">
+                <span className="mb-2 block space-x-1 text-sm text-gray-600 dark:text-gray-400">
+                  <span className="font-semibold text-gray-900 dark:text-white">
                     Alena Franci
                   </span>
                   <span> requests permission to change</span>
-                  <span className="font-medium text-gray-800 dark:text-white/90">
+                  <span className="font-semibold text-brand-600 dark:text-brand-400">
                     Project - Nganter App
                   </span>
                 </span>
 
-                <span className="flex items-center gap-2 text-gray-500 text-theme-xs dark:text-gray-400">
-                  <span>Project</span>
-                  <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
+                <span className="flex items-center gap-2.5 text-gray-500 text-xs dark:text-gray-400">
+                  <span className="font-medium">Project</span>
+                  <span className="w-1.5 h-1.5 bg-gray-400 rounded-full"></span>
                   <span>8 min ago</span>
                 </span>
               </span>
@@ -298,33 +298,33 @@ export default function NotificationDropdown() {
           <li>
             <DropdownItem
               onItemClick={closeDropdown}
-              className="flex gap-3 rounded-lg border-b border-gray-100 p-3 px-4.5 py-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-white/5"
+              className="flex gap-3.5 rounded-xl border border-gray-100 p-4 hover:bg-gradient-to-r hover:from-brand-50 hover:to-brand-100/50 hover:border-brand-200 hover:shadow-md hover:translate-x-1 transition-all duration-300 dark:border-gray-800 dark:hover:bg-gradient-to-r dark:hover:from-brand-900/20 dark:hover:to-brand-800/10 dark:hover:border-brand-700/50"
             >
-              <span className="relative block w-full h-10 rounded-full z-1 max-w-10">
+              <span className="relative block w-full h-12 rounded-full z-1 max-w-12 ring-2 ring-brand-200 ring-offset-2">
                 <img
-                  width={40}
-                  height={40}
+                  width={48}
+                  height={48}
                   src="/images/user/user-04.jpg"
                   alt="User"
                   className="w-full overflow-hidden rounded-full"
                 />
-                <span className="absolute bottom-0 right-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px] border-white bg-success-500 dark:border-gray-900"></span>
+                <span className="absolute bottom-0 right-0 z-10 h-3 w-full max-w-3 rounded-full border-2 border-white bg-gradient-to-r from-success-500 to-success-600 shadow-lg shadow-success-500/50 dark:border-gray-900"></span>
               </span>
 
-              <span className="block">
-                <span className="mb-1.5 block  space-x-1 text-theme-sm text-gray-500 dark:text-gray-400">
-                  <span className="font-medium text-gray-800 dark:text-white/90">
+              <span className="flex-1 block">
+                <span className="mb-2 block  space-x-1 text-sm text-gray-600 dark:text-gray-400">
+                  <span className="font-semibold text-gray-900 dark:text-white">
                     Jocelyn Kenter
                   </span>
                   <span> requests permission to change</span>
-                  <span className="font-medium text-gray-800 dark:text-white/90">
+                  <span className="font-semibold text-brand-600 dark:text-brand-400">
                     Project - Nganter App
                   </span>
                 </span>
 
-                <span className="flex items-center gap-2 text-gray-500 text-theme-xs dark:text-gray-400">
-                  <span>Project</span>
-                  <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
+                <span className="flex items-center gap-2.5 text-gray-500 text-xs dark:text-gray-400">
+                  <span className="font-medium">Project</span>
+                  <span className="w-1.5 h-1.5 bg-gray-400 rounded-full"></span>
                   <span>15 min ago</span>
                 </span>
               </span>
@@ -334,33 +334,33 @@ export default function NotificationDropdown() {
           <li>
             <DropdownItem
               onItemClick={closeDropdown}
-              className="flex gap-3 rounded-lg border-b border-gray-100 p-3 px-4.5 py-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-white/5"
+              className="flex gap-3.5 rounded-xl border border-gray-100 p-4 hover:bg-gradient-to-r hover:from-brand-50 hover:to-brand-100/50 hover:border-brand-200 hover:shadow-md hover:translate-x-1 transition-all duration-300 dark:border-gray-800 dark:hover:bg-gradient-to-r dark:hover:from-brand-900/20 dark:hover:to-brand-800/10 dark:hover:border-brand-700/50"
             >
-              <span className="relative block w-full h-10 rounded-full z-1 max-w-10">
+              <span className="relative block w-full h-12 rounded-full z-1 max-w-12 ring-2 ring-brand-200 ring-offset-2">
                 <img
-                  width={40}
-                  height={40}
+                  width={48}
+                  height={48}
                   src="/images/user/user-05.jpg"
                   alt="User"
-                  className="overflow-hidden rounded-full"
+                  className="w-full overflow-hidden rounded-full"
                 />
-                <span className="absolute bottom-0 right-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px] border-white bg-error-500 dark:border-gray-900"></span>
+                <span className="absolute bottom-0 right-0 z-10 h-3 w-full max-w-3 rounded-full border-2 border-white bg-gradient-to-r from-error-500 to-error-600 shadow-lg shadow-error-500/50 dark:border-gray-900"></span>
               </span>
 
-              <span className="block">
-                <span className="mb-1.5 block space-x-1 text-theme-sm text-gray-500 dark:text-gray-400">
-                  <span className="font-medium text-gray-800 dark:text-white/90">
+              <span className="flex-1 block">
+                <span className="mb-2 block space-x-1 text-sm text-gray-600 dark:text-gray-400">
+                  <span className="font-semibold text-gray-900 dark:text-white">
                     Brandon Philips
                   </span>
                   <span>requests permission to change</span>
-                  <span className="font-medium text-gray-800 dark:text-white/90">
+                  <span className="font-semibold text-brand-600 dark:text-brand-400">
                     Project - Nganter App
                   </span>
                 </span>
 
-                <span className="flex items-center gap-2 text-gray-500 text-theme-xs dark:text-gray-400">
-                  <span>Project</span>
-                  <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
+                <span className="flex items-center gap-2.5 text-gray-500 text-xs dark:text-gray-400">
+                  <span className="font-medium">Project</span>
+                  <span className="w-1.5 h-1.5 bg-gray-400 rounded-full"></span>
                   <span>1 hr ago</span>
                 </span>
               </span>
@@ -370,7 +370,7 @@ export default function NotificationDropdown() {
         </ul>
         <Link
           to="/"
-          className="block px-4 py-2 mt-3 text-sm font-medium text-center text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
+          className="block px-5 py-3.5 mt-4 text-sm font-semibold text-center text-white bg-gradient-to-r from-brand-500 to-brand-600 border-2 border-transparent rounded-xl hover:from-brand-600 hover:to-brand-700 hover:shadow-lg hover:shadow-brand-500/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 dark:from-brand-600 dark:to-brand-700 dark:hover:from-brand-500 dark:hover:to-brand-600"
         >
           View All Notifications
         </Link>
