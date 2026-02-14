@@ -217,14 +217,14 @@ const GroupTicketingForm = () => {
             ? "#6366f1"
             : "#e5e7eb",
       borderRadius: "0.75rem",
-      backgroundColor: "#ffffff",
+      backgroundColor: document.documentElement.classList.contains('dark') ? "#111827" : "#ffffff",
       boxShadow: state.isFocused 
         ? "0 0 0 4px rgba(99, 102, 241, 0.1), 0 10px 15px -3px rgba(0, 0, 0, 0.1)" 
         : "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
       transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
       "&:hover": {
         borderColor: hasError ? "#ef4444" : "#c7d2fe",
-        backgroundColor: "linear-gradient(to bottom right, #ffffff, #f9fafb)",
+        backgroundColor: document.documentElement.classList.contains('dark') ? "#1f2937" : "linear-gradient(to bottom right, #ffffff, #f9fafb)",
         boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
       },
     }),
@@ -251,7 +251,7 @@ const GroupTicketingForm = () => {
       ...provided,
       margin: "0",
       padding: "0",
-      color: "#111827",
+      color: document.documentElement.classList.contains('dark') ? "#f9fafb" : "#111827",
     }),
     placeholder: (provided: any) => ({
       ...provided,
@@ -260,13 +260,14 @@ const GroupTicketingForm = () => {
     }),
     singleValue: (provided: any) => ({
       ...provided,
-      color: "#111827",
+      color: document.documentElement.classList.contains('dark') ? "#f9fafb" : "#111827",
       fontWeight: "600",
     }),
     menu: (provided: any) => ({
       ...provided,
       borderRadius: "0.75rem",
       border: "2px solid #e5e7eb",
+      backgroundColor: document.documentElement.classList.contains('dark') ? "#1f2937" : "#ffffff",
       boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
       overflow: "hidden",
       marginTop: "4px",
@@ -285,9 +286,9 @@ const GroupTicketingForm = () => {
       backgroundColor: state.isSelected
         ? "#6366f1"
         : state.isFocused
-          ? "#eef2ff"
+          ? document.documentElement.classList.contains('dark') ? "#374151" : "#eef2ff"
           : "transparent",
-      color: state.isSelected ? "#ffffff" : "#111827",
+      color: state.isSelected ? "#ffffff" : document.documentElement.classList.contains('dark') ? "#f9fafb" : "#111827",
       cursor: "pointer",
       transition: "all 0.2s",
       "&:active": {

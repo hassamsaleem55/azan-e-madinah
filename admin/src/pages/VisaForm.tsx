@@ -802,7 +802,7 @@ const VisaForm = () => {
                                                         <button
                                                             type="button"
                                                             onClick={() => setPrimaryImage(index)}
-                                                            className="px-3 py-1 bg-white text-gray-900 rounded text-sm"
+                                                            className="px-3 py-1 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded text-sm"
                                                         >
                                                             Set Primary
                                                         </button>

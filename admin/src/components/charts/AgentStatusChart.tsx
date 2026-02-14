@@ -167,7 +167,7 @@ export default function AgentStatusChart() {
   }
 
   return (
-    <div className="rounded-lg bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+    <div className="rounded-lg bg-white p-6 shadow-default dark:border-strokedark dark:bg-boxdark">
       <h4 className="text-xl font-semibold text-black dark:text-white">
         Agent Status Overview
       </h4>

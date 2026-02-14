@@ -168,7 +168,7 @@ export default function BookingDetail() {
                 {/* Header */}
                 <div className="mb-8 flex justify-between items-start">
                     <div>
-                        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Booking Details</h1>
+                        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Booking Details</h1>
                         <p className="text-gray-600 mt-1">Reference: <span className="font-semibold text-blue-600">{safeBooking.bookingReference}</span></p>
                     </div>
                     <button
@@ -217,32 +217,32 @@ export default function BookingDetail() {
                             </div>
                             <div className="p-4 sm:p-6 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                                 <div>
-                                    <label className="text-sm text-gray-600">Contact Person</label>
-                                    <p className="text-gray-900 font-medium">{(safeBooking?.passengers?.[0]?.givenName + ' ' + safeBooking?.passengers?.[0]?.surName) || 'N/A'}</p>
+                                    <label className="text-sm text-gray-600 dark:text-gray-400">Contact Person</label>
+                                    <p className="text-gray-900 dark:text-white font-medium">{(safeBooking?.passengers?.[0]?.givenName + ' ' + safeBooking?.passengers?.[0]?.surName) || 'N/A'}</p>
                                 </div>
                                 <div>
-                                    <label className="text-sm text-gray-600">Sector</label>
-                                    <p className="text-gray-900 font-medium">{safeBooking.sector}</p>
+                                    <label className="text-sm text-gray-600 dark:text-gray-400">Sector</label>
+                                    <p className="text-gray-900 dark:text-white font-medium">{safeBooking.sector}</p>
                                 </div>
                                 <div>
-                                    <label className="text-sm text-gray-600">Airline</label>
-                                    <p className="text-gray-900 font-medium">{safeBooking.airline?.name || 'N/A'}</p>
+                                    <label className="text-sm text-gray-600 dark:text-gray-400">Airline</label>
+                                    <p className="text-gray-900 dark:text-white font-medium">{safeBooking.airline?.name || 'N/A'}</p>
                                 </div>
                                 <div>
-                                    <label className="text-sm text-gray-600">PNR</label>
-                                    <p className="text-gray-900 font-medium">{safeBooking.pnr || 'N/A'}</p>
+                                    <label className="text-sm text-gray-600 dark:text-gray-400">PNR</label>
+                                    <p className="text-gray-900 dark:text-white font-medium">{safeBooking.pnr || 'N/A'}</p>
                                 </div>
                                 <div>
-                                    <label className="text-sm text-gray-600">Departure Date</label>
-                                    <p className="text-gray-900 font-medium">{formatDate(safeBooking.departureDate)}</p>
+                                    <label className="text-sm text-gray-600 dark:text-gray-400">Departure Date</label>
+                                    <p className="text-gray-900 dark:text-white font-medium">{formatDate(safeBooking.departureDate)}</p>
                                 </div>
                                 <div>
-                                    <label className="text-sm text-gray-600">Arrival Date</label>
-                                    <p className="text-gray-900 font-medium">{formatDate(safeBooking.arrivalDate)}</p>
+                                    <label className="text-sm text-gray-600 dark:text-gray-400">Arrival Date</label>
+                                    <p className="text-gray-900 dark:text-white font-medium">{formatDate(safeBooking.arrivalDate)}</p>
                                 </div>
                                 <div>
-                                    <label className="text-sm text-gray-600">Booked By (User ID)</label>
-                                    <p className="text-gray-900 font-medium text-xs">{safeBooking.userId?._id || safeBooking.userId || 'N/A'}</p>
+                                    <label className="text-sm text-gray-600 dark:text-gray-400">Booked By (User ID)</label>
+                                    <p className="text-gray-900 dark:text-white font-medium text-xs">{safeBooking.userId?._id || safeBooking.userId || 'N/A'}</p>
                                 </div>
                             </div>
                         </div>
@@ -310,9 +310,9 @@ export default function BookingDetail() {
                                         </div>
                                     </>
                                 )}
-                                <div className="border-t border-gray-200 pt-3 mt-3">
+                                <div className="border-t border-gray-200 dark:border-gray-700 pt-3 mt-3">
                                     <div className="flex justify-between items-center">
-                                        <span className="text-lg font-semibold text-gray-900">Grand Total</span>
+                                        <span className="text-lg font-semibold text-gray-900 dark:text-white">Grand Total</span>
                                         <span className="text-lg font-bold text-blue-600">PKR {(safeBooking.pricing?.grandTotal || 0).toLocaleString()}</span>
                                     </div>
                                 </div>
@@ -327,20 +327,20 @@ export default function BookingDetail() {
                                 </div>
                                 <div className="p-6">
                                     <div className="overflow-x-auto">
-                                    <table className="min-w-full divide-y divide-gray-200">
-                                        <thead className="bg-gray-50">
+                                    <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                        <thead className="bg-gray-50 dark:bg-gray-700">
                                             <tr>
-                                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">Name</th>
-                                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">Type</th>
-                                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">Passport</th>
-                                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">Passport Expiry</th>
-                                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">DOB</th>
+                                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase">Name</th>
+                                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase">Type</th>
+                                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase">Passport</th>
+                                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase">Passport Expiry</th>
+                                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase">DOB</th>
                                             </tr>
                                         </thead>
-                                        <tbody className="divide-y divide-gray-200">
+                                        <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                                             {safeBooking.passengers.map((passenger, index) => (
-                                                <tr key={index} className="hover:bg-gray-50">
-                                                    <td className="px-4 py-3 text-sm text-gray-900">{`${passenger.title}.`} {passenger.givenName} {passenger.surName}</td>
+                                                <tr key={index} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                                                    <td className="px-4 py-3 text-sm text-gray-900 dark:text-white">{`${passenger.title}.`} {passenger.givenName} {passenger.surName}</td>
                                                     <td className="px-4 py-3 text-sm">
                                                         <span className={`px-2 py-1 rounded text-xs font-medium ${passenger.type === 'Adult' ? 'bg-blue-100 text-blue-800' :
                                                             passenger.type === 'Child' ? 'bg-green-100 text-green-800' :
@@ -371,9 +371,9 @@ export default function BookingDetail() {
                                 </div>
                                 <div className="p-6 space-y-4">
                                     {safeBooking.flights.map((flight, index) => (
-                                        <div key={index} className="border border-gray-200 rounded-lg p-4">
-                                            <p className="font-semibold text-gray-900">Flight {index + 1}: {flight.flightNo}</p>
-                                            <div className="grid grid-cols-2 gap-2 mt-2 text-sm text-gray-600">
+                                        <div key={index} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                                            <p className="font-semibold text-gray-900 dark:text-white">Flight {index + 1}: {flight.flightNo}</p>
+                                            <div className="grid grid-cols-2 gap-2 mt-2 text-sm text-gray-600 dark:text-gray-400">
                                                 <div><span className="font-medium">Origin:</span> {flight.origin}</div>
                                                 <div><span className="font-medium">Destination:</span> {flight.destination}</div>
                                                 <div><span className="font-medium">Departure:</span> {formatDate(flight.depDate)} {flight.depTime}</div>
@@ -396,26 +396,26 @@ export default function BookingDetail() {
                             </div>
                             <div className="p-6 space-y-4 text-sm">
                                 <div>
-                                    <label className="text-gray-600">Reference</label>
-                                    <p className="text-gray-900 font-medium">{safeBooking.bookingReference}</p>
+                                    <label className="text-gray-600 dark:text-gray-400">Reference</label>
+                                    <p className="text-gray-900 dark:text-white font-medium">{safeBooking.bookingReference}</p>
                                 </div>
                                 <div>
-                                    <label className="text-gray-600">Status</label>
+                                    <label className="text-gray-600 dark:text-gray-400">Status</label>
                                     <p className={`font-medium px-3 py-1 rounded w-fit text-xs mt-1 ${getStatusColor(safeBooking.status)}`}>
                                         {safeBooking.status.charAt(0).toUpperCase() + safeBooking.status.slice(1)}
                                     </p>
                                 </div>
-                                <div className="border-t border-gray-200 pt-4">
-                                    <label className="text-gray-600">Total Passengers</label>
-                                    <p className="text-2xl font-bold text-gray-900">{safeBooking.totalPassengers}</p>
+                                <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
+                                    <label className="text-gray-600 dark:text-gray-400">Total Passengers</label>
+                                    <p className="text-2xl font-bold text-gray-900 dark:text-white">{safeBooking.totalPassengers}</p>
                                 </div>
-                                <div className="border-t border-gray-200 pt-4">
-                                    <label className="text-gray-600">Grand Total</label>
-                                    <p className="text-2xl font-bold text-blue-600">PKR {(safeBooking.pricing?.grandTotal || 0).toLocaleString()}</p>
+                                <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
+                                    <label className="text-gray-600 dark:text-gray-400">Grand Total</label>
+                                    <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">PKR {(safeBooking.pricing?.grandTotal || 0).toLocaleString()}</p>
                                 </div>
-                                <div className="border-t border-gray-200 pt-4">
-                                    <label className="text-gray-600">Booked on</label>
-                                    <p className="text-gray-900">{formatDate(safeBooking.createdAt)}</p>
+                                <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
+                                    <label className="text-gray-600 dark:text-gray-400">Booked on</label>
+                                    <p className="text-gray-900 dark:text-white">{formatDate(safeBooking.createdAt)}</p>
                                 </div>
                             </div>
                         </div>

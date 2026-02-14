@@ -240,7 +240,7 @@ const AgentDetail = () => {
               <input
                 value={formState.name}
                 onChange={(e) => handleChange("name", e.target.value)}
-                className="w-full rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                className="w-full rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
               />
             </FormRow>
             <FormRow label="Email">
@@ -248,21 +248,21 @@ const AgentDetail = () => {
                 type="email"
                 value={formState.email}
                 onChange={(e) => handleChange("email", e.target.value)}
-                className="w-full rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                className="w-full rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
               />
             </FormRow>
             <FormRow label="Phone No">
               <input
                 value={formState.phone}
                 onChange={(e) => handleChange("phone", e.target.value)}
-                className="w-full rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                className="w-full rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
               />
             </FormRow>
             <FormRow label="Agency Name">
               <input
                 value={formState.companyName}
                 onChange={(e) => handleChange("companyName", e.target.value)}
-                className="w-full rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                className="w-full rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
               />
             </FormRow>
             <FormRow label="Status">
@@ -319,21 +319,21 @@ const AgentDetail = () => {
               <input
                 value={formState.address}
                 onChange={(e) => handleChange("address", e.target.value)}
-                className="w-full rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                className="w-full rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
               />
             </FormRow>
             <FormRow label="City">
               <input
                 value={formState.city}
                 onChange={(e) => handleChange("city", e.target.value)}
-                className="w-full rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                className="w-full rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
               />
             </FormRow>
             <FormRow label="Country">
               <input
                 value={formState.country}
                 onChange={(e) => handleChange("country", e.target.value)}
-                className="w-full rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                className="w-full rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
               />
             </FormRow>
             <FormRow label="New Password">
@@ -370,8 +370,8 @@ const AgentDetail = () => {
 };
 
 const DetailRow = ({ label, value }: { label: string; value?: string }) => (
-  <div className="flex flex-col border-b border-gray-200 px-6 py-4 last:border-b-0 md:flex-row md:items-center">
-    <div className="w-full md:w-1/3 text-xs font-semibold uppercase tracking-wide text-gray-500">
+  <div className="flex flex-col border-b border-gray-200 dark:border-gray-700 px-6 py-4 last:border-b-0 md:flex-row md:items-center">
+    <div className="w-full md:w-1/3 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
       {label}
     </div>
     <div className="w-full md:w-2/3 text-sm text-gray-900 dark:text-white/90">{value || "-"}</div>
@@ -380,7 +380,7 @@ const DetailRow = ({ label, value }: { label: string; value?: string }) => (
 
 const FormRow = ({ label, children }: { label: string; children: ReactNode }) => (
   <div className="flex flex-col gap-2">
-    <label className="text-xs font-semibold uppercase tracking-wide text-gray-500">{label}</label>
+    <label className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">{label}</label>
     {children}
   </div>
 );

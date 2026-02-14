@@ -631,29 +631,29 @@ const TourForm = () => {
                                 <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Tour Features</h3>
                                 <div className="space-y-4">
                                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                                        <label className="flex items-center gap-2 cursor-pointer p-3 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+                                        <label className="flex items-center gap-2 cursor-pointer p-3 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
                                             <input type="checkbox" name="features.returnTickets" checked={formData.features.returnTickets} onChange={handleInputChange} className="w-4 h-4 text-brand-600 rounded" />
-                                            <span className="text-sm font-medium">Return Tickets</span>
+                                            <span className="text-sm font-medium text-gray-900 dark:text-white">Return Tickets</span>
                                         </label>
-                                        <label className="flex items-center gap-2 cursor-pointer p-3 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+                                        <label className="flex items-center gap-2 cursor-pointer p-3 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
                                             <input type="checkbox" name="features.visa" checked={formData.features.visa} onChange={handleInputChange} className="w-4 h-4 text-brand-600 rounded" />
-                                            <span className="text-sm font-medium">Visa</span>
+                                            <span className="text-sm font-medium text-gray-900 dark:text-white">Visa</span>
                                         </label>
-                                        <label className="flex items-center gap-2 cursor-pointer p-3 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+                                        <label className="flex items-center gap-2 cursor-pointer p-3 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
                                             <input type="checkbox" name="features.hotel" checked={formData.features.hotel} onChange={handleInputChange} className="w-4 h-4 text-brand-600 rounded" />
-                                            <span className="text-sm font-medium">Hotel</span>
+                                            <span className="text-sm font-medium text-gray-900 dark:text-white">Hotel</span>
                                         </label>
-                                        <label className="flex items-center gap-2 cursor-pointer p-3 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+                                        <label className="flex items-center gap-2 cursor-pointer p-3 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
                                             <input type="checkbox" name="features.transport" checked={formData.features.transport} onChange={handleInputChange} className="w-4 h-4 text-brand-600 rounded" />
-                                            <span className="text-sm font-medium">Transport</span>
+                                            <span className="text-sm font-medium text-gray-900 dark:text-white">Transport</span>
                                         </label>
-                                        <label className="flex items-center gap-2 cursor-pointer p-3 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+                                        <label className="flex items-center gap-2 cursor-pointer p-3 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
                                             <input type="checkbox" name="features.guide" checked={formData.features.guide} onChange={handleInputChange} className="w-4 h-4 text-brand-600 rounded" />
-                                            <span className="text-sm font-medium">Guide</span>
+                                            <span className="text-sm font-medium text-gray-900 dark:text-white">Guide</span>
                                         </label>
-                                        <label className="flex items-center gap-2 cursor-pointer p-3 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+                                        <label className="flex items-center gap-2 cursor-pointer p-3 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
                                             <input type="checkbox" name="features.insurance" checked={formData.features.insurance} onChange={handleInputChange} className="w-4 h-4 text-brand-600 rounded" />
-                                            <span className="text-sm font-medium">Insurance</span>
+                                            <span className="text-sm font-medium text-gray-900 dark:text-white">Insurance</span>
                                         </label>
                                     </div>
                                     <div className="grid grid-cols-2 gap-4">
@@ -735,7 +735,7 @@ const TourForm = () => {
                                                             onChange={(e) => updateItineraryDay(index, 'meals', { ...day.meals, breakfast: e.target.checked })}
                                                             className="w-4 h-4 text-brand-600 rounded"
                                                         />
-                                                        <span className="text-sm">Breakfast</span>
+                                                        <span className="text-sm text-gray-900 dark:text-white">Breakfast</span>
                                                     </label>
                                                     <label className="flex items-center gap-2">
                                                         <input
@@ -744,7 +744,7 @@ const TourForm = () => {
                                                             onChange={(e) => updateItineraryDay(index, 'meals', { ...day.meals, lunch: e.target.checked })}
                                                             className="w-4 h-4 text-brand-600 rounded"
                                                         />
-                                                        <span className="text-sm">Lunch</span>
+                                                        <span className="text-sm text-gray-900 dark:text-white">Lunch</span>
                                                     </label>
                                                     <label className="flex items-center gap-2">
                                                         <input
@@ -753,7 +753,7 @@ const TourForm = () => {
                                                             onChange={(e) => updateItineraryDay(index, 'meals', { ...day.meals, dinner: e.target.checked })}
                                                             className="w-4 h-4 text-brand-600 rounded"
                                                         />
-                                                        <span className="text-sm">Dinner</span>
+                                                        <span className="text-sm text-gray-900 dark:text-white">Dinner</span>
                                                     </label>
                                                 </div>
                                             </div>
@@ -893,7 +893,7 @@ const TourForm = () => {
                                                         <button
                                                             type="button"
                                                             onClick={() => setPrimaryImage(index)}
-                                                            className="px-3 py-1 bg-white text-gray-900 rounded text-sm"
+                                                            className="px-3 py-1 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded text-sm"
                                                         >
                                                             Set Primary
                                                         </button>

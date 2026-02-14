@@ -317,8 +317,8 @@ const RegisteredAgencies = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
         <div className="bg-linear-to-br from-emerald-400 to-teal-500 rounded-xl shadow-lg p-4 sm:p-6 text-white">
           <div className="flex items-center gap-3 sm:gap-4">
-            <div className="bg-white/90 rounded-full p-2 sm:p-3 shadow-md">
-              <UserCheck className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-500" />
+            <div className="bg-white/90 dark:bg-gray-800/90 rounded-full p-2 sm:p-3 shadow-md">
+              <UserCheck className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-500 dark:text-emerald-400" />
             </div>
             <div>
               <div className="text-xs sm:text-sm font-semibold tracking-wide">Active Agents</div>
@@ -329,8 +329,8 @@ const RegisteredAgencies = () => {
 
         <div className="bg-linear-to-br from-yellow-400 to-orange-500 rounded-xl shadow-lg p-4 sm:p-6 text-white">
           <div className="flex items-center gap-3 sm:gap-4">
-            <div className="bg-white/90 rounded-full p-2 sm:p-3 shadow-md">
-              <Clock className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-600" />
+            <div className="bg-white/90 dark:bg-gray-800/90 rounded-full p-2 sm:p-3 shadow-md">
+              <Clock className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-600 dark:text-yellow-400" />
             </div>
             <div>
               <div className="text-xs sm:text-sm font-semibold tracking-wide">Pending Agents</div>
@@ -341,8 +341,8 @@ const RegisteredAgencies = () => {
 
         <div className="bg-linear-to-br from-gray-400 to-slate-500 rounded-xl shadow-lg p-4 sm:p-6 text-white">
           <div className="flex items-center gap-3 sm:gap-4">
-            <div className="bg-white/90 rounded-full p-2 sm:p-3 shadow-md">
-              <UserX className="w-6 h-6 sm:w-8 sm:h-8 text-gray-600" />
+            <div className="bg-white/90 dark:bg-gray-800/90 rounded-full p-2 sm:p-3 shadow-md">
+              <UserX className="w-6 h-6 sm:w-8 sm:h-8 text-gray-600 dark:text-gray-400" />
             </div>
             <div>
               <div className="text-xs sm:text-sm font-semibold tracking-wide">Inactive Agents</div>
@@ -457,60 +457,60 @@ const RegisteredAgencies = () => {
             </div>
           ) : (
             <table className="w-full">
-              <thead className="bg-gray-50 border-b">
+              <thead className="bg-gray-50 dark:bg-gray-700 border-b dark:border-gray-600">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     #
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     User Details
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     Agency
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     Location
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     Margin
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     Credit
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     Status
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                 {filteredUsers.slice(0, entriesPerPage).map((user, index) => (
-                  <tr key={user._id} className="hover:bg-gray-50">
+                  <tr key={user._id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">{index + 1}</div>
+                      <div className="text-sm font-medium text-gray-900 dark:text-white">{index + 1}</div>
                       <div className="text-xs text-gray-500">
                         Code: {user.agencyCode || "N/A"}
                       </div>
                     </td>
 
                     <td className="px-6 py-4">
-                      <div className="text-sm font-medium text-gray-900">{user.name}</div>
-                      <div className="text-sm text-gray-500">{user.phone}</div>
-                      <div className="text-xs text-gray-400">{user.email}</div>
+                      <div className="text-sm font-medium text-gray-900 dark:text-white">{user.name}</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">{user.phone}</div>
+                      <div className="text-xs text-gray-400 dark:text-gray-500">{user.email}</div>
                     </td>
 
                     <td className="px-6 py-4">
-                      <div className="text-sm text-gray-900">{user.companyName || "N/A"}</div>
+                      <div className="text-sm text-gray-900 dark:text-white">{user.companyName || "N/A"}</div>
                     </td>
 
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{user.city || "N/A"}</div>
+                      <div className="text-sm text-gray-900 dark:text-white">{user.city || "N/A"}</div>
                     </td>
 
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">{formatMargin(user)}</div>
+                      <div className="text-sm font-medium text-gray-900 dark:text-white">{formatMargin(user)}</div>
                     </td>
 
                     <td className="px-6 py-4 whitespace-nowrap">
