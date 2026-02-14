@@ -23,13 +23,13 @@ const VisaForm = () => {
         country: {
             name: '',
             code: '',
-            flagUrl: ''
+            flagUrl: '' as string | undefined
         },
         visaType: 'Tourist',
         entryType: 'Single Entry',
         processingTime: {
             min: 1,
-            max: 0,
+            max: 0 as number | undefined,
             unit: 'Days'
         },
         validityDuration: {
@@ -38,8 +38,8 @@ const VisaForm = () => {
         },
         pricing: {
             adult: 0,
-            child: 0,
-            currency: 'PKR'
+            child: 0 as number | undefined,
+            currency: 'PKR' as string | undefined
         },
         status: 'Active',
         processingStatus: 'Open',
@@ -70,12 +70,12 @@ const VisaForm = () => {
             const visa: Visa = response.data.data || response.data.visa;
 
             setFormData({
-                country: visa.country || { name: '', code: '', flagUrl: '' },
+                country: visa.country ? { ...visa.country, flagUrl: visa.country.flagUrl || '' } : { name: '', code: '', flagUrl: '' },
                 visaType: visa.visaType || 'Tourist',
                 entryType: visa.entryType || 'Single Entry',
-                processingTime: visa.processingTime || { min: 1, max: 0, unit: 'Days' },
+                processingTime: visa.processingTime ? { ...visa.processingTime, max: visa.processingTime.max || 0 } : { min: 1, max: 0, unit: 'Days' },
                 validityDuration: visa.validityDuration || { value: 30, unit: 'Days' },
-                pricing: visa.pricing || { adult: 0, child: 0, currency: 'PKR' },
+                pricing: visa.pricing ? { ...visa.pricing, child: visa.pricing.child || 0, currency: visa.pricing.currency || 'PKR' } : { adult: 0, child: 0, currency: 'PKR' },
                 status: visa.status || 'Active',
                 processingStatus: visa.processingStatus || 'Open',
                 interviewRequired: visa.interviewRequired || false,
@@ -88,7 +88,7 @@ const VisaForm = () => {
             if (visa.requirements) setRequirements(visa.requirements);
             if (visa.importantNotes) setImportantNotes(visa.importantNotes);
             if (visa.servicesIncluded) setServicesIncluded(visa.servicesIncluded);
-            if (visa.images) setImageUrls(visa.images);
+            if (visa.images) setImageUrls(visa.images.map(img => ({ ...img, isPrimary: img.isPrimary ?? false })));
         } catch (error) {
             toast.error('Failed to fetch visa details');
         } finally {
@@ -329,13 +329,14 @@ const VisaForm = () => {
                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                             Country Code <span className="text-red-500">*</span>
                                         </label>
-                                        <Input
+                                        <input
                                             type="text"
                                             name="country.code"
                                             value={formData.country.code}
                                             onChange={handleInputChange}
                                             placeholder="e.g., UK"
                                             maxLength={3}
+                                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                                         />
                                     </div>
 
