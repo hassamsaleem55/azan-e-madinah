@@ -133,6 +133,20 @@ layer(base);
   --color-warning-900: #7a2e0e;
   --color-warning-950: #4e1d09;
 
+  --color-maroon-50: #fdf2f5;
+  --color-maroon-100: #fce4eb;
+  --color-maroon-200: #fbcedd;
+  --color-maroon-300: #f8a8c1;
+  --color-maroon-400: #f3739a;
+  --color-maroon-500: #e93d6b;
+  --color-maroon-600: #d41f53;
+  --color-maroon-700: #b21444;
+  --color-maroon-800: #94143d;
+  --color-maroon-900: #7d1539;
+  --color-maroon-950: #4d061d;
+  --color-maroon: #6b1c3d;
+  --color-maroon-dark: #511628;
+
   --color-theme-pink-500: #ee46bc;
 
   --color-theme-purple-500: #7a5af8;

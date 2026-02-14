@@ -1,48 +1,44 @@
 import { useState, useEffect } from 'react';
-import { Plus, Edit, Trash2, Eye, MapPin } from 'lucide-react';
+import { Plus, Edit, Trash2, Eye, MapPin, Calendar, Star } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router';
 import axiosInstance from '../Api/axios';
 import { Tour } from '../types';
-import TourForm from './TourForm';
 import {
   PageMeta,
   PageLayout,
   PageHeader,
-  FilterBar,
+  PageContent,
+  PageContentSection,
   Button,
-  Badge,
-  Modal,
-  DataTable,
   LoadingState,
   EmptyState,
-  FormField,
-  Select,
 } from '../components';
 
 const Tours = () => {
+    const navigate = useNavigate();
     const [tours, setTours] = useState<Tour[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
-    const [showModal, setShowModal] = useState(false);
-    const [showViewModal, setShowViewModal] = useState(false);
-    const [editingTourId, setEditingTourId] = useState<string | null>(null);
-    const [selectedTour, setSelectedTour] = useState<Tour | null>(null);
-    const [filters, setFilters] = useState({
-        type: '',
-        category: '',
-        status: ''
-    });
+    const [activeCategory, setActiveCategory] = useState<string>('All');
+
+    const categories = [
+        'All',
+        'Summer Special',
+        'Winter Special',
+        'Honeymoon Special',
+        'Budget',
+        'Luxury'
+    ];
 
     useEffect(() => {
         fetchTours();
-    }, [filters]);
+    }, []);
 
     const fetchTours = async () => {
         try {
             setLoading(true);
-            const response = await axiosInstance.get('/tours', {
-                params: filters
-            });
+            const response = await axiosInstance.get('/tours');
             setTours(response.data.tours || []);
         } catch (error) {
             toast.error('Failed to fetch tours');
@@ -66,35 +62,32 @@ const Tours = () => {
     };
 
     const handleCreate = () => {
-        setEditingTourId(null);
-        setShowModal(true);
+        navigate('/tours/new');
     };
 
-    const handleEdit = (tour: Tour) => {
-        setEditingTourId(tour._id);
-        setShowModal(true);
+    const handleEdit = (tour: Tour, e: React.MouseEvent) => {
+        e.stopPropagation();
+        navigate(`/tours/edit/${tour._id}`);
     };
 
     const handleView = (tour: Tour) => {
-        setSelectedTour(tour);
-        setShowViewModal(true);
+        navigate(`/tours/${tour._id}`);
     };
 
-    const handleModalClose = () => {
-        setShowModal(false);
-        setEditingTourId(null);
+    const handleCardClick = (tour: Tour) => {
+        navigate(`/tours/${tour._id}`);
     };
 
-    const handleModalSuccess = () => {
-        setShowModal(false);
-        setEditingTourId(null);
-        fetchTours();
-    };
+    const filteredTours = tours.filter(tour => {
+        const matchesSearch = tour.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            tour.destination?.country.toLowerCase().includes(searchTerm.toLowerCase());
+        
+        const matchesCategory = activeCategory === 'All' || 
+            tour.seasonalCategory === activeCategory ||
+            tour.category === activeCategory;
 
-    const filteredTours = tours.filter(tour =>
-        tour.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        tour.destination?.country.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+        return matchesSearch && matchesCategory;
+    });
 
     return (
         <>
@@ -115,191 +108,139 @@ const Tours = () => {
                     }
                 />
 
-                <FilterBar
-                    searchValue={searchTerm}
-                    onSearchChange={setSearchTerm}
-                    searchPlaceholder="Search tours..."
-                    filters={
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <FormField label="Type">
-                                <Select
-                                    value={filters.type}
-                                    onChange={(e) => setFilters({ ...filters, type: e.target.value })}
-                                    options={[
-                                        { value: 'Group Tour', label: 'Group Tour' },
-                                        { value: 'Private Tour', label: 'Private Tour' },
-                                        { value: 'Honeymoon', label: 'Honeymoon' },
-                                    ]}
-                                    placeholder="All Types"
-                                />
-                            </FormField>
-                            <FormField label="Category">
-                                <Select
-                                    value={filters.category}
-                                    onChange={(e) => setFilters({ ...filters, category: e.target.value })}
-                                    options={[
-                                        { value: 'Budget', label: 'Budget' },
-                                        { value: 'Luxury', label: 'Luxury' },
-                                        { value: 'Premium', label: 'Premium' },
-                                    ]}
-                                    placeholder="All Categories"
-                                />
-                            </FormField>
-                            <FormField label="Status">
-                                <Select
-                                    value={filters.status}
-                                    onChange={(e) => setFilters({ ...filters, status: e.target.value })}
-                                    options={[
-                                        { value: 'Active', label: 'Active' },
-                                        { value: 'Inactive', label: 'Inactive' },
-                                    ]}
-                                    placeholder="All Status"
-                                />
-                            </FormField>
+                <PageContent>
+                    <PageContentSection>
+                        {/* Search Bar */}
+                        <div className="mb-6">
+                            <input
+                                type="text"
+                                placeholder="Search tours by name or destination..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all"
+                            />
                         </div>
-                    }
-                />
 
-                {loading ? (
-                    <LoadingState />
-                ) : filteredTours.length === 0 ? (
-                    <EmptyState
-                        title="No tours found"
-                        description="Get started by adding your first tour package"
-                        action={
-                            <Button onClick={handleCreate} startIcon={<Plus className="w-4 h-4" />}>
-                                Add Tour
-                            </Button>
-                        }
-                    />
-                ) : (
-                    <DataTable
-                        columns={[
-                            {
-                                key: 'tour',
-                                header: 'Tour',
-                                render: (tour: Tour) => (
-                                    <div>
-                                        <div className="text-sm font-medium text-gray-900 dark:text-white">
-                                            {tour.name}
-                                        </div>
-                                        <div className="text-xs text-gray-500 dark:text-gray-400">
-                                            {tour.type} • {tour.category}
-                                        </div>
+                        {/* Category Filter Tabs */}
+                        <div className="mb-6">
+                            <div className="flex flex-wrap gap-3">
+                                {categories.map((category) => (
+                                    <button
+                                        key={category}
+                                        onClick={() => setActiveCategory(category)}
+                                        className={`px-6 py-2 rounded-full font-medium transition-all ${
+                                            activeCategory === category
+                                                ? 'bg-linear-to-r from-brand-500 to-brand-600 text-white shadow-lg shadow-brand-500/30'
+                                                : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:border-brand-500 hover:text-brand-600 dark:hover:text-brand-400'
+                                        }`}
+                                    >
+                                        {category}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Tour Cards Grid */}
+                        {loading ? (
+                            <LoadingState />
+                        ) : filteredTours.length === 0 ? (
+                            <EmptyState
+                                title="No tours found"
+                                description="Get started by adding your first tour package"
+                                action={
+                                    <Button onClick={handleCreate} startIcon={<Plus className="w-4 h-4" />}>
+                                        Add Tour
+                                    </Button>
+                                }
+                            />
+                        ) : (
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {filteredTours.map((tour) => (
+                                    <div
+                                        key={tour._id}
+                                        onClick={() => handleCardClick(tour)}
+                                        className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-all overflow-hidden group cursor-pointer hover:border-brand-500 dark:hover:border-brand-400"
+                                    >
+                                {/* Tour Image */}
+                                <div className="relative h-48 overflow-hidden">
+                                    <img
+                                        src={tour.images?.[0]?.url || '/placeholder-tour.jpg'}
+                                        alt={tour.name}
+                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                    />
+                                    <div className="absolute top-3 right-3 bg-white dark:bg-gray-800 px-3 py-1 rounded-full text-sm font-medium">
+                                        {tour.category}
                                     </div>
-                                ),
-                            },
-                            {
-                                key: 'destination',
-                                header: 'Destination',
-                                render: (tour: Tour) => (
-                                    <div className="flex items-center gap-2">
-                                        <MapPin size={14} className="text-gray-400" />
-                                        <span className="text-sm text-gray-900 dark:text-white">
-                                            {tour.destination?.country}
+                                </div>
+
+                                {/* Tour Content */}
+                                <div className="p-5">
+                                    {/* Tour Name */}
+                                    <h3 className="text-lg font-bold text-brand-600 dark:text-brand-400 mb-2 line-clamp-2">
+                                        {tour.name}
+                                    </h3>
+
+                                    {/* Destination */}
+                                    <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 mb-2">
+                                        <MapPin size={16} />
+                                        <span className="text-sm font-medium">{tour.destination?.country}</span>
+                                    </div>
+
+                                    {/* Duration & Type */}
+                                    <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 mb-3">
+                                        <Calendar size={16} />
+                                        <span className="text-sm">
+                                            {tour.duration?.days} Days • {tour.type}
                                         </span>
                                     </div>
-                                ),
-                            },
-                            {
-                                key: 'duration',
-                                header: 'Duration',
-                                render: (tour: Tour) => (
-                                    <span className="text-sm text-gray-900 dark:text-white">
-                                        {tour.duration?.days} Days / {tour.duration?.nights} Nights
-                                    </span>
-                                ),
-                            },
-                            {
-                                key: 'price',
-                                header: 'Price',
-                                render: (tour: Tour) => (
-                                    <span className="text-sm text-gray-900 dark:text-white">
-                                        PKR {tour.pricing?.basePrice?.toLocaleString()}
-                                    </span>
-                                ),
-                            },
-                            {
-                                key: 'status',
-                                header: 'Status',
-                                render: (tour: Tour) => (
-                                    <Badge color={tour.status === 'Active' ? 'success' : 'light'}>
-                                        {tour.status}
-                                    </Badge>
-                                ),
-                            },
-                            {
-                                key: 'actions',
-                                header: 'Actions',
-                                render: (tour: Tour) => (
-                                    <div className="flex items-center gap-2">
-                                        <button
-                                            onClick={() => handleView(tour)}
-                                            className="text-blue-600 hover:text-blue-900 dark:text-blue-400"
-                                            title="View"
-                                        >
-                                            <Eye size={18} />
-                                        </button>
-                                        <button
-                                            onClick={() => handleEdit(tour)}
-                                            className="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400"
-                                            title="Edit"
-                                        >
-                                            <Edit size={18} />
-                                        </button>
-                                        <button
-                                            onClick={() => handleDelete(tour._id)}
-                                            className="text-red-600 hover:text-red-900 dark:text-red-400"
-                                            title="Delete"
-                                        >
-                                            <Trash2 size={18} />
-                                        </button>
+
+                                    {/* Rating */}
+                                    {tour.reviews && tour.reviews.averageRating > 0 && (
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <div className="flex items-center gap-1">
+                                                <Star size={16} className="fill-yellow-400 text-yellow-400" />
+                                                <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                                                    {tour.reviews.averageRating.toFixed(1)}
+                                                </span>
+                                            </div>
+                                            <span className="text-xs text-gray-500 dark:text-gray-400">
+                                                ({tour.reviews.totalReviews})
+                                            </span>
+                                        </div>
+                                    )}
+
+                                    {/* Price & Actions */}
+                                    <div className="flex items-center justify-between pt-3 border-t border-gray-200 dark:border-gray-700">
+                                        <div>
+                                            <div className="text-sm text-gray-500 dark:text-gray-400">From</div>
+                                            <div className="text-xl font-bold text-brand-600 dark:text-brand-400">
+                                                PKR {tour.pricing?.basePrice?.toLocaleString()}
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <button
+                                                onClick={(e) => handleEdit(tour, e)}
+                                                className="p-2 text-warning-600 hover:bg-warning-50 dark:hover:bg-warning-900/20 rounded-lg transition-colors"
+                                                title="Edit"
+                                            >
+                                                <Edit size={18} />
+                                            </button>
+                                            <button
+                                                onClick={(e) => { e.stopPropagation(); handleDelete(tour._id); }}
+                                                className="p-2 text-error-600 hover:bg-error-50 dark:hover:bg-error-900/20 rounded-lg transition-colors"
+                                                title="Delete"
+                                            >
+                                                <Trash2 size={18} />
+                                            </button>
+                                        </div>
                                     </div>
-                                ),
-                            },
-                        ]}
-                        data={filteredTours}
-                        keyExtractor={(tour) => tour._id}
-                    />
-                )}
-
-                {showModal && (
-                    <TourForm
-                        onClose={handleModalClose}
-                        onSuccess={handleModalSuccess}
-                        editId={editingTourId}
-                    />
-                )}
-
-                <Modal
-                    isOpen={showViewModal}
-                    onClose={() => setShowViewModal(false)}
-                    title="Tour Details"
-                    size="lg"
-                >
-                    {selectedTour && (
-                        <div className="p-6 space-y-4">
-                            <div>
-                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{selectedTour.name}</h3>
-                                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                                    {selectedTour.destination?.country || 'N/A'}
-                                </p>
-                            </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <div>
-                                    <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Duration</p>
-                                    <p className="text-gray-900 dark:text-white">
-                                        {selectedTour.duration?.days} Days / {selectedTour.duration?.nights} Nights
-                                    </p>
-                                </div>
-                                <div>
-                                    <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Status</p>
-                                    <p className="text-gray-900 dark:text-white">{selectedTour.status}</p>
                                 </div>
                             </div>
-                        </div>
-                    )}
-                </Modal>
+                                ))}
+                            </div>
+                        )}
+                    </PageContentSection>
+                </PageContent>
             </PageLayout>
         </>
     );

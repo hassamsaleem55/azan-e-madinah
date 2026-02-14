@@ -47,6 +47,10 @@ import Flights from "./pages/Flights";
 import FlightPackages from "./pages/FlightPackages";
 import Visas from "./pages/Visas";
 import Tours from "./pages/Tours";
+import TourForm from "./pages/TourForm";
+import TourDetail from "./pages/TourDetail";
+import VisaForm from "./pages/VisaForm";
+import VisaDetail from "./pages/VisaDetail";
 import Testimonials from "./pages/Testimonials";
 import ContentManagement from "./pages/ContentManagement";
 
@@ -135,7 +139,13 @@ export default function App() {
                 <Route path="/flights" element={<PermissionGuard permission="airlines.view"><Flights /></PermissionGuard>} />
                 <Route path="/flight-packages" element={<PermissionGuard permission="packages.view"><FlightPackages /></PermissionGuard>} />
                 <Route path="/visas" element={<PermissionGuard permission="visas.view"><Visas /></PermissionGuard>} />
+                <Route path="/visas/new" element={<PermissionGuard permission="visas.create"><VisaForm /></PermissionGuard>} />
+                <Route path="/visas/edit/:id" element={<PermissionGuard permission="visas.update"><VisaForm /></PermissionGuard>} />
+                <Route path="/visas/:id" element={<PermissionGuard permission="visas.view"><VisaDetail /></PermissionGuard>} />
                 <Route path="/tours" element={<PermissionGuard permission="tours.view"><Tours /></PermissionGuard>} />
+                <Route path="/tours/new" element={<PermissionGuard permission="tours.create"><TourForm /></PermissionGuard>} />
+                <Route path="/tours/edit/:id" element={<PermissionGuard permission="tours.update"><TourForm /></PermissionGuard>} />
+                <Route path="/tours/:id" element={<PermissionGuard permission="tours.view"><TourDetail /></PermissionGuard>} />
                 <Route path="/testimonials" element={<PermissionGuard permission="testimonials.view"><Testimonials /></PermissionGuard>} />
                 <Route path="/content-management" element={<PermissionGuard permission="content.view"><ContentManagement /></PermissionGuard>} />
 

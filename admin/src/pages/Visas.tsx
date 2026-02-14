@@ -1,47 +1,45 @@
 import { useState, useEffect } from 'react';
-import { Plus, Edit, Trash2, Eye, Globe } from 'lucide-react';
+import { Plus, Edit, Trash2, Clock, Globe } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router';
 import axiosInstance from '../Api/axios';
 import { Visa } from '../types';
-import VisaForm from './VisaForm';
 import {
   PageMeta,
   PageLayout,
   PageHeader,
-  FilterBar,
+  PageContent,
+  PageContentSection,
   Button,
-  Badge,
-  Modal,
-  DataTable,
   LoadingState,
   EmptyState,
-  FormField,
-  Select,
 } from '../components';
 
 const Visas = () => {
+    const navigate = useNavigate();
     const [visas, setVisas] = useState<Visa[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
-    const [showModal, setShowModal] = useState(false);
-    const [showViewModal, setShowViewModal] = useState(false);
-    const [editingVisaId, setEditingVisaId] = useState<string | null>(null);
-    const [selectedVisa, setSelectedVisa] = useState<Visa | null>(null);
-    const [filters, setFilters] = useState({
-        visaType: '',
-        status: ''
-    });
+    const [activeType, setActiveType] = useState<string>('All Visas');
+
+    const visaTypes = [
+        'All Visas',
+        'Tourist',
+        'E-Visa',
+        'Easy Sticker Visa',
+        'Business',
+        'Student',
+        'Work'
+    ];
 
     useEffect(() => {
         fetchVisas();
-    }, [filters]);
+    }, []);
 
     const fetchVisas = async () => {
         try {
             setLoading(true);
-            const response = await axiosInstance.get('/visas', {
-                params: { ...filters, limit: 100 }
-            });
+            const response = await axiosInstance.get('/visas');
             setVisas(response.data.visas || []);
         } catch (error) {
             toast.error('Failed to fetch visas');
@@ -65,43 +63,34 @@ const Visas = () => {
     };
 
     const handleCreate = () => {
-        setEditingVisaId(null);
-        setShowModal(true);
+        navigate('/visas/new');
     };
 
-    const handleEdit = (visa: Visa) => {
-        setEditingVisaId(visa._id);
-        setShowModal(true);
+    const handleEdit = (visa: Visa, e: React.MouseEvent) => {
+        e.stopPropagation();
+        navigate(`/visas/edit/${visa._id}`);
     };
 
-    const handleView = (visa: Visa) => {
-        setSelectedVisa(visa);
-        setShowViewModal(true);
+    const handleCardClick = (visa: Visa) => {
+        navigate(`/visas/${visa._id}`);
     };
 
-    const handleModalClose = () => {
-        setShowModal(false);
-        setEditingVisaId(null);
-    };
+    const filteredVisas = visas.filter(visa => {
+        const matchesSearch = visa.country.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            visa.visaType.toLowerCase().includes(searchTerm.toLowerCase());
+        
+        const matchesType = activeType === 'All Visas' || visa.visaType === activeType;
 
-    const handleModalSuccess = () => {
-        setShowModal(false);
-        setEditingVisaId(null);
-        fetchVisas();
-    };
-
-    const filteredVisas = visas.filter(visa =>
-        visa.country?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        visa.visaType.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+        return matchesSearch && matchesType;
+    });
 
     return (
         <>
-            <PageMeta title="Visa Management | Admin" description="Manage visa services for all countries" />
+            <PageMeta title="Visa Management | Admin" description="Worldwide visa assistance services" />
             
             <PageLayout>
                 <PageHeader
-                    title="Visa Services"
+                    title="Worldwide Visa Assistance"
                     description="Manage visa services for all countries"
                     breadcrumbs={[
                         { label: 'Home', path: '/' },
@@ -114,175 +103,140 @@ const Visas = () => {
                     }
                 />
 
-                <FilterBar
-                    searchValue={searchTerm}
-                    onSearchChange={setSearchTerm}
-                    searchPlaceholder="Search by country or type..."
-                    filters={
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <FormField label="Visa Type">
-                                <Select
-                                    value={filters.visaType}
-                                    onChange={(e) => setFilters({ ...filters, visaType: e.target.value })}
-                                    options={[
-                                        { value: 'Tourist', label: 'Tourist' },
-                                        { value: 'Business', label: 'Business' },
-                                        { value: 'Student', label: 'Student' },
-                                        { value: 'Work', label: 'Work' },
-                                    ]}
-                                    placeholder="All Types"
-                                />
-                            </FormField>
-                            <FormField label="Status">
-                                <Select
-                                    value={filters.status}
-                                    onChange={(e) => setFilters({ ...filters, status: e.target.value })}
-                                    options={[
-                                        { value: 'Active', label: 'Active' },
-                                        { value: 'Inactive', label: 'Inactive' },
-                                    ]}
-                                    placeholder="All Status"
-                                />
-                            </FormField>
+                <PageContent>
+                    <PageContentSection>
+                        {/* Search Bar */}
+                        <div className="mb-6">
+                            <input
+                                type="text"
+                                placeholder="Search visas by country or type..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all"
+                            />
                         </div>
-                    }
-                />
 
-                {loading ? (
-                    <LoadingState />
-                ) : filteredVisas.length === 0 ? (
-                    <EmptyState
-                        title="No visas found"
-                        description="Get started by adding your first visa service"
-                        action={
-                            <Button onClick={handleCreate} startIcon={<Plus className="w-4 h-4" />}>
-                                Add Visa
-                            </Button>
-                        }
-                    />
-                ) : (
-                    <DataTable
-                        columns={[
-                            {
-                                key: 'country',
-                                header: 'Country',
-                                render: (visa: Visa) => (
-                                    <div className="flex items-center gap-2">
-                                        <Globe size={16} className="text-gray-400" />
-                                        <span className="text-sm font-medium text-gray-900 dark:text-white">
-                                            {visa.country?.name}
-                                        </span>
-                                    </div>
-                                ),
-                            },
-                            {
-                                key: 'type',
-                                header: 'Visa Type',
-                                render: (visa: Visa) => (
-                                    <Badge color="info">{visa.visaType}</Badge>
-                                ),
-                            },
-                            {
-                                key: 'processing',
-                                header: 'Processing Time',
-                                render: (visa: Visa) => (
-                                    <span className="text-sm text-gray-900 dark:text-white">
-                                        {visa.processingTime?.min}-{visa.processingTime?.max || visa.processingTime?.min} {visa.processingTime?.unit}
-                                    </span>
-                                ),
-                            },
-                            {
-                                key: 'price',
-                                header: 'Price',
-                                render: (visa: Visa) => (
-                                    <span className="text-sm text-gray-900 dark:text-white">
-                                        PKR {visa.pricing?.adult?.toLocaleString()}
-                                    </span>
-                                ),
-                            },
-                            {
-                                key: 'status',
-                                header: 'Status',
-                                render: (visa: Visa) => (
-                                    <Badge color={visa.status === 'Active' ? 'success' : 'light'}>
-                                        {visa.status}
-                                    </Badge>
-                                ),
-                            },
-                            {
-                                key: 'actions',
-                                header: 'Actions',
-                                render: (visa: Visa) => (
-                                    <div className="flex items-center gap-2">
-                                        <button
-                                            onClick={() => handleView(visa)}
-                                            className="text-blue-600 hover:text-blue-900 dark:text-blue-400"
-                                            title="View"
-                                        >
-                                            <Eye size={18} />
-                                        </button>
-                                        <button
-                                            onClick={() => handleEdit(visa)}
-                                            className="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400"
-                                            title="Edit"
-                                        >
-                                            <Edit size={18} />
-                                        </button>
-                                        <button
-                                            onClick={() => handleDelete(visa._id)}
-                                            className="text-red-600 hover:text-red-900 dark:text-red-400"
-                                            title="Delete"
-                                        >
-                                            <Trash2 size={18} />
-                                        </button>
-                                    </div>
-                                ),
-                            },
-                        ]}
-                        data={filteredVisas}
-                        keyExtractor={(visa) => visa._id}
-                    />
-                )}
-
-                {showModal && (
-                    <VisaForm
-                        onClose={handleModalClose}
-                        onSuccess={handleModalSuccess}
-                        editId={editingVisaId}
-                    />
-                )}
-
-                <Modal
-                    isOpen={showViewModal}
-                    onClose={() => setShowViewModal(false)}
-                    title="Visa Details"
-                    size="lg"
-                >
-                    {selectedVisa && (
-                        <div className="p-6 space-y-4">
-                            <div>
-                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                                    {selectedVisa.country?.name || 'N/A'}
-                                </h3>
-                                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                                    {selectedVisa.visaType}
-                                </p>
-                            </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <div>
-                                    <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Processing Time</p>
-                                    <p className="text-gray-900 dark:text-white">
-                                        {selectedVisa.processingTime?.min}-{selectedVisa.processingTime?.max || selectedVisa.processingTime?.min} {selectedVisa.processingTime?.unit}
-                                    </p>
-                                </div>
-                                <div>
-                                    <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Status</p>
-                                    <p className="text-gray-900 dark:text-white">{selectedVisa.status}</p>
-                                </div>
+                        {/* Visa Type Filter Tabs */}
+                        <div className="mb-6">
+                            <div className="flex flex-wrap gap-3">
+                                {visaTypes.map((type) => (
+                                    <button
+                                        key={type}
+                                        onClick={() => setActiveType(type)}
+                                        className={`px-6 py-2 rounded-full font-medium transition-all ${
+                                            activeType === type
+                                                ? 'bg-linear-to-r from-brand-500 to-brand-600 text-white shadow-lg shadow-brand-500/30'
+                                                : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:border-brand-500 hover:text-brand-600 dark:hover:text-brand-400'
+                                        }`}
+                                    >
+                                        {type}
+                                    </button>
+                                ))}
                             </div>
                         </div>
-                    )}
-                </Modal>
+
+                        {/* Visa Cards Grid */}
+                        {loading ? (
+                            <LoadingState />
+                        ) : filteredVisas.length === 0 ? (
+                            <EmptyState
+                                title="No visas found"
+                                description="Get started by adding your first visa service"
+                                action={
+                                    <Button onClick={handleCreate} startIcon={<Plus className="w-4 h-4" />}>
+                                        Add Visa
+                                    </Button>
+                                }
+                            />
+                        ) : (
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                                {filteredVisas.map((visa) => (
+                                    <div
+                                        key={visa._id}
+                                        onClick={() => handleCardClick(visa)}
+                                        className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-all overflow-hidden group cursor-pointer hover:border-brand-500 dark:hover:border-brand-400"
+                                    >
+                                        {/* Country Flag/Image */}
+                                        <div className="relative h-32 bg-gradient-to-br from-brand-50 to-brand-100 dark:from-brand-900/20 dark:to-brand-800/20 flex items-center justify-center overflow-hidden">
+                                            {visa.images && visa.images.length > 0 ? (
+                                                <img
+                                                    src={visa.images[0].url}
+                                                    alt={visa.country.name}
+                                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                                />
+                                            ) : visa.country.flagUrl ? (
+                                                <img
+                                                    src={visa.country.flagUrl}
+                                                    alt={visa.country.name}
+                                                    className="w-20 h-20 object-contain rounded shadow-lg"
+                                                />
+                                            ) : (
+                                                <Globe className="w-16 h-16 text-brand-500" />
+                                            )}
+                                            <div className="absolute top-3 right-3 bg-white dark:bg-gray-800 px-2 py-1 rounded-full text-xs font-semibold text-brand-600 dark:text-brand-400">
+                                                {visa.country.code}
+                                            </div>
+                                        </div>
+
+                                        {/* Visa Content */}
+                                        <div className="p-4">
+                                            {/* Country Name */}
+                                            <h3 className="text-lg font-bold text-brand-600 dark:text-brand-400 mb-1">
+                                                {visa.country.name}
+                                            </h3>
+
+                                            {/* Visa Type */}
+                                            <div className="text-sm text-gray-600 dark:text-gray-400 mb-3 font-medium">
+                                                {visa.visaType}
+                                                {visa.entryType && (
+                                                    <span className="ml-2 text-xs text-gray-500">
+                                                        • {visa.entryType}
+                                                    </span>
+                                                )}
+                                            </div>
+
+                                            {/* Processing Time */}
+                                            <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 mb-3">
+                                                <Clock size={16} />
+                                                <span className="text-sm">
+                                                    {visa.processingTime.min}
+                                                    {visa.processingTime.max && `-${visa.processingTime.max}`}
+                                                    {' '}{visa.processingTime.unit}
+                                                </span>
+                                            </div>
+
+                                            {/* Price & Actions */}
+                                            <div className="flex items-center justify-between pt-3 border-t border-gray-200 dark:border-gray-700">
+                                                <div>
+                                                    <div className="text-xs text-gray-500 dark:text-gray-400">From</div>
+                                                    <div className="text-lg font-bold text-brand-600 dark:text-brand-400">
+                                                        PKR {visa.pricing.adult.toLocaleString()}
+                                                    </div>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <button
+                                                        onClick={(e) => handleEdit(visa, e)}
+                                                        className="p-2 text-warning-600 hover:bg-warning-50 dark:hover:bg-warning-900/20 rounded-lg transition-colors"
+                                                        title="Edit"
+                                                    >
+                                                        <Edit size={18} />
+                                                    </button>
+                                                    <button
+                                                        onClick={(e) => { e.stopPropagation(); handleDelete(visa._id); }}
+                                                        className="p-2 text-error-600 hover:bg-error-50 dark:hover:bg-error-900/20 rounded-lg transition-colors"
+                                                        title="Delete"
+                                                    >
+                                                        <Trash2 size={18} />
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </PageContentSection>
+                </PageContent>
             </PageLayout>
         </>
     );
