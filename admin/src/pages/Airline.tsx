@@ -23,16 +23,6 @@ interface Airline {
   createdAt: string;
 }
 
-interface Airline {
-  _id: string;
-  airlineCode: string;
-  airlineName: string;
-  shortCode: string;
-  logo: string;
-  status: "Active" | "De-Active";
-  createdAt: string;
-}
-
 const Airline = () => {
   const [airlines, setAirlines] = useState<Airline[]>([]);
   const [fetchLoading, setFetchLoading] = useState(true);

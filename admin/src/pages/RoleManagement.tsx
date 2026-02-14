@@ -187,39 +187,42 @@ const RoleManagement = () => {
           {roles
             .filter(role => !['Super Admin', 'Agent'].includes(role.name))
             .map((role) => (
-            <div key={role._id} className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-200 dark:border-gray-700">
+            <div key={role._id} className="bg-linear-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-xl hover:shadow-2xl p-6 border-2 border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 group">
               <div className="flex justify-between items-start mb-4">
-                <div>
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white">{role.name}</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{role.description}</p>
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{role.name}</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{role.description}</p>
                 </div>
                 <div className="flex gap-2">
                   <button
                     onClick={() => openEditModal(role)}
-                    className="p-2 sm:p-2.5 text-yellow-600 hover:bg-yellow-50 dark:hover:bg-yellow-900 rounded-lg transition touch-manipulation"
+                    className="p-2.5 text-yellow-600 dark:text-yellow-500 hover:bg-yellow-50 dark:hover:bg-yellow-900/30 rounded-lg transition-all hover:scale-110 touch-manipulation shadow-sm hover:shadow"
                   >
                     <Edit size={18} />
                   </button>
                   <button
                     onClick={() => handleDelete(role._id, role.name)}
-                    className="p-2 sm:p-2.5 text-red-600 hover:bg-red-50 dark:hover:bg-red-900 rounded-lg transition touch-manipulation"
+                    className="p-2.5 text-red-600 dark:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-all hover:scale-110 touch-manipulation shadow-sm hover:shadow"
                   >
                     <Trash2 size={18} />
                   </button>
                 </div>
               </div>
-              <div className="border-t dark:border-gray-700 pt-4">
-                <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Permissions: {role.permissions.length}
-                </p>
-                <div className="flex flex-wrap gap-1">
+              <div className="border-t-2 border-gray-200 dark:border-gray-700 pt-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <Shield className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                  <p className="text-sm font-bold text-gray-900 dark:text-gray-100">
+                    {role.permissions.length} Permission{role.permissions.length !== 1 ? 's' : ''}
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-1.5">
                   {role.permissions.slice(0, 5).map((perm) => (
                     <Badge key={perm._id} color="info">
                       {perm.code}
                     </Badge>
                   ))}
                   {role.permissions.length > 5 && (
-                    <span className="text-xs text-gray-500 dark:text-gray-400">
+                    <span className="inline-flex items-center px-2 py-1 text-xs font-semibold text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 rounded-full">
                       +{role.permissions.length - 5} more
                     </span>
                   )}
@@ -262,29 +265,37 @@ const RoleManagement = () => {
               </div>
 
                 <div className="mt-8">
-                  <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                    <Shield className="w-5 h-5 text-blue-600" />
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                    <Shield className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                     Assign Permissions
                   </h3>
                   <div className="space-y-4">
                     {Object.entries(groupedPermissions).map(([module, perms]) => (
-                      <div key={module} className="border-2 border-gray-200 rounded-xl p-5 hover:border-blue-200 transition-all bg-linear-to-br from-white to-gray-50">
-                        <h4 className="font-bold text-gray-900 mb-4 text-base uppercase tracking-wide">{module}</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                      <div key={module} className="border-2 border-gray-200 dark:border-gray-700 rounded-xl p-5 hover:border-blue-300 dark:hover:border-blue-600 transition-all bg-linear-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 shadow-sm hover:shadow-md">
+                        <h4 className="font-bold text-gray-900 dark:text-white mb-4 text-base uppercase tracking-wide flex items-center gap-2">
+                          <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                          {module}
+                        </h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
                           {perms.map((perm) => (
                             <label
                               key={perm._id}
-                              className="flex items-center gap-3 cursor-pointer hover:bg-blue-50 p-3 rounded-lg transition-all group"
+                              className="flex items-start gap-3 cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-900/20 p-3 rounded-lg transition-all group border border-transparent hover:border-blue-200 dark:hover:border-blue-700"
                             >
                               <input
                                 type="checkbox"
                                 checked={formData.permissions.includes(perm._id)}
                                 onChange={() => togglePermission(perm._id)}
-                                className="w-5 h-5 text-blue-600 rounded border-2 border-gray-300 focus:ring-2 focus:ring-blue-500 transition-all"
+                                className="w-5 h-5 mt-0.5 text-blue-600 rounded border-2 border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 transition-all"
                               />
-                              <span className="text-sm text-gray-700 group-hover:text-gray-900 font-medium">
-                                {perm.name}
-                              </span>
+                              <div className="flex-1">
+                                <span className="text-sm text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 font-medium transition-colors">
+                                  {perm.name}
+                                </span>
+                                {perm.description && (
+                                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{perm.description}</p>
+                                )}
+                              </div>
                             </label>
                           ))}
                         </div>
@@ -293,20 +304,24 @@ const RoleManagement = () => {
                   </div>
                 </div>
             </div>
-            <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50">
-              <Button
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-end px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 sticky bottom-0">
+              <button
                 type="button"
-                variant="outline"
                 onClick={() => {
                   setShowModal(false);
                   resetForm();
                 }}
+                className="w-full sm:w-auto px-5 py-3 sm:px-6 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-all touch-manipulation"
               >
                 Cancel
-              </Button>
-              <Button type="submit">
-                {editingRole ? "Update Role" : "Create Role"}
-              </Button>
+              </button>
+              <button
+                type="submit"
+                className="w-full sm:w-auto px-5 py-3 sm:px-6 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 touch-manipulation"
+              >
+                <Shield className="w-5 h-5" />
+                <span>{editingRole ? "Update Role" : "Create Role"}</span>
+              </button>
             </div>
           </form>
         </Modal>

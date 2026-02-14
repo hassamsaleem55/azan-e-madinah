@@ -2,8 +2,19 @@ import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import axiosInstance from "../Api/axios";
 import { useAuth } from "../context/AuthContext";
-import PageHeader from "../components/layout/PageHeader";
 import { Shield, Plus, Edit, Trash2, X, CheckCircle, XCircle } from "lucide-react";
+import {
+  PageMeta,
+  PageLayout,
+  PageHeader,
+  PageContent,
+  PageContentSection,
+  Button,
+  Badge,
+  DataTable,
+  LoadingState,
+  EmptyState,
+} from "../components";
 
 interface Role {
   _id: string;
@@ -182,129 +193,148 @@ export default function UserManagement() {
   }
 
   if (loading) {
-    return <div className="flex justify-center items-center h-96">Loading...</div>;
+    return <LoadingState message="Loading users..." />;
   }
 
   return (
-    <div className="space-y-6">
-      <PageHeader
-        title="User Management"
-        description="Manage system users and their roles"
-        breadcrumbs={[
-          { label: 'Home', path: '/' },
-          { label: 'User Management' },
-        ]}
-        actions={
-          <button
-            onClick={handleCreate}
-            className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-          >
-            <Plus className="w-4 h-4" />
-            Add User
-          </button>
-        }
-      />
+    <>
+      <PageMeta title="User Management | Admin" description="Manage system users and their roles" />
       
-      <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-        <p className="text-sm text-blue-800 dark:text-blue-200">
-          📝 Note: Agents are managed in the "Registered Agencies" module
-        </p>
-      </div>
+      <PageLayout>
+        <PageHeader
+          title="User Management"
+          description="Manage system users and their roles"
+          breadcrumbs={[
+            { label: 'Home', path: '/' },
+            { label: 'User Management' },
+          ]}
+          actions={
+            <Button onClick={handleCreate} startIcon={<Plus className="w-4 h-4" />}>
+              Add User
+            </Button>
+          }
+        />
 
-      <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden">
-        <table className="w-full">
-          <thead className="bg-gray-50 border-b">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                User
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Contact
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Role
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Status
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {users.map((user) => (
-              <tr key={user._id} className="hover:bg-gray-50">
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="font-medium text-gray-900">{user.name}</div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-900">{user.email}</div>
-                  <div className="text-sm text-gray-500">{user.phone}</div>
-                </td>
-                <td className="px-6 py-4">
-                  <div className="flex flex-wrap gap-1">
-                    {user.roles && user.roles.length > 0 ? (
-                      user.roles
-                        .filter((role) => role.name !== 'Agent')
-                        .map((role) => (
-                          <span key={role._id} className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                            {role.name}
-                          </span>
-                        ))
-                    ) : (
-                      user.role?.name !== 'Agent' && (
-                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
-                          {user.role?.name || 'No Role'}
-                        </span>
-                      )
-                    )}
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <button
-                    onClick={() => handleStatusToggle(user._id, user.status)}
-                    className={`inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded-full ${
-                      user.status === 'Active'
-                        ? 'bg-green-100 text-green-800 hover:bg-green-200'
-                        : 'bg-red-100 text-red-800 hover:bg-red-200'
-                    }`}
-                  >
-                    {user.status === 'Active' ? (
-                      <CheckCircle className="w-3 h-3" />
-                    ) : (
-                      <XCircle className="w-3 h-3" />
-                    )}
-                    {user.status}
-                  </button>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => handleEdit(user)}
-                      className="text-blue-600 hover:text-blue-900"
-                      title="Edit user"
-                    >
-                      <Edit className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(user._id)}
-                      className="text-red-600 hover:text-red-900 disabled:opacity-50 disabled:cursor-not-allowed"
-                      title="Delete user"
-                      disabled={user.roles?.some(r => r.name === 'Super Admin') || user.role?.name === 'Super Admin'}
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-6">
+          <p className="text-sm text-blue-800 dark:text-blue-200">
+            📝 Note: Agents are managed in the "Registered Agencies" module
+          </p>
+        </div>
+
+        <PageContent>
+          <PageContentSection noPadding>
+            {users.length === 0 ? (
+              <EmptyState
+                icon={<Shield className="w-16 h-16" />}
+                title="No users found"
+                description="Start by adding your first user to the system."
+                action={
+                  <Button onClick={handleCreate} startIcon={<Plus className="w-4 h-4" />}>
+                    Add First User
+                  </Button>
+                }
+              />
+            ) : (
+              <DataTable
+                columns={[
+                  {
+                    key: 'user',
+                    header: 'User',
+                    render: (user: User) => (
+                      <div className="font-semibold text-gray-900 dark:text-white">
+                        {user.name}
+                      </div>
+                    ),
+                  },
+                  {
+                    key: 'contact',
+                    header: 'Contact',
+                    render: (user: User) => (
+                      <div>
+                        <div className="text-sm text-gray-900 dark:text-gray-100">{user.email}</div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">{user.phone}</div>
+                      </div>
+                    ),
+                  },
+                  {
+                    key: 'role',
+                    header: 'Role',
+                    render: (user: User) => (
+                      <div className="flex flex-wrap gap-1">
+                        {user.roles && user.roles.length > 0 ? (
+                          user.roles
+                            .filter((role) => role.name !== 'Agent')
+                            .map((role) => (
+                              <Badge key={role._id} color="info">
+                                {role.name}
+                              </Badge>
+                            ))
+                        ) : (
+                          user.role?.name !== 'Agent' && (
+                            <Badge color="info">
+                              {user.role?.name || 'No Role'}
+                            </Badge>
+                          )
+                        )}
+                      </div>
+                    ),
+                  },
+                  {
+                    key: 'status',
+                    header: 'Status',
+                    render: (user: User) => (
+                      <button
+                        onClick={() => handleStatusToggle(user._id, user.status)}
+                        className={`inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded-full ${
+                          user.status === 'Active'
+                            ? 'bg-green-100 text-green-800 hover:bg-green-200'
+                            : 'bg-red-100 text-red-800 hover:bg-red-200'
+                        }`}
+                      >
+                        {user.status === 'Active' ? (
+                          <CheckCircle className="w-3 h-3" />
+                        ) : (
+                          <XCircle className="w-3 h-3" />
+                        )}
+                        {user.status}
+                      </button>
+                    ),
+                  },
+                  {
+                    key: 'actions',
+                    header: 'Actions',
+                    align: 'center',
+                    render: (user: User) => (
+                      <div className="flex items-center justify-center gap-2">
+                        <button
+                          onClick={() => handleEdit(user)}
+                          className="p-2 sm:p-2.5 text-warning-600 hover:bg-warning-50 dark:text-warning-400 dark:hover:bg-warning-900/20 rounded-lg transition-colors touch-manipulation"
+                          title="Edit"
+                        >
+                          <Edit className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(user._id)}
+                          className="p-2 sm:p-2.5 text-error-600 hover:bg-error-50 dark:text-error-400 dark:hover:bg-error-900/20 rounded-lg transition-colors touch-manipulation disabled:opacity-50 disabled:cursor-not-allowed"
+                          title="Delete"
+                          disabled={user.roles?.some(r => r.name === 'Super Admin') || user.role?.name === 'Super Admin'}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ),
+                  },
+                ]}
+                data={users}
+                keyExtractor={(user) => user._id}
+                hover
+              />
+            )}
+          </PageContentSection>
+        </PageContent>
 
       {showModal && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[1050] p-4 animate-fadeIn">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-9999 p-4 animate-fadeIn">
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto transform transition-all animate-slideUp">
             <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 sticky top-0 z-10">
               <h2 className="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
@@ -336,7 +366,7 @@ export default function UserManagement() {
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+                      className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-all"
                       placeholder="Enter full name"
                     />
                   </div>
@@ -350,7 +380,7 @@ export default function UserManagement() {
                       required
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+                      className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-all"
                       placeholder="email@example.com"
                     />
                   </div>
@@ -364,7 +394,7 @@ export default function UserManagement() {
                       required
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+                      className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-all"
                       placeholder="+1234567890"
                     />
                   </div>
@@ -397,13 +427,13 @@ export default function UserManagement() {
                       Agents must self-register through the Agent Portal on the main website.
                     </p>
                   </div>
-                  <div className="border border-gray-300 dark:border-gray-600 rounded-lg p-3 max-h-48 overflow-y-auto bg-white dark:bg-gray-700">
+                  <div className="border-2 border-gray-300 dark:border-gray-600 rounded-lg p-4 max-h-48 overflow-y-auto bg-white dark:bg-gray-700 shadow-inner">
                     {roles.filter(role => role.name !== 'Agent').length === 0 ? (
                       <p className="text-sm text-gray-500 dark:text-gray-400">No roles available</p>
                     ) : (
                       <div className="space-y-2">
                         {roles.filter(role => role.name !== 'Agent').map((role) => (
-                          <label key={role._id} className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-600 p-2 rounded">
+                          <label key={role._id} className="flex items-start gap-3 cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-900/20 p-3 rounded-lg transition-all group">
                             <input
                               type="checkbox"
                               checked={formData.role.includes(role._id)}
@@ -414,12 +444,14 @@ export default function UserManagement() {
                                   setFormData({ ...formData, role: formData.role.filter(r => r !== role._id) });
                                 }
                               }}
-                              className="w-4 h-4 text-blue-600 border-gray-300 dark:border-gray-600 rounded focus:ring-blue-500"
+                              className="w-5 h-5 mt-0.5 text-blue-600 border-2 border-gray-300 dark:border-gray-600 rounded focus:ring-2 focus:ring-blue-500 transition-all"
                             />
-                            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{role.name}</span>
-                            {role.description && (
-                              <span className="text-xs text-gray-500 dark:text-gray-400">- {role.description}</span>
-                            )}
+                            <div className="flex-1">
+                              <span className="text-sm font-semibold text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400">{role.name}</span>
+                              {role.description && (
+                                <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{role.description}</p>
+                              )}
+                            </div>
                           </label>
                         ))}
                       </div>
@@ -451,6 +483,7 @@ export default function UserManagement() {
           </div>
         </div>
       )}
-    </div>
+      </PageLayout>
+    </>
   );
 }

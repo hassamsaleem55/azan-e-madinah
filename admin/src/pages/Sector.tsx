@@ -2,18 +2,15 @@ import { useState, useEffect } from "react";
 import axiosInstance from "../Api/axios";
 import { MapPin, Plus, Edit, Trash2 } from "lucide-react";
 import { toast } from "react-hot-toast";
+import SectorForm from "./SectorForm";
 import {
   PageMeta,
   PageLayout,
   PageHeader,
   Button,
-  Modal,
-  ModalFooter,
   DataTable,
   LoadingState,
   EmptyState,
-  FormField,
-  Input,
 } from "../components";
 
 interface Sector {
@@ -24,12 +21,7 @@ interface Sector {
 }
 
 const Sector = () => {
-  const [formData, setFormData] = useState({
-    sectorTitle: "",
-    fullSector: "",
-  });
   const [sectors, setSectors] = useState<Sector[]>([]);
-  const [loading, setLoading] = useState(false);
   const [fetchLoading, setFetchLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -54,55 +46,23 @@ const Sector = () => {
 
   const handleCreate = () => {
     setEditingId(null);
-    setFormData({
-      sectorTitle: "",
-      fullSector: "",
-    });
     setShowModal(true);
   };
 
   const handleEdit = (sector: Sector) => {
     setEditingId(sector._id);
-    setFormData({
-      sectorTitle: sector.sectorTitle,
-      fullSector: sector.fullSector,
-    });
     setShowModal(true);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleModalClose = () => {
+    setShowModal(false);
+    setEditingId(null);
+  };
 
-    if (!formData.sectorTitle || !formData.fullSector) {
-      toast.error("All fields are required");
-      return;
-    }
-
-    try {
-      setLoading(true);
-
-      let response;
-      if (editingId) {
-        response = await axiosInstance.put(`/sector/${editingId}`, formData);
-      } else {
-        response = await axiosInstance.post("/sector/add", formData);
-      }
-
-      if (response.data.success) {
-        toast.success(editingId ? "Sector updated successfully" : "Sector added successfully");
-        setShowModal(false);
-        setFormData({
-          sectorTitle: "",
-          fullSector: "",
-        });
-        setEditingId(null);
-        fetchSectors();
-      }
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || "Failed to save sector");
-    } finally {
-      setLoading(false);
-    }
+  const handleModalSuccess = () => {
+    setShowModal(false);
+    setEditingId(null);
+    fetchSectors();
   };
 
   const handleDelete = async (id: string) => {
@@ -211,74 +171,13 @@ const Sector = () => {
           />
         )}
 
-        <Modal
-          isOpen={showModal}
-          onClose={() => setShowModal(false)}
-          title={editingId ? 'Edit Sector' : 'Add New Sector'}
-          size="md"
-        >
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                <MapPin className="w-5 h-5" />
-                Sector Details
-              </h3>
-              <div className="space-y-6">
-                <FormField label="Sector Title" required>
-                  <Input
-                    type="text"
-                    required
-                    value={formData.sectorTitle}
-                    onChange={(e) => {
-                      const input = e.target.value.replace(/-/g, '').toUpperCase();
-                      const formatted = input.length > 3 ? `${input.slice(0, 3)}-${input.slice(3, 6)}` : input;
-                      setFormData({ ...formData, sectorTitle: formatted });
-                    }}
-                    placeholder="e.g., DXB-JED"
-                  />
-                </FormField>
-
-                <FormField label="Full Sector" required>
-                  <Input
-                    type="text"
-                    required
-                    value={formData.fullSector}
-                    onChange={(e) => setFormData({ ...formData, fullSector: e.target.value })}
-                    placeholder="e.g., Dubai-Jeddah"
-                  />
-                </FormField>
-              </div>
-            </div>
-            
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-end pt-6 border-t border-gray-200 dark:border-gray-700 sticky bottom-0 bg-white dark:bg-gray-800 pb-2">
-              <button
-                type="button"
-                onClick={() => setShowModal(false)}
-                className="w-full sm:w-auto px-5 py-3 sm:px-6 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-all touch-manipulation"
-                disabled={loading}
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full sm:w-auto px-5 py-3 sm:px-6 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2 touch-manipulation"
-              >
-                {loading ? (
-                  <>
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                    <span>Saving...</span>
-                  </>
-                ) : (
-                  <>
-                    <MapPin className="w-5 h-5" />
-                    <span>{editingId ? 'Update Sector' : 'Add Sector'}</span>
-                  </>
-                )}
-              </button>
-            </div>
-          </form>
-        </Modal>
+        {showModal && (
+          <SectorForm
+            onClose={handleModalClose}
+            onSuccess={handleModalSuccess}
+            editId={editingId}
+          />
+        )}
       </PageLayout>
     </>
   );

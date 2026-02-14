@@ -1,70 +1,105 @@
 import { useState, useEffect } from 'react';
-import { X, Globe } from 'lucide-react';
+import { X, Building2, Upload } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import axiosInstance from '../Api/axios';
 import { Input } from '../components';
 
-interface VisaFormProps {
+interface BankFormProps {
     onClose: () => void;
     onSuccess: () => void;
     editId?: string | null;
 }
 
-const VisaForm = ({ onClose, onSuccess, editId }: VisaFormProps) => {
+const BankForm = ({ onClose, onSuccess, editId }: BankFormProps) => {
     const [loading, setLoading] = useState(false);
+    const [logo, setLogo] = useState<File | null>(null);
+    const [existingLogo, setExistingLogo] = useState<string>('');
+
     const [formData, setFormData] = useState({
-        country: '',
-        visaType: '',
-        processingTime: '',
-        fee: '',
-        requirements: ''
+        bankName: '',
+        accountTitle: '',
+        accountNo: '',
+        ibn: '',
+        bankAddress: ''
     });
 
     useEffect(() => {
         if (editId) {
-            fetchVisa();
+            fetchBank();
         }
     }, [editId]);
 
-    const fetchVisa = async () => {
+    const fetchBank = async () => {
         try {
             setLoading(true);
-            const response = await axiosInstance.get(`/visa/${editId}`);
-            const visa = response.data.data;
+            const response = await axiosInstance.get(`/bank/${editId}`);
+            const bank = response.data.data;
             setFormData({
-                country: visa.country || '',
-                visaType: visa.visaType || '',
-                processingTime: visa.processingTime || '',
-                fee: visa.fee || '',
-                requirements: visa.requirements || ''
+                bankName: bank.bankName || '',
+                accountTitle: bank.accountTitle || '',
+                accountNo: bank.accountNo || '',
+                ibn: bank.ibn || '',
+                bankAddress: bank.bankAddress || ''
             });
+            setExistingLogo(bank.logo || '');
         } catch (error) {
-            toast.error('Failed to fetch visa details');
+            toast.error('Failed to fetch bank details');
         } finally {
             setLoading(false);
         }
     };
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            setLogo(e.target.files[0]);
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        if (!formData.bankName || !formData.accountTitle || !formData.accountNo || !formData.ibn || !formData.bankAddress) {
+            toast.error('All fields are required');
+            return;
+        }
+
+        if (!editId && !logo) {
+            toast.error('Bank logo is required');
+            return;
+        }
+
         try {
             setLoading(true);
+            const submitData = new FormData();
+            submitData.append('bankName', formData.bankName);
+            submitData.append('accountTitle', formData.accountTitle);
+            submitData.append('accountNo', formData.accountNo);
+            submitData.append('ibn', formData.ibn);
+            submitData.append('bankAddress', formData.bankAddress);
+
+            if (logo) {
+                submitData.append('logo', logo);
+            }
+
             if (editId) {
-                await axiosInstance.put(`/visa/${editId}`, formData);
-                toast.success('Visa updated successfully');
+                await axiosInstance.put(`/bank/${editId}`, submitData, {
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                });
+                toast.success('Bank updated successfully');
             } else {
-                await axiosInstance.post('/visa/add', formData);
-                toast.success('Visa added successfully');
+                await axiosInstance.post('/bank/add', submitData, {
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                });
+                toast.success('Bank added successfully');
             }
             onSuccess();
         } catch (error: any) {
-            toast.error(error.response?.data?.message || 'Failed to save visa');
+            toast.error(error.response?.data?.message || 'Failed to save bank');
         } finally {
             setLoading(false);
         }
@@ -75,8 +110,8 @@ const VisaForm = ({ onClose, onSuccess, editId }: VisaFormProps) => {
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto transform transition-all animate-slideUp">
                 <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 sticky top-0 z-10">
                     <h2 className="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
-                        <Globe className="w-6 h-6" />
-                        {editId ? 'Edit Visa' : 'Add New Visa'}
+                        <Building2 className="w-6 h-6" />
+                        {editId ? 'Edit Bank' : 'Add New Bank'}
                     </h2>
                     <button
                         onClick={onClose}
@@ -89,79 +124,107 @@ const VisaForm = ({ onClose, onSuccess, editId }: VisaFormProps) => {
                 <form onSubmit={handleSubmit} className="p-6 space-y-6">
                     <div className="bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                            <Globe className="w-5 h-5" />
-                            Visa Information
+                            <Building2 className="w-5 h-5" />
+                            Bank Information
                         </h3>
                         
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    Country <span className="text-red-500">*</span>
-                                </label>
-                                <Input
-                                    type="text"
-                                    name="country"
-                                    required
-                                    value={formData.country}
-                                    onChange={handleInputChange}
-                                    placeholder="Enter country name"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    Visa Type <span className="text-red-500">*</span>
-                                </label>
-                                <Input
-                                    type="text"
-                                    name="visaType"
-                                    required
-                                    value={formData.visaType}
-                                    onChange={handleInputChange}
-                                    placeholder="e.g., Tourist, Business, Student"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    Processing Time <span className="text-red-500">*</span>
-                                </label>
-                                <Input
-                                    type="text"
-                                    name="processingTime"
-                                    required
-                                    value={formData.processingTime}
-                                    onChange={handleInputChange}
-                                    placeholder="e.g., 7-10 business days"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    Fee <span className="text-red-500">*</span>
-                                </label>
-                                <Input
-                                    type="number"
-                                    name="fee"
-                                    required
-                                    value={formData.fee}
-                                    onChange={handleInputChange}
-                                    placeholder="Enter visa fee"
-                                />
-                            </div>
-
                             <div className="md:col-span-2">
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    Requirements
+                                    Bank Name <span className="text-red-500">*</span>
                                 </label>
-                                <textarea
-                                    name="requirements"
-                                    value={formData.requirements}
+                                <Input
+                                    type="text"
+                                    name="bankName"
+                                    required
+                                    value={formData.bankName}
                                     onChange={handleInputChange}
-                                    placeholder="Enter visa requirements"
-                                    rows={4}
-                                    className="w-full px-4 py-3 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                    placeholder="Enter bank name"
                                 />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Account Title <span className="text-red-500">*</span>
+                                </label>
+                                <Input
+                                    type="text"
+                                    name="accountTitle"
+                                    required
+                                    value={formData.accountTitle}
+                                    onChange={handleInputChange}
+                                    placeholder="Enter account title"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Account Number <span className="text-red-500">*</span>
+                                </label>
+                                <Input
+                                    type="text"
+                                    name="accountNo"
+                                    required
+                                    value={formData.accountNo}
+                                    onChange={handleInputChange}
+                                    placeholder="Enter account number"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    IBAN <span className="text-red-500">*</span>
+                                </label>
+                                <Input
+                                    type="text"
+                                    name="ibn"
+                                    required
+                                    value={formData.ibn}
+                                    onChange={handleInputChange}
+                                    placeholder="Enter IBAN"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Bank Address <span className="text-red-500">*</span>
+                                </label>
+                                <Input
+                                    type="text"
+                                    name="bankAddress"
+                                    required
+                                    value={formData.bankAddress}
+                                    onChange={handleInputChange}
+                                    placeholder="Enter bank address"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Logo {!editId && <span className="text-red-500">*</span>}
+                                </label>
+                                <div className="flex items-center gap-4">
+                                    <label className="flex-1 flex items-center gap-2 px-4 py-3 border-2 border-dashed border-gray-300 hover:border-blue-500 rounded-lg cursor-pointer transition-all">
+                                        <Upload className="w-5 h-5 text-gray-400" />
+                                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                                            {logo ? logo.name : 'Choose bank logo'}
+                                        </span>
+                                        <input
+                                            type="file"
+                                            onChange={handleFileChange}
+                                            accept="image/*"
+                                            required={!editId}
+                                            className="hidden"
+                                        />
+                                    </label>
+                                    {existingLogo && !logo && (
+                                        <img
+                                            src={existingLogo}
+                                            alt="Current logo"
+                                            className="h-12 w-auto object-contain"
+                                        />
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -187,8 +250,8 @@ const VisaForm = ({ onClose, onSuccess, editId }: VisaFormProps) => {
                                 </>
                             ) : (
                                 <>
-                                    <Globe className="w-5 h-5" />
-                                    <span>{editId ? 'Update Visa' : 'Add Visa'}</span>
+                                    <Building2 className="w-5 h-5" />
+                                    <span>{editId ? 'Update Bank' : 'Add Bank'}</span>
                                 </>
                             )}
                         </button>
@@ -199,4 +262,4 @@ const VisaForm = ({ onClose, onSuccess, editId }: VisaFormProps) => {
     );
 };
 
-export default VisaForm;
+export default BankForm;

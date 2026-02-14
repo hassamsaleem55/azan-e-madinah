@@ -12,6 +12,7 @@ import {
   PageContentSection,
   FilterBar,
   Button,
+  Badge,
   Modal,
   DataTable,
   LoadingState,
@@ -216,7 +217,7 @@ const Flights = () => {
                                         key: 'sector',
                                         header: 'Sector',
                                         render: (flight: Flight) => (
-                                            <span className="text-sm">{flight.sector?.sectorTitle}</span>
+                                            <Badge color="info">{flight.sector?.sectorTitle}</Badge>
                                         ),
                                     },
                                     {
@@ -252,27 +253,27 @@ const Flights = () => {
                                         header: 'Actions',
                                         align: 'center',
                                         render: (flight: Flight) => (
-                                            <div className="flex items-center justify-center gap-1 sm:gap-2">
+                                            <div className="flex items-center justify-center gap-2">
                                                 <button
                                                     onClick={() => handleView(flight)}
                                                     className="p-2 sm:p-2.5 text-blue-600 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-900/20 rounded-lg transition-colors touch-manipulation"
                                                     title="View"
                                                 >
-                                                    <Eye className="w-4 h-4 sm:w-5 sm:h-5" />
+                                                    <Eye className="w-4 h-4" />
                                                 </button>
                                                 <button
                                                     onClick={() => handleEdit(flight._id)}
                                                     className="p-2 sm:p-2.5 text-warning-600 hover:bg-warning-50 dark:text-warning-400 dark:hover:bg-warning-900/20 rounded-lg transition-colors touch-manipulation"
                                                     title="Edit"
                                                 >
-                                                    <Edit className="w-4 h-4 sm:w-5 sm:h-5" />
+                                                    <Edit className="w-4 h-4" />
                                                 </button>
                                                 <button
                                                     onClick={() => handleDelete(flight._id)}
                                                     className="p-2 sm:p-2.5 text-error-600 hover:bg-error-50 dark:text-error-400 dark:hover:bg-error-900/20 rounded-lg transition-colors touch-manipulation"
                                                     title="Delete"
                                                 >
-                                                    <Trash2 className="w-4 h-4 sm:w-5 sm:h-5" />
+                                                    <Trash2 className="w-4 h-4" />
                                                 </button>
                                             </div>
                                         ),
@@ -307,16 +308,27 @@ const Flights = () => {
                                 <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
                                     {selectedFlight.flightNumber}
                                 </h3>
-                                <p className="text-gray-600 dark:text-gray-400 mt-1">
-                                    {selectedFlight.airline?.airlineName}
-                                </p>
+                                <div className="flex items-center gap-3 mt-3">
+                                    <p className="text-gray-600 dark:text-gray-400">
+                                        {selectedFlight.airline?.airlineName}
+                                    </p>
+                                    <Badge color="info">{selectedFlight.sector?.sectorTitle}</Badge>
+                                </div>
                             </div>
 
-                            <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Sector</p>
-                                <p className="text-lg font-semibold text-gray-900 dark:text-white mt-1">
-                                    {selectedFlight.sector?.fullSector}
-                                </p>
+                            <div className="grid grid-cols-2 gap-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                <div>
+                                    <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Full Sector</p>
+                                    <p className="text-lg font-semibold text-gray-900 dark:text-white mt-1">
+                                        {selectedFlight.sector?.fullSector}
+                                    </p>
+                                </div>
+                                <div>
+                                    <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Airline</p>
+                                    <p className="text-lg font-semibold text-gray-900 dark:text-white mt-1">
+                                        {selectedFlight.airline?.airlineName}
+                                    </p>
+                                </div>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

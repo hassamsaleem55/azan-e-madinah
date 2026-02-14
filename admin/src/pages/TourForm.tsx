@@ -160,7 +160,7 @@ const TourForm = ({ onClose, onSuccess, editId }: TourFormProps) => {
                                     onChange={handleInputChange}
                                     placeholder="Enter tour description"
                                     rows={4}
-                                    className="w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                    className="w-full px-4 py-3 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                                 />
                             </div>
                         </div>
