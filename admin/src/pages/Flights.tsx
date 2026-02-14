@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Plus, Edit, Trash2, Eye, Plane, Calendar as CalendarIcon, Clock } from 'lucide-react';
+import { Plus, Edit, Trash2, Eye, Plane, Calendar as CalendarIcon } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import axiosInstance from '../Api/axios';
 import DatePicker from 'react-datepicker';
+import FlightForm from './FlightForm';
 import {
   PageMeta,
   PageLayout,
@@ -11,16 +12,11 @@ import {
   PageContentSection,
   FilterBar,
   Button,
-  Badge,
   Modal,
-  ModalFooter,
   DataTable,
   LoadingState,
   EmptyState,
   FormField,
-  FormSection,
-  FormActions,
-  Input,
   Select,
 } from '../components';
 
@@ -46,29 +42,16 @@ const Flights = () => {
     const [showViewModal, setShowViewModal] = useState(false);
     const [editingId, setEditingId] = useState<string | null>(null);
     const [selectedFlight, setSelectedFlight] = useState<Flight | null>(null);
-    const [airlines, setAirlines] = useState<any[]>([]);
-    const [sectors, setSectors] = useState<any[]>([]);
     const [filters, setFilters] = useState({
         airline: '',
         date: ''
     });
 
-    const [formData, setFormData] = useState({
-        flightNumber: '',
-        airline: '',
-        sector: '',
-        departureCity: '',
-        departureDate: '',
-        departureTime: '',
-        arrivalCity: '',
-        arrivalDate: '',
-        arrivalTime: ''
-    });
+    const [airlines, setAirlines] = useState<any[]>([]);
 
     useEffect(() => {
         fetchFlights();
         fetchAirlines();
-        fetchSectors();
     }, [filters]);
 
     const fetchFlights = async () => {
@@ -95,15 +78,6 @@ const Flights = () => {
         }
     };
 
-    const fetchSectors = async () => {
-        try {
-            const response = await axiosInstance.get('/sector');
-            setSectors(response.data.data || []);
-        } catch (error) {
-            console.error('Failed to fetch sectors');
-        }
-    };
-
     const handleDelete = async (id: string) => {
         if (!window.confirm('Are you sure you want to delete this flight?')) return;
 
@@ -119,40 +93,12 @@ const Flights = () => {
 
     const handleCreate = () => {
         setEditingId(null);
-        setFormData({
-            flightNumber: '',
-            airline: '',
-            sector: '',
-            departureCity: '',
-            departureDate: '',
-            departureTime: '',
-            arrivalCity: '',
-            arrivalDate: '',
-            arrivalTime: ''
-        });
         setShowModal(true);
     };
 
-    const handleEdit = async (id: string) => {
-        try {
-            const response = await axiosInstance.get(`/flights/${id}`);
-            const flight = response.data.flight;
-            setFormData({
-                flightNumber: flight.flightNumber || '',
-                airline: flight.airline?._id || '',
-                sector: flight.sector?._id || '',
-                departureCity: flight.departureCity || '',
-                departureDate: flight.departureDate?.split('T')[0] || '',
-                departureTime: flight.departureTime || '',
-                arrivalCity: flight.arrivalCity || '',
-                arrivalDate: flight.arrivalDate?.split('T')[0] || '',
-                arrivalTime: flight.arrivalTime || ''
-            });
-            setEditingId(id);
-            setShowModal(true);
-        } catch (error) {
-            toast.error('Failed to fetch flight details');
-        }
+    const handleEdit = (id: string) => {
+        setEditingId(id);
+        setShowModal(true);
     };
 
     const handleView = (flight: Flight) => {
@@ -160,29 +106,15 @@ const Flights = () => {
         setShowViewModal(true);
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleModalClose = () => {
+        setShowModal(false);
+        setEditingId(null);
+    };
 
-        if (!formData.flightNumber || !formData.airline || !formData.sector || 
-            !formData.departureCity || !formData.departureDate || !formData.departureTime ||
-            !formData.arrivalCity || !formData.arrivalDate || !formData.arrivalTime) {
-            toast.error('Please fill all required fields');
-            return;
-        }
-
-        try {
-            if (editingId) {
-                await axiosInstance.put(`/flights/${editingId}`, formData);
-                toast.success('Flight updated successfully');
-            } else {
-                await axiosInstance.post('/flights', formData);
-                toast.success('Flight created successfully');
-            }
-            setShowModal(false);
-            fetchFlights();
-        } catch (error: any) {
-            toast.error(error.response?.data?.message || 'Failed to save flight');
-        }
+    const handleModalSuccess = () => {
+        setShowModal(false);
+        setEditingId(null);
+        fetchFlights();
     };
 
     const filteredFlights = flights.filter(flight =>
@@ -354,183 +286,13 @@ const Flights = () => {
                     </PageContentSection>
                 </PageContent>
 
-                {/* Create/Edit Modal */}
-                <Modal
-                    isOpen={showModal}
-                    onClose={() => setShowModal(false)}
-                    title={editingId ? 'Edit Flight' : 'Add New Flight'}
-                    size="xl"
-                >
-                    <form onSubmit={handleSubmit} id="flight-form">
-                        <FormSection>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <FormField label="Flight Number" required>
-                                    <Input
-                                        type="text"
-                                        value={formData.flightNumber}
-                                        onChange={(e) => setFormData({ ...formData, flightNumber: e.target.value })}
-                                        placeholder="e.g., PK-725"
-                                    />
-                                </FormField>
-
-                                <FormField label="Airline" required>
-                                    <Select
-                                        value={formData.airline}
-                                        onChange={(e) => setFormData({ ...formData, airline: e.target.value })}
-                                        options={airlines.map(a => ({ value: a._id, label: a.airlineName }))}
-                                        placeholder="Select Airline"
-                                    />
-                                </FormField>
-
-                                <FormField label="Sector" required>
-                                    <Select
-                                        value={formData.sector}
-                                        onChange={(e) => setFormData({ ...formData, sector: e.target.value })}
-                                        options={sectors.map(s => ({ value: s._id, label: `${s.sectorTitle} - ${s.fullSector}` }))}
-                                        placeholder="Select Sector"
-                                    />
-                                </FormField>
-
-                                <FormField label="Departure City" required>
-                                    <Input
-                                        type="text"
-                                        value={formData.departureCity}
-                                        onChange={(e) => setFormData({ ...formData, departureCity: e.target.value })}
-                                        placeholder="e.g., Lahore"
-                                    />
-                                </FormField>
-
-                                <FormField label="Departure Date" required>
-                                    <div className="relative">
-                                        <DatePicker
-                                            selected={formData.departureDate ? new Date(formData.departureDate) : null}
-                                            onChange={(date: Date | null) => {
-                                                setFormData({ 
-                                                    ...formData, 
-                                                    departureDate: date ? date.toISOString().split('T')[0] : '' 
-                                                });
-                                            }}
-                                            dateFormat="MMMM d, yyyy"
-                                            minDate={new Date()}
-                                            placeholderText="Select departure date"
-                                            className="w-full h-11 px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm focus:outline-none focus:ring-3 focus:ring-brand-500/20 dark:bg-gray-900 dark:text-white/90"
-                                            wrapperClassName="w-full"
-                                        />
-                                        <CalendarIcon className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
-                                    </div>
-                                </FormField>
-
-                                <FormField label="Departure Time" required>
-                                    <div className="relative">
-                                        <DatePicker
-                                            selected={formData.departureTime ? new Date(`2000-01-01T${formData.departureTime}`) : null}
-                                            onChange={(date: Date | null) => {
-                                                if (date) {
-                                                    const hours = date.getHours().toString().padStart(2, '0');
-                                                    const minutes = date.getMinutes().toString().padStart(2, '0');
-                                                    setFormData({ ...formData, departureTime: `${hours}:${minutes}` });
-                                                } else {
-                                                    setFormData({ ...formData, departureTime: '' });
-                                                }
-                                            }}
-                                            showTimeSelect
-                                            showTimeSelectOnly
-                                            timeIntervals={15}
-                                            timeCaption="Time"
-                                            dateFormat="h:mm aa"
-                                            placeholderText="Select departure time"
-                                            className="w-full h-11 px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm focus:outline-none focus:ring-3 focus:ring-brand-500/20 dark:bg-gray-900 dark:text-white/90"
-                                            wrapperClassName="w-full"
-                                        />
-                                        <Clock className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
-                                    </div>
-                                </FormField>
-
-                                <FormField label="Arrival City" required>
-                                    <Input
-                                        type="text"
-                                        value={formData.arrivalCity}
-                                        onChange={(e) => setFormData({ ...formData, arrivalCity: e.target.value })}
-                                        placeholder="e.g., Jeddah"
-                                    />
-                                </FormField>
-
-                                <FormField label="Arrival Date" required>
-                                    <div className="relative">
-                                        <DatePicker
-                                            selected={formData.arrivalDate ? new Date(formData.arrivalDate) : null}
-                                            onChange={(date: Date | null) => {
-                                                setFormData({ 
-                                                    ...formData, 
-                                                    arrivalDate: date ? date.toISOString().split('T')[0] : '' 
-                                                });
-                                            }}
-                                            dateFormat="MMMM d, yyyy"
-                                            minDate={formData.departureDate ? new Date(formData.departureDate) : new Date()}
-                                            placeholderText="Select arrival date"
-                                            className="w-full h-11 px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm focus:outline-none focus:ring-3 focus:ring-brand-500/20 dark:bg-gray-900 dark:text-white/90"
-                                            wrapperClassName="w-full"
-                                        />
-                                        <CalendarIcon className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
-                                    </div>
-                                </FormField>
-
-                                <FormField label="Arrival Time" required>
-                                    <div className="relative">
-                                        <DatePicker
-                                            selected={formData.arrivalTime ? new Date(`2000-01-01T${formData.arrivalTime}`) : null}
-                                            onChange={(date: Date | null) => {
-                                                if (date) {
-                                                    const hours = date.getHours().toString().padStart(2, '0');
-                                                    const minutes = date.getMinutes().toString().padStart(2, '0');
-                                                    setFormData({ ...formData, arrivalTime: `${hours}:${minutes}` });
-                                                } else {
-                                                    setFormData({ ...formData, arrivalTime: '' });
-                                                }
-                                            }}
-                                            showTimeSelect
-                                            showTimeSelectOnly
-                                            timeIntervals={15}
-                                            timeCaption="Time"
-                                            dateFormat="h:mm aa"
-                                            placeholderText="Select arrival time"
-                                            className="w-full h-11 px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg text-sm focus:outline-none focus:ring-3 focus:ring-brand-500/20 dark:bg-gray-900 dark:text-white/90"
-                                            wrapperClassName="w-full"
-                                        />
-                                        <Clock className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
-                                    </div>
-                                </FormField>
-                            </div>
-                        </FormSection>
-                        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-end pt-6 border-t border-gray-200 dark:border-gray-700 sticky bottom-0 bg-white dark:bg-gray-800 pb-2">
-                            <button
-                                type="button"
-                                onClick={() => setShowModal(false)}
-                                className="w-full sm:w-auto px-5 py-3 sm:px-6 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-all touch-manipulation"
-                                disabled={loading}
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                type="submit"
-                                disabled={loading}
-                                className="w-full sm:w-auto px-5 py-3 sm:px-6 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2 touch-manipulation"
-                            >
-                                {loading ? (
-                                    <>
-                                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                                        <span>Saving...</span>
-                                    </>
-                                ) : (
-                                    <>
-                                        <Plane className="w-5 h-5" />
-                                        <span>{editingId ? 'Update Flight' : 'Add Flight'}</span>
-                                    </>
-                                )}
-                            </button>
-                        </div>
-                    </form>
-                </Modal>
+                {showModal && (
+                    <FlightForm
+                        onClose={handleModalClose}
+                        onSuccess={handleModalSuccess}
+                        editId={editingId}
+                    />
+                )}
 
                 {/* View Modal */}
                 {selectedFlight && (

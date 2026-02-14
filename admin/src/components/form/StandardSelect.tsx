@@ -119,9 +119,8 @@ const Select: React.FC<SelectProps> = ({
   };
 
   const baseClasses = 'h-11 sm:h-12 w-full flex items-center justify-between appearance-none rounded-xl border-2 px-3 sm:px-4 py-2.5 sm:py-3 text-sm font-semibold shadow-sm transition-all duration-300';
-  const normalClasses = 'bg-white dark:bg-gray-900 text-gray-900 dark:text-white';
-  const hoverClasses = 'hover:border-brand-300 hover:shadow-md hover:bg-linear-to-br hover:from-white hover:to-gray-50 dark:hover:border-brand-700 dark:hover:from-gray-900 dark:hover:to-gray-800';
-  const focusClasses = 'focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 focus:shadow-lg focus:shadow-brand-500/20 dark:focus:border-brand-400';
+  const normalClasses = 'dark:bg-gray-900 text-gray-900 dark:text-white';
+  const hoverClasses = 'hover:border-brand-300 hover:shadow-md hover:bg-linear-to-br dark:hover:border-brand-700 dark:hover:from-gray-900 dark:hover:to-gray-800';
   const disabledClasses = 'disabled:bg-gray-100 disabled:dark:bg-gray-800 disabled:text-gray-500 disabled:dark:text-gray-400 disabled:cursor-not-allowed disabled:opacity-60';
   const errorClasses = error ? 'border-error-500 focus:border-error-500 focus:ring-error-500/20 focus:shadow-error-500/20' : '';
   const successClasses = success ? 'border-success-500 focus:border-success-500 focus:ring-success-500/20 focus:shadow-success-500/20' : '';
@@ -169,7 +168,7 @@ const Select: React.FC<SelectProps> = ({
       >
         <span className="truncate">{selectedOption?.label || placeholder}</span>
         <ChevronDown
-          className={`w-5 h-5 flex-shrink-0 ml-2 transition-all duration-300 ${
+          className={`w-5 h-5 shrink-0 ml-2 transition-all duration-300 ${
             error ? 'text-error-500' : success ? 'text-success-500' : 'text-brand-500 dark:text-brand-400'
           } ${isOpen ? 'rotate-180' : ''}`}
         />
@@ -177,7 +176,7 @@ const Select: React.FC<SelectProps> = ({
 
       {/* Dropdown Panel */}
       {isOpen && !menuPortalTarget && (
-        <div className="absolute z-[1000] w-full mt-2 backdrop-blur-xl bg-white/95 dark:bg-gray-900/95 rounded-2xl border-2 border-brand-200/50 dark:border-brand-700/50 shadow-2xl shadow-brand-500/20 dark:shadow-brand-500/10 animate-scaleIn origin-top overflow-hidden">
+        <div className="absolute z-1000 w-full mt-2 backdrop-blur-xl dark:bg-gray-900/95 rounded-2xl border-2 border-brand-200/50 dark:border-brand-700/50 shadow-2xl shadow-brand-500/20 dark:shadow-brand-500/10 animate-scaleIn origin-top overflow-hidden">
           {/* Search Input */}
           {options.length > 5 && (
             <div className="p-3 border-b-2 border-gray-100 dark:border-gray-800">
@@ -216,7 +215,7 @@ const Select: React.FC<SelectProps> = ({
                   >
                     <span className="truncate">{option.label}</span>
                     {isSelected && (
-                      <Check className="w-4 h-4 flex-shrink-0 ml-2 text-brand-600 dark:text-brand-400" />
+                      <Check className="w-4 h-4 shrink-0 ml-2 text-brand-600 dark:text-brand-400" />
                     )}
                   </button>
                 );
@@ -230,7 +229,7 @@ const Select: React.FC<SelectProps> = ({
       {isOpen && menuPortalTarget && createPortal(
         <div 
           ref={dropdownRef}
-          className="fixed z-[9999] backdrop-blur-xl bg-white/95 dark:bg-gray-900/95 rounded-2xl border-2 border-brand-200/50 dark:border-brand-700/50 shadow-2xl shadow-brand-500/20 dark:shadow-brand-500/10 animate-scaleIn origin-top overflow-hidden"
+          className="fixed z-9999 backdrop-blur-xl  dark:bg-gray-900/95 rounded-2xl border-2 border-brand-200/50 dark:border-brand-700/50 shadow-2xl shadow-brand-500/20 dark:shadow-brand-500/10 animate-scaleIn origin-top overflow-hidden"
           style={{
             top: `${dropdownPosition.top + 8}px`,
             left: `${dropdownPosition.left}px`,
@@ -276,7 +275,7 @@ const Select: React.FC<SelectProps> = ({
                   >
                     <span className="truncate">{option.label}</span>
                     {isSelected && (
-                      <Check className="w-4 h-4 flex-shrink-0 ml-2 text-brand-600 dark:text-brand-400" />
+                      <Check className="w-4 h-4 shrink-0 ml-2 text-brand-600 dark:text-brand-400" />
                     )}
                   </button>
                 );

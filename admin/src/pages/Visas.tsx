@@ -3,6 +3,7 @@ import { Plus, Edit, Trash2, Eye, Globe } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import axiosInstance from '../Api/axios';
 import { Visa } from '../types';
+import VisaForm from './VisaForm';
 import {
   PageMeta,
   PageLayout,
@@ -24,7 +25,7 @@ const Visas = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [showViewModal, setShowViewModal] = useState(false);
-    const [editingVisa, setEditingVisa] = useState<Visa | null>(null);
+    const [editingVisaId, setEditingVisaId] = useState<string | null>(null);
     const [selectedVisa, setSelectedVisa] = useState<Visa | null>(null);
     const [filters, setFilters] = useState({
         visaType: '',
@@ -64,18 +65,29 @@ const Visas = () => {
     };
 
     const handleCreate = () => {
-        setEditingVisa(null);
+        setEditingVisaId(null);
         setShowModal(true);
     };
 
     const handleEdit = (visa: Visa) => {
-        setEditingVisa(visa);
+        setEditingVisaId(visa._id);
         setShowModal(true);
     };
 
     const handleView = (visa: Visa) => {
         setSelectedVisa(visa);
         setShowViewModal(true);
+    };
+
+    const handleModalClose = () => {
+        setShowModal(false);
+        setEditingVisaId(null);
+    };
+
+    const handleModalSuccess = () => {
+        setShowModal(false);
+        setEditingVisaId(null);
+        fetchVisas();
     };
 
     const filteredVisas = visas.filter(visa =>
@@ -232,18 +244,13 @@ const Visas = () => {
                     />
                 )}
 
-                <Modal
-                    isOpen={showModal}
-                    onClose={() => setShowModal(false)}
-                    title={editingVisa ? 'Edit Visa' : 'Add New Visa'}
-                    size="lg"
-                >
-                    <div className="p-6">
-                        <p className="text-gray-600 dark:text-gray-400 text-center py-8">
-                            Visa form implementation pending - API integration required
-                        </p>
-                    </div>
-                </Modal>
+                {showModal && (
+                    <VisaForm
+                        onClose={handleModalClose}
+                        onSuccess={handleModalSuccess}
+                        editId={editingVisaId}
+                    />
+                )}
 
                 <Modal
                     isOpen={showViewModal}

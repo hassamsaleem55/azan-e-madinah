@@ -152,7 +152,7 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
     };
 
     return (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[1050] p-4 animate-fadeIn">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-1050 p-4 animate-fadeIn">
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto transform transition-all animate-slideUp">
                 <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 sticky top-0 z-10">
                     <h2 className="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
@@ -300,7 +300,7 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
                                 </div>
                             )}
                             {formData.accommodation.map((acc, index) => (
-                                <div key={index} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 p-4 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+                                <div key={index} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 p-4 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                             City
@@ -462,7 +462,7 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
                         <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Select what's included in this package</p>
                         
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                            <label className="flex items-center gap-2 cursor-pointer p-3 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-primary-500 transition-all">
+                            <label className="flex items-center gap-2 cursor-pointer p-3 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-primary-500 transition-all">
                                 <input
                                     type="checkbox"
                                     checked={formData.inclusions.visa}
@@ -475,7 +475,7 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
                                 <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Visa</span>
                             </label>
 
-                            <label className="flex items-center gap-2 cursor-pointer p-3 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-primary-500 transition-all">
+                            <label className="flex items-center gap-2 cursor-pointer p-3 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-primary-500 transition-all">
                                 <input
                                     type="checkbox"
                                     checked={formData.inclusions.insurance}
@@ -488,7 +488,7 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
                                 <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Insurance</span>
                             </label>
 
-                            <label className="flex items-center gap-2 cursor-pointer p-3 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-primary-500 transition-all">
+                            <label className="flex items-center gap-2 cursor-pointer p-3 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-primary-500 transition-all">
                                 <input
                                     type="checkbox"
                                     checked={formData.inclusions.transport}
@@ -501,7 +501,7 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
                                 <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Transport</span>
                             </label>
 
-                            <label className="flex items-center gap-2 cursor-pointer p-3 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-primary-500 transition-all">
+                            <label className="flex items-center gap-2 cursor-pointer p-3 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-primary-500 transition-all">
                                 <input
                                     type="checkbox"
                                     checked={formData.inclusions.accommodation}
@@ -514,7 +514,7 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
                                 <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Accommodation</span>
                             </label>
 
-                            <label className="flex items-center gap-2 cursor-pointer p-3 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-primary-500 transition-all">
+                            <label className="flex items-center gap-2 cursor-pointer p-3 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-primary-500 transition-all">
                                 <input
                                     type="checkbox"
                                     checked={formData.inclusions.ziayarahWithGuide}
@@ -527,7 +527,7 @@ const PackageForm = ({ onClose, onSuccess, editId }: PackageFormProps) => {
                                 <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Ziarah with Guide</span>
                             </label>
 
-                            <label className="flex items-center gap-2 cursor-pointer p-3 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-primary-500 transition-all">
+                            <label className="flex items-center gap-2 cursor-pointer p-3 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-primary-500 transition-all">
                                 <input
                                     type="checkbox"
                                     checked={formData.inclusions.returnFlights}

@@ -3,6 +3,7 @@ import { Plus, Edit, Trash2, Eye, MapPin } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import axiosInstance from '../Api/axios';
 import { Tour } from '../types';
+import TourForm from './TourForm';
 import {
   PageMeta,
   PageLayout,
@@ -24,7 +25,7 @@ const Tours = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [showViewModal, setShowViewModal] = useState(false);
-    const [editingTour, setEditingTour] = useState<Tour | null>(null);
+    const [editingTourId, setEditingTourId] = useState<string | null>(null);
     const [selectedTour, setSelectedTour] = useState<Tour | null>(null);
     const [filters, setFilters] = useState({
         type: '',
@@ -65,18 +66,29 @@ const Tours = () => {
     };
 
     const handleCreate = () => {
-        setEditingTour(null);
+        setEditingTourId(null);
         setShowModal(true);
     };
 
     const handleEdit = (tour: Tour) => {
-        setEditingTour(tour);
+        setEditingTourId(tour._id);
         setShowModal(true);
     };
 
     const handleView = (tour: Tour) => {
         setSelectedTour(tour);
         setShowViewModal(true);
+    };
+
+    const handleModalClose = () => {
+        setShowModal(false);
+        setEditingTourId(null);
+    };
+
+    const handleModalSuccess = () => {
+        setShowModal(false);
+        setEditingTourId(null);
+        fetchTours();
     };
 
     const filteredTours = tours.filter(tour =>
@@ -251,18 +263,13 @@ const Tours = () => {
                     />
                 )}
 
-                <Modal
-                    isOpen={showModal}
-                    onClose={() => setShowModal(false)}
-                    title={editingTour ? 'Edit Tour' : 'Add New Tour'}
-                    size="lg"
-                >
-                    <div className="p-6">
-                        <p className="text-gray-600 dark:text-gray-400 text-center py-8">
-                            Tour form implementation pending - API integration required
-                        </p>
-                    </div>
-                </Modal>
+                {showModal && (
+                    <TourForm
+                        onClose={handleModalClose}
+                        onSuccess={handleModalSuccess}
+                        editId={editingTourId}
+                    />
+                )}
 
                 <Modal
                     isOpen={showViewModal}

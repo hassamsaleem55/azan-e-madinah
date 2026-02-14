@@ -611,7 +611,7 @@ const GroupTicketingForm = () => {
                         value={flight.flightNo}
                         onChange={(e) => updateFlight(index, "flightNo", e.target.value)}
                         placeholder="e.g., PK-340"
-                        className="w-full min-w-[100px] h-10 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 text-xs font-semibold text-gray-900 dark:text-white placeholder:text-gray-400 outline-none hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 shadow-sm hover:shadow-md"
+                        className="w-full min-w-25 h-10 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 text-xs font-semibold text-gray-900 dark:text-white placeholder:text-gray-400 outline-none hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 shadow-sm hover:shadow-md"
                       />
                     </td>
                     <td className="px-4 py-4">
@@ -623,7 +623,7 @@ const GroupTicketingForm = () => {
                           }}
                           dateFormat="MMMM d, yyyy"
                           placeholderText="Select departure date"
-                          className="w-full min-w-[150px] h-10 pl-10 pr-3 text-xs font-semibold border-2 border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white outline-none hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer"
+                          className="w-full min-w-37.5 h-10 pl-10 pr-3 text-xs font-semibold border-2 border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white outline-none hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer"
                           wrapperClassName="w-full"
                           popperClassName="z-50"
                           portalId="root"
@@ -650,7 +650,7 @@ const GroupTicketingForm = () => {
                           timeCaption="Time"
                           dateFormat="h:mm aa"
                           placeholderText="Select departure time"
-                          className="w-full min-w-[130px] h-10 pl-10 pr-3 text-xs font-semibold border-2 border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white outline-none hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer"
+                          className="w-full min-w-32.5 h-10 pl-10 pr-3 text-xs font-semibold border-2 border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white outline-none hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer"
                           wrapperClassName="w-full"
                           popperClassName="z-50"
                           portalId="root"
@@ -667,7 +667,7 @@ const GroupTicketingForm = () => {
                         value={cityOptions.find((opt) => opt.value === flight.sectorFrom) || null}
                         onChange={(option: any) => updateFlight(index, "sectorFrom", option?.value || "")}
                         placeholder="Select city"
-                        className="min-w-[150px]"
+                        className="min-w-37.5"
                         menuPortalTarget={document.body}
                         menuPosition="fixed"
                       />
@@ -678,7 +678,7 @@ const GroupTicketingForm = () => {
                         value={flight.fromTerminal}
                         onChange={(e) => updateFlight(index, "fromTerminal", e.target.value)}
                         placeholder="T1, T2..."
-                        className="w-full min-w-[90px] h-10 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 text-xs font-semibold text-gray-900 dark:text-white placeholder:text-gray-400 outline-none hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 shadow-sm hover:shadow-md"
+                        className="w-full min-w-22.5 h-10 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 text-xs font-semibold text-gray-900 dark:text-white placeholder:text-gray-400 outline-none hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 shadow-sm hover:shadow-md"
                       />
                     </td>
                     <td className="px-4 py-4">
@@ -690,7 +690,7 @@ const GroupTicketingForm = () => {
                         value={cityOptions.find((opt) => opt.value === flight.sectorTo) || null}
                         onChange={(option: any) => updateFlight(index, "sectorTo", option?.value || "")}
                         placeholder="Select city"
-                        className="min-w-[150px]"
+                        className="min-w-37.5"
                         menuPortalTarget={document.body}
                         menuPosition="fixed"
                       />
@@ -701,7 +701,7 @@ const GroupTicketingForm = () => {
                         value={flight.toTerminal}
                         onChange={(e) => updateFlight(index, "toTerminal", e.target.value)}
                         placeholder="T1, T2..."
-                        className="w-full min-w-[90px] h-10 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 text-xs font-semibold text-gray-900 dark:text-white placeholder:text-gray-400 outline-none hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 shadow-sm hover:shadow-md"
+                        className="w-full min-w-22.5 h-10 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 text-xs font-semibold text-gray-900 dark:text-white placeholder:text-gray-400 outline-none hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 shadow-sm hover:shadow-md"
                       />
                     </td>
                     <td className="px-4 py-4">
@@ -728,7 +728,7 @@ const GroupTicketingForm = () => {
                           dateFormat="MMMM d, yyyy"
                           minDate={flight.depDate ? new Date(flight.depDate) : undefined}
                           placeholderText="Select arrival date"
-                          className="w-full min-w-[150px] h-10 pl-10 pr-3 text-xs font-semibold border-2 border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white outline-none hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer"
+                          className="w-full min-w-37.5 h-10 pl-10 pr-3 text-xs font-semibold border-2 border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white outline-none hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer"
                           wrapperClassName="w-full"
                           popperClassName="z-50"
                           portalId="root"
@@ -755,7 +755,7 @@ const GroupTicketingForm = () => {
                           timeCaption="Time"
                           dateFormat="h:mm aa"
                           placeholderText="Select arrival time"
-                          className="w-full min-w-[130px] h-10 pl-10 pr-3 text-xs font-semibold border-2 border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white outline-none hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer"
+                          className="w-full min-w-32.5 h-10 pl-10 pr-3 text-xs font-semibold border-2 border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white outline-none hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer"
                           wrapperClassName="w-full"
                           popperClassName="z-50"
                           portalId="root"
@@ -769,7 +769,7 @@ const GroupTicketingForm = () => {
                         value={flight.baggage}
                         onChange={(e) => updateFlight(index, "baggage", e.target.value)}
                         placeholder="30kg"
-                        className="w-full min-w-[90px] h-10 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 text-xs font-semibold text-gray-900 dark:text-white placeholder:text-gray-400 outline-none hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 shadow-sm hover:shadow-md"
+                        className="w-full min-w-22.5 h-10 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 text-xs font-semibold text-gray-900 dark:text-white placeholder:text-gray-400 outline-none hover:border-brand-300 dark:hover:border-brand-700 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 dark:focus:border-brand-400 transition-all duration-300 shadow-sm hover:shadow-md"
                       />
                     </td>
                     <td className="px-4 py-4">
@@ -969,7 +969,7 @@ const GroupTicketingForm = () => {
               type="button"
               variant="outline"
               onClick={() => navigate("/group-ticketing")}
-              className="gap-2 min-w-[120px]"
+              className="gap-2 min-w-30"
             >
               <ArrowLeft className="w-4 h-4" />
               Cancel
@@ -977,7 +977,7 @@ const GroupTicketingForm = () => {
             <Button
               type="submit"
               disabled={loading}
-              className="gap-2 min-w-[140px] bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/25"
+              className="gap-2 min-w-35 bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/25"
             >
               <Save className="w-4 h-4" />
               {loading ? "Saving..." : editMode ? "Update Booking" : "Create Booking"}
