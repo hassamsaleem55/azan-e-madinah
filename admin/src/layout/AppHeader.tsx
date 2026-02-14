@@ -1,18 +1,19 @@
 import { useEffect, useRef, useState } from "react";
-
 import { Link } from "react-router";
 import { useSidebar } from "../context/SidebarContext";
 import { ThemeToggleButton } from "../components/common/ThemeToggleButton";
-// import NotificationDropdown from "../components/header/NotificationDropdown";
 import UserDropdown from "../components/header/UserDropdown";
 import RoleSwitcher from "../components/RoleSwitcher";
 
 const AppHeader: React.FC = () => {
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);
 
-  const { isMobileOpen, toggleSidebar, toggleMobileSidebar } = useSidebar();
+  const { isMobileOpen, isExpanded, isHovered, toggleSidebar, toggleMobileSidebar } = useSidebar();
 
   const handleToggle = () => {
+    // Close application menu when toggling sidebar
+    setApplicationMenuOpen(false);
+    
     if (window.innerWidth >= 1024) {
       toggleSidebar();
     } else {
@@ -26,27 +27,54 @@ const AppHeader: React.FC = () => {
 
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Close application menu when sidebar opens on mobile
+  useEffect(() => {
+    if (isMobileOpen) {
+      setApplicationMenuOpen(false);
+    }
+  }, [isMobileOpen]);
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key === "k") {
         event.preventDefault();
         inputRef.current?.focus();
       }
+      
+      // Close mobile menu on Escape key
+      if (event.key === "Escape" && isApplicationMenuOpen) {
+        setApplicationMenuOpen(false);
+      }
+    };
+
+    const handleClickOutside = (event: MouseEvent) => {
+      // Close mobile menu when clicking outside on mobile
+      if (isApplicationMenuOpen && window.innerWidth < 1024) {
+        const target = event.target as HTMLElement;
+        if (!target.closest('header')) {
+          setApplicationMenuOpen(false);
+        }
+      }
     };
 
     document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("click", handleClickOutside);
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("click", handleClickOutside);
     };
-  }, []);
+  }, [isApplicationMenuOpen]);
 
   return (
-    <header className="fixed top-0 left-0 right-0 flex w-full backdrop-blur-xl bg-white/80 dark:bg-gray-900/80 border-b border-gray-200/50 dark:border-gray-800/50 z-[1060] shadow-sm transition-all duration-300">
-      <div className="flex flex-col items-center justify-between grow lg:flex-row lg:px-6">
-        <div className="flex items-center justify-between w-full gap-2 px-3 py-4 border-b border-gray-200/50 dark:border-gray-800/50 sm:gap-4 lg:justify-normal lg:border-b-0 lg:px-0 lg:py-5">
+    <header className={`fixed top-0 right-0 h-16 backdrop-blur-2xl bg-gradient-to-r from-white/98 via-white/96 to-white/98 dark:from-gray-900/98 dark:via-gray-900/96 dark:to-gray-900/98 border-b border-gray-200/60 dark:border-gray-800/60 z-[1040] shadow-xl shadow-gray-300/10 dark:shadow-black/30 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+      isExpanded || isHovered ? "left-0 lg:left-[290px]" : "left-0 lg:left-[90px]"
+    }`}>
+      <div className="flex items-center justify-between w-full h-full px-4 lg:px-6">
+        <div className="flex items-center gap-3 lg:gap-4 h-full">
+          {/* Sidebar Toggle Button */}
           <button
-            className="items-center justify-center w-11 h-11 text-gray-600 bg-gray-100 dark:bg-gray-800 rounded-xl dark:border-gray-800 lg:flex dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
+            className="flex items-center justify-center w-10 h-10 text-gray-600 bg-gradient-to-br from-gray-100 to-gray-50 dark:from-gray-800 dark:to-gray-850 rounded-lg border border-gray-200/50 dark:border-gray-700/50 dark:text-gray-400 hover:from-gray-200 hover:to-gray-100 dark:hover:from-gray-700 dark:hover:to-gray-750 transition-all duration-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900"
             onClick={handleToggle}
             aria-label="Toggle Sidebar"
           >
@@ -83,58 +111,71 @@ const AppHeader: React.FC = () => {
                 />
               </svg>
             )}
-            {/* Cross Icon */}
           </button>
 
-          <Link to="/" className="lg:hidden hover:opacity-80 transition-opacity duration-300">
+          {/* Mobile Logo */}
+          <Link to="/" className="lg:hidden hover:opacity-80 transition-all duration-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#C9A536]/50 focus:ring-offset-2 rounded-lg flex items-center">
             <img
-              className="w-12"
+              className="w-10 h-10 object-contain drop-shadow-md"
               src="/admin-portal/images/logo/azan-e-madinah-logo.png"
               alt="Logo"
             />
-            {/* <img
-              className="hidden dark:block"
-              src="./admin-portal/images/logo/logo-dark.webp"
-              alt="Logo"
-            /> */}
           </Link>
-
-          <button
-            onClick={toggleApplicationMenu}
-            className="flex items-center justify-center w-11 h-11 text-gray-700 bg-gray-100 dark:bg-gray-800 rounded-xl hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 lg:hidden transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
-          >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M5.99902 10.4951C6.82745 10.4951 7.49902 11.1667 7.49902 11.9951V12.0051C7.49902 12.8335 6.82745 13.5051 5.99902 13.5051C5.1706 13.5051 4.49902 12.8335 4.49902 12.0051V11.9951C4.49902 11.1667 5.1706 10.4951 5.99902 10.4951ZM17.999 10.4951C18.8275 10.4951 19.499 11.1667 19.499 11.9951V12.0051C19.499 12.8335 18.8275 13.5051 17.999 13.5051C17.1706 13.5051 16.499 12.8335 16.499 12.0051V11.9951C16.499 11.1667 17.1706 10.4951 17.999 10.4951ZM13.499 11.9951C13.499 11.1667 12.8275 10.4951 11.999 10.4951C11.1706 10.4951 10.499 11.1667 10.499 11.9951V12.0051C10.499 12.8335 11.1706 13.5051 11.999 13.5051C12.8275 13.5051 13.499 12.8335 13.499 12.0051V11.9951Z"
-                fill="currentColor"
-              />
-            </svg>
-          </button>
         </div>
-        <div
-          className={`${isApplicationMenuOpen ? "flex" : "hidden"
-            } items-center justify-between w-full gap-4 px-5 py-4 lg:flex lg:justify-end lg:px-0 animate-fadeIn`}
-        >
-          <div className="flex items-center gap-3 2xsm:gap-4">
-            {/* <!-- Role Switcher --> */}
+
+        {/* Desktop Menu */}
+        <div className="hidden lg:flex items-center justify-end gap-4 h-full">
+          <div className="flex items-center gap-3">
             <RoleSwitcher />
-            {/* <!-- Dark Mode Toggler --> */}
             <ThemeToggleButton />
-            {/* <!-- Dark Mode Toggler --> */}
-            {/* <NotificationDropdown /> */}
-            {/* <!-- Notification Menu Area --> */}
           </div>
-          {/* <!-- User Area --> */}
           <UserDropdown />
         </div>
+
+        {/* Mobile Menu Toggle */}
+        <button
+          onClick={toggleApplicationMenu}
+          className="lg:hidden flex items-center justify-center w-10 h-10 text-gray-700 bg-gradient-to-br from-gray-100 to-gray-50 dark:from-gray-800 dark:to-gray-850 rounded-lg border border-gray-200/50 dark:border-gray-700/50 hover:from-gray-200 hover:to-gray-100 dark:text-gray-400 dark:hover:from-gray-700 dark:hover:to-gray-750 transition-all duration-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900"
+          aria-label="Toggle Application Menu"
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M5.99902 10.4951C6.82745 10.4951 7.49902 11.1667 7.49902 11.9951V12.0051C7.49902 12.8335 6.82745 13.5051 5.99902 13.5051C5.1706 13.5051 4.49902 12.8335 4.49902 12.0051V11.9951C4.49902 11.1667 5.1706 10.4951 5.99902 10.4951ZM17.999 10.4951C18.8275 10.4951 19.499 11.1667 19.499 11.9951V12.0051C19.499 12.8335 18.8275 13.5051 17.999 13.5051C17.1706 13.5051 16.499 12.8335 16.499 12.0051V11.9951C16.499 11.1667 17.1706 10.4951 17.999 10.4951ZM13.499 11.9951C13.499 11.1667 12.8275 10.4951 11.999 10.4951C11.1706 10.4951 10.499 11.1667 10.499 11.9951V12.0051C10.499 12.8335 11.1706 13.5051 11.999 13.5051C12.8275 13.5051 13.499 12.8335 13.499 12.0051V11.9951Z"
+              fill="currentColor"
+            />
+          </svg>
+        </button>
+
+        {/* Mobile Dropdown Menu */}
+        {isApplicationMenuOpen && (
+          <>
+            {/* Backdrop for mobile menu */}
+            <div 
+              className="lg:hidden fixed inset-0 bg-gray-900/60 backdrop-blur-sm z-[1049] transition-opacity duration-200" 
+              style={{ top: '4rem' }}
+              onClick={() => setApplicationMenuOpen(false)}
+            />
+            
+            {/* Mobile menu content */}
+            <div className="lg:hidden fixed top-16 left-0 right-0 bg-white/98 dark:bg-gray-900/98 backdrop-blur-2xl border-b border-gray-200/60 dark:border-gray-800/60 shadow-xl shadow-gray-300/10 dark:shadow-black/30 z-[1050] animate-fadeIn">
+              <div className="flex items-center justify-between gap-4 px-4 py-3.5">
+                <div className="flex items-center gap-3">
+                  <RoleSwitcher />
+                  <ThemeToggleButton />
+                </div>
+                <UserDropdown />
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </header>
   );

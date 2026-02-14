@@ -192,7 +192,7 @@ const AppSidebar: React.FC = () => {
                 openSubmenu?.type === menuType && openSubmenu?.index === index
                   ? "menu-item-active"
                   : "menu-item-inactive"
-              } cursor-pointer ${
+              } cursor-pointer transition-all duration-300 hover:scale-[1.02] active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900 rounded-xl ${
                 !isExpanded && !isHovered
                   ? "lg:justify-center"
                   : "lg:justify-start"
@@ -225,8 +225,8 @@ const AppSidebar: React.FC = () => {
             nav.path && (
               <Link
                 to={nav.path}
-                className={`menu-item group relative ${
-                  isActive(nav.path) ? "menu-item-active" : "menu-item-inactive"
+                className={`menu-item group relative transition-all duration-300 hover:scale-[1.02] active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900 rounded-xl ${
+                  isActive(nav.path) ? "menu-item-active shadow-lg" : "menu-item-inactive"
                 }`}
               >
                 <span
@@ -257,7 +257,7 @@ const AppSidebar: React.FC = () => {
                     : "0px",
               }}
             >
-              <ul className="mt-3 space-y-1 ml-4 bg-linear-to-b from-brand-50/40 via-brand-50/20 to-transparent dark:from-brand-900/15 dark:via-brand-900/5 dark:to-transparent rounded-2xl p-3 border border-brand-100/60 dark:border-brand-900/30 backdrop-blur-sm shadow-inner">
+              <ul className="mt-2.5 space-y-1 ml-4 bg-linear-to-b from-brand-50/50 via-brand-50/25 to-transparent dark:from-brand-900/20 dark:via-brand-900/10 dark:to-transparent rounded-xl p-3 border border-brand-100/70 dark:border-brand-900/40 backdrop-blur-sm shadow-inner transition-all duration-300">
                 {nav.subItems
                   .filter(subItem => {
                     // Filter sub-items based on permissions
@@ -270,10 +270,10 @@ const AppSidebar: React.FC = () => {
                   <li key={subItem.name}>
                     <Link
                       to={subItem.path}
-                      className={`group flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
+                      className={`group flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg text-[13px] font-medium transition-all duration-300 hover:scale-[1.02] active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900 ${
                         isActive(subItem.path)
-                          ? "bg-linear-to-r from-brand-500 to-brand-600 text-white shadow-lg shadow-brand-500/30 scale-[1.02]"
-                          : "text-gray-600 dark:text-gray-400 hover:bg-white dark:hover:bg-gray-800/70 hover:text-gray-900 dark:hover:text-gray-200 hover:shadow-sm hover:translate-x-0.5"
+                          ? "bg-linear-to-r from-brand-500 via-brand-550 to-brand-600 text-white shadow-md shadow-brand-500/30 scale-[1.02]"
+                          : "text-gray-600 dark:text-gray-400 hover:bg-gradient-to-r hover:from-white hover:to-gray-50 dark:hover:from-gray-800/70 dark:hover:to-gray-800/50 hover:text-gray-900 dark:hover:text-gray-200 hover:shadow-sm hover:translate-x-0.5"
                       }`}
                     >
                       <span className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
@@ -315,7 +315,7 @@ const AppSidebar: React.FC = () => {
 
   return (
     <aside
-      className={`fixed left-0 flex flex-col px-5 backdrop-blur-xl bg-white/95 dark:bg-gray-900/95 dark:border-gray-800/50 text-gray-900 transition-all duration-500 ease-out border-r border-gray-200/50 shadow-xl
+      className={`fixed left-0 flex flex-col px-5 backdrop-blur-2xl bg-gradient-to-b from-white/98 via-white/96 to-white/98 dark:from-gray-900/98 dark:via-gray-900/96 dark:to-gray-900/98 text-gray-900 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] border-r border-gray-200/60 dark:border-gray-800/60 shadow-xl shadow-gray-300/10 dark:shadow-black/30
         ${
           isExpanded || isMobileOpen
             ? "w-[290px]"
@@ -323,53 +323,53 @@ const AppSidebar: React.FC = () => {
             ? "w-[290px]"
             : "w-[90px]"
         }
-        ${isMobileOpen ? "translate-x-0 z-[1050] top-16 h-[calc(100vh-4rem)]" : "-translate-x-full z-[1000] top-0 h-screen"}
-        lg:translate-x-0 lg:z-[1000] lg:top-0 lg:h-screen`}
+        ${isMobileOpen ? "translate-x-0 z-[1045] top-16 h-[calc(100vh-4rem)]" : "-translate-x-full z-[1050] top-0 h-screen"}
+        lg:translate-x-0 lg:z-[1050] lg:top-0 lg:h-screen`}
       onMouseEnter={() => !isExpanded && setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <div
-        className={`py-8 flex ${
+        className={`py-5 flex ${
           !isExpanded && !isHovered ? "lg:justify-center" : "justify-center"
         }`}
       >
         <Link 
           to="/" 
-          className="relative group transition-all duration-300 ease-in-out"
+          className="relative group transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-[#C9A536]/40 focus:ring-offset-4 focus:ring-offset-white dark:focus:ring-offset-gray-900 rounded-2xl"
         >
-          <div className={`p-1 relative overflow-hidden rounded-2xl bg-[#C9A536] shadow-2xl shadow-[#C9A536]/30 dark:shadow-[#C9A536]/20 transition-all duration-300 hover:shadow-[#C9A536]/50 dark:hover:shadow-[#C9A536]/30 ${
+          <div className={`p-2 relative overflow-hidden rounded-xl bg-gradient-to-br from-[#C9A536] via-[#D4B044] to-[#C9A536] shadow-xl shadow-[#C9A536]/25 dark:shadow-[#C9A536]/15 transition-all duration-500 hover:shadow-2xl hover:shadow-[#C9A536]/40 dark:hover:shadow-[#C9A536]/30 hover:rotate-2 ${
             isExpanded || isHovered || isMobileOpen 
-              ? "shadow-xl hover:shadow-2xl hover:scale-105" 
-              : "shadow-lg hover:shadow-xl hover:scale-110"
-          }`}>
+              ? "hover:scale-105" 
+              : "hover:scale-110"
+          } group-active:scale-95`}>
             {isExpanded || isHovered || isMobileOpen ? (
               <img
                 src="/admin-portal/images/logo/azan-e-madinah-logo.png"
                 alt="Azan-e-Madinah Logo"
-                width={80}
-                height={40}
-                className="relative z-10 transition-transform duration-300 group-hover:scale-105 rounded-xl"
+                width={70}
+                height={35}
+                className="relative z-10 transition-all duration-500 group-hover:scale-105 group-hover:rotate-1 rounded-lg drop-shadow-md object-contain"
               />
             ) : (
               <img
                 src="/admin-portal/images/logo/azan-e-madinah-logo.png"
                 alt="Azan-e-Madinah Logo"
-                width={40}
-                height={40}
-                className="relative z-10 transition-transform duration-300 group-hover:scale-110 rounded-xl"
+                width={36}
+                height={36}
+                className="relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:-rotate-2 rounded-lg drop-shadow-md object-contain"
               />
             )}
-            {/* Elegant shine effect on hover */}
-            <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out"></div>
+            {/* Elegant animated shine effect on hover */}
+            <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out"></div>
           </div>
         </Link>
       </div>
-      <div className="flex flex-col overflow-y-auto duration-300 ease-linear custom-scrollbar flex-1 px-1">
-        <nav className="mb-6">
+      <div className="flex flex-col overflow-y-auto duration-300 ease-linear custom-scrollbar flex-1 px-1 scroll-smooth py-2">
+        <nav className="mb-4">
           <div className="flex flex-col gap-2.5">
             <div>
               <h2
-                className={`mb-4 text-[11px] font-bold uppercase tracking-widest flex leading-[20px] text-gray-500 dark:text-gray-400 ${
+                className={`mb-3 text-[10px] font-bold uppercase tracking-widest flex leading-[20px] text-gray-500 dark:text-gray-400 ${
                   !isExpanded && !isHovered
                     ? "lg:justify-center"
                     : "justify-start"
@@ -388,7 +388,7 @@ const AppSidebar: React.FC = () => {
       </div>
       
       {/* Premium Copyright Footer */}
-      <div className={`py-5 px-2 border-t border-gray-200/50 dark:border-gray-800/50 bg-linear-to-b from-transparent via-gray-50/30 to-gray-100/50 dark:from-transparent dark:via-gray-900/30 dark:to-gray-950/50 backdrop-blur-sm ${!isExpanded && !isHovered ? "lg:text-center" : "text-center"}`}>
+      <div className={`py-4 px-2 border-t border-gray-200/60 dark:border-gray-800/60 bg-linear-to-b from-transparent via-gray-50/40 to-gray-100/60 dark:from-transparent dark:via-gray-900/40 dark:to-gray-950/60 backdrop-blur-md transition-all duration-300 ${!isExpanded && !isHovered ? "lg:text-center" : "text-center"}`}>
         {isExpanded || isHovered || isMobileOpen ? (
           <div className="space-y-1.5 animate-fadeIn">
             <p className="text-[10px] font-semibold text-gray-600 dark:text-gray-400 tracking-wide">
@@ -398,7 +398,7 @@ const AppSidebar: React.FC = () => {
               href="https://nexagensolution.com" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-[10px] bg-linear-to-r from-brand-600 to-brand-700 bg-clip-text text-transparent hover:from-brand-500 hover:to-brand-600 font-bold transition-all inline-flex items-center gap-1 tracking-wide"
+              className="text-[10px] bg-linear-to-r from-brand-600 to-brand-700 bg-clip-text text-transparent hover:from-brand-500 hover:to-brand-600 font-bold transition-all duration-300 inline-flex items-center gap-1 tracking-wide hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:ring-offset-2 rounded"
             >
               Powered by Nexagen Solutions
             </a>

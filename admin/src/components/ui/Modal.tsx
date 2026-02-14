@@ -58,15 +58,15 @@ export const Modal: React.FC<ModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[1050] overflow-y-auto">
+    <div className="fixed inset-0 z-[9999] overflow-y-auto">
       {/* Backdrop with premium blur */}
       <div
-        className="fixed inset-0 bg-linear-to-br from-black/70 via-black/60 to-black/70 backdrop-blur-md transition-all duration-300 animate-fadeIn"
+        className="fixed inset-0 z-[9998] bg-linear-to-br from-black/70 via-black/60 to-black/70 backdrop-blur-md transition-all duration-300 animate-fadeIn"
         onClick={closeOnBackdrop ? onClose : undefined}
       />
 
       {/* Modal */}
-      <div className="flex min-h-full items-center justify-center p-2 sm:p-4 md:p-6">
+      <div className="flex min-h-full items-center justify-center p-2 sm:p-4 md:p-6 relative z-[9999]">
         <div
           className={`relative w-full ${sizeClasses[size]} backdrop-blur-xl bg-white/95 dark:bg-gray-900/95 rounded-2xl sm:rounded-3xl shadow-2xl shadow-brand-500/10 dark:shadow-brand-500/5 border border-gray-200/50 dark:border-gray-700/50 transform transition-all duration-500 max-h-[95vh] sm:max-h-[90vh] overflow-hidden animate-scaleIn`}
           onClick={(e) => e.stopPropagation()}
